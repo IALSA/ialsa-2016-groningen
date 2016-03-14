@@ -7,6 +7,6 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 
 #### Documentation
 - [letter of invitation](./documentation/log/invite.pdf)   
-- [list of participants]()
-- [summary of the agenda]() 
-- [directions and locations]()
+- [list of participants](./documentation/log/participants.pdf)
+- [summary of the agenda](./documentation/log/agenda.pdf) 
+- [directions and locations](./documentation/log/directions.pdf)
