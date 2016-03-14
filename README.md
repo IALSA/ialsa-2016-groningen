@@ -74,7 +74,7 @@ A. Presentations:
 * 4. The results of the analysis performed to answer the research question.  
 
 B. Documentation   
-* 1. - A written description of the harmonization approach, to be included in the paper for a scientific journal.  
+* 1. A written description of the harmonization approach, to be included in the paper for a scientific journal.  
 
 ### Studies
 
@@ -82,8 +82,8 @@ The preparatory stages of the workshop will rely on the data files from the foll
 - 1. Australian Longitudinal Study of Ageing (ALSA) - Wave 1  
 - 2. Long Beach Longitudinal Study (LBLS)- Panel 2 - Wave 1  
 - 3. Swedish Adoption/Twin Study of Aging (SATSA) - Q3  
-- 4. The Irish Longitudinal Study on Ageing (TILDA) - Wave 1  
-- 5. The Survey of Health, Ageing and Retirement in Europe (SHARE) - Israel - Wave 1  
+- 4. The Irish Longitudinal Study on Ageing (TILDA) - Wave 1    
+- 5. The Survey of Health, Ageing and Retirement in Europe (SHARE) - Israel - Wave 1   
  
  For more details on the data files please visit ./data/contents.md
 
