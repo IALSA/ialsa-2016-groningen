@@ -3,11 +3,11 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.11).
+(version 1.12.3).
 
 
 ```r
-# knitr::stitch_rmd(script="./manipulation/studies-ellis.R", output="./manipulation/stitched-output/studies-ellis.md")
+# knitr::stitch_rmd(script="./manipulation/0-ellis-island.R", output="./manipulation/stitched-output/0-ellis-island.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 cat("\f") # clear console 
@@ -35,26 +35,26 @@ requireNamespace("testit") #For asserting conditions meet expected patterns.
 
 ```r
 # inspect what files there are
-(listFiles <- list.files("./data/unshared/", full.names = T,  pattern = ".sav", recursive = F))
+(listFiles <- list.files("./data/unshared/raw", full.names = T,  pattern = ".sav", recursive = F))
 ```
 
 ```
-## [1] "./data/unshared/ALSA-Wave1 SPSS.Final.sav"       
-## [2] "./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav"
-## [3] "./data/unshared/SATSA-Q3 SPSS.Final.sav"         
-## [4] "./data/unshared/SHARE-Israel Wave 1.Final.sav"   
-## [5] "./data/unshared/TILDA-Wave1 SPSS.Final.sav"
+## [1] "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"       
+## [2] "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
+## [3] "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav"         
+## [4] "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
+## [5] "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"
 ```
 
 ```r
 # list the specific files to be used 
 studyNames <- c("alsa", "lbsl", "satsa", "share", "tilda")
 # manually declare the file paths 
-alsa_path_input  <- "./data/unshared/ALSA-Wave1 SPSS.Final.sav"
-lbsl_path_input  <- "./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav"
-satsa_path_input <- "./data/unshared/SATSA-Q3 SPSS.Final.sav" 
-share_path_input <- "./data/unshared/SHARE-Israel Wave 1.Final.sav"   
-tilda_path_input <- "./data/unshared/TILDA-Wave1 SPSS.Final.sav"      
+alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"
+lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
+satsa_path_input <- "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav" 
+share_path_input <- "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
+tilda_path_input <- "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"      
 # combine file paths into a single object
 filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input)
 # declare where the derived data object should be placed
@@ -74,33 +74,35 @@ for(i in seq_along(studyNames)){
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/ALSA-Wave1 SPSS.Final.sav:
-## Unrecognized record type 7, subtype 18 encountered in system file
-```
-
-```
-## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/LBSL-Panel2-Wave1
+## to.data.frame = to.data.frame, : ./data/unshared/raw/ALSA-Wave1
 ## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/SATSA-Q3 SPSS.Final.sav:
-## Unrecognized record type 7, subtype 18 encountered in system file
+## to.data.frame = to.data.frame, : ./data/unshared/raw/LBSL-Panel2-Wave1
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/SHARE-Israel Wave
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SATSA-Q3
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
+```
+
+```
+## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SHARE-Israel Wave
 ## 1.Final.sav: Unrecognized record type 7, subtype 18 encountered in system
 ## file
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/TILDA-Wave1
+## to.data.frame = to.data.frame, : ./data/unshared/raw/TILDA-Wave1
 ## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 ```
@@ -424,16 +426,6 @@ names_labels(data_list[["tilda"]])
 ## 50      ph009  In general, compared to other people your age, would you say your health is
 ```
 
-```r
-colnames(ds)
-```
-
-```
-##  [1] "SEQNUM"   "EXRTHOUS" "HWMNWK2W" "LSVEXC2W" "LSVIGEXC" "TMHVYEXR"
-##  [7] "TMVEXC2W" "VIGEXC2W" "VIGEXCS"  "WALK2WKS" "BTSM12MN" "HLTHBTSM"
-## [13] "HLTHLIFE" "AGE"      "SEX"      "MARITST"  "SCHOOL"   "TYPQUAL" 
-## [19] "RETIRED"  "SMOKER"   "FR6ORMOR" "NOSTDRNK" "FREQALCH" "WEIGHT"
-```
 
 ```r
 # testit::assert("`model_name` should be a unique value", sum(duplicated(ds$model_name))==0L)
@@ -443,11 +435,7 @@ colnames(ds)
 
 ```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(ds, file=path_output, compress="xz")
-```
-
-```
-## Error in saveRDS(ds, file = path_output, compress = "xz"): object 'path_output' not found
+saveRDS(main_list, file="./data/unshared/derived/main_list.rds", compress="xz")
 ```
 
 The R session information (including the OS info, R version and all
@@ -461,12 +449,14 @@ sessionInfo()
 ```
 ## R version 3.2.3 (2015-12-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## Running under: Windows >= 8 x64 (build 9200)
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
-## [5] LC_TIME=English_Canada.1252    
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -475,17 +465,17 @@ sessionInfo()
 ## [1] magrittr_1.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.11.6         Formula_1.2-1       knitr_1.11         
-##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.2      
-##  [7] testit_0.4          colorspace_1.2-6    lattice_0.20-33    
-## [10] R6_2.0.1            stringr_1.0.0       plyr_1.8.2         
-## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-11        
+##  [1] Rcpp_0.12.3         Formula_1.2-1       knitr_1.12.3       
+##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.3      
+##  [7] testit_0.5          colorspace_1.2-6    lattice_0.20-33    
+## [10] R6_2.1.2            stringr_1.0.0       plyr_1.8.3         
+## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-12        
 ## [16] parallel_3.2.3      grid_3.2.3          gtable_0.1.2       
 ## [19] latticeExtra_0.6-28 DBI_0.3.1           survival_2.38-3    
-## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2        
+## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2.1      
 ## [25] RColorBrewer_1.1-2  ggplot2_2.0.0       tidyr_0.4.1        
 ## [28] acepack_1.3-3.3     rpart_4.1-10        evaluate_0.8       
-## [31] stringi_0.4-1       scales_0.3.0        Hmisc_3.17-2       
+## [31] stringi_1.0-1       scales_0.3.0        Hmisc_3.17-2       
 ## [34] markdown_0.7.7      foreign_0.8-66
 ```
 
@@ -494,6 +484,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-03-14 16:59:13 PDT"
+## [1] "2016-03-14 18:16:34 PDT"
 ```
 

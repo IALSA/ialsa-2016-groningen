@@ -202,9 +202,9 @@ hr {
 
 <body>
 <p>This report was automatically generated with the R package <strong>knitr</strong>
-(version 1.11).</p>
+(version 1.12.3).</p>
 
-<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/studies-ellis.R&quot;, output=&quot;./manipulation/stitched-output/studies-ellis.md&quot;)
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/0-ellis-island.R&quot;, output=&quot;./manipulation/stitched-output/0-ellis-island.md&quot;)
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 cat(&quot;\f&quot;) # clear console 
@@ -228,24 +228,24 @@ requireNamespace(&quot;testit&quot;) #For asserting conditions meet expected pat
 </code></pre>
 
 <pre><code class="r"># inspect what files there are
-(listFiles &lt;- list.files(&quot;./data/unshared/&quot;, full.names = T,  pattern = &quot;.sav&quot;, recursive = F))
+(listFiles &lt;- list.files(&quot;./data/unshared/raw&quot;, full.names = T,  pattern = &quot;.sav&quot;, recursive = F))
 </code></pre>
 
-<pre><code>## [1] &quot;./data/unshared/ALSA-Wave1 SPSS.Final.sav&quot;       
-## [2] &quot;./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
-## [3] &quot;./data/unshared/SATSA-Q3 SPSS.Final.sav&quot;         
-## [4] &quot;./data/unshared/SHARE-Israel Wave 1.Final.sav&quot;   
-## [5] &quot;./data/unshared/TILDA-Wave1 SPSS.Final.sav&quot;
+<pre><code>## [1] &quot;./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav&quot;       
+## [2] &quot;./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
+## [3] &quot;./data/unshared/raw/SATSA-Q3 SPSS.Final.sav&quot;         
+## [4] &quot;./data/unshared/raw/SHARE-Israel Wave 1.Final.sav&quot;   
+## [5] &quot;./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav&quot;
 </code></pre>
 
 <pre><code class="r"># list the specific files to be used 
 studyNames &lt;- c(&quot;alsa&quot;, &quot;lbsl&quot;, &quot;satsa&quot;, &quot;share&quot;, &quot;tilda&quot;)
 # manually declare the file paths 
-alsa_path_input  &lt;- &quot;./data/unshared/ALSA-Wave1 SPSS.Final.sav&quot;
-lbsl_path_input  &lt;- &quot;./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
-satsa_path_input &lt;- &quot;./data/unshared/SATSA-Q3 SPSS.Final.sav&quot; 
-share_path_input &lt;- &quot;./data/unshared/SHARE-Israel Wave 1.Final.sav&quot;   
-tilda_path_input &lt;- &quot;./data/unshared/TILDA-Wave1 SPSS.Final.sav&quot;      
+alsa_path_input  &lt;- &quot;./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav&quot;
+lbsl_path_input  &lt;- &quot;./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
+satsa_path_input &lt;- &quot;./data/unshared/raw/SATSA-Q3 SPSS.Final.sav&quot; 
+share_path_input &lt;- &quot;./data/unshared/raw/SHARE-Israel Wave 1.Final.sav&quot;   
+tilda_path_input &lt;- &quot;./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav&quot;      
 # combine file paths into a single object
 filePaths &lt;- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input)
 # declare where the derived data object should be placed
@@ -263,29 +263,31 @@ for(i in seq_along(studyNames)){
 </code></pre>
 
 <pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/ALSA-Wave1 SPSS.Final.sav:
-## Unrecognized record type 7, subtype 18 encountered in system file
-</code></pre>
-
-<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/LBSL-Panel2-Wave1
+## to.data.frame = to.data.frame, : ./data/unshared/raw/ALSA-Wave1
 ## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 </code></pre>
 
 <pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/SATSA-Q3 SPSS.Final.sav:
-## Unrecognized record type 7, subtype 18 encountered in system file
+## to.data.frame = to.data.frame, : ./data/unshared/raw/LBSL-Panel2-Wave1
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
 </code></pre>
 
 <pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/SHARE-Israel Wave
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SATSA-Q3
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SHARE-Israel Wave
 ## 1.Final.sav: Unrecognized record type 7, subtype 18 encountered in system
 ## file
 </code></pre>
 
 <pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/TILDA-Wave1
+## to.data.frame = to.data.frame, : ./data/unshared/raw/TILDA-Wave1
 ## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 </code></pre>
@@ -594,25 +596,13 @@ names(main_list)
 ## 50      ph009  In general, compared to other people your age, would you say your health is
 </code></pre>
 
-<pre><code class="r">colnames(ds)
-</code></pre>
-
-<pre><code>##  [1] &quot;SEQNUM&quot;   &quot;EXRTHOUS&quot; &quot;HWMNWK2W&quot; &quot;LSVEXC2W&quot; &quot;LSVIGEXC&quot; &quot;TMHVYEXR&quot;
-##  [7] &quot;TMVEXC2W&quot; &quot;VIGEXC2W&quot; &quot;VIGEXCS&quot;  &quot;WALK2WKS&quot; &quot;BTSM12MN&quot; &quot;HLTHBTSM&quot;
-## [13] &quot;HLTHLIFE&quot; &quot;AGE&quot;      &quot;SEX&quot;      &quot;MARITST&quot;  &quot;SCHOOL&quot;   &quot;TYPQUAL&quot; 
-## [19] &quot;RETIRED&quot;  &quot;SMOKER&quot;   &quot;FR6ORMOR&quot; &quot;NOSTDRNK&quot; &quot;FREQALCH&quot; &quot;WEIGHT&quot;
-</code></pre>
-
 <pre><code class="r"># testit::assert(&quot;`model_name` should be a unique value&quot;, sum(duplicated(ds$model_name))==0L)
 # testit::assert(&quot;`miles_per_gallon` should be a positive value.&quot;, all(ds$miles_per_gallon&gt;0))
 # testit::assert(&quot;`weight_gear_z` should be a positive or missing value.&quot;, all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon&gt;0)))
 </code></pre>
 
 <pre><code class="r"># Save as a compress, binary R dataset.  It&#39;s no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(ds, file=path_output, compress=&quot;xz&quot;)
-</code></pre>
-
-<pre><code>## Error in saveRDS(ds, file = path_output, compress = &quot;xz&quot;): object &#39;path_output&#39; not found
+saveRDS(main_list, file=&quot;./data/unshared/derived/main_list.rds&quot;, compress=&quot;xz&quot;)
 </code></pre>
 
 <p>The R session information (including the OS info, R version and all
@@ -623,12 +613,14 @@ packages used):</p>
 
 <pre><code>## R version 3.2.3 (2015-12-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## Running under: Windows &gt;= 8 x64 (build 9200)
 ## 
 ## locale:
-## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
-## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
-## [5] LC_TIME=English_Canada.1252    
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
@@ -637,24 +629,24 @@ packages used):</p>
 ## [1] magrittr_1.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.11.6         Formula_1.2-1       knitr_1.11         
-##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.2      
-##  [7] testit_0.4          colorspace_1.2-6    lattice_0.20-33    
-## [10] R6_2.0.1            stringr_1.0.0       plyr_1.8.2         
-## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-11        
+##  [1] Rcpp_0.12.3         Formula_1.2-1       knitr_1.12.3       
+##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.3      
+##  [7] testit_0.5          colorspace_1.2-6    lattice_0.20-33    
+## [10] R6_2.1.2            stringr_1.0.0       plyr_1.8.3         
+## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-12        
 ## [16] parallel_3.2.3      grid_3.2.3          gtable_0.1.2       
 ## [19] latticeExtra_0.6-28 DBI_0.3.1           survival_2.38-3    
-## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2        
+## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2.1      
 ## [25] RColorBrewer_1.1-2  ggplot2_2.0.0       tidyr_0.4.1        
 ## [28] acepack_1.3-3.3     rpart_4.1-10        evaluate_0.8       
-## [31] stringi_0.4-1       scales_0.3.0        Hmisc_3.17-2       
+## [31] stringi_1.0-1       scales_0.3.0        Hmisc_3.17-2       
 ## [34] markdown_0.7.7      foreign_0.8-66
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-03-14 16:59:13 PDT&quot;
+<pre><code>## [1] &quot;2016-03-14 18:16:34 PDT&quot;
 </code></pre>
 
 </body>
