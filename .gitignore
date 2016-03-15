@@ -14,7 +14,8 @@ devtools.zip
 /unshared-material/*
 /data_unshared/*
 /data-unshared/*
-/data/unshared/*
+/data/unshared/raw/*
+/data/unshared/derived/*
 
 # Unnecessary files for knitr reports
 
