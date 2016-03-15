@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+<title></title>
+
+<script type="text/javascript">
+window.onload = function() {
+  var imgs = document.getElementsByTagName('img'), i, img;
+  for (i = 0; i < imgs.length; i++) {
+    img = imgs[i];
+    // center an image if it is the only element of its parent
+    if (img.parentElement.childElementCount === 1)
+      img.parentElement.style.textAlign = 'center';
+  }
+};
+</script>
+
+<!-- Styles for R syntax highlighter -->
+<style type="text/css">
+   pre .operator,
+   pre .paren {
+     color: rgb(104, 118, 135)
+   }
+
+   pre .literal {
+     color: #990073
+   }
+
+   pre .number {
+     color: #099;
+   }
+
+   pre .comment {
+     color: #998;
+     font-style: italic
+   }
+
+   pre .keyword {
+     color: #900;
+     font-weight: bold
+   }
+
+   pre .identifier {
+     color: rgb(0, 0, 0);
+   }
+
+   pre .string {
+     color: #d14;
+   }
+</style>
+
+<!-- R syntax highlighter -->
+<script type="text/javascript">
+var hljs=new function(){function m(p){return p.replace(/&/gm,"&amp;").replace(/</gm,"&lt;")}function f(r,q,p){return RegExp(q,"m"+(r.cI?"i":"")+(p?"g":""))}function b(r){for(var p=0;p<r.childNodes.length;p++){var q=r.childNodes[p];if(q.nodeName=="CODE"){return q}if(!(q.nodeType==3&&q.nodeValue.match(/\s+/))){break}}}function h(t,s){var p="";for(var r=0;r<t.childNodes.length;r++){if(t.childNodes[r].nodeType==3){var q=t.childNodes[r].nodeValue;if(s){q=q.replace(/\n/g,"")}p+=q}else{if(t.childNodes[r].nodeName=="BR"){p+="\n"}else{p+=h(t.childNodes[r])}}}if(/MSIE [678]/.test(navigator.userAgent)){p=p.replace(/\r/g,"\n")}return p}function a(s){var r=s.className.split(/\s+/);r=r.concat(s.parentNode.className.split(/\s+/));for(var q=0;q<r.length;q++){var p=r[q].replace(/^language-/,"");if(e[p]){return p}}}function c(q){var p=[];(function(s,t){for(var r=0;r<s.childNodes.length;r++){if(s.childNodes[r].nodeType==3){t+=s.childNodes[r].nodeValue.length}else{if(s.childNodes[r].nodeName=="BR"){t+=1}else{if(s.childNodes[r].nodeType==1){p.push({event:"start",offset:t,node:s.childNodes[r]});t=arguments.callee(s.childNodes[r],t);p.push({event:"stop",offset:t,node:s.childNodes[r]})}}}}return t})(q,0);return p}function k(y,w,x){var q=0;var z="";var s=[];function u(){if(y.length&&w.length){if(y[0].offset!=w[0].offset){return(y[0].offset<w[0].offset)?y:w}else{return w[0].event=="start"?y:w}}else{return y.length?y:w}}function t(D){var A="<"+D.nodeName.toLowerCase();for(var B=0;B<D.attributes.length;B++){var C=D.attributes[B];A+=" "+C.nodeName.toLowerCase();if(C.value!==undefined&&C.value!==false&&C.value!==null){A+='="'+m(C.value)+'"'}}return A+">"}while(y.length||w.length){var v=u().splice(0,1)[0];z+=m(x.substr(q,v.offset-q));q=v.offset;if(v.event=="start"){z+=t(v.node);s.push(v.node)}else{if(v.event=="stop"){var p,r=s.length;do{r--;p=s[r];z+=("</"+p.nodeName.toLowerCase()+">")}while(p!=v.node);s.splice(r,1);while(r<s.length){z+=t(s[r]);r++}}}}return z+m(x.substr(q))}function j(){function q(x,y,v){if(x.compiled){return}var u;var s=[];if(x.k){x.lR=f(y,x.l||hljs.IR,true);for(var w in x.k){if(!x.k.hasOwnProperty(w)){continue}if(x.k[w] instanceof Object){u=x.k[w]}else{u=x.k;w="keyword"}for(var r in u){if(!u.hasOwnProperty(r)){continue}x.k[r]=[w,u[r]];s.push(r)}}}if(!v){if(x.bWK){x.b="\\b("+s.join("|")+")\\s"}x.bR=f(y,x.b?x.b:"\\B|\\b");if(!x.e&&!x.eW){x.e="\\B|\\b"}if(x.e){x.eR=f(y,x.e)}}if(x.i){x.iR=f(y,x.i)}if(x.r===undefined){x.r=1}if(!x.c){x.c=[]}x.compiled=true;for(var t=0;t<x.c.length;t++){if(x.c[t]=="self"){x.c[t]=x}q(x.c[t],y,false)}if(x.starts){q(x.starts,y,false)}}for(var p in e){if(!e.hasOwnProperty(p)){continue}q(e[p].dM,e[p],true)}}function d(B,C){if(!j.called){j();j.called=true}function q(r,M){for(var L=0;L<M.c.length;L++){if((M.c[L].bR.exec(r)||[null])[0]==r){return M.c[L]}}}function v(L,r){if(D[L].e&&D[L].eR.test(r)){return 1}if(D[L].eW){var M=v(L-1,r);return M?M+1:0}return 0}function w(r,L){return L.i&&L.iR.test(r)}function K(N,O){var M=[];for(var L=0;L<N.c.length;L++){M.push(N.c[L].b)}var r=D.length-1;do{if(D[r].e){M.push(D[r].e)}r--}while(D[r+1].eW);if(N.i){M.push(N.i)}return f(O,M.join("|"),true)}function p(M,L){var N=D[D.length-1];if(!N.t){N.t=K(N,E)}N.t.lastIndex=L;var r=N.t.exec(M);return r?[M.substr(L,r.index-L),r[0],false]:[M.substr(L),"",true]}function z(N,r){var L=E.cI?r[0].toLowerCase():r[0];var M=N.k[L];if(M&&M instanceof Array){return M}return false}function F(L,P){L=m(L);if(!P.k){return L}var r="";var O=0;P.lR.lastIndex=0;var M=P.lR.exec(L);while(M){r+=L.substr(O,M.index-O);var N=z(P,M);if(N){x+=N[1];r+='<span class="'+N[0]+'">'+M[0]+"</span>"}else{r+=M[0]}O=P.lR.lastIndex;M=P.lR.exec(L)}return r+L.substr(O,L.length-O)}function J(L,M){if(M.sL&&e[M.sL]){var r=d(M.sL,L);x+=r.keyword_count;return r.value}else{return F(L,M)}}function I(M,r){var L=M.cN?'<span class="'+M.cN+'">':"";if(M.rB){y+=L;M.buffer=""}else{if(M.eB){y+=m(r)+L;M.buffer=""}else{y+=L;M.buffer=r}}D.push(M);A+=M.r}function G(N,M,Q){var R=D[D.length-1];if(Q){y+=J(R.buffer+N,R);return false}var P=q(M,R);if(P){y+=J(R.buffer+N,R);I(P,M);return P.rB}var L=v(D.length-1,M);if(L){var O=R.cN?"</span>":"";if(R.rE){y+=J(R.buffer+N,R)+O}else{if(R.eE){y+=J(R.buffer+N,R)+O+m(M)}else{y+=J(R.buffer+N+M,R)+O}}while(L>1){O=D[D.length-2].cN?"</span>":"";y+=O;L--;D.length--}var r=D[D.length-1];D.length--;D[D.length-1].buffer="";if(r.starts){I(r.starts,"")}return R.rE}if(w(M,R)){throw"Illegal"}}var E=e[B];var D=[E.dM];var A=0;var x=0;var y="";try{var s,u=0;E.dM.buffer="";do{s=p(C,u);var t=G(s[0],s[1],s[2]);u+=s[0].length;if(!t){u+=s[1].length}}while(!s[2]);if(D.length>1){throw"Illegal"}return{r:A,keyword_count:x,value:y}}catch(H){if(H=="Illegal"){return{r:0,keyword_count:0,value:m(C)}}else{throw H}}}function g(t){var p={keyword_count:0,r:0,value:m(t)};var r=p;for(var q in e){if(!e.hasOwnProperty(q)){continue}var s=d(q,t);s.language=q;if(s.keyword_count+s.r>r.keyword_count+r.r){r=s}if(s.keyword_count+s.r>p.keyword_count+p.r){r=p;p=s}}if(r.language){p.second_best=r}return p}function i(r,q,p){if(q){r=r.replace(/^((<[^>]+>|\t)+)/gm,function(t,w,v,u){return w.replace(/\t/g,q)})}if(p){r=r.replace(/\n/g,"<br>")}return r}function n(t,w,r){var x=h(t,r);var v=a(t);var y,s;if(v){y=d(v,x)}else{return}var q=c(t);if(q.length){s=document.createElement("pre");s.innerHTML=y.value;y.value=k(q,c(s),x)}y.value=i(y.value,w,r);var u=t.className;if(!u.match("(\\s|^)(language-)?"+v+"(\\s|$)")){u=u?(u+" "+v):v}if(/MSIE [678]/.test(navigator.userAgent)&&t.tagName=="CODE"&&t.parentNode.tagName=="PRE"){s=t.parentNode;var p=document.createElement("div");p.innerHTML="<pre><code>"+y.value+"</code></pre>";t=p.firstChild.firstChild;p.firstChild.cN=s.cN;s.parentNode.replaceChild(p.firstChild,s)}else{t.innerHTML=y.value}t.className=u;t.result={language:v,kw:y.keyword_count,re:y.r};if(y.second_best){t.second_best={language:y.second_best.language,kw:y.second_best.keyword_count,re:y.second_best.r}}}function o(){if(o.called){return}o.called=true;var r=document.getElementsByTagName("pre");for(var p=0;p<r.length;p++){var q=b(r[p]);if(q){n(q,hljs.tabReplace)}}}function l(){if(window.addEventListener){window.addEventListener("DOMContentLoaded",o,false);window.addEventListener("load",o,false)}else{if(window.attachEvent){window.attachEvent("onload",o)}else{window.onload=o}}}var e={};this.LANGUAGES=e;this.highlight=d;this.highlightAuto=g;this.fixMarkup=i;this.highlightBlock=n;this.initHighlighting=o;this.initHighlightingOnLoad=l;this.IR="[a-zA-Z][a-zA-Z0-9_]*";this.UIR="[a-zA-Z_][a-zA-Z0-9_]*";this.NR="\\b\\d+(\\.\\d+)?";this.CNR="\\b(0[xX][a-fA-F0-9]+|(\\d+(\\.\\d*)?|\\.\\d+)([eE][-+]?\\d+)?)";this.BNR="\\b(0b[01]+)";this.RSR="!|!=|!==|%|%=|&|&&|&=|\\*|\\*=|\\+|\\+=|,|\\.|-|-=|/|/=|:|;|<|<<|<<=|<=|=|==|===|>|>=|>>|>>=|>>>|>>>=|\\?|\\[|\\{|\\(|\\^|\\^=|\\||\\|=|\\|\\||~";this.ER="(?![\\s\\S])";this.BE={b:"\\\\.",r:0};this.ASM={cN:"string",b:"'",e:"'",i:"\\n",c:[this.BE],r:0};this.QSM={cN:"string",b:'"',e:'"',i:"\\n",c:[this.BE],r:0};this.CLCM={cN:"comment",b:"//",e:"$"};this.CBLCLM={cN:"comment",b:"/\\*",e:"\\*/"};this.HCM={cN:"comment",b:"#",e:"$"};this.NM={cN:"number",b:this.NR,r:0};this.CNM={cN:"number",b:this.CNR,r:0};this.BNM={cN:"number",b:this.BNR,r:0};this.inherit=function(r,s){var p={};for(var q in r){p[q]=r[q]}if(s){for(var q in s){p[q]=s[q]}}return p}}();hljs.LANGUAGES.cpp=function(){var a={keyword:{"false":1,"int":1,"float":1,"while":1,"private":1,"char":1,"catch":1,"export":1,virtual:1,operator:2,sizeof:2,dynamic_cast:2,typedef:2,const_cast:2,"const":1,struct:1,"for":1,static_cast:2,union:1,namespace:1,unsigned:1,"long":1,"throw":1,"volatile":2,"static":1,"protected":1,bool:1,template:1,mutable:1,"if":1,"public":1,friend:2,"do":1,"return":1,"goto":1,auto:1,"void":2,"enum":1,"else":1,"break":1,"new":1,extern:1,using:1,"true":1,"class":1,asm:1,"case":1,typeid:1,"short":1,reinterpret_cast:2,"default":1,"double":1,register:1,explicit:1,signed:1,typename:1,"try":1,"this":1,"switch":1,"continue":1,wchar_t:1,inline:1,"delete":1,alignof:1,char16_t:1,char32_t:1,constexpr:1,decltype:1,noexcept:1,nullptr:1,static_assert:1,thread_local:1,restrict:1,_Bool:1,complex:1},built_in:{std:1,string:1,cin:1,cout:1,cerr:1,clog:1,stringstream:1,istringstream:1,ostringstream:1,auto_ptr:1,deque:1,list:1,queue:1,stack:1,vector:1,map:1,set:1,bitset:1,multiset:1,multimap:1,unordered_set:1,unordered_map:1,unordered_multiset:1,unordered_multimap:1,array:1,shared_ptr:1}};return{dM:{k:a,i:"</",c:[hljs.CLCM,hljs.CBLCLM,hljs.QSM,{cN:"string",b:"'\\\\?.",e:"'",i:"."},{cN:"number",b:"\\b(\\d+(\\.\\d*)?|\\.\\d+)(u|U|l|L|ul|UL|f|F)"},hljs.CNM,{cN:"preprocessor",b:"#",e:"$"},{cN:"stl_container",b:"\\b(deque|list|queue|stack|vector|map|set|bitset|multiset|multimap|unordered_map|unordered_set|unordered_multiset|unordered_multimap|array)\\s*<",e:">",k:a,r:10,c:["self"]}]}}}();hljs.LANGUAGES.r={dM:{c:[hljs.HCM,{cN:"number",b:"\\b0[xX][0-9a-fA-F]+[Li]?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+(?:[eE][+\\-]?\\d*)?L\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\b\\d+\\.(?!\\d)(?:i\\b)?",e:hljs.IMMEDIATE_RE,r:1},{cN:"number",b:"\\b\\d+(?:\\.\\d*)?(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"number",b:"\\.\\d+(?:[eE][+\\-]?\\d*)?i?\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"keyword",b:"(?:tryCatch|library|setGeneric|setGroupGeneric)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\.",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\.\\.\\d+(?![\\w.])",e:hljs.IMMEDIATE_RE,r:10},{cN:"keyword",b:"\\b(?:function)",e:hljs.IMMEDIATE_RE,r:2},{cN:"keyword",b:"(?:if|in|break|next|repeat|else|for|return|switch|while|try|stop|warning|require|attach|detach|source|setMethod|setClass)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"literal",b:"(?:NA|NA_integer_|NA_real_|NA_character_|NA_complex_)\\b",e:hljs.IMMEDIATE_RE,r:10},{cN:"literal",b:"(?:NULL|TRUE|FALSE|T|F|Inf|NaN)\\b",e:hljs.IMMEDIATE_RE,r:1},{cN:"identifier",b:"[a-zA-Z.][a-zA-Z0-9._]*\\b",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"<\\-(?!\\s*\\d)",e:hljs.IMMEDIATE_RE,r:2},{cN:"operator",b:"\\->|<\\-",e:hljs.IMMEDIATE_RE,r:1},{cN:"operator",b:"%%|~",e:hljs.IMMEDIATE_RE},{cN:"operator",b:">=|<=|==|!=|\\|\\||&&|=|\\+|\\-|\\*|/|\\^|>|<|!|&|\\||\\$|:",e:hljs.IMMEDIATE_RE,r:0},{cN:"operator",b:"%",e:"%",i:"\\n",r:1},{cN:"identifier",b:"`",e:"`",r:0},{cN:"string",b:'"',e:'"',c:[hljs.BE],r:0},{cN:"string",b:"'",e:"'",c:[hljs.BE],r:0},{cN:"paren",b:"[[({\\])}]",e:hljs.IMMEDIATE_RE,r:0}]}};
+hljs.initHighlightingOnLoad();
+</script>
+
+
+
+<style type="text/css">
+body, td {
+   font-family: sans-serif;
+   background-color: white;
+   font-size: 13px;
+}
+
+body {
+  max-width: 800px;
+  margin: auto;
+  padding: 1em;
+  line-height: 20px;
+}
+
+tt, code, pre {
+   font-family: 'DejaVu Sans Mono', 'Droid Sans Mono', 'Lucida Console', Consolas, Monaco, monospace;
+}
+
+h1 {
+   font-size:2.2em;
+}
+
+h2 {
+   font-size:1.8em;
+}
+
+h3 {
+   font-size:1.4em;
+}
+
+h4 {
+   font-size:1.0em;
+}
+
+h5 {
+   font-size:0.9em;
+}
+
+h6 {
+   font-size:0.8em;
+}
+
+a:visited {
+   color: rgb(50%, 0%, 50%);
+}
+
+pre, img {
+  max-width: 100%;
+}
+pre {
+  overflow-x: auto;
+}
+pre code {
+   display: block; padding: 0.5em;
+}
+
+code {
+  font-size: 92%;
+  border: 1px solid #ccc;
+}
+
+code[class] {
+  background-color: #F8F8F8;
+}
+
+table, td, th {
+  border: none;
+}
+
+blockquote {
+   color:#666666;
+   margin:0;
+   padding-left: 1em;
+   border-left: 0.5em #EEE solid;
+}
+
+hr {
+   height: 0px;
+   border-bottom: none;
+   border-top-width: thin;
+   border-top-style: dotted;
+   border-top-color: #999999;
+}
+
+@media print {
+   * {
+      background: transparent !important;
+      color: black !important;
+      filter:none !important;
+      -ms-filter: none !important;
+   }
+
+   body {
+      font-size:12pt;
+      max-width:100%;
+   }
+
+   a, a:visited {
+      text-decoration: underline;
+   }
+
+   hr {
+      visibility: hidden;
+      page-break-before: always;
+   }
+
+   pre, blockquote {
+      padding-right: 1em;
+      page-break-inside: avoid;
+   }
+
+   tr, img {
+      page-break-inside: avoid;
+   }
+
+   img {
+      max-width: 100% !important;
+   }
+
+   @page :left {
+      margin: 15mm 20mm 15mm 10mm;
+   }
+
+   @page :right {
+      margin: 15mm 10mm 15mm 20mm;
+   }
+
+   p, h2, h3 {
+      orphans: 3; widows: 3;
+   }
+
+   h2, h3 {
+      page-break-after: avoid;
+   }
+}
+</style>
+
+
+
+</head>
+
+<body>
+<p>This report was automatically generated with the R package <strong>knitr</strong>
+(version 1.11).</p>
+
+<pre><code class="r"># knitr::stitch_rmd(script=&quot;./manipulation/studies-ellis.R&quot;, output=&quot;./manipulation/stitched-output/studies-ellis.md&quot;)
+#These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
+rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+cat(&quot;\f&quot;) # clear console 
+</code></pre>
+
+
+<pre><code class="r"># Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
+source(&quot;./scripts/common-functions.R&quot;)
+</code></pre>
+
+<pre><code class="r"># Attach these packages so their functions don&#39;t need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+library(magrittr) #Pipes
+
+# Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace(&quot;ggplot2&quot;)
+# requireNamespace(&quot;readr&quot;)
+requireNamespace(&quot;tidyr&quot;)
+requireNamespace(&quot;dplyr&quot;) #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
+requireNamespace(&quot;testit&quot;) #For asserting conditions meet expected patterns.
+# requireNamespace(&quot;car&quot;) #For it&#39;s `recode()` function.
+</code></pre>
+
+<pre><code class="r"># inspect what files there are
+(listFiles &lt;- list.files(&quot;./data/unshared/&quot;, full.names = T,  pattern = &quot;.sav&quot;, recursive = F))
+</code></pre>
+
+<pre><code>## [1] &quot;./data/unshared/ALSA-Wave1 SPSS.Final.sav&quot;       
+## [2] &quot;./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
+## [3] &quot;./data/unshared/SATSA-Q3 SPSS.Final.sav&quot;         
+## [4] &quot;./data/unshared/SHARE-Israel Wave 1.Final.sav&quot;   
+## [5] &quot;./data/unshared/TILDA-Wave1 SPSS.Final.sav&quot;
+</code></pre>
+
+<pre><code class="r"># list the specific files to be used 
+studyNames &lt;- c(&quot;alsa&quot;, &quot;lbsl&quot;, &quot;satsa&quot;, &quot;share&quot;, &quot;tilda&quot;)
+# manually declare the file paths 
+alsa_path_input  &lt;- &quot;./data/unshared/ALSA-Wave1 SPSS.Final.sav&quot;
+lbsl_path_input  &lt;- &quot;./data/unshared/LBSL-Panel2-Wave1 SPSS.Final.sav&quot;
+satsa_path_input &lt;- &quot;./data/unshared/SATSA-Q3 SPSS.Final.sav&quot; 
+share_path_input &lt;- &quot;./data/unshared/SHARE-Israel Wave 1.Final.sav&quot;   
+tilda_path_input &lt;- &quot;./data/unshared/TILDA-Wave1 SPSS.Final.sav&quot;      
+# combine file paths into a single object
+filePaths &lt;- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input)
+# declare where the derived data object should be placed
+path_output_folder &lt;- &quot;./data/unshared/derived/&quot;
+figure_path &lt;- &#39;manipulation/stitched-output/&#39;
+</code></pre>
+
+<pre><code class="r"># create a list object containing the names of the studies and the paths to their data files
+main_list &lt;- list(&quot;studyName&quot;=studyNames, &quot;filePath&quot; = filePaths)
+# import each data file and include it into the main list object 
+data_list &lt;- list() # first create a separate list object containing the data files
+for(i in seq_along(studyNames)){
+  data_list[[i]] &lt;- Hmisc::spss.get(main_list[[&quot;filePath&quot;]][i], use.value.labels = TRUE) 
+}
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/ALSA-Wave1 SPSS.Final.sav:
+## Unrecognized record type 7, subtype 18 encountered in system file
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/LBSL-Panel2-Wave1
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/SATSA-Q3 SPSS.Final.sav:
+## Unrecognized record type 7, subtype 18 encountered in system file
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/SHARE-Israel Wave
+## 1.Final.sav: Unrecognized record type 7, subtype 18 encountered in system
+## file
+</code></pre>
+
+<pre><code>## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/TILDA-Wave1
+## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## system file
+</code></pre>
+
+<pre><code class="r">names(data_list) &lt;- studyNames # name the elements of the data list
+main_list[[&quot;dataFiles&quot;]] &lt;- data_list # include data list into the main list
+names(main_list) 
+</code></pre>
+
+<pre><code>## [1] &quot;studyName&quot; &quot;filePath&quot;  &quot;dataFiles&quot;
+</code></pre>
+
+<pre><code class="r">names(main_list[[&quot;dataFiles&quot;]])
+</code></pre>
+
+<pre><code>## [1] &quot;alsa&quot;  &quot;lbsl&quot;  &quot;satsa&quot; &quot;share&quot; &quot;tilda&quot;
+</code></pre>
+
+<pre><code class="r"># remove everything, but the main object
+# rm(list=setdiff(ls(),c(&quot;main_list&quot;)))
+# at this point the main list object contains three components:
+# main_list contains:  &quot;studyName&quot; ,  &quot;filePath&quot;,  &quot;dataFiles&quot;
+# data_list &lt;- main_list[[&quot;dataFiles&quot;]]
+# names(data_list)
+</code></pre>
+
+<pre><code class="r">names_labels(data_list[[&quot;alsa&quot;]])
+</code></pre>
+
+<pre><code>##        name                               label
+## 1    SEQNUM                     Sequence Number
+## 2  EXRTHOUS               Exertion around house
+## 3  HWMNWK2W      Times walked in past two weeks
+## 4  LSVEXC2W    Less vigor sessions last 2 weeks
+## 5  LSVIGEXC             Less vigor past 2 weeks
+## 6  TMHVYEXR        Time heavy physical exertion
+## 7  TMVEXC2W             Vigor Time past 2 weeks
+## 8  VIGEXC2W      Vigor Sessions in past 2 weeks
+## 9   VIGEXCS                   Vigorous exercise
+## 10 WALK2WKS                Walking past 2 weeks
+## 11 BTSM12MN         Health comp with 12mths ago
+## 12 HLTHBTSM           Health compared to others
+## 13 HLTHLIFE                   Self-rated health
+## 14      AGE                                 Age
+## 15      SEX                                 Sex
+## 16  MARITST                      Marital status
+## 17   SCHOOL                     Age left school
+## 18  TYPQUAL               Highest qualification
+## 19  RETIRED Are you retired from your last job?
+## 20   SMOKER                              Smoker
+## 21 FR6ORMOR        Frequency six or more drinks
+## 22 NOSTDRNK           Number of standard drinks
+## 23 FREQALCH                   Frequency alcohol
+## 24   WEIGHT                 Weight in kilograms
+</code></pre>
+
+<pre><code class="r">names_labels(data_list[[&quot;lbsl&quot;]])
+</code></pre>
+
+<pre><code>##        name
+## 1        ID
+## 2     AGE94
+## 3     SEX94
+## 4   MSTAT94
+## 5    EDUC94
+## 6   NOWRK94
+## 7     SMK94
+## 8     SMOKE
+## 9   ALCOHOL
+## 10     WINE
+## 11     BEER
+## 12  HARDLIQ
+## 13  SPORT94
+## 14    FIT94
+## 15   WALK94
+## 16   SPEC94
+## 17  DANCE94
+## 18  CHORE94
+## 19 EXCERTOT
+## 20  EXCERWK
+## 21 HEIGHT94
+## 22 WEIGHT94
+## 23  HWEIGHT
+## 24  HHEIGHT
+## 25 SRHEALTH
+##                                                                                label
+## 1                                                                               &lt;NA&gt;
+## 2                                                                        Age in 1994
+## 3                                                                                Sex
+## 4                                                             Marital Status in 1994
+## 5                                         Number of Years of school completed (1-20)
+## 6                                                           Working at present time?
+## 7                                                                   Currently smoke?
+## 8                                                                 Smoke, tobacco use
+## 9                                                                        Alcohol use
+## 10                                               Number of glasses of wine last week
+## 11                                          Number of cans/bottles of beer last week
+## 12                                 Number of drinks containing hard liquor last week
+## 13                                               Participant sports, number of hours
+## 14                                       Physical fitness, number of hours each week
+## 15                                                 Walking, number of hours per week
+## 16                                  Spectator sports, number of hours spent per week
+## 17                                                                           Dancing
+## 18                            Doing household chores, number of hours spent per week
+## 19 Number of total hours in an average week exercising for shape/fun (not housework)
+## 20                           Number of times in past week exercised or played sports
+## 21                                                                  Height in Inches
+## 22                                                                  Weight in Pounds
+## 23                                                    Self-reported weight in pounds
+## 24                                                    Self-reported height in inches
+## 25                                        Self-reported health compared to age peers
+</code></pre>
+
+<pre><code class="r">names_labels(data_list[[&quot;satsa&quot;]])
+</code></pre>
+
+<pre><code>##        name
+## 1    TWINNR
+## 2  GMARITAL
+## 3  GAMTWORK
+## 4   GEVRSMK
+## 5   GEVRSNS
+## 6  GSMOKNOW
+## 7   GBOTVIN
+## 8  GALCOHOL
+## 9   GEVRALK
+## 10 GSTOPALK
+## 11   GBEERX
+## 12    GLIQX
+## 13    GVINX
+## 14  GDRLOTS
+## 15 GFREQBER
+## 16 GFREQLIQ
+## 17 GFREQVIN
+## 18 GEXERCIS
+## 19    GHTCM
+## 20    GWTKG
+## 21 GHLTHOTH
+## 22 GGENHLTH
+## 23      GPI
+## 24      SEX
+## 25   YRBORN
+## 26    QAGE3
+## 27     EDUC
+##                                                                                                                                                               label
+## 1                                                                                                                                                       Twin number
+## 2                                                                                                                                      What is your marital status?
+## 3                                                                        Which of the following alternatives best describes your current work/retirement situation?
+## 4                                                                                                                  Do you smoke cigarettes, cigars or a pipe? - Yes
+## 5                                                                                                                                          Do you take snuff? - Yes
+## 6                                                             Have you smoked more than 6 cigarettes, 4 cigars or used pipe tobacco or snuff during the last month?
+## 7                                                                                          ..more than 1 bottle, i.e.____bottles (state number of bottles): GBOTVIN
+## 8                                                                                                                            Do you ever drink alcoholic beverages?
+## 9                                                                                                                         Do you ever drink alcoholic drinks? - Yes
+## 10                                                                                                       Do you ever drink alcoholic drinks? -No I quit. When? 19__
+## 11                                                                                                                    How much beer do you usually drink at a time?
+## 12                                                                                                               How much hard liquot do you usually drink at time?
+## 13                                                                                                                    How much wine do you usually drink at a time?
+## 14                          How often do you consume more than five bottles of beer or more than one bottle of wine or more than 1/2 bottle liquot at one occasion?
+## 15                                                                                                                    How often do you drink beer (not light beer)?
+## 16                               How often do you usually drink hard liquor? (e.g. aquavit, whiskey, gin, brandy, punsch. Also liquot in cocktails and long drinks)
+## 17                                                                                                              How often do you usually drink wine (red or white)?
+## 18 Here are seven different options concerning exercise during your leisure time. Which one of these options best fits how you yourself exercise on a yearly basis?
+## 19                                                                                                                                           How tall are you? (cm)
+## 20                                                                                                                                      How much do you weigh? (kg)
+## 21                                                                                 How do you judge your general state of health compared to other people your age?
+## 22                                                                                                                   How do you judge your general state of health?
+## 23                                                                                                                                               BMI ((htcm/100)^2)
+## 24                                                                                                                                                             &lt;NA&gt;
+## 25                                                                                                                                                             &lt;NA&gt;
+## 26                                                                                                                                                        age at Q3
+## 27                                                                                                                                                        Education
+</code></pre>
+
+<pre><code class="r">names_labels(data_list[[&quot;share&quot;]])
+</code></pre>
+
+<pre><code>##          name                                           label
+## 1  SAMPID.rec                                            &lt;NA&gt;
+## 2      DN0030                                   year of birth
+## 3      GENDER                                  male or female
+## 4      DN0140                                  marital status
+## 5      DN0100             highest educational degree obtained
+## 6      EP0050                           current job situation
+## 7      BR0010                               ever smoked daily
+## 8      BR0020                       smoke at the present time
+## 9      BR0030                           how many years smoked
+## 10     BR0100                beverages consumed last 6 months
+## 11     BR0110          freq more than 2 glasses beer in a day
+## 12     BR0120          freq more than 2 glasses wine in a day
+## 13     BR0130           freq more than 2 hard liquor in a day
+## 14     BR0150          sports or activities that are vigorous
+## 15     BR0160 activities requiring a moderate level of energy
+## 16     PH0130                               how tall are you?
+## 17     PH0120                            weight of respondent
+## 18     PH0020                  health in general question v 1
+## 19     PH0030                  health in general question v 2
+## 20     PH0520                  health in general question v 2
+## 21     PH0530                  health in general question v 1
+</code></pre>
+
+<pre><code class="r">names_labels(data_list[[&quot;tilda&quot;]])
+</code></pre>
+
+<pre><code>##                     name
+## 1                     ID
+## 2                    AGE
+## 3                  CM003
+## 4                    SEX
+## 5                  GD002
+## 6             SOCMARRIED
+## 7                  CS006
+## 8                   MAR4
+## 9                  DM001
+## 10                 WE001
+## 11                 WE003
+## 12                 WE106
+## 13                 WE601
+## 14                 WE610
+## 15                  EMP3
+## 16                 BH001
+## 17                 BH002
+## 18                 BH003
+## 19             BEHSMOKER
+## 20            SCQALCOHOL
+## 21           SCQALCOFREQ
+## 22            SCQALCONO1
+## 23            SCQALCONO2
+## 24      BEHALC.FREQ.WEEK
+## 25   BEHALC.DRINKSPERDAY
+## 26  BEHALC.DRINKSPERWEEK
+## 27                 BH101
+## 28                 BH102
+## 29                BH102A
+## 30                 BH103
+## 31                 BH104
+## 32                BH104A
+## 33                 BH105
+## 34                 BH106
+## 35                BH106A
+## 36                 BH107
+## 37                BH107A
+## 38        IPAQMETMINUTES
+## 39         IPAQEXERCISE3
+## 40 SR.HEIGHT.CENTIMETRES
+## 41                HEIGHT
+## 42                 PH008
+## 43 SR.WEIGHT.KILOGRAMMES
+## 44                WEIGHT
+## 45                 FRBMI
+## 46               FRWAIST
+## 47                 FRHIP
+## 48                 FRWHR
+## 49                 PH001
+## 50                 PH009
+##                                                                                      label
+## 1                                                                            Anonymised ID
+## 2                                  Age at interview assuming DOB is 1st of specified month
+## 3                 FIRST INTERVIEW - Age group of first person interviewed in the househ...
+## 4                                                                                   Gender
+## 5                                               gd002 - Is this respondent male or female?
+## 6                                                            SOCmarried  Currently married
+## 7                                                                       cs006  Are you...?
+## 8                                                                     mar4  Marital Status
+## 9                         dm001  What is the highest level of education you have completed
+## 10          we001  Which one of these would you say best describes your current situation?
+## 11   we003  Did you, nevertheless, do any paid work during the last week, either as an em?
+## 12                                               we106  Could you please tell me, is this?
+## 13                                                     we601  In what year did you retire?
+## 14                                 we610  When did you stop working at your last job? YEAR
+## 15        emp3  Current employment status in three groups - &#39;other&#39; response not yet coded
+## 16   bh001  Have you ever smoked cigarettes, cigars, cigarillos or a pipe daily for a per?
+## 17                                                bh002  Do you smoke at the present time?
+## 18                                       bh003  How old were you when you stopped smoking?
+## 19                                                                       BEHsmoker  Smoker
+## 20                                                               SCQalcohol  drink alcohol
+## 21                                              SCQalcofreq  frequency of drinking alcohol
+## 22                                        SCQalcono1  more than two drinks in a single day
+## 23                                SCQalcono2  How many drinks consumed on days drink taken
+## 24                                       BEHalc_freq_week  Average times drinking per week
+## 25                                            BEHalc_drinksperday  Standard drinks per day
+## 26                                            BEHalc_drinksperweek  Standard drinks a week
+## 27   bh101  During the last 7 days, on how many days did you do vigorous physical activit?
+## 28   bh102  How much time did you usually spend doing vigorous physical activities on one?
+## 29  bh102a  How much time did you usually spend doing vigorous physical activities on one?
+## 30   bh103  During the last 7 days, on how many days did you do moderate physical activit?
+## 31   bh104  How much time did you usually spend doing moderate physical activities on one?
+## 32  bh104a  How much time did you usually spend doing moderate physical activities on one?
+## 33   bh105  During the last 7 days, on how many days did you walk for at least 10 minutes?
+## 34          bh106  How much time did you usually spend walking on one of those days? HOURS
+## 35          bh106a  How much time did you usually spend walking on one of those days? MINS
+## 36   bh107  During the last 7 days, how much time did you spend sitting on a week day? HO?
+## 37 bh107a  During the last 7 days, how much time did you spend sitting on a week day? MINS
+## 38                                           IPAQmetminutes  Phsyical activity met-minutes
+## 39                                           IPAQmetminutes  Phsyical activity met-minutes
+## 40                                                                   SR_Height_Centimetres
+## 41                                                                       Respondent height
+## 42   ph008  In the past year have you lost 10 pounds (4.5 kg) or more in weight when you ?
+## 43                                                                   SR_Weight_Kilogrammes
+## 44                                                                       Respondent weight
+## 45                                                                                   FRbmi
+## 46                                                       FRwaist  Waist circumference (cm)
+## 47                                                           FRhip  Hip circumference (cm)
+## 48                                                                  FRwhr  Waist/hip ratio
+## 49   ph001  Now I would like to ask you some questions about your health.  Would you say ?
+## 50      ph009  In general, compared to other people your age, would you say your health is
+</code></pre>
+
+<pre><code class="r">colnames(ds)
+</code></pre>
+
+<pre><code>##  [1] &quot;SEQNUM&quot;   &quot;EXRTHOUS&quot; &quot;HWMNWK2W&quot; &quot;LSVEXC2W&quot; &quot;LSVIGEXC&quot; &quot;TMHVYEXR&quot;
+##  [7] &quot;TMVEXC2W&quot; &quot;VIGEXC2W&quot; &quot;VIGEXCS&quot;  &quot;WALK2WKS&quot; &quot;BTSM12MN&quot; &quot;HLTHBTSM&quot;
+## [13] &quot;HLTHLIFE&quot; &quot;AGE&quot;      &quot;SEX&quot;      &quot;MARITST&quot;  &quot;SCHOOL&quot;   &quot;TYPQUAL&quot; 
+## [19] &quot;RETIRED&quot;  &quot;SMOKER&quot;   &quot;FR6ORMOR&quot; &quot;NOSTDRNK&quot; &quot;FREQALCH&quot; &quot;WEIGHT&quot;
+</code></pre>
+
+<pre><code class="r"># testit::assert(&quot;`model_name` should be a unique value&quot;, sum(duplicated(ds$model_name))==0L)
+# testit::assert(&quot;`miles_per_gallon` should be a positive value.&quot;, all(ds$miles_per_gallon&gt;0))
+# testit::assert(&quot;`weight_gear_z` should be a positive or missing value.&quot;, all(is.na(ds$miles_per_gallon) | (ds$miles_per_gallon&gt;0)))
+</code></pre>
+
+<pre><code class="r"># Save as a compress, binary R dataset.  It&#39;s no longer readable with a text editor, but it saves metadata (eg, factor information).
+saveRDS(ds, file=path_output, compress=&quot;xz&quot;)
+</code></pre>
+
+<pre><code>## Error in saveRDS(ds, file = path_output, compress = &quot;xz&quot;): object &#39;path_output&#39; not found
+</code></pre>
+
+<p>The R session information (including the OS info, R version and all
+packages used):</p>
+
+<pre><code class="r">sessionInfo()
+</code></pre>
+
+<pre><code>## R version 3.2.3 (2015-12-10)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 7 x64 (build 7601) Service Pack 1
+## 
+## locale:
+## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=English_Canada.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] magrittr_1.5
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.11.6         Formula_1.2-1       knitr_1.11         
+##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.2      
+##  [7] testit_0.4          colorspace_1.2-6    lattice_0.20-33    
+## [10] R6_2.0.1            stringr_1.0.0       plyr_1.8.2         
+## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-11        
+## [16] parallel_3.2.3      grid_3.2.3          gtable_0.1.2       
+## [19] latticeExtra_0.6-28 DBI_0.3.1           survival_2.38-3    
+## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2        
+## [25] RColorBrewer_1.1-2  ggplot2_2.0.0       tidyr_0.4.1        
+## [28] acepack_1.3-3.3     rpart_4.1-10        evaluate_0.8       
+## [31] stringi_0.4-1       scales_0.3.0        Hmisc_3.17-2       
+## [34] markdown_0.7.7      foreign_0.8-66
+</code></pre>
+
+<pre><code class="r">Sys.time()
+</code></pre>
+
+<pre><code>## [1] &quot;2016-03-14 16:59:13 PDT&quot;
+</code></pre>
+
+</body>
+
+</html>
