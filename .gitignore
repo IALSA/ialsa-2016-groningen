@@ -14,6 +14,7 @@ devtools.zip
 /unshared-material/*
 /data_unshared/*
 /data-unshared/*
+/data/unshared/*
 
 # Unnecessary files for knitr reports
 
@@ -27,6 +28,9 @@ devtools.zip
 !data-unshared/contents.md
 !data-unshared/raw/README.md
 !data-unshared/derived/README.md
+!data/unshared/contents.md
+!data/unshared/raw/README.md
+!data/unshared/derived/README.md
 
 ##############
 # Exclude caches in case they contain PHI
