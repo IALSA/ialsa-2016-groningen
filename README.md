@@ -60,17 +60,30 @@ Below is a list of the main steps to be applied while conducting the harmonizati
  - 2.	Ensure the quality of the new harmonized variables created by reviewing processing methods and running descriptive statistics comparing raw and harmonized data.   
 * **Step 4** - Integrate harmonized variables and data into one common dataset.  
 * **Step 5** - Conduct bi-variant and multi-variant analysis to assess the main factors associated with current smoking status among older adults.    
-* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  What to report?  
+* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  [What to report?]()  
 
+### What to report 
+Each harmonization work group should provide a short document reporting on the questions below.  
+The document should be sent before the workshop to msaliba@maelstrom-research.org   
+
+* I - Harmonization process
+	- 1 -  Which studies did you include/exclude and why?
+	- 2 -   Did you include all the participants of all datasets or no? Why?
+	- 3 -   What are the common harmonized variables generated? Their definitions? And formats?
+	- 4 -   Have you been able to generate the common harmonized variables from all the studies? If not, why?
+* II -  Statistical analysis
+	- 1-   What are the frequencies and distribution of common harmonized variables for the pooled dataset and by each study-specific dataset?
+	- 2 -   What are the factors associated with current smoking? Bivariant analysis. Multi-variant analysis. 
+	- 3 -   Results of the statistical analysis. 
 
 ### Deliverables 
 
 Each harmonization working group is required to provide: 
 
-A. Presentations:
-* 1. The harmonization approach used and reason.   
-* 2. The steps applied to harmonize the data according to the procedures listed at this link: Instructions for harmonization working groups  
-* 3. The frequencies and distribution of the common harmonized variables created.   
+A. Presentation (15 min):
+* 1. The harmonization approach used and reason.  
+* 2. The steps applied to harmonize the data according to the 
+* 3. The frequencies and distribution of the common harmonized variables created.  
 * 4. The results of the analysis performed to answer the research question.  
 
 B. Documentation   
