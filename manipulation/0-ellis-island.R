@@ -15,6 +15,7 @@ library(magrittr) #Pipes
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
 # requireNamespace("readr")
+requireNamespace("readxl") # for importing excel sheets
 requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
@@ -23,16 +24,16 @@ requireNamespace("testit") #For asserting conditions meet expected patterns.
 # ---- declare-globals ---------------------------------------------------------
 # inspect what files there are
 (listFiles <- list.files("./data/unshared/raw", full.names = T,  pattern = ".sav", recursive = F))
-# list the specific files to be used 
-studyNames <- c("alsa", "lbsl", "satsa", "share", "tilda")
+# list the names of the studies to be used in subsequent code
+studyNames <- c("alsa", "lbsl", "satsa", "tilda", "share")
 # manually declare the file paths 
 alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"
 lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
 satsa_path_input <- "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav" 
-share_path_input <- "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
 tilda_path_input <- "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"      
+share_path_input <- "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
 # combine file paths into a single object
-filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input)
+filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, tilda_path_input, share_path_input )
 # declare where the derived data object should be placed
 path_output_folder <- "./data/unshared/derived/"
 figure_path <- 'manipulation/stitched-output/'
@@ -50,6 +51,8 @@ main_list[["dataFiles"]] <- data_list # include data list into the main list as 
 names(main_list) # elements in the main list object
 names(main_list[["dataFiles"]]) # elements in the subelement 
 
+
+
 # remove everything, but the main object
 # rm(list=setdiff(ls(),c("main_list")))
 # at this point the main list object contains three components:
@@ -61,23 +64,49 @@ names(main_list[["dataFiles"]]) # elements in the subelement
 names_labels(data_list[["alsa"]])
 names_labels(data_list[["lbsl"]])
 names_labels(data_list[["satsa"]])
-names_labels(data_list[["share"]])
 names_labels(data_list[["tilda"]])
+names_labels(data_list[["share"]])
+
 
 # names_labels <- names_labels(data_list[["alsa"]])
-ds <- data_list[["alsa"]]
+
+# rename "MAR4" because Excel errounously reads it in as March-4
+data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "marital4"))
+
 # ---- export-names-and-labels -----------------------------------------
-
-nl_alsa <- names_labels(data_list[["alsa"]])
-write.csv(nl_alsa, "./data/shared/derived/profile_alsa.csv")
-
-
+# # for a single study:
+# nl_alsa <- names_labels(data_list[["alsa"]])
+# write.csv(nl_alsa, "./data/shared/derived/profile_alsa.csv")
+# for all studies:
 for(i in studyNames){  
   save_csv <- names_labels(data_list[[i]])
-  write.csv(save_csv, paste0("./data/shared/derived/profile_",i,".csv"))  
+  write.csv(save_csv, paste0("./data/shared/derived/profile_",i,".csv"), row.names = T)  
 }  
+# these .cvs contain the original variable names and labels
+# there are queried by an aggregating Excel workbook "names-lables-augmented.xls" 
+
+# ---- import-names-and-labels -----------------------------------------
+# after adding new columns with variable classification,  bring them into R
+nl_augmentedPath <- "./data/shared/names-labels-augmented.xls" # input file with your manual classification
 
 
+nl_list <- list()
+for(i in studyNames){  
+  nl_list[[i]] <- readxl::read_excel(nl_augmentedPath, sheet = i)
+} 
+names(nl_list) <- studyNames
+# convert dtos into a dataframe
+# http://stackoverflow.com/questions/2851327/converting-a-list-of-data-frames-into-one-data-frame-in-r
+nl <- plyr::ldply(nl_list, data.frame)
+# costmetic corrections:
+nl <- plyr::rename(nl,replace =  c(".id" = "study",
+                                   "NA." = "varnum"))
+head(nl)
+# save it to the main list object
+main_list[["namesLabels"]] <- nl
+
+table(nl$study, nl$type)
+table(nl$type, nl$study)
 # ---- tweak-data --------------------------------------------------------------
 
 
