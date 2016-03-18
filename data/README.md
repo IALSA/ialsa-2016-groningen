@@ -5,7 +5,7 @@ This directory contains both shared and unshared data. See the contents of each 
 
 The raw files from which data preparation will stem are as follows: 
 
-Selected studies' datasets ( [description](http://wiki.obiba.org/display/MHSA2016/Description+of+studies+and+datasets)) :
+Selected studies' datasets ([description](http://wiki.obiba.org/display/MHSA2016/Description+of+studies+and+datasets)) :
 - 1- Australian Longitudinal Study of Ageing (ALSA) - Wave 1  
 - 2- Long Beach Longitudinal Study (LBLS)- Panel 2 - Wave 1  
 - 3- Swedish Adoption/Twin Study of Aging (SATSA) - Q3  
