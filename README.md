@@ -10,6 +10,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [list of participants](./documentation/log/participants.pdf)
 - [summary of the agenda](./documentation/log/agenda.pdf) 
 - [directions and locations](./documentation/log/directions.pdf)
+- [source data objects](./data/contents.md)
 
 
 ### Rationale and objectives 
