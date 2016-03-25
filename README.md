@@ -12,7 +12,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [directions and locations](./documentation/log/directions.pdf)
 -
 - [source data objects](./data/contents.md)
-- [references](./reference.md)
+- [references](./documentation/resources-references.md)
 
 
 ### Rationale and objectives 
