@@ -10,9 +10,9 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [list of participants](./documentation/log/participants.pdf)
 - [summary of the agenda](./documentation/log/agenda.pdf) 
 - [directions and locations](./documentation/log/directions.pdf)
--
 - [source data objects](./data/contents.md)
 - [references](./reference.md)
+- [studies description](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) at the Maelstrom Obiba Wiki
 
 
 ### Rationale and objectives 
