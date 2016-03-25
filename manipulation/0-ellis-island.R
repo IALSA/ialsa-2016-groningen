@@ -25,15 +25,16 @@ requireNamespace("testit") #For asserting conditions meet expected patterns.
 # inspect what files there are
 (listFiles <- list.files("./data/unshared/raw", full.names = T,  pattern = ".sav", recursive = F))
 # list the names of the studies to be used in subsequent code
-studyNames <- c("alsa", "lbsl", "satsa", "tilda", "share")
+studyNames <- c("alsa", "lbsl", "satsa", "share", "tilda")
 # manually declare the file paths 
-alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"
-lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
-satsa_path_input <- "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav" 
-tilda_path_input <- "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"      
-share_path_input <- "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
+alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1.Final.sav"
+lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1.Final.sav"
+satsa_path_input <- "./data/unshared/raw/SATSA-Q3.Final.sav" 
+share_path_input <- "./data/unshared/raw/SHARE-Israel-Wave1.Final.sav"   
+tilda_path_input <- "./data/unshared/raw/TILDA-Wave1.Final.sav"     
+
 # combine file paths into a single object
-filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, tilda_path_input, share_path_input )
+filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input )
 # declare where the derived data object should be placed
 path_output_folder <- "./data/unshared/derived/"
 figure_path <- 'manipulation/stitched-output/'
@@ -64,9 +65,8 @@ names(main_list[["dataFiles"]]) # elements in the subelement
 names_labels(data_list[["alsa"]])
 names_labels(data_list[["lbsl"]])
 names_labels(data_list[["satsa"]])
-names_labels(data_list[["tilda"]])
 names_labels(data_list[["share"]])
-
+names_labels(data_list[["tilda"]])
 
 # names_labels <- names_labels(data_list[["alsa"]])
 
@@ -75,8 +75,8 @@ data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "
 
 # ---- export-names-and-labels -----------------------------------------
 # # for a single study:
-# nl_alsa <- names_labels(data_list[["alsa"]])
-# write.csv(nl_alsa, "./data/shared/derived/profile_alsa.csv")
+# mds_alsa <- names_labels(data_list[["alsa"]])
+# write.csv(mds_alsa, "./data/shared/derived/profile_alsa.csv")
 # for all studies:
 for(i in studyNames){  
   save_csv <- names_labels(data_list[[i]])
@@ -87,26 +87,42 @@ for(i in studyNames){
 
 # ---- import-names-and-labels -----------------------------------------
 # after adding new columns with variable classification,  bring them into R
-nl_augmentedPath <- "./data/shared/names-labels-augmented.xls" # input file with your manual classification
+# this is the meta data set (mds)
+filePath_mds <- "./data/shared/names-labels-augmented.xls" # input file with your manual classification
 
 
-nl_list <- list()
+mds_list <- list()
 for(i in studyNames){  
-  nl_list[[i]] <- readxl::read_excel(nl_augmentedPath, sheet = i)
+  mds_list[[i]] <- readxl::read_excel(filePath_mds, sheet = i)
 } 
-names(nl_list) <- studyNames
+names(mds_list) <- studyNames
 # convert dtos into a dataframe
 # http://stackoverflow.com/questions/2851327/converting-a-list-of-data-frames-into-one-data-frame-in-r
-nl <- plyr::ldply(nl_list, data.frame)
+mds <- plyr::ldply(mds_list, data.frame)
+head(mds)
 # costmetic corrections:
-nl <- plyr::rename(nl,replace =  c(".id" = "study",
+mds <- plyr::rename(mds,replace =  c(".id" = "study",
                                    "NA." = "varnum"))
-head(nl)
-# save it to the main list object
-main_list[["namesLabels"]] <- nl
+head(mds)
 
-table(nl$study, nl$type)
-table(nl$type, nl$study)
+attr(mds$study,"label") <- "short name of study"
+attr(mds,"label")
+attr(mds$varnum, "label") <- "variable id number in raw file" 
+attr(mds$name, "label") <- "variable name in raw file"
+attr(mds$label, "label") <- "item label as appears in raw file"
+attr(mds$type, "label") <- "broad class of variables" 
+attr(mds$construct, "label") <- "construct, operationalized variously"
+attr(mds$item, "label") <- "operationalization of the construct"
+attr(mds$categories, "label") <- "number of catergies in range of values"
+attr(mds$label_short, "label") <- "item label, created for local session"
+attr(mds$url, "label") <- "url to item's details webpage"
+
+names_labels(mds)
+# save it to the main list object
+main_list[["metaData"]] <- mds
+
+table(mds$study, mds$type)
+table(mds$type, mds$study)
 # ---- tweak-data --------------------------------------------------------------
 
 
@@ -118,7 +134,6 @@ table(nl$type, nl$study)
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(main_list, file="./data/unshared/derived/main_list.rds", compress="xz")
-
 
 
 
