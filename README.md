@@ -5,14 +5,17 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 [edit me](https://github.com/IALSA/ialsa-2016-groningen/edit/master/README.md)
 
 
-#### Documentation
+### Welcome
 - [letter of invitation](./documentation/log/invite.pdf)   
 - [list of participants](./documentation/log/participants.pdf)
 - [summary of the agenda](./documentation/log/agenda.pdf) 
 - [directions and locations](./documentation/log/directions.pdf)
-- [source data objects](./data/contents.md)
-- [references](./documentation/resources-references.md)
-- [studies description](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) at the Maelstrom Obiba Wiki
+
+### Documentation
+- list of [source data objects](./data/contents.md) used in the exercise
+- [resources and references](./documentation/resources-references.md)
+- [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) for candidat studies
+- [reproducibility instructions](./utility/reproduce.md)
 
 
 ### Rationale and objectives 
@@ -25,9 +28,10 @@ Retrospective data harmonization, if not applied properly, might lead to substan
 
 In order to assess the impact of different harmonization procedures on the analysis results, different harmonization working groups will harmonize, integrate, and analyse data from several real datasets. In the workshop, each group will present the methodology used and results from data analysis. 
 
-RESERACH QUESTION: **Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking?**
+##### RESERACH QUESTION
+***Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking?***
 
-### Overview 
+### Overview of Measures
 
 Each harmonization working group will work independently to achieve data harmonization, pooling, and analysis in the aim to answer the common research question: *Smoking Habits among older adults (50+ years): What is the prevalence of smoking? and what are the factors associated with smoking?*  
 
