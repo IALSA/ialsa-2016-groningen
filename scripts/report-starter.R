@@ -29,13 +29,14 @@ main_list <- readRDS("./data/unshared/derived/main_list.rds")
 names(main_list)
 # 1st element - names of the studies as character vector
 main_list[["studyName"]]
+(studyNames <- main_list[["studyName"]])
 # 2nd element - file paths of the data files for each study
 main_list[["filePath"]]
 # 3rd element - list objects with 
 names(main_list[["dataFiles"]])
-dplyr::tbl_df(main_list[["dataFiles"]][["alsa"]]) 
+dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
 # 4th element - dataset with augmented names and labels for variables from all involved studies
-dplyr::tbl_df(main_list[["namesLabels"]])
+dplyr::tbl_df(main_list[["metaData"]])
 
 # ---- inspect-data -------------------------------------------------------------
 
