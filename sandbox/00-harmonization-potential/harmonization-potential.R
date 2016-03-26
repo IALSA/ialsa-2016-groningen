@@ -42,21 +42,29 @@ dplyr::tbl_df(main_list[["metaData"]])
 ds <- main_list[["dataFiles"]][["tilda"]] # load ds for a study
 ds %>% dplyr::glimpse() # preview
 mds <- main_list[["metaData"]] # load metadata object
+
+names(mds)
 metastem <- c(
+  "label_short", # item label, created for this analytical session
   "study", # short name of study
   "name", # variable name as appears in the original data file of each study
   "item",  # item name, created for this analytical session, may be same across studies
   # "label", # original label in raw file
-  "label_short", # item label, created for this analytical session
-  "categories", # number of catergies in the possible range of values
+  # "url", #url to item's details webpage"
   "construct", # the measured construct, could be operationalized variously
-  "type" # type of variable (e.g. design, demographic, lifestyle, cognitive)
+  "type", # type of variable (e.g. design, demographic, lifestyle, cognitive)
+   "categories" # number of catergies in the possible range of values
 ) 
-mds <- mds %>% dplyr::select_(.dots=metastem) 
+mds <- mds %>% 
+  dplyr::select_(.dots=metastem) %>% 
+  # dplyr::arrange(item, study)
+  dplyr::arrange(study, item)
 mds %>% dplyr::tbl_df() 
 # how to subset base on values
 mds_sub <- mds %>% dplyr::filter(construct %in% c('smoking')) 
 print(mds_sub, nrow(mds_sub))
+
+
 
 ds <- main_list[["dataFiles"]][["alsa"]]
 ds %>% dplyr::group_by_("PIPCIGAR") %>% dplyr::summarize(count = n())
@@ -66,37 +74,69 @@ ds %>% dplyr::group_by_("PIPCIGAR") %>% dplyr::summarize(count = n())
 # ---- combine-datasets-smoking ----------
 names(main_list)
 # extract specific variables from raw data sets
-ds_list <- list()
+ds_list <- list(); names_list <- list()
 for(i in studyNames){  
-  keepvars <- mds_sub[mds_sub$study==i, "name"] 
-  newvars <-  mds_sub[mds_sub$study==i, "item"] 
-  d <- main_list[["dataFiles"]][[i]][,keepvars]
-  # names(d) <- newvars # rename into new item names
+  # i = "alsa"
+  (keepvars <- mds_sub[mds_sub$study==i, "name"] )
+  (newvars <-  mds_sub[mds_sub$study==i, "item"]) 
+  dd <- main_list[["dataFiles"]][[i]][,keepvars]; head(dd)
+  d <- dd; head(d)
+  names(d) <- newvars # rename into new item names
+  name_new <- names(d); name_old <- names(dd)
+  (oldnew <- cbind(name_new,name_old))
+  names_list[[i]] <- oldnew
+  d <- dplyr::bind_cols(d, dd) # bind originals
   ds_list[[i]] <- d
+  
 } 
 names(ds_list) <- studyNames
-# d <- ds_list[["alsa"]]
-# head(d)
+names(names_list) <- studyNames
+
+d <- ds_list[['alsa']]
+n <- names_list[["alsa"]]
+head(d); head(n)
 
 # convert dtos into a dataframe
 # http://stackoverflow.com/questions/2851327/converting-a-list-of-data-frames-into-one-data-frame-in-r
 ds <- plyr::ldply(ds_list, data.frame)
 ds <- plyr::rename(ds, c(".id" = "study_name"))
 
-head(ds)
-
+ds_names <- plyr::ldply(names_list, data.frame)
+ds_names <- plyr::rename(ds_names, c(".id" = "study_name"))
+ds_names <- ds_names %>% dplyr::arrange(study_name)
+print(ds_names)
+a <- ds_names$study_name
+a <- c("aaa","bbb")
+dput(d)
 # study_name SMOKER PIPCIGAR SMK94 SMOKE GEVRSMK GEVRSNS GSMOKNOW BR0010 BR0020 BR0030
 
-table(ds$SMOKER, ds$study_name)
-table(ds$PIPCIGAR, ds$study_name)
-table(ds$SMK94, ds$study_name)
-table(ds$SMOKE, ds$study_name)
-table(ds$GEVRSMK, ds$study_name)
-table(ds$GEVRSNS, ds$study_name)
-table(ds$GSMOKNOW, ds$study_name)
-table(ds$BR0010, ds$study_name)
-table(ds$BR0020, ds$study_name)
-table(ds$BR0030, ds$study_name)
+# item <- "PIPCIGAR"
+viewer1 <- function(ds, item){ 
+  t <- table(ds[,item], ds$study_name)
+  t[t=="0"]<-"."
+  cat(paste0(item," : ", attr(ds[,item], "label")))
+  print(t,title="newtitle")
+}
+
+for(i in names(ds)){
+  viewer1(ds,i)
+  cat("\n")
+}
+
+
+######### dev ###############
+t <- table(ds$SMOKER, ds$study_name); t[t=="0"]<-".";t
+
+
+t <- table(ds$PIPCIGAR, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$SMK94, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$SMOKE, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$GEVRSMK, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$GEVRSNS, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$GSMOKNOW, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$BR0010, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$BR0020, ds$study_name); t[t=="0"]<-".";t
+t <- table(ds$BR0030, ds$study_name); t[t=="0"]<-".";t
 
 
 names(main_list)
@@ -118,7 +158,7 @@ names(ds_list) <- studyNames
 ds <- plyr::ldply(ds_list, data.frame)
 ds <- plyr::rename(ds, c(".id" = "study_name"))
 
-head(ds); names(ds)
+head(ds); names(ds); names_labels(ds)
 
 t<-table(ds$smoke_now,ds$study_name);t[t=="0"]<-".";t
 t<-table(ds$smoke_pipecigar,ds$study_name);t[t=="0"]<-".";t
