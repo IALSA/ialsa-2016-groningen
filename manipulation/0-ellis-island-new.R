@@ -111,49 +111,7 @@ write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
 dsm <- read.csv("./data/shared/meta-data-map.csv")
 
-# ---- import-meta-data-live -----------------------------------------
-# the manhole in which raw meta-data (names and labels) are augmented  outside of R
-# can contain a live query, aimed at the mdsraw
-# and by adding classifications and classification manipulations are done outside of R
-# is now 
 
-# after adding new columns with variable classification,  bring them into R
-# this is the meta data set (mds)
-filePath_mds <- "./data/shared/meta-data.xls" # input file with your manual classification
-
-
-mds_list <- list()
-for(i in studyNames){  
-  mds_list[[i]] <- readxl::read_excel(filePath_mds, sheet = i)
-} 
-names(mds_list) <- studyNames
-# convert dtos into a dataframe
-# http://stackoverflow.com/questions/2851327/converting-a-list-of-data-frames-into-one-data-frame-in-r
-mds <- plyr::ldply(mds_list, data.frame)
-head(mds)
-# costmetic corrections:
-mds <- plyr::rename(mds,replace =  c(".id" = "study",
-                                   "NA." = "varnum"))
-head(mds)
-
-attr(mds$study,"label") <- "short name of study"
-attr(mds,"label")
-attr(mds$varnum, "label") <- "variable id number in raw file" 
-attr(mds$name, "label") <- "variable name in raw file"
-attr(mds$label, "label") <- "item label as appears in raw file"
-attr(mds$type, "label") <- "broad class of variables" 
-attr(mds$construct, "label") <- "construct, operationalized variously"
-attr(mds$item, "label") <- "operationalization of the construct"
-attr(mds$categories, "label") <- "number of catergies in range of values"
-attr(mds$label_short, "label") <- "item label, created for local session"
-attr(mds$url, "label") <- "url to item's details webpage"
-
-names_labels(mds)
-# save it to the main list object
-main_list[["metaData"]] <- mds
-
-table(mds$study, mds$type)
-table(mds$type, mds$study)
 # ---- tweak-data --------------------------------------------------------------
 
 
