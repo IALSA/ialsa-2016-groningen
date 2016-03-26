@@ -110,7 +110,8 @@ write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)
 # it will account for all renaming of variables and their classification 
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
 dsm <- read.csv("./data/shared/meta-data-map.csv")
-
+# attach metadata object as the 4th element of the main_list
+main_list[["metaData"]] <- dsm
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -124,13 +125,6 @@ dsm <- read.csv("./data/shared/meta-data-map.csv")
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(main_list, file="./data/unshared/derived/main_list.rds", compress="xz")
 
-
-
-
-## Part B. Inspecting individual files
-names_labels(data_list[["satsa"]])
-# ds <- main_list[["unitData"]][["lbsl"]]
-ds <- data_list[["lbsl"]]
 
 
 
