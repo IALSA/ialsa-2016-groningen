@@ -7,6 +7,10 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
+# the purpose of this script is to create a data object (main_list)
+# (mail_list) which will hold all data and metadata from each candidate study of the exercise
+
+# run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
 # knitr::stitch_rmd(script="./manipulation/0-ellis-island.R", output="./manipulation/stitched-output/0-ellis-island.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
@@ -23,102 +27,128 @@ source("./scripts/common-functions.R")
 ```r
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) #Pipes
-
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
-# requireNamespace("readr")
 requireNamespace("tidyr")
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
-# requireNamespace("car") #For it's `recode()` function.
 ```
 
 ```r
+#
+# There will be a total of (4) elements in (main_list)
+main_list <- list() # creates empty list object to populate with script to follow 
+#
+### main_list (1) : names of candidate studies
+#
 # inspect what files there are
 (listFiles <- list.files("./data/unshared/raw", full.names = T,  pattern = ".sav", recursive = F))
 ```
 
 ```
-## [1] "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"       
-## [2] "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
-## [3] "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav"         
-## [4] "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
-## [5] "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"
+## [1] "./data/unshared/raw/ALSA-Wave1.Final.sav"        
+## [2] "./data/unshared/raw/LBSL-Panel2-Wave1.Final.sav" 
+## [3] "./data/unshared/raw/SATSA-Q3.Final.sav"          
+## [4] "./data/unshared/raw/SHARE-Israel-Wave1.Final.sav"
+## [5] "./data/unshared/raw/TILDA-Wave1.Final.sav"
 ```
 
 ```r
-# list the specific files to be used 
+# list the names of the studies to be used in subsequent code
 studyNames <- c("alsa", "lbsl", "satsa", "share", "tilda")
-# manually declare the file paths 
-alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1 SPSS.Final.sav"
-lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1 SPSS.Final.sav"
-satsa_path_input <- "./data/unshared/raw/SATSA-Q3 SPSS.Final.sav" 
-share_path_input <- "./data/unshared/raw/SHARE-Israel Wave 1.Final.sav"   
-tilda_path_input <- "./data/unshared/raw/TILDA-Wave1 SPSS.Final.sav"      
+main_list[["studyName"]] <- studyNames
+```
+
+```r
+#
+### main_list (2) : file paths to corresponding data files
+#
+# manually declare the file paths to enforce the order and prevent mismatching
+alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1.Final.sav"
+lbsl_path_input  <- "./data/unshared/raw/LBSL-Panel2-Wave1.Final.sav"
+satsa_path_input <- "./data/unshared/raw/SATSA-Q3.Final.sav" 
+share_path_input <- "./data/unshared/raw/SHARE-Israel-Wave1.Final.sav"   
+tilda_path_input <- "./data/unshared/raw/TILDA-Wave1.Final.sav"     
 # combine file paths into a single object
-filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input)
+filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input )
+main_list[["filePath"]] <- filePaths
+```
+
+```r
 # declare where the derived data object should be placed
 path_output_folder <- "./data/unshared/derived/"
 figure_path <- 'manipulation/stitched-output/'
 ```
 
 ```r
-# create a list object containing the names of the studies and the paths to their data files
-main_list <- list("studyName"=studyNames, "filePath" = filePaths)
-# import each data file and include it into the main list object 
-data_list <- list() # first create a separate list object containing the data files
-for(i in seq_along(studyNames)){
+#
+### main_list (3) : datasets with raw source data from each study
+#
+# at this point the object `main_list` contains components:
+names(main_list)
+```
+
+```
+## [1] "studyName" "filePath"
+```
+
+```r
+# next, we will add another element to this list `main_list`  and call it "unitData"
+# it will be a list object in itself, storing datasets from studies as seperate elements
+# no we will reach to the file paths in `main_list[["filePath"]][[i]] and input raw data sets
+# where `i` is iteratively each study in `main_list[["studyName"]][[i]]
+data_list <- list() # declare a list to populate
+for(i in seq_along(main_list[["studyName"]])){
+  # i <- 1
+  # input the 5 SPSS files in .SAV extension provided with the exercise
   data_list[[i]] <- Hmisc::spss.get(main_list[["filePath"]][i], use.value.labels = TRUE) 
 }
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/raw/ALSA-Wave1
-## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## to.data.frame = to.data.frame, : ./data/unshared/raw/ALSA-Wave1.Final.sav:
+## Unrecognized record type 7, subtype 18 encountered in system file
+```
+
+```
+## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/raw/LBSL-Panel2-
+## Wave1.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/raw/LBSL-Panel2-Wave1
-## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SATSA-Q3.Final.sav:
+## Unrecognized record type 7, subtype 18 encountered in system file
+```
+
+```
+## Warning in read.spss(file, use.value.labels = use.value.labels,
+## to.data.frame = to.data.frame, : ./data/unshared/raw/SHARE-Israel-
+## Wave1.Final.sav: Unrecognized record type 7, subtype 18 encountered in
 ## system file
 ```
 
 ```
 ## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/raw/SATSA-Q3
-## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
-## system file
-```
-
-```
-## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/raw/SHARE-Israel Wave
-## 1.Final.sav: Unrecognized record type 7, subtype 18 encountered in system
-## file
-```
-
-```
-## Warning in read.spss(file, use.value.labels = use.value.labels,
-## to.data.frame = to.data.frame, : ./data/unshared/raw/TILDA-Wave1
-## SPSS.Final.sav: Unrecognized record type 7, subtype 18 encountered in
-## system file
+## to.data.frame = to.data.frame, : ./data/unshared/raw/TILDA-Wave1.Final.sav:
+## Unrecognized record type 7, subtype 18 encountered in system file
 ```
 
 ```r
 names(data_list) <- studyNames # name the elements of the data list
-main_list[["dataFiles"]] <- data_list # include data list into the main list
-names(main_list) 
+main_list[["unitData"]] <- data_list # include data list into the main list as another element
+names(main_list) # elements in the main list object
 ```
 
 ```
-## [1] "studyName" "filePath"  "dataFiles"
+## [1] "studyName" "filePath"  "unitData"
 ```
 
 ```r
-names(main_list[["dataFiles"]])
+names(main_list[["unitData"]]) # elements in the subelement 
 ```
 
 ```
@@ -126,15 +156,33 @@ names(main_list[["dataFiles"]])
 ```
 
 ```r
-# remove everything, but the main object
-# rm(list=setdiff(ls(),c("main_list")))
-# at this point the main list object contains three components:
-# main_list contains:  "studyName" ,  "filePath",  "dataFiles"
-# data_list <- main_list[["dataFiles"]]
-# names(data_list)
+# at this point the object `main_list` contains components:
+names(main_list)
+```
+
+```
+## [1] "studyName" "filePath"  "unitData"
 ```
 
 ```r
+# main_list contains:  "studyName" ,  "filePath",  "unitData"
+# we have just added the (3rd) element, a list of datasets:
+data_list <- main_list[["unitData"]]
+names(data_list)
+```
+
+```
+## [1] "alsa"  "lbsl"  "satsa" "share" "tilda"
+```
+
+```r
+#
+### main_list (4) : collect metadata
+#
+```
+
+```r
+# inspect the variable names and their labels in the raw data files
 names_labels(data_list[["alsa"]])
 ```
 
@@ -164,6 +212,8 @@ names_labels(data_list[["alsa"]])
 ## 22 NOSTDRNK           Number of standard drinks
 ## 23 FREQALCH                   Frequency alcohol
 ## 24   WEIGHT                 Weight in kilograms
+## 25 PIPCIGAR               Smokes pipe or cigars
+## 26 CURRWORK                   Currently working
 ```
 
 ```r
@@ -231,7 +281,7 @@ names_labels(data_list[["satsa"]])
 
 ```
 ##        name
-## 1    TWINNR
+## 1        ID
 ## 2  GMARITAL
 ## 3  GAMTWORK
 ## 4   GEVRSMK
@@ -315,6 +365,17 @@ names_labels(data_list[["share"]])
 ## 19     PH0030                  health in general question v 2
 ## 20     PH0520                  health in general question v 2
 ## 21     PH0530                  health in general question v 1
+## 22   INT.YEAR                                  interview year
+## 23   DN012D01             yeshiva, religious high institution
+## 24   DN012D02                                  nursing school
+## 25   DN012D03                                     polytechnic
+## 26   DN012D04                    university, Bachelors degree
+## 27   DN012D05                     university, graduate degree
+## 28   DN012D09          still in further education or training
+## 29   DN012DNO                            no further education
+## 30   DN012DOT                         other further education
+## 31   DN012DRF                                         refused
+## 32   DN012DDK                                       dont know
 ```
 
 ```r
@@ -325,107 +386,122 @@ names_labels(data_list[["tilda"]])
 ##                     name
 ## 1                     ID
 ## 2                    AGE
-## 3                  CM003
-## 4                    SEX
-## 5                  GD002
-## 6             SOCMARRIED
-## 7                  CS006
-## 8                   MAR4
-## 9                  DM001
-## 10                 WE001
-## 11                 WE003
-## 12                 WE106
-## 13                 WE601
-## 14                 WE610
-## 15                  EMP3
-## 16                 BH001
-## 17                 BH002
-## 18                 BH003
-## 19             BEHSMOKER
-## 20            SCQALCOHOL
-## 21           SCQALCOFREQ
-## 22            SCQALCONO1
-## 23            SCQALCONO2
-## 24      BEHALC.FREQ.WEEK
-## 25   BEHALC.DRINKSPERDAY
-## 26  BEHALC.DRINKSPERWEEK
-## 27                 BH101
-## 28                 BH102
-## 29                BH102A
-## 30                 BH103
-## 31                 BH104
-## 32                BH104A
-## 33                 BH105
-## 34                 BH106
-## 35                BH106A
-## 36                 BH107
-## 37                BH107A
-## 38        IPAQMETMINUTES
-## 39         IPAQEXERCISE3
-## 40 SR.HEIGHT.CENTIMETRES
-## 41                HEIGHT
-## 42                 PH008
-## 43 SR.WEIGHT.KILOGRAMMES
-## 44                WEIGHT
-## 45                 FRBMI
-## 46               FRWAIST
-## 47                 FRHIP
-## 48                 FRWHR
-## 49                 PH001
-## 50                 PH009
+## 3                    SEX
+## 4                  GD002
+## 5             SOCMARRIED
+## 6                  CS006
+## 7                   MAR4
+## 8                  DM001
+## 9                  WE001
+## 10                 WE003
+## 11                 BH001
+## 12                 BH002
+## 13                 BH003
+## 14             BEHSMOKER
+## 15            SCQALCOHOL
+## 16           SCQALCOFREQ
+## 17            SCQALCONO1
+## 18            SCQALCONO2
+## 19      BEHALC.FREQ.WEEK
+## 20   BEHALC.DRINKSPERDAY
+## 21  BEHALC.DRINKSPERWEEK
+## 22                 BH101
+## 23                 BH102
+## 24                BH102A
+## 25                 BH103
+## 26                 BH104
+## 27                BH104A
+## 28                 BH105
+## 29                 BH106
+## 30                BH106A
+## 31                 BH107
+## 32                BH107A
+## 33        IPAQMETMINUTES
+## 34         IPAQEXERCISE3
+## 35 SR.HEIGHT.CENTIMETRES
+## 36                HEIGHT
+## 37 SR.WEIGHT.KILOGRAMMES
+## 38                WEIGHT
+## 39                 PH001
+## 40                 PH009
 ##                                                                                      label
 ## 1                                                                            Anonymised ID
 ## 2                                  Age at interview assuming DOB is 1st of specified month
-## 3                 FIRST INTERVIEW - Age group of first person interviewed in the househ...
-## 4                                                                                   Gender
-## 5                                               gd002 - Is this respondent male or female?
-## 6                                                            SOCmarried  Currently married
-## 7                                                                       cs006  Are you...?
-## 8                                                                     mar4  Marital Status
-## 9                         dm001  What is the highest level of education you have completed
-## 10          we001  Which one of these would you say best describes your current situation?
-## 11   we003  Did you, nevertheless, do any paid work during the last week, either as an em?
-## 12                                               we106  Could you please tell me, is this?
-## 13                                                     we601  In what year did you retire?
-## 14                                 we610  When did you stop working at your last job? YEAR
-## 15        emp3  Current employment status in three groups - 'other' response not yet coded
-## 16   bh001  Have you ever smoked cigarettes, cigars, cigarillos or a pipe daily for a per?
-## 17                                                bh002  Do you smoke at the present time?
-## 18                                       bh003  How old were you when you stopped smoking?
-## 19                                                                       BEHsmoker  Smoker
-## 20                                                               SCQalcohol  drink alcohol
-## 21                                              SCQalcofreq  frequency of drinking alcohol
-## 22                                        SCQalcono1  more than two drinks in a single day
-## 23                                SCQalcono2  How many drinks consumed on days drink taken
-## 24                                       BEHalc_freq_week  Average times drinking per week
-## 25                                            BEHalc_drinksperday  Standard drinks per day
-## 26                                            BEHalc_drinksperweek  Standard drinks a week
-## 27   bh101  During the last 7 days, on how many days did you do vigorous physical activit?
-## 28   bh102  How much time did you usually spend doing vigorous physical activities on one?
-## 29  bh102a  How much time did you usually spend doing vigorous physical activities on one?
-## 30   bh103  During the last 7 days, on how many days did you do moderate physical activit?
-## 31   bh104  How much time did you usually spend doing moderate physical activities on one?
-## 32  bh104a  How much time did you usually spend doing moderate physical activities on one?
-## 33   bh105  During the last 7 days, on how many days did you walk for at least 10 minutes?
-## 34          bh106  How much time did you usually spend walking on one of those days? HOURS
-## 35          bh106a  How much time did you usually spend walking on one of those days? MINS
-## 36   bh107  During the last 7 days, how much time did you spend sitting on a week day? HO?
-## 37 bh107a  During the last 7 days, how much time did you spend sitting on a week day? MINS
-## 38                                           IPAQmetminutes  Phsyical activity met-minutes
-## 39                                           IPAQmetminutes  Phsyical activity met-minutes
-## 40                                                                   SR_Height_Centimetres
-## 41                                                                       Respondent height
-## 42   ph008  In the past year have you lost 10 pounds (4.5 kg) or more in weight when you ?
-## 43                                                                   SR_Weight_Kilogrammes
-## 44                                                                       Respondent weight
-## 45                                                                                   FRbmi
-## 46                                                       FRwaist  Waist circumference (cm)
-## 47                                                           FRhip  Hip circumference (cm)
-## 48                                                                  FRwhr  Waist/hip ratio
-## 49   ph001  Now I would like to ask you some questions about your health.  Would you say ?
-## 50      ph009  In general, compared to other people your age, would you say your health is
+## 3                                                                                   Gender
+## 4                                               gd002 - Is this respondent male or female?
+## 5                                                            SOCmarried  Currently married
+## 6                                                                       cs006  Are you...?
+## 7                                                                     mar4  Marital Status
+## 8                         dm001  What is the highest level of education you have completed
+## 9           we001  Which one of these would you say best describes your current situation?
+## 10   we003  Did you, nevertheless, do any paid work during the last week, either as an em?
+## 11   bh001  Have you ever smoked cigarettes, cigars, cigarillos or a pipe daily for a per?
+## 12                                                bh002  Do you smoke at the present time?
+## 13                                       bh003  How old were you when you stopped smoking?
+## 14                                                                       BEHsmoker  Smoker
+## 15                                                               SCQalcohol  drink alcohol
+## 16                                              SCQalcofreq  frequency of drinking alcohol
+## 17                                        SCQalcono1  more than two drinks in a single day
+## 18                                SCQalcono2  How many drinks consumed on days drink taken
+## 19                                       BEHalc_freq_week  Average times drinking per week
+## 20                                            BEHalc_drinksperday  Standard drinks per day
+## 21                                            BEHalc_drinksperweek  Standard drinks a week
+## 22   bh101  During the last 7 days, on how many days did you do vigorous physical activit?
+## 23   bh102  How much time did you usually spend doing vigorous physical activities on one?
+## 24  bh102a  How much time did you usually spend doing vigorous physical activities on one?
+## 25   bh103  During the last 7 days, on how many days did you do moderate physical activit?
+## 26   bh104  How much time did you usually spend doing moderate physical activities on one?
+## 27  bh104a  How much time did you usually spend doing moderate physical activities on one?
+## 28   bh105  During the last 7 days, on how many days did you walk for at least 10 minutes?
+## 29          bh106  How much time did you usually spend walking on one of those days? HOURS
+## 30          bh106a  How much time did you usually spend walking on one of those days? MINS
+## 31   bh107  During the last 7 days, how much time did you spend sitting on a week day? HO?
+## 32 bh107a  During the last 7 days, how much time did you spend sitting on a week day? MINS
+## 33                                           IPAQmetminutes  Phsyical activity met-minutes
+## 34                                           IPAQmetminutes  Phsyical activity met-minutes
+## 35                                                                   SR_Height_Centimetres
+## 36                                                                       Respondent height
+## 37                                                                   SR_Weight_Kilogrammes
+## 38                                                                       Respondent weight
+## 39   ph001  Now I would like to ask you some questions about your health.  Would you say ?
+## 40      ph009  In general, compared to other people your age, would you say your health is
 ```
 
+```r
+# rename "MAR4" because it can be confused by machines for  March-4
+data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "marital4"))
+```
+
+```r
+# to prepare for the final step in which we add metadata to the main_list
+# we begin by extracting the names and (hopefuly their) labels of variables from each dataset
+# and combine them in a single rectanguar object, long/stacked with respect to study names
+for(i in studyNames){  
+  save_csv <- names_labels(data_list[[i]])
+  write.csv(save_csv, paste0("./data/shared/derived/meta-raw-",i,".csv"), 
+            row.names = T)  
+}  
+# these 5 individual .cvs contain the original variable names and labels
+# now we combine these files to create the starter for our metadata object
+dum <- list()
+for(i in studyNames){  
+  dum[[i]] <- read.csv(paste0("./data/shared/derived/meta-raw-",i,".csv"),
+                       header = T, stringsAsFactors = F )  
+}
+mdsraw <- plyr::ldply(dum, data.frame,.id = "study_name") # convert list of ds into a single ds
+mdsraw["X"] <- NULL # remove native counter variable, not needed
+write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)  
+```
+
+```r
+# after the final version of the data files used in the excerside have been obtained
+# we made a dead copy of `./data/shared/derived/meta-raw-live.csv` and named it `./data/shared/meta-data-map.csv`
+# decisions on variables' renaming and classification is encoded in this map
+# reproduce ellis-island script every time you make changes to `meta-data-map.csv`
+dsm <- read.csv("./data/shared/meta-data-map.csv")
+# attach metadata object as the 4th element of the main_list
+main_list[["metaData"]] <- dsm
+```
 
 ```r
 # testit::assert("`model_name` should be a unique value", sum(duplicated(ds$model_name))==0L)
@@ -436,6 +512,101 @@ names_labels(data_list[["tilda"]])
 ```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
 saveRDS(main_list, file="./data/unshared/derived/main_list.rds", compress="xz")
+```
+
+```r
+# the production of the main_list object is now complete
+# we verify its structure and content:
+main_list <- readRDS("./data/unshared/derived/main_list.rds")
+# each element this list is another list:
+names(main_list)
+```
+
+```
+## [1] "studyName" "filePath"  "unitData"  "metaData"
+```
+
+```r
+# 1st element - names of the studies as character vector
+main_list[["studyName"]]
+```
+
+```
+## [1] "alsa"  "lbsl"  "satsa" "share" "tilda"
+```
+
+```r
+# 2nd element - file paths of the data files for each study
+main_list[["filePath"]]
+```
+
+```
+## [1] "./data/unshared/raw/ALSA-Wave1.Final.sav"        
+## [2] "./data/unshared/raw/LBSL-Panel2-Wave1.Final.sav" 
+## [3] "./data/unshared/raw/SATSA-Q3.Final.sav"          
+## [4] "./data/unshared/raw/SHARE-Israel-Wave1.Final.sav"
+## [5] "./data/unshared/raw/TILDA-Wave1.Final.sav"
+```
+
+```r
+# 3rd element - list objects with 
+names(main_list[["unitData"]])
+```
+
+```
+## [1] "alsa"  "lbsl"  "satsa" "share" "tilda"
+```
+
+```r
+dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+```
+
+```
+## Source: local data frame [2,087 x 26]
+## 
+##    SEQNUM EXRTHOUS HWMNWK2W LSVEXC2W LSVIGEXC TMHVYEXR TMVEXC2W VIGEXC2W
+##     (int)   (fctr)    (int)    (int)   (fctr)    (int)    (int)    (int)
+## 1      41       No       14       NA       No       NA       NA       NA
+## 2      42       No       14        4      Yes       NA       NA       NA
+## 3      61       No       NA       NA       No       NA       NA       NA
+## 4      71       No       14       NA       No       NA       NA       NA
+## 5      91       No       28       NA       No       NA       NA       NA
+## 6     121       No       NA       NA       No       NA       NA       NA
+## 7     181       No       NA       NA       No       NA       NA       NA
+## 8     201       No       NA       NA       No       NA       NA       NA
+## 9     221       No       NA       NA       No       NA       NA       NA
+## 10    261       No       NA       NA       No       NA       NA       NA
+## ..    ...      ...      ...      ...      ...      ...      ...      ...
+## Variables not shown: VIGEXCS (fctr), WALK2WKS (fctr), BTSM12MN (fctr),
+##   HLTHBTSM (fctr), HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr),
+##   SCHOOL (fctr), TYPQUAL (fctr), RETIRED (fctr), SMOKER (fctr), FR6ORMOR
+##   (fctr), NOSTDRNK (fctr), FREQALCH (fctr), WEIGHT (dbl), PIPCIGAR (fctr),
+##   CURRWORK (fctr)
+```
+
+```r
+# 4th element - dataset with augmented names and labels for variables from all involved studies
+dplyr::tbl_df(main_list[["metaData"]])
+```
+
+```
+## Source: local data frame [150 x 12]
+## 
+##        X study_name     name label_short     item construct     type
+##    (int)     (fctr)   (fctr)      (fctr)   (fctr)    (fctr)   (fctr)
+## 1      1       alsa   SEQNUM                   id        id     demo
+## 2      2       alsa EXRTHOUS             exertion           activity
+## 3      3       alsa HWMNWK2W              walking           activity
+## 4      4       alsa LSVEXC2W                                activity
+## 5      5       alsa LSVIGEXC                                activity
+## 6      6       alsa TMHVYEXR                                activity
+## 7      7       alsa TMVEXC2W                                activity
+## 8      8       alsa VIGEXC2W                                activity
+## 9      9       alsa  VIGEXCS                                activity
+## 10    10       alsa WALK2WKS                                activity
+## ..   ...        ...      ...         ...      ...       ...      ...
+## Variables not shown: categories (int), X.1 (lgl), label (fctr), url
+##   (fctr), notes (fctr)
 ```
 
 The R session information (including the OS info, R version and all
@@ -465,18 +636,20 @@ sessionInfo()
 ## [1] magrittr_1.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.3         Formula_1.2-1       knitr_1.12.3       
-##  [4] cluster_2.0.3       splines_3.2.3       munsell_0.4.3      
-##  [7] testit_0.5          colorspace_1.2-6    lattice_0.20-33    
-## [10] R6_2.1.2            stringr_1.0.0       plyr_1.8.3         
-## [13] dplyr_0.4.3         tools_3.2.3         nnet_7.3-12        
-## [16] parallel_3.2.3      grid_3.2.3          gtable_0.1.2       
-## [19] latticeExtra_0.6-28 DBI_0.3.1           survival_2.38-3    
-## [22] assertthat_0.1      gridExtra_2.0.0     formatR_1.2.1      
-## [25] RColorBrewer_1.1-2  ggplot2_2.0.0       tidyr_0.4.1        
-## [28] acepack_1.3-3.3     rpart_4.1-10        evaluate_0.8       
-## [31] stringi_1.0-1       scales_0.3.0        Hmisc_3.17-2       
-## [34] markdown_0.7.7      foreign_0.8-66
+##  [1] Rcpp_0.12.3         RColorBrewer_1.1-2  formatR_1.3        
+##  [4] plyr_1.8.3          tools_3.2.3         extrafont_0.17     
+##  [7] rpart_4.1-10        evaluate_0.8.3      gtable_0.2.0       
+## [10] lattice_0.20-33     DBI_0.3.1           parallel_3.2.3     
+## [13] gridExtra_2.2.1     Rttf2pt1_1.3.3      dplyr_0.4.3        
+## [16] stringr_1.0.0       cluster_2.0.3       knitr_1.12.3       
+## [19] grid_3.2.3          nnet_7.3-12         R6_2.1.2           
+## [22] survival_2.38-3     readxl_0.1.0        foreign_0.8-66     
+## [25] latticeExtra_0.6-28 Formula_1.2-1       tidyr_0.4.1        
+## [28] ggplot2_2.1.0       extrafontdb_1.0     Hmisc_3.17-2       
+## [31] scales_0.4.0        splines_3.2.3       rsconnect_0.3.79   
+## [34] assertthat_0.1      dichromat_2.0-0     testit_0.5         
+## [37] colorspace_1.2-6    stringi_1.0-1       acepack_1.3-3.3    
+## [40] lazyeval_0.1.10     munsell_0.4.3       markdown_0.7.7
 ```
 
 ```r
@@ -484,6 +657,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-03-14 18:16:34 PDT"
+## [1] "2016-03-26 12:56:56 PDT"
 ```
 
