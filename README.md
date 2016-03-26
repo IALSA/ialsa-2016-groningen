@@ -15,7 +15,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - list of [source data objects](./data/contents.md) used in the exercise
 - [resources and references](./documentation/resources-references.md)
 - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) for candidat studies
-- [reproducibility instructions](./utility/reproduce.md)
+- [reproducibility instructions](./utility/reproducibility-instructions.md)
 
 
 ### Rationale and objectives 
