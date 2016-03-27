@@ -3,14 +3,14 @@
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 cat("\f") # clear console 
 
+# ---- load-packages -----------------------------------------------------------
+# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+library(magrittr) # enables piping : %>% 
+
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 source("./scripts/common-functions.R") # used in multiple reports
 source("./scripts/graph-presets.R") # fonts, colors, themes 
-
-# ---- load-packages -----------------------------------------------------------
-# Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
-library(magrittr) # enables piping : %>% 
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2") # graphing
@@ -42,3 +42,10 @@ dplyr::tbl_df(main_list[["metaData"]])
 
 # ---- tweak-data --------------------------------------------------------------
 
+# ---- basic-table --------------------------------------------------------------
+
+# ---- basic-graph --------------------------------------------------------------
+
+# ---- reproduce ---------------------------------------
+rmarkdown::render(input = "./sandbox/report-a.Rmd" ,
+                  output_format="html_document", clean=TRUE)
