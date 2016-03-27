@@ -43,14 +43,14 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 ```r
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
+dto <- readRDS("./data/unshared/derived/dto.rds")
 ```
 
 <!-- Inspect the datasets.   -->
 
 ```r
 # the list is composed of the following elements
-names(main_list)
+names(dto)
 ```
 
 ```
@@ -59,7 +59,7 @@ names(main_list)
 
 ```r
 # 1st element - names of the studies as character vector
-(studyNames <- main_list[["studyName"]])
+(studyNames <- dto[["studyName"]])
 ```
 
 ```
@@ -68,7 +68,7 @@ names(main_list)
 
 ```r
 # 2nd element - file paths of the data files for each study as character vector
-main_list[["filePath"]]
+dto[["filePath"]]
 ```
 
 ```
@@ -79,7 +79,7 @@ main_list[["filePath"]]
 
 ```r
 # 3rd element - list objects with the following elements
-names(main_list[["unitData"]])
+names(dto[["unitData"]])
 ```
 
 ```
@@ -88,7 +88,7 @@ names(main_list[["unitData"]])
 
 ```r
 # each of these elements is a raw data set of a corresponding study, for example
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 ```
 
 ```
@@ -114,7 +114,7 @@ Variables not shown: HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr), SCH
 
 ```r
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-mds <- main_list[["metaData"]]; dplyr::tbl_df(mds)
+mds <- dto[["metaData"]]; dplyr::tbl_df(mds)
 ```
 
 ```
@@ -137,7 +137,7 @@ Variables not shown: notes (fctr)
 ```
 
 ```r
-dto <- main_list
+dto <- dto
 ```
 
 <!-- Tweak the datasets.   -->
@@ -335,12 +335,6 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030 == 9999) %>% histogram_co
 ## BH001
 
 ```r
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH001")
-```
-
-<img src="basic-graphs/tilda-BH001-1.png" title="" alt="" width="550px" />
-
-```r
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH001") %>% dplyr::select(name,label)
 ```
 
@@ -353,17 +347,11 @@ dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH001") %>% dply
 dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH001")
 ```
 
-<img src="basic-graphs/tilda-BH001-2.png" title="" alt="" width="550px" />
+<img src="basic-graphs/tilda-BH001-1.png" title="" alt="" width="550px" />
 
 ## BH002
 
 ```r
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH002")
-```
-
-<img src="basic-graphs/tilda-BH002-1.png" title="" alt="" width="550px" />
-
-```r
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH002") %>% dplyr::select(name,label)
 ```
 
@@ -376,17 +364,11 @@ dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH002") %>% dply
 dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH002")
 ```
 
-<img src="basic-graphs/tilda-BH002-2.png" title="" alt="" width="550px" />
+<img src="basic-graphs/tilda-BH002-1.png" title="" alt="" width="550px" />
 
 ## BH003
 
 ```r
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH002")
-```
-
-<img src="basic-graphs/tilda-BH002-1.png" title="" alt="" width="550px" />
-
-```r
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH002") %>% dplyr::select(name,label)
 ```
 
@@ -399,7 +381,7 @@ dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH002") %>% dply
 dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH002")
 ```
 
-<img src="basic-graphs/tilda-BH002-2.png" title="" alt="" width="550px" />
+<img src="basic-graphs/tilda-BH002-1.png" title="" alt="" width="550px" />
 
 
 ## BEHSMOKER
@@ -418,6 +400,37 @@ dto[["unitData"]][["tilda"]] %>% histogram_discrete("BEHSMOKER")
 ```
 
 <img src="basic-graphs/tilda-BEHSMOKER-1.png" title="" alt="" width="550px" />
+
+
+```r
+sessionInfo()
+```
+
+```
+R version 3.2.4 Revised (2016-03-16 r70336)
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+Running under: Windows >= 8 x64 (build 9200)
+
+locale:
+[1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252    LC_MONETARY=English_United States.1252
+[4] LC_NUMERIC=C                           LC_TIME=English_United States.1252    
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] knitr_1.12.3  ggplot2_2.1.0 magrittr_1.5 
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.3        formatR_1.3        RColorBrewer_1.1-2 nloptr_1.0.4       plyr_1.8.3         tools_3.2.4       
+ [7] extrafont_0.17     digest_0.6.9       lme4_1.1-11        evaluate_0.8.3     gtable_0.2.0       nlme_3.1-126      
+[13] lattice_0.20-33    mgcv_1.8-12        Matrix_1.2-4       DBI_0.3.1          yaml_2.1.13        parallel_3.2.4    
+[19] SparseM_1.7        Rttf2pt1_1.3.3     stringr_1.0.0      dplyr_0.4.3        MatrixModels_0.4-1 grid_3.2.4        
+[25] nnet_7.3-12        R6_2.1.2           rmarkdown_0.9.5    minqa_1.2.4        tidyr_0.4.1        extrafontdb_1.0   
+[31] car_2.1-1          scales_0.4.0       htmltools_0.3      MASS_7.3-45        splines_3.2.4      rsconnect_0.3.79  
+[37] assertthat_0.1     dichromat_2.0-0    pbkrtest_0.4-6     testit_0.5         colorspace_1.2-6   labeling_0.3      
+[43] quantreg_5.21      stringi_1.0-1      lazyeval_0.1.10    munsell_0.4.3     
+```
 
 
 
