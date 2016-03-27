@@ -44,7 +44,7 @@ load_data_schema <- function(
   } 
   n <- plyr::ldply(n_list, data.frame)
   n <- plyr::rename(n, c(".id" = "study_name"))
-  print(n)
+  # print(n)
   # convert dtos into a dataframe
   d <- plyr::ldply(d_list, data.frame)
   d <- plyr::rename(d, c(".id" = "study_name"))
