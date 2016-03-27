@@ -1,8 +1,11 @@
 ---
-title: "Harmonization procedures : smoking"
+title: "Harmonization exposition : smoking"
 output:
   html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
     keep_md: yes
+    theme: flatly
     toc: yes
 ---
 
@@ -29,7 +32,7 @@ opts_chunk$set(
   fig.height = 4, 
   fig.width = 5.5, 
   out.width = "550px",
-  fig.path = 'figure_rmd/',     
+  fig.path = 'basic-graphs/',     
   dev = "png",
   dpi = 400
   # fig.path = 'figure_pdf/',     
@@ -42,6 +45,7 @@ options(width=120) #So the output is 50% wider than the default.
 read_chunk("./sandbox/harmonization-smoking/harmonization-smoking.R") 
 ```
 
+This report lists the candidate variable for DataScheme variables of the construct **smoking**.
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 ```{r load-packages, echo=echoChunks, message=FALSE}
@@ -61,7 +65,7 @@ read_chunk("./sandbox/harmonization-smoking/harmonization-smoking.R")
 ```{r, echo=echoChunks, message=FALSE}
 #Put code in here.  It doesn't call a chunk in the codebehind file.
 ```
-## General introduction
+# Exposition
 
 > This report is meant to be compiled after having executed the script `./manipulation/0-ellis-island.R`, which prepares the necessary data transfer object (DTO). We begin with a brief recap of this script and the DTO it produces.  
 
@@ -77,7 +81,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 - (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
 
 <!-- Load the datasets.   -->
-```{r load-data, echo=T, results='show', message=FALSE}
+```{r load-data, echo=T, results='asis', message=FALSE}
 ```
 
 <!-- Inspect the datasets.   -->
@@ -93,52 +97,40 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-## Harmonization potential 
+## Harmonization targets 
 
-We query metadata set to see what variables are present that tap into the construct `smoking`. These variables constitute the candidates for the DataSchema variables of the harmonized variable.  After examining the metadata and reviewing  relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+We query metadata set to see what variables are present that tap into the construct `smoking`. These variables constitute the candidates for the DataSchema variables of the harmonized variable.  
 
 ```{r view-metadata, echo=TRUE, results='show', message=FALSE}
 ```
+After examining the metadata and reviewing  relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
 
-### Harmonized Item : **Smoke now** 
+##### (1). H-Target Item : **Smoke now** 
 
 * Item `smoke_now` :  *Is respondent a current smoker?*
-* Values:     
- - `0` - no (healthy choice)
- - `1` - yes (unhealthy choice)
+Values:       
+  - `0` - no (healthy choice)
+  - `1` - yes (unhealthy choice)
 
-### Harmonized Item : **Smoked ever**
+##### (2). H-Target Item : **Smoked ever**
 
 * Item `smoked_ever` : *Has respondent every smoked?*
-* Values:     
+Values:      
  - `0` - no, (healthy choice)
  - `1` - yes, (unhealthy choice)
-
-
-## DataSchema variables
+ 
 
 ```{r get-schema-variables, echo=TRUE, results='show', message=FALSE}
 ```
 
-### ALSA
-```{r basic-graphs-alsa, echo=TRUE, results='show', message=FALSE}
-```
 
-### LBSL
-```{r basic-graphs-lbsl, echo=TRUE, results='show', message=FALSE}
-```
 
-### SATSA
-```{r basic-graphs-satsa, echo=TRUE, results='show', message=FALSE}
-```
 
-### SHARE
-```{r basic-graphs-share, echo=TRUE, results='show', message=FALSE}
-```
 
-## TILDA
-```{r basic-graphs-tilda, echo=TRUE, results='show', message=FALSE}
-```
+### `smoke_now`
+
+
+
 
 
 

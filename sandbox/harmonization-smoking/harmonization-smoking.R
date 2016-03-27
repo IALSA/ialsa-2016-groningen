@@ -24,30 +24,35 @@ requireNamespace("car") # For it's `recode()` function.
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
-
+dto <- readRDS("./data/unshared/derived/dto.rds")
 # ---- inspect-data -------------------------------------------------------------
 # the list is composed of the following elements
-names(main_list)
+names(dto)
 # 1st element - names of the studies as character vector
-(studyNames <- main_list[["studyName"]])
+(studyNames <- dto[["studyName"]])
 # 2nd element - file paths of the data files for each study as character vector
-main_list[["filePath"]]
+dto[["filePath"]]
 # 3rd element - list objects with the following elements
-names(main_list[["unitData"]])
+names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-mds <- main_list[["metaData"]]; dplyr::tbl_df(mds)
+mds <- dto[["metaData"]]; dplyr::tbl_df(mds)
 
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
+# this is how we can interact with the `dto` to call and graph data and metadata
+dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=5)
 
 
 # ----- view-metadata ---------------------------------------------
+# function to pull out the name meta data before graph
+
+
 # view metadata for the construct of smoking
 mds_sub <- mds %>%
   dplyr::filter(construct %in% c('smoking')) %>% 
@@ -55,35 +60,30 @@ mds_sub <- mds %>%
   dplyr::arrange(study_name, item)
 base::print(mds_sub,nrow(mds_sub))  
 
+# now, let's focus on the variables we suspect will be included into data schema for smoking
+mds_sub <- mds %>%
+  dplyr::filter(construct %in% c('smoking')) %>% 
+  # dplyr::filter(     item %in% c("smoke_now")) %>%
+  dplyr::select(study_name, name, item, label_short, -categories) %>%
+  dplyr::arrange(item, study_name)
+base::print(mds_sub,nrow(mds_sub))
+
+# ---- recode-smoke_now ----------------------------
 
 
 # ---- get-schema-variables ---------------------------------------------
 # pull out the variables from the subsetted metadata
 # source("./scripts/common-functions.r")
-ds <- load_data_schema(dto=main_list,
+ds <- load_data_schema(dto=dto,
                        varname_new="item",
                        construct_name = "smoking")
-names(ds)                       
+names(ds)               
 
-# ----- basic-graphs-alsa ---------------------------------
-ds %>% dplyr::filter(study_name == "alsa") %>% histogram_discrete("SMOKER")
-ds %>% dplyr::filter(study_name == "alsa") %>% histogram_discrete("PIPCIGAR")
-# ----- basic-graphs-lbsl ---------------------------------
-ds %>% dplyr::filter(study_name == "lbsl") %>% histogram_discrete("SMK94")
-ds %>% dplyr::filter(study_name == "lbsl") %>% histogram_discrete("SMOKE")
-# ----- basic-graphs-satsa ---------------------------------
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GSMOKNOW")
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GEVRSMK")
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GEVRSNS")
-# ----- basic-graphs-share ---------------------------------
-ds %>% dplyr::filter(study_name == "share") %>% histogram_discrete("BR0010")
-ds %>% dplyr::filter(study_name == "share") %>% histogram_discrete("BR0020")
-ds %>% dplyr::filter(study_name == "share", !BR0030 == 9999) %>% histogram_continuous("BR0030", bin_width = 5)
-# ----- basic-graphs-tilda ---------------------------------
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH001")
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH002")
-ds %>% dplyr::filter(study_name == "tilda", !BH003 == -1) %>% histogram_continuous("BH003", bin_width = 1)
-ds %>% dplyr::filter(study_name == "tilda" ) %>% histogram_discrete("BEHSMOKER")
+
+
+dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=5)
+
 
 
 

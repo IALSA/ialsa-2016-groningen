@@ -1,4 +1,4 @@
-# Harmonization procedures : smoking
+# Harmonization exposition : smoking
 
 <!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
 <!--  The 1st mandatory chunck  -->
@@ -9,9 +9,13 @@
 <!-- Set the report-wide options, and point to the external code file. -->
 
 
+This report lists the candidate variable for DataScheme variables of the construct **smoking**.
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 
+```
+Warning: package 'ggplot2' was built under R version 3.2.4
+```
 
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 
@@ -23,7 +27,7 @@
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
 
-## General introduction
+# Exposition
 
 > This report is meant to be compiled after having executed the script `./manipulation/0-ellis-island.R`, which prepares the necessary data transfer object (DTO). We begin with a brief recap of this script and the DTO it produces.  
 
@@ -42,14 +46,14 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 ```r
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
+dto <- readRDS("./data/unshared/derived/dto.rds")
 ```
 
 <!-- Inspect the datasets.   -->
 
 ```r
 # the list is composed of the following elements
-names(main_list)
+names(dto)
 ```
 
 ```
@@ -58,7 +62,7 @@ names(main_list)
 
 ```r
 # 1st element - names of the studies as character vector
-(studyNames <- main_list[["studyName"]])
+(studyNames <- dto[["studyName"]])
 ```
 
 ```
@@ -67,7 +71,7 @@ names(main_list)
 
 ```r
 # 2nd element - file paths of the data files for each study as character vector
-main_list[["filePath"]]
+dto[["filePath"]]
 ```
 
 ```
@@ -78,7 +82,7 @@ main_list[["filePath"]]
 
 ```r
 # 3rd element - list objects with the following elements
-names(main_list[["unitData"]])
+names(dto[["unitData"]])
 ```
 
 ```
@@ -87,7 +91,7 @@ names(main_list[["unitData"]])
 
 ```r
 # each of these elements is a raw data set of a corresponding study, for example
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 ```
 
 ```
@@ -113,7 +117,7 @@ Variables not shown: HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr), SCH
 
 ```r
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-mds <- main_list[["metaData"]]; dplyr::tbl_df(mds)
+mds <- dto[["metaData"]]; dplyr::tbl_df(mds)
 ```
 
 ```
@@ -142,12 +146,15 @@ Variables not shown: notes (fctr)
 
 
 
-## Harmonization potential 
+## Harmonization targets 
 
-We query metadata set to see what variables are present that tap into the construct `smoking`. These variables constitute the candidates for the DataSchema variables of the harmonized variable.  After examining the metadata and reviewing  relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+We query metadata set to see what variables are present that tap into the construct `smoking`. These variables constitute the candidates for the DataSchema variables of the harmonized variable.  
 
 
 ```r
+# function to pull out the name meta data before graph
+
+
 # view metadata for the construct of smoking
 mds_sub <- mds %>%
   dplyr::filter(construct %in% c('smoking')) %>% 
@@ -174,52 +181,58 @@ base::print(mds_sub,nrow(mds_sub))
 14      tilda     BH002                     Smoke at present?       smoke_now   smoking substance          2
 ```
 
-### Harmonized Item : **Smoke now** 
+```r
+# now, let's focus on the variables we suspect will be included into data schema for smoking
+mds_sub <- mds %>%
+  dplyr::filter(construct %in% c('smoking')) %>% 
+  # dplyr::filter(     item %in% c("smoke_now")) %>%
+  dplyr::select(study_name, name, item, label_short, -categories) %>%
+  dplyr::arrange(item, study_name)
+base::print(mds_sub,nrow(mds_sub))
+```
+
+```
+   study_name      name            item                           label_short
+1       tilda     BH003       smoke_age              Age when stopped smoking
+2        lbsl     SMOKE   smoke_history                    Smoke, tobacco use
+3       satsa   GEVRSMK   smoke_history                 Do you smoke tobacco?
+4       share    BR0010   smoke_history Ever smoked tobacco daily for a year?
+5       tilda     BH001   smoke_history Ever smoked tobacco daily for a year?
+6       tilda BEHSMOKER  smoke_history2                Respondent is a smoker
+7        alsa    SMOKER       smoke_now    Do you currently smoke cigarettes?
+8        lbsl     SMK94       smoke_now                      Currently smoke?
+9       satsa  GSMOKNOW       smoke_now               Smoked some last month?
+10      share    BR0020       smoke_now                     Smoke at present?
+11      tilda     BH002       smoke_now                     Smoke at present?
+12       alsa  PIPCIGAR smoke_pipecigar Do you regularly smoke pipe or cigar?
+13      share    BR0030     smoke_years                How many years smoked?
+14      satsa   GEVRSNS   snuff_history                    Do you take snuff?
+```
+After examining the metadata and reviewing  relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+
+##### (1). H-Target Item : **Smoke now** 
 
 * Item `smoke_now` :  *Is respondent a current smoker?*
-* Values:     
- - `0` - no (healthy choice)
- - `1` - yes (unhealthy choice)
+Values:       
+  - `0` - no (healthy choice)
+  - `1` - yes (unhealthy choice)
 
-### Harmonized Item : **Smoked ever**
+##### (2). H-Target Item : **Smoked ever**
 
 * Item `smoked_ever` : *Has respondent every smoked?*
-* Values:     
+Values:      
  - `0` - no, (healthy choice)
  - `1` - yes, (unhealthy choice)
-
-
-## DataSchema variables
+ 
 
 
 ```r
 # pull out the variables from the subsetted metadata
 # source("./scripts/common-functions.r")
-ds <- load_data_schema(dto=main_list,
+ds <- load_data_schema(dto=dto,
                        varname_new="item",
                        construct_name = "smoking")
-```
-
-```
-   study_name  name_old        name_new                           label_short
-1        alsa    SMOKER       smoke_now    Do you currently smoke cigarettes?
-2        alsa  PIPCIGAR smoke_pipecigar Do you regularly smoke pipe or cigar?
-3        lbsl     SMK94       smoke_now                      Currently smoke?
-4        lbsl     SMOKE   smoke_history                    Smoke, tobacco use
-5       satsa   GEVRSMK   smoke_history                 Do you smoke tobacco?
-6       satsa   GEVRSNS   snuff_history                    Do you take snuff?
-7       satsa  GSMOKNOW       smoke_now               Smoked some last month?
-8       share    BR0010   smoke_history Ever smoked tobacco daily for a year?
-9       share    BR0020       smoke_now                     Smoke at present?
-10      share    BR0030     smoke_years                How many years smoked?
-11      tilda     BH001   smoke_history Ever smoked tobacco daily for a year?
-12      tilda     BH002       smoke_now                     Smoke at present?
-13      tilda     BH003       smoke_age              Age when stopped smoking
-14      tilda BEHSMOKER  smoke_history2                Respondent is a smoker
-```
-
-```r
-names(ds)                       
+names(ds)               
 ```
 
 ```
@@ -229,99 +242,29 @@ names(ds)
 [19] "BH001"           "BH002"           "BH003"           "BEHSMOKER"      
 ```
 
-### ALSA
-
 ```r
-ds %>% dplyr::filter(study_name == "alsa") %>% histogram_discrete("SMOKER")
+dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
 ```
 
-<img src="figure_rmd/basic-graphs-alsa-1.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "alsa") %>% histogram_discrete("PIPCIGAR")
+```
+    name                 label
+1 BR0030 how many years smoked
 ```
 
-<img src="figure_rmd/basic-graphs-alsa-2.png" title="" alt="" width="550px" />
-
-### LBSL
-
 ```r
-ds %>% dplyr::filter(study_name == "lbsl") %>% histogram_discrete("SMK94")
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=5)
 ```
 
-<img src="figure_rmd/basic-graphs-lbsl-1.png" title="" alt="" width="550px" />
+<img src="basic-graphs/get-schema-variables-1.png" title="" alt="" width="550px" />
 
-```r
-ds %>% dplyr::filter(study_name == "lbsl") %>% histogram_discrete("SMOKE")
-```
 
-<img src="figure_rmd/basic-graphs-lbsl-2.png" title="" alt="" width="550px" />
 
-### SATSA
 
-```r
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GSMOKNOW")
-```
 
-<img src="figure_rmd/basic-graphs-satsa-1.png" title="" alt="" width="550px" />
+### `smoke_now`
 
-```r
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GEVRSMK")
-```
 
-<img src="figure_rmd/basic-graphs-satsa-2.png" title="" alt="" width="550px" />
 
-```r
-ds %>% dplyr::filter(study_name == "satsa") %>% histogram_discrete("GEVRSNS")
-```
-
-<img src="figure_rmd/basic-graphs-satsa-3.png" title="" alt="" width="550px" />
-
-### SHARE
-
-```r
-ds %>% dplyr::filter(study_name == "share") %>% histogram_discrete("BR0010")
-```
-
-<img src="figure_rmd/basic-graphs-share-1.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "share") %>% histogram_discrete("BR0020")
-```
-
-<img src="figure_rmd/basic-graphs-share-2.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "share", !BR0030 == 9999) %>% histogram_continuous("BR0030", bin_width = 5)
-```
-
-<img src="figure_rmd/basic-graphs-share-3.png" title="" alt="" width="550px" />
-
-## TILDA
-
-```r
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH001")
-```
-
-<img src="figure_rmd/basic-graphs-tilda-1.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH002")
-```
-
-<img src="figure_rmd/basic-graphs-tilda-2.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "tilda", !BH003 == -1) %>% histogram_continuous("BH003", bin_width = 1)
-```
-
-<img src="figure_rmd/basic-graphs-tilda-3.png" title="" alt="" width="550px" />
-
-```r
-ds %>% dplyr::filter(study_name == "tilda" ) %>% histogram_discrete("BEHSMOKER")
-```
-
-<img src="figure_rmd/basic-graphs-tilda-4.png" title="" alt="" width="550px" />
 
 
 
