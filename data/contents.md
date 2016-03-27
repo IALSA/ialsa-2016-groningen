@@ -23,4 +23,4 @@ Since files in this directory are not staged/committed, it's tough to communicat
 - `./data/shared/derived/meta-raw-satsa.csv` - raw variable names and labels 
 - `./data/shared/derived/meta-raw-share.csv` - raw variable names and labels 
 - `./data/shared/derived/meta-raw-tilda.csv` - raw variable names and labels 
-- `./data/shared/derived/meta-raw-tilda.csv` - raw variable names and labels, combined
+- `./data/shared/derived/meta-raw-live.csv` - raw variable names and labels, combined. Refreshed every time `Ellis Islad` is executed.
