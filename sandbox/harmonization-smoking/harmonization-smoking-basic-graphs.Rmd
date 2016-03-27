@@ -2,7 +2,10 @@
 title: "Harmonization exposition : smoking"
 output:
   html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
     keep_md: yes
+    theme: flatly
     toc: yes
 ---
 
@@ -23,7 +26,7 @@ output:
 # set options shared by all chunks
 opts_chunk$set(
   results='show', 
-  message = TRUE,
+  message = FALSE,
   comment = NA, 
   tidy = FALSE,
   fig.height = 4, 
@@ -45,21 +48,21 @@ read_chunk("./sandbox/harmonization-smoking/harmonization-smoking-basic-graphs.R
 This report lists the candidate variable for DataScheme variables of the construct **smoking**.
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
-```{r load-packages, echo=echoChunks, message=FALSE}
+```{r load-packages, echo=echoChunks }
 ```
 
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 
-```{r load-sources, echo=echoChunks, message=FALSE}
+```{r load-sources, echo=echoChunks }
 ```
 
 
 <!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
-```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
+```{r declare-globals, echo=echoChunks }
 ```
 
 <!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
-```{r, echo=echoChunks, message=FALSE}
+```{r, echo=echoChunks }
 #Put code in here.  It doesn't call a chunk in the codebehind file.
 ```
 # Exposition
@@ -78,29 +81,29 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 - (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
 
 <!-- Load the datasets.   -->
-```{r load-data, echo=T, results='show', message=FALSE}
+```{r load-data, echo=T}
 ```
 
 <!-- Inspect the datasets.   -->
-```{r inspect-data, echo=T, results='show', message=FALSE}
+```{r inspect-data, echo=T }
 ```
 
 <!-- Tweak the datasets.   -->
-```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
+```{r tweak-data, echo=echoChunks }
 ```
 
 <!-- Basic table view.   -->
-```{r basic-table, echo=TRUE, results='show', message=FALSE}
+```{r basic-table, echo=TRUE }
 ```
 
 # ALSA
 
 ## SMOKER
-```{r alsa-SMOKER, echo=TRUE, results='show', message=FALSE}
+```{r alsa-SMOKER, echo=TRUE }
 ```
 
 ## PIPCIGAR
-```{r alsa-PIPCIGAR, echo=TRUE, results='show', message=FALSE}
+```{r alsa-PIPCIGAR, echo=TRUE }
 ```
 
 
@@ -108,11 +111,11 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 # LBSL
 
 ## SMK94
-```{r lbsl-SMK94, echo=TRUE, results='show', message=FALSE}
+```{r lbsl-SMK94, echo=TRUE }
 ```
 
 ## SMOKE
-```{r lbsl-SMOKE, echo=TRUE, results='show', message=FALSE}
+```{r lbsl-SMOKE, echo=TRUE }
 ```
 
 
@@ -120,15 +123,15 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 # SATSA
 
 ## GSMOKNOW
-```{r satsa-GSMOKNOW, echo=TRUE, results='show', message=FALSE}
+```{r satsa-GSMOKNOW, echo=TRUE }
 ```
 
 ## GEVRSMK
-```{r satsa-GEVRSMK, echo=TRUE, results='show', message=FALSE}
+```{r satsa-GEVRSMK, echo=TRUE }
 ```
 
 ## GEVRSNS
-```{r satsa-GEVRSNS, echo=TRUE, results='show', message=FALSE}
+```{r satsa-GEVRSNS, echo=TRUE }
 ```
 
 
@@ -136,13 +139,13 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 # SHARE
 
 ## BR0010
-```{r share-BR0010, echo=TRUE, results='show', message=FALSE}
+```{r share-BR0010, echo=TRUE }
 ```
 ## BR0020
-```{r share-BR0020, echo=TRUE, results='show', message=FALSE}
+```{r share-BR0020, echo=TRUE }
 ```
 ## BR0030
-```{r share-BR0030, echo=TRUE, results='show', message=FALSE}
+```{r share-BR0030, echo=TRUE }
 ```
 
 
@@ -150,20 +153,25 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 # TILDA
 
 ## BH001
-```{r tilda-BH001, echo=TRUE, results='show', message=FALSE}
+```{r tilda-BH001, echo=TRUE }
 ```
 
 ## BH002
-```{r tilda-BH002, echo=TRUE, results='show', message=FALSE}
+```{r tilda-BH002, echo=TRUE }
 ```
 
 ## BH003
-```{r tilda-BH002, echo=TRUE, results='show', message=FALSE}
+```{r tilda-BH002, echo=TRUE }
 ```
 
 
 ## BEHSMOKER
-```{r tilda-BEHSMOKER, echo=TRUE, results='show', message=FALSE}
+```{r tilda-BEHSMOKER, echo=TRUE }
+```
+
+```{r}
+sessionInfo()
+
 ```
 
 

@@ -24,22 +24,22 @@ requireNamespace("car") # For it's `recode()` function.
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
+dto <- readRDS("./data/unshared/derived/dto.rds")
 
 # ---- inspect-data -------------------------------------------------------------
 # the list is composed of the following elements
-names(main_list)
+names(dto)
 # 1st element - names of the studies as character vector
-(studyNames <- main_list[["studyName"]])
+(studyNames <- dto[["studyName"]])
 # 2nd element - file paths of the data files for each study as character vector
-main_list[["filePath"]]
+dto[["filePath"]]
 # 3rd element - list objects with the following elements
-names(main_list[["unitData"]])
+names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-mds <- main_list[["metaData"]]; dplyr::tbl_df(mds)
-dto <- main_list
+mds <- dto[["metaData"]]; dplyr::tbl_df(mds)
+dto <- dto
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- basic-table --------------------------------------------------------------
@@ -105,15 +105,12 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030 == 9999) %>% histogram_co
 
 
 # ----- tilda-BH001 ---------------------------------
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH001")
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH001") %>% dplyr::select(name,label)
 dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH001")
 # ----- tilda-BH002 ---------------------------------
-ds %>% dplyr::filter(study_name == "tilda") %>% histogram_discrete("BH002")
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH002") %>% dplyr::select(name,label)
 dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH002")
 # ----- tilda-BH003 ---------------------------------
-ds %>% dplyr::filter(study_name == "tilda", !BH003 == -1) %>% histogram_continuous("BH003", bin_width = 1)
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH003") %>% dplyr::select(name,label)
 dto[["unitData"]][["tilda"]] %>% dplyr::filter(!BH003==-1) %>% histogram_continuous("BH003")
 # ----- tilda-BEHSMOKER ---------------------------------
