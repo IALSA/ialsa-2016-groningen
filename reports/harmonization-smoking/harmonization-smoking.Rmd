@@ -42,7 +42,7 @@ opts_chunk$set(
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 # connect to the file with the underlying R script  
-read_chunk("./sandbox/harmonization-smoking/harmonization-smoking.R") 
+read_chunk("./reports/harmonization-smoking/harmonization-smoking.R") 
 ```
 
 This report lists the candidate variable for DataScheme variables of the construct **smoking**.

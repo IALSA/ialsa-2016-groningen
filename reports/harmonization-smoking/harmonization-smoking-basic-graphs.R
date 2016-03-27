@@ -120,7 +120,7 @@ dto[["unitData"]][["tilda"]] %>% histogram_discrete("BEHSMOKER")
 
 
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./sandbox/harmonization-smoking/harmonization-smoking-basic-graphs.Rmd" ,
+rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking-basic-graphs.Rmd" ,
                   output_format="html_document", clean=TRUE)
 
 

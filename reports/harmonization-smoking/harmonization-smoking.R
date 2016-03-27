@@ -88,7 +88,7 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_cont
 
 
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./sandbox/harmonization-smoking/harmonization-smoking.Rmd" ,
+rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" ,
                   output_format="html_document", clean=TRUE)
 
 

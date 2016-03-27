@@ -13,9 +13,6 @@ This report lists the candidate variable for DataScheme variables of the constru
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 
-```
-Warning: package 'ggplot2' was built under R version 3.2.4
-```
 
 
 <!-- Load the sources.  Suppress the output when loading sources. --> 
