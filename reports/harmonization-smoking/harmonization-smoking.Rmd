@@ -119,17 +119,25 @@ Values:
  - `0` - no, (healthy choice)
  - `1` - yes, (unhealthy choice)
  
+## Recode
 
-```{r get-schema-variables, echo=TRUE, results='show', message=FALSE}
+We get schema candidates. 
+```{r get-schema-candidates, echo=TRUE, results='show', message=FALSE}
 ```
 
+### `smoke_now` 
 
 
 
 
-### `smoke_now`
 
 
+### `smoked_ever`
+
+
+# Development
+
+# Recapitulation
 
 
 
