@@ -1,3 +1,58 @@
+# ---- load-data-schema-function -----------------
+# dto <- main_list 
+# construct_name <- "smoking"
+# varname_new="item"#
+# s = "alsa"
+load_data_schema <- function(
+  dto, # dto = main_list , pass the the main data transfer object
+  construct_name,# = "smoking", # select all variable classified into this construct
+  varname_new="item"#, # the column in metadata that to provide new values for variable names
+  # varlabel # the column in metadata to provide values for labels
+  ){
+  
+  d_list <- list() # empty list for datasets
+  n_list <- list() # empty list for names of variables
+  md_sub <- dto[["metaData"]] 
+  # md_sub <- md_sub %>% dplyr::filter(construct == "short_label") 
+  md_sub <- md_sub[md_sub$construct == construct_name,]
+  for(s in dto[["studyName"]]){  
+    # s = "satsa"
+    # initial name of variables
+    (keepvars <- as.character(md_sub[md_sub$study==s, "name"]))
+    dd <- main_list[["unitData"]][[s]][,keepvars]; head(dd)
+    # new names of variables
+    (newvars <-  as.character(md_sub[md_sub$study==s, varname_new]))  
+    d <- dd; head(d)
+    names(d) <- newvars # rename into new item names
+    name_new <- names(d) 
+    name_old <- names(dd)
+    (name_labels <- as.character(md_sub[md_sub$study==s, "label_short"])) 
+    # (responses <- t(sapply(dd, levels)))
+    # attr(responses, "dimnames") <- NULL
+    # str(responses)
+    (oldnew <- cbind(name_old, name_new, "label_short" = name_labels))
+    # (oldnew <- cbind(name_new, "label_short" = name_labels, responses))
+    # (oldnew <- as.data.frame(oldnew))
+    n_list[[s]] <- oldnew
+    d <- dplyr::bind_cols(d, dd) # bind originals
+    d <- as.data.frame(d)
+    for(i in names(d)){
+      # i = "SMOKER"
+      attr(d[,i], "label") <- paste0(as.character(md_sub[md_sub$name==i,"label_short"])) # assign label attribute
+    }
+    d_list[[s]] <- d
+  } 
+  n <- plyr::ldply(n_list, data.frame)
+  n <- plyr::rename(n, c(".id" = "study_name"))
+  print(n)
+  # convert dtos into a dataframe
+  d <- plyr::ldply(d_list, data.frame)
+  d <- plyr::rename(d, c(".id" = "study_name"))
+  return(d)
+}
+# ds <- load_data_schema(dto=main_list,
+#                        varname_new="item",
+#                        construct_name = "smoking")
 
 # ---- define_lookup_function -------------------------------------------------
 # Create function that inspects names and labels
