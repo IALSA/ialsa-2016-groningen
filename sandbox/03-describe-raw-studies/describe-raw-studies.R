@@ -58,14 +58,15 @@ function1 <- function(ls){
       # (label <- as.character(mds[mds$name==v,"label"])) # from metadata
       (label <- attr(ds[,v], "label")) # original label
       if( is.factor(ds[,v])){
-      g <-histogram_discrete(ds, v)
+      # g <-histogram_discrete(ds, v)
+        table(ds[,v])
       }
       if(is.numeric(ds[,v])){
-      g <-histogram_continuous(ds,v)
+      # g <-histogram_continuous(ds,v)
       }
-      return(g)
+      # return(g)
     }
   } 
 } 
 
-g <- function1(ls)
+function1(ls)
