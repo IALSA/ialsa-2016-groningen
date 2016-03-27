@@ -123,6 +123,7 @@ write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)
 # decisions on variables' renaming and classification is encoded in this map
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
 dsm <- read.csv("./data/shared/meta-data-map.csv")
+dsm["X.1"] <- NULL # remove native counter variable, not needed
 # attach metadata object as the 4th element of the main_list
 main_list[["metaData"]] <- dsm
 
