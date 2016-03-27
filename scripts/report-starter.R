@@ -24,21 +24,23 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
+dto <- readRDS("./data/unshared/derived/dto.rds")
 # each element this list is another list:
-names(main_list)
+names(dto)
 # 1st element - names of the studies as character vector
-main_list[["studyName"]]
-(studyNames <- main_list[["studyName"]])
+dto[["studyName"]]
+(studyNames <- dto[["studyName"]])
 # 2nd element - file paths of the data files for each study
-main_list[["filePath"]]
+dto[["filePath"]]
 # 3rd element - list objects with 
-names(main_list[["dataFiles"]])
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+names(dto[["dataFiles"]])
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 # 4th element - dataset with augmented names and labels for variables from all involved studies
-dplyr::tbl_df(main_list[["metaData"]])
+dplyr::tbl_df(dto[["metaData"]])
 
 # ---- inspect-data -------------------------------------------------------------
+dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=5)
 
 # ---- tweak-data --------------------------------------------------------------
 

@@ -1,10 +1,10 @@
 # ---- load-data-schema-function -----------------
-# dto <- main_list 
+# dto <- dto 
 # construct_name <- "smoking"
 # varname_new="item"#
 # s = "alsa"
 load_data_schema <- function(
-  dto, # dto = main_list , pass the the main data transfer object
+  dto, # dto = dto , pass the the main data transfer object
   construct_name,# = "smoking", # select all variable classified into this construct
   varname_new="item"#, # the column in metadata that to provide new values for variable names
   # varlabel # the column in metadata to provide values for labels
@@ -19,7 +19,7 @@ load_data_schema <- function(
     # s = "satsa"
     # initial name of variables
     (keepvars <- as.character(md_sub[md_sub$study==s, "name"]))
-    dd <- main_list[["unitData"]][[s]][,keepvars]; head(dd)
+    dd <- dto[["unitData"]][[s]][,keepvars]; head(dd)
     # new names of variables
     (newvars <-  as.character(md_sub[md_sub$study==s, varname_new]))  
     d <- dd; head(d)
@@ -50,7 +50,7 @@ load_data_schema <- function(
   d <- plyr::rename(d, c(".id" = "study_name"))
   return(d)
 }
-# ds <- load_data_schema(dto=main_list,
+# ds <- load_data_schema(dto,
 #                        varname_new="item",
 #                        construct_name = "smoking")
 
