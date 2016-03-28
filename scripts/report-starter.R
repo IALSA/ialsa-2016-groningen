@@ -47,6 +47,9 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_cont
 # ---- basic-table --------------------------------------------------------------
 
 # ---- basic-graph --------------------------------------------------------------
+# this is how we can interact with the `dto` to call and graph data and metadata
+dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=5)
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(input = "./sandbox/report-a.Rmd" ,
