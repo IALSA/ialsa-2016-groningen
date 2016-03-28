@@ -1,0 +1,18 @@
+"","BR0010","BR0020","BR0030cat","count"
+"1","yes","yes","1-10 years",19
+"2","yes","yes","11-20 years",34
+"3","yes","yes","21-30 years",116
+"4","yes","yes","31-40 years",139
+"5","yes","yes","41-50 years",56
+"6","yes","yes","51+ years",32
+"7","yes","yes",NA,12
+"8","yes","no, i have stopped","1-10 years",160
+"9","yes","no, i have stopped","11-20 years",154
+"10","yes","no, i have stopped","21-30 years",143
+"11","yes","no, i have stopped","31-40 years",106
+"12","yes","no, i have stopped","41-50 years",38
+"13","yes","no, i have stopped","51+ years",6
+"14","yes","no, i have stopped","less than 1",6
+"15","yes","no, i have stopped",NA,31
+"16","no",NA,NA,1542
+"17",NA,NA,NA,4
