@@ -1,6 +1,6 @@
 # Exposition
 ## Ellis Island
-> all data are immigratants
+> all data are immigrants
 ## Target-H
 > everybody wants to be somebody
 
@@ -21,6 +21,6 @@
 ### TILDA
 
 # Recapitulation
-## 
+## Look back
 ## Trace in history - what has been created or augmented
-## 
+## New beginnings
