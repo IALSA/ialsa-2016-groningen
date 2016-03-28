@@ -141,9 +141,11 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ## BR0010
 ```{r share-BR0010, echo=TRUE }
 ```
+
 ## BR0020
 ```{r share-BR0020, echo=TRUE }
 ```
+
 ## BR0030
 ```{r share-BR0030, echo=TRUE }
 ```
@@ -161,7 +163,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 ## BH003
-```{r tilda-BH002, echo=TRUE }
+```{r tilda-BH003, echo=TRUE }
 ```
 
 

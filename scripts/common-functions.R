@@ -1,3 +1,29 @@
+# define function to extract profiles
+response_profile <- function(dto, h_target, study, varnames_values){
+  ds <- dto[["unitData"]][[study]]
+  varnames_values <- lapply(varnames_values, as.symbol)   # Convert character vector to list of symbols
+  d <- ds %>% 
+    dplyr::group_by_(.dots=varnames_values) %>% 
+    dplyr::summarize(count = n()) 
+  write.csv(d,paste0("./data/shared/derived/response-profiles/",h_target,"-",study,".csv"))
+}
+
+# schema_sets <- list(
+#   "alsa" = c("SMOKER", "PIPCIGAR"),
+#   "lbsl" = c("SMK94","SMOKE"),
+#   "satsa" = c("GSMOKNOW", "GEVRSMK","GEVRSNS"),
+#   "share" = c("BR0010","BR0020","BR0030cat" ), # "BR0030" is continuous
+#   "tilda" = c("BH001","BH002", "BEHSMOKER","BH003cat") # "BH003" is continuous
+# )
+
+# for(s in names(schema_sets))
+#   response_profile(dto,
+#                    study = s,
+#                    h_target = 'smoking',
+#                    varnames_values = schema_sets[[s]]
+#                    
+#   )
+
 # ---- load-data-schema-function -----------------
 # dto <- dto 
 # construct_name <- "smoking"

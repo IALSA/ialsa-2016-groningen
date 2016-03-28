@@ -25,21 +25,26 @@ requireNamespace("car") # For it's `recode()` function.
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
 dto <- readRDS("./data/unshared/derived/dto.rds")
-
 # ---- inspect-data -------------------------------------------------------------
 # the list is composed of the following elements
 names(dto)
 # 1st element - names of the studies as character vector
-(studyNames <- dto[["studyName"]])
+dto[["studyName"]]
 # 2nd element - file paths of the data files for each study as character vector
 dto[["filePath"]]
 # 3rd element - list objects with the following elements
 names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
-dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-mds <- dto[["metaData"]]; dplyr::tbl_df(mds)
-dto <- dto
+dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "Metadata",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
+
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- basic-table --------------------------------------------------------------
@@ -101,7 +106,7 @@ dto[["unitData"]][["share"]] %>% histogram_discrete("BR0020")
 
 # ----- share-BR0030 ---------------------------------
 dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
-dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030 == 9999) %>% histogram_continuous("BR0030", bin_width = 5)
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030 == 9999) %>% histogram_continuous("BR0030")
 
 
 # ----- tilda-BH001 ---------------------------------
