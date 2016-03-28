@@ -32,7 +32,7 @@ names(dto)
 dto[["studyName"]]
 # 2nd element - file paths of the data files for each study as character vector
 dto[["filePath"]]
-# 3rd element - list objects with the following elements
+# 3rd element - is a list object containing the following elements
 names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
@@ -40,7 +40,7 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
   DT::datatable(
     class   = 'cell-border stripe',
-    caption = "Metadata",
+    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
     filter  = "top",
     options = list(pageLength = 6, autoWidth = TRUE)
   )
@@ -58,16 +58,9 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_cont
 # ----- view-metadata-1 ---------------------------------------------
 meta_data <- dto[["metaData"]] %>%
   dplyr::filter(construct %in% c('smoking')) %>% 
-  dplyr::select(-notes) %>% # remove nonessentials for size sake
-  dplyr::arrange(study_name, item) # sort for clarity
-knitr::kable(meta_data)
-
-# ---- view-metadata-2 ---------------------------------------------
-meta_data <- dto[["metaData"]] %>%
-  dplyr::filter(construct %in% c('smoking')) %>% 
   # dplyr::filter(     item %in% c("smoke_now")) %>%
-  dplyr::select(study_name, name, item, label_short, -categories) %>%
-  dplyr::arrange(item, study_name)
+  dplyr::select(study_name, name, construct, label_short, categories, url) %>%
+  dplyr::arrange(construct, study_name)
 knitr::kable(meta_data)
 
 # ---- get-schema-candidates ---------------------------------------------

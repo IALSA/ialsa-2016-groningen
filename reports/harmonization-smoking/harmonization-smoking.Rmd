@@ -103,11 +103,12 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 > Everybody wants to be somebody.
 
-We query metadata set to see what variables are present that tap into the construct `smoking`. These variables constitute the candidates for the DataSchema variables of the harmonized variable.  
+We query metadata set to retrieve the variables tapping the construct `smoking`. These are the candidates to enter the DataSchema and contribute to computation of a harmonized variable. 
 
-```{r view-metadata, echo=TRUE, results='show', message=FALSE}
+```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
 ```
-After examining the metadata and reviewing  relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+
+View [descriptives : smoking](./reports/harmonization-smoking/harmonization-smoking-basic-graphs.html) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
 
 #### (1) `smoke_now` :  **Are you a smoker presently?**  
   - `0` - NO - *healthy choice*  
@@ -121,11 +122,13 @@ These two variables will be manufactured by qualitative harmonization in the Dev
  
 # (II) Development
 
+
+
+
+
 Finally we produce a dataset containing the DataSchema variables get schema candidates. 
 ```{r get-schema-candidates, echo=TRUE, results='show', message=FALSE}
 ```
-
-View all items in `smoking` construct in [`./reports/harmonization-smoking/data-schema-items.R`](./reports/harmonization-smoking/harmonization-smoking-basic-graphs.html)
 
 ## (II.A) `smoke_now`
 
