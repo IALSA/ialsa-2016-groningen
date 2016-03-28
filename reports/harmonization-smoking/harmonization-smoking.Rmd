@@ -103,7 +103,8 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 > Everybody wants to be somebody.
 
-We query metadata set to retrieve the variables tapping the construct `smoking`. These are the candidates to enter the DataSchema and contribute to computation of a harmonized variable. 
+We query metadata set to retrieve all variables potentially tapping the construct `smoking`. These are the candidates to enter the DataSchema and contribute to  computing harmonized variables. 
+> NOTE: what is being retrieve depends on the manually entered values in the column `costruct` of the metadata file `./data/shared/meta-data-map.csv`. To specify a different group of variables, edit the  metadata, not the script. 
 
 ```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
 ```
@@ -122,24 +123,48 @@ These two variables will be manufactured by qualitative harmonization in the Dev
  
 # (II) Development
 
+In this section we will define the schema sets for harmonizing `smoking` construst (i.e.  specify which variables from which studies will be contributing to computing harmonized variables ). Each of these schema sets (e.g. `"alsa" = c("SMOKER", "PIPCIGAR")`) will have a particular pattern of possible response values to these variables(e.g. "id_1" = c("SMOKER"="YES", "PIPCIGAR"="NO")), which we will export for inspection as `.csv` tables. We then will manually edit these `.csv` tables, populating new columns that will map values of harmonized variables to the specific repsonse pattern of the schema set variables. We then will import harmonization algorythms encoded in `.csv` tables and apply them to compute harmonized variables in the dataset combining raw and harmonized variables for `smoking` construct across studies.
 
+## (II.A) 
 
+### (1) Categorization
 
+Preliminary inspection of the schema sets variables revealed two continuous measures: 
 
-Finally we produce a dataset containing the DataSchema variables get schema candidates. 
-```{r get-schema-candidates, echo=TRUE, results='show', message=FALSE}
-```
-
-## (II.A) `smoke_now`
-
-As the starting point for harmonization process, create response profiles for schema variables from each study. 
-
-```{r declare-schema-sets, echo=TRUE}
+```{r II-A-categorization-1, echo=TRUE}
 ```  
 
-```{r export-response-profiles, echo=TRUE}
+After examining their distribution and consulting relevant literature, we have constructed the following rules for tranforming these coninous variables into categorical. 
+
+#### Recode variable `BR0030` in SHARE
+```{r II-A-categorization-2, echo=TRUE}
 ```  
-  
+
+#### Recode variable `BH003` in TILDA 
+
+```{r II-A-categorization-3, echo=TRUE}
+```  
+
+
+
+
+### (2) Schema sets
+Having all potential variables in categorical format we define the sets of data schema variables thusly: 
+```{r II-A-2-schema-sets-1, echo=TRUE}
+```  
+Each of these schema sets  have a particular pattern of possible response values, for example:
+
+```{r II-A-2-schema-sets-2, echo=TRUE}
+```  
+We output these tables into self-standing `.csv` files, so we can manually provide the logic of computing harmonized variables.
+
+```{r II-A-2-schema-sets-3, echo=TRUE}
+```  
+
+
+## (II.B) `smoke_now`
+
+
 ####  **Are you a smoker presently?**  
   - `0` - NO - *healthy choice*  
   - `1` - YES - *unhealthy choice   
@@ -147,19 +172,19 @@ As the starting point for harmonization process, create response profiles for sc
 ### ALSA
 
 Item that can generate values value for the harmonized variable `smoke_now`  are:
-```{r target-1-alsa-1, echo=TRUE}
+```{r target-1-alsa-1, echo=TRUE, eval=F}
 ```
 and have the following counts of possible combination of values :
-```{r target-1-alsa-2, echo=TRUE}
+```{r target-1-alsa-2, echo=TRUE, eval=F}
 ```
 
 The algorithm of harmonization is spelled out below: 
-```{r target-1-alsa-3, echo=TRUE}
+```{r target-1-alsa-3, echo=TRUE, eval=F}
 ```
 
 
 ### LBSL
-```{r target-1-alsa-1, echo=TRUE}
+```{r target-1-alsa-1, echo=TRUE, eval=F}
 ```
 ### SATSA
 ### SHARE
@@ -175,7 +200,8 @@ The algorithm of harmonization is spelled out below:
 ### SHARE
 ### TILDA
 
-
+## (II.C) Assembly 
+Now we combine the raw variables and harmonized variables. 
 
 
 # (III) Recapitulation
