@@ -58,7 +58,6 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_cont
 # ----- view-metadata-1 ---------------------------------------------
 meta_data <- dto[["metaData"]] %>%
   dplyr::filter(construct %in% c('smoking')) %>% 
-  # dplyr::filter(     item %in% c("smoke_now")) %>%
   dplyr::select(study_name, name, construct, label_short, categories, url) %>%
   dplyr::arrange(construct, study_name)
 knitr::kable(meta_data)

@@ -108,7 +108,7 @@ We query metadata set to retrieve the variables tapping the construct `smoking`.
 ```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
 ```
 
-View [descriptives : smoking](./reports/harmonization-smoking/harmonization-smoking-basic-graphs.html) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+View [descriptives : smoking](/harmonization-smoking-basic-graphs.md) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
 
 #### (1) `smoke_now` :  **Are you a smoker presently?**  
   - `0` - NO - *healthy choice*  
