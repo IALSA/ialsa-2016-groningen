@@ -1,15 +1,15 @@
-# I. Exposition
+# (I) Exposition
 
-## I.A. Ellis Island
+## (I.A) Ellis Island
 
 > all data are immigrants
 
-## I.B. Target-H
+## (I.B) Target-H
 > everybody wants to be somebody
 
-# II. Development
+# (II) Development
 
-## II.A. `smoke_now`
+## (II.A) `smoke_now`
 
 > are you a smoker?
 
@@ -19,7 +19,7 @@
 ### SHARE
 ### TILDA
 
-## II.B. `smoked_ever`
+## (II.B) `smoked_ever`
 
 > have you ever smoked?
 
@@ -29,12 +29,12 @@
 ### SHARE
 ### TILDA
 
-# III. Recapitulation
+# (III) Recapitulation
 
-## III.A. Look back
+## (III.A) Look back
 
-## III.B. Was Made Done
+## (III.B) Was Made Done
 
 > what is your mark on history? 
 
-## III.C. New beginnings
+## (III.C) New beginnings
