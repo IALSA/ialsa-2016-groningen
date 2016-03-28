@@ -139,28 +139,6 @@ for(i in seq_along(dsm$url)){ # i <- 20
 dto[["metaData"]] <- dsm
 
 
-# ---- make-categorical -------------------------------------------------------
-# categorize continuous variable BR0030
-ds <- dto[["unitData"]][["share"]]
-table(ds$BR0030)
-ds$BR0030cat[ds$BR0030 == 0]                      <- "less than 1"
-ds$BR0030cat[ds$BR0030 > 1  & ds$BR0030 <= 10   ] <- "1-10 years"
-ds$BR0030cat[ds$BR0030 > 11 & ds$BR0030 <= 20  ] <- "11-20 years"
-ds$BR0030cat[ds$BR0030 > 21 & ds$BR0030 <= 30  ] <- "21-30 years"
-ds$BR0030cat[ds$BR0030 > 31 & ds$BR0030 <= 40  ] <- "31-40 years"
-ds$BR0030cat[ds$BR0030 > 41 & ds$BR0030 <= 50  ] <- "41-50 years"
-ds$BR0030cat[ds$BR0030 > 51                    ] <- "51+ years"
-ds$BR0030cat[ds$BR0030 == 9999                  ] <- NA
-table(ds$BR0030cat)
-dto[["unitData"]][["share"]] <- ds
-
-
-# categorize continuous variable BH003
-ds <- dto[["unitData"]][["tilda"]]
-table(ds$BH003)
-ds$BH003cat <- car::Recode(ds$BH003, " -1 = NA; lo:25 ='YOUNG'; 26:50 = 'ADULT'; 51:75 = 'MIDDLEAGED'; 75:hi = 'OLD'")
-table(ds$BH003cat, useNA = 'always')
-dto[["unitData"]][["tilda"]] <- ds
 
 
 # ---- verify-values -----------------------------------------------------------
