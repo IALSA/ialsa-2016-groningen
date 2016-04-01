@@ -153,6 +153,7 @@ dto[["unitData"]][["alsa"]] %>%
 path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
 (hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
 
+# ---- target-1-alsa-3 -------------------------------------------------
 study = "alsa"
 raw_vars = c("SMOKER", "PIPCIGAR")
 h_var = "smoke_now"
@@ -161,7 +162,7 @@ recode_from_meta <- function(ds, hrule, variable_names, harmony_name){
   d <- merge(ds, hrule[, c(variable_names, harmony_name)], by=variable_names, all.x=T)
 }
 
-recode_with_hrule <- function(dto, study_name, raw_vars, h_var){
+recode_with_hrule <- function(dto, study_name, variable_names, harmony_name){
   path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
   (hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
   d <- dto[["unitData"]][["alsa"]] %>% 
@@ -170,12 +171,12 @@ recode_with_hrule <- function(dto, study_name, raw_vars, h_var){
   
 }
 
-dto <- recode_with_hrule(dto,"alsa", c("SMOKER","PIPCIGAR"), "smoke_now")
-
+d <- recode_with_hrule(dto,"alsa", c("SMOKER","PIPCIGAR"), "smoke_now")
+head(d)
 
 
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" ,
+rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" , 
                   output_format="html_document", clean=TRUE)
 
 

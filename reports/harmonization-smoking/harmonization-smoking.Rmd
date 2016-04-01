@@ -175,11 +175,12 @@ You can examine them in [`./data/shared/derived/response-profiles/](../data/shar
 
 ### ALSA
 
-Item that can generate values value for the harmonized variable `smoke_now`  are:
-```{r target-1-alsa-1, echo=TRUE, eval=F}
+Item that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r target-1-alsa-1, echo=TRUE}
 ```
+
 and have the following counts of possible combination of values :
-```{r target-1-alsa-2, echo=TRUE, eval=F}
+```{r target-1-alsa-2, echo=TRUE}
 ```
 
 The algorithm of harmonization is spelled out below: 
@@ -188,7 +189,7 @@ The algorithm of harmonization is spelled out below:
 
 
 ### LBSL
-```{r target-1-alsa-1, echo=TRUE, eval=F}
+```{r target-1-lbsl-1, echo=TRUE}
 ```
 ### SATSA
 ### SHARE
