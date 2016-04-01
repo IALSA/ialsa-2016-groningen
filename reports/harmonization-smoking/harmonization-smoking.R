@@ -148,17 +148,10 @@ study = "alsa"
 raw_vars = c("SMOKER", "PIPCIGAR")
 h_var = "smoke_now"
 recode_with_hrule <- function(dto, study, raw_vars, h_var){
-  d <- dto[["unitData"]][["alsa"]]
-  
   d <- dto[["unitData"]][["alsa"]] %>% 
   dplyr::group_by(SMOKER, PIPCIGAR) %>% 
   dplyr::summarize(count = n()) %>%
   dplyr::ungroup()
-  
-  
-  old_va
-  d[]
-  
 }
 
 
