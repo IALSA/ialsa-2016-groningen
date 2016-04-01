@@ -17,7 +17,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) for candidat studies
 - [reproducibility instructions](./utility/reproducibility-instructions.md)
 
-##### RESERACH QUESTION
+### RESERACH QUESTION
 ***Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking?***
 
 ### Overview of Measures
