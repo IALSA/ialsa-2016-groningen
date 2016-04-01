@@ -1,7 +1,8 @@
-# the purpose of this script is to create a data object (dto) which will hold all data and metadata from each candidate study of the exercise
-# run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
+# The purpose of this script is to create a data object (dto) 
+# (dto) which will hold all data and metadata from each candidate study of the exercise
+# Run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
 # knitr::stitch_rmd(script="./manipulation/0-ellis-island.R", output="./manipulation/stitched-output/0-ellis-island.md")
-#These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
+# These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 cat("\f") # clear console 
 
@@ -83,19 +84,16 @@ names(dto[["unitData"]])
 
 # ---- inspect-raw-data -------------------------------------------------------------
 # inspect the variable names and their labels in the raw data files
-names_labels(dto[["unitData"]][["alsa"]])
-names_labels(dto[["unitData"]][["lbsl"]])
-names_labels(dto[["unitData"]][["satsa"]])
-names_labels(dto[["unitData"]][["share"]])
-names_labels(dto[["unitData"]][["tilda"]])
+# names_labels(dto[["unitData"]][["alsa"]])
+# names_labels(dto[["unitData"]][["lbsl"]])
+# names_labels(dto[["unitData"]][["satsa"]])
+# names_labels(dto[["unitData"]][["share"]])
+# names_labels(dto[["unitData"]][["tilda"]])
 
 
 # ---- tweak-data --------------------------------------------------------------
 # rename "MAR4" because it can be confused by machines for  March-4
 dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
-
-
-
 
 # ---- collect-meta-data -----------------------------------------
 # to prepare for the final step in which we add metadata to the dto

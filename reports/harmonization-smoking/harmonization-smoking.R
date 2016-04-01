@@ -62,13 +62,11 @@ knitr::kable(meta_data)
 
 # ---- II-A-categorization-1 ----------------------
 dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="BR0030") %>% dplyr::select(name,label)
-dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=1)
-
 dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="BH003") %>% dplyr::select(name,label)
-dto[["unitData"]][["tilda"]] %>% dplyr::filter(!BH003==-1) %>% histogram_continuous("BH003", bin_width=1)
 
 
 # ---- II-A-categorization-2 ----------------------
+dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_continuous("BR0030", bin_width=1)
 # categorize continuous variable BR0030 of SHARE
 ds <- dto[["unitData"]][["share"]]
 
@@ -86,17 +84,23 @@ ds$BR0030_F <- ordered(ds$BR0030_F, labels = order_in_factor)
 ds %>% dplyr::group_by(BR0030_F) %>% dplyr::summarize(count=n())
 # attach modified dataset to dto, local to this report
 dto[["unitData"]][["share"]] <- ds
-
+dto[["unitData"]][["share"]] %>% histogram_discrete("BR0030_F")
 # ---- II-A-categorization-3 ----------------------
+dto[["unitData"]][["tilda"]] %>% dplyr::filter(!BH003==-1) %>% histogram_continuous("BH003", bin_width=1)
 # categorize continuous variable BH003 of TILDA
 ds <- dto[["unitData"]][["tilda"]]
-ds$BH003_F <- car::Recode(ds$BH003, " -1 = NA; lo:25 ='YOUNG'; 26:50 = 'ADULT'; 51:75 = 'MIDDLEAGED'; 75:hi = 'OLD'")
+ds$BH003_F <- car::Recode(ds$BH003, "  -1 = NA; 
+                                    lo:25 ='YOUNG'; 
+                                    26:50 = 'ADULT'; 
+                                    51:75 = 'MIDDLEAGED'; 
+                                    75:hi = 'OLD'")
 # convert to an ordered factor
 order_in_factor <- c("YOUNG","ADULT","MIDDLEAGED","OLD")
 ds$BH003_F <- ordered(ds$BH003_F, labels = order_in_factor)
 ds %>% dplyr::group_by(BH003_F) %>% dplyr::summarize(count=n())
 # attach modified dataset to dto, local to this report
 dto[["unitData"]][["tilda"]] <- ds
+dto[["unitData"]][["tilda"]] %>% histogram_discrete("BH003_F")
 
 # ---- II-A-2-schema-sets-1 -------------------------
 schema_sets <- list(
@@ -134,6 +138,11 @@ for(s in names(schema_sets)){
 }
  
 # ---- target-1-alsa-1 -------------------------------------------------
+
+# dto[["metaData"]] %>%
+#   dplyr::filter(name %in% c("SMOKER", "PIPCIGAR")) %>%
+#   dplyr::select(study_name, name, label,categories)
+
 # view the joint profile of responses
 dto[["unitData"]][["alsa"]] %>% 
   dplyr::group_by(SMOKER, PIPCIGAR) %>% 
@@ -147,71 +156,21 @@ path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
 study = "alsa"
 raw_vars = c("SMOKER", "PIPCIGAR")
 h_var = "smoke_now"
-recode_with_hrule <- function(dto, study, raw_vars, h_var){
-  d <- dto[["unitData"]][["alsa"]] %>% 
-  dplyr::group_by(SMOKER, PIPCIGAR) %>% 
-  dplyr::summarize(count = n()) %>%
-  dplyr::ungroup()
+
+recode_from_meta <- function(ds, hrule, variable_names, harmony_name){
+  d <- merge(ds, hrule[, c(variable_names, harmony_name)], by=variable_names, all.x=T)
 }
 
+recode_with_hrule <- function(dto, study_name, raw_vars, h_var){
+  path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
+  (hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
+  d <- dto[["unitData"]][["alsa"]] %>% 
+    dplyr::select_("SMOKER", "PIPCIGAR")
+  ddm <- base::merge(d,hrule[,c(variable_names, harmony_name, by=variable_names, all.x=T)] )  
+  
+}
 
-# ---- target-1-alsa-3 -------------------------------------------------
-ds$SMOKER <- as.character(ds$SMOKER) 
-ds$PIPCIGAR <- as.character(ds$PIPCIGAR) 
-# apply harmonization algorythm to generate values for `h_smoke_now`
-
-ds$h_smoke_now[ds$SMOKER=="Yes" & ds$PIPCIGAR=="Yes" ] <- "YES"
-ds$h_smoke_now[ds$SMOKER=="Yes" & ds$PIPCIGAR=="No" ] <- "YES"
-ds$h_smoke_now[ds$SMOKER=="No" & ds$PIPCIGAR=="Yes" ] <- "YES"
-ds$h_smoke_now[ds$SMOKER=="No" & is.na(ds$PIPCIGAR) ] <- "NO"
-ds$h_smoke_now[is.na(ds$SMOKER) & is.na(ds$PIPCIGAR) ] <- NA
-
-# verify  the logic of recoding
-ds %>% 
-  dplyr::filter(study_name=="alsa") %>%
-  dplyr::group_by(SMOKER, PIPCIGAR, h_smoke_now) %>% 
-  dplyr::summarize(count = n()) 
-
-
-
-
-# ---- target-1-lbsl-1 -------------------------------------------------
-# view data schema candidates 
-dto[["metaData"]] %>% 
-  dplyr::filter(study_name=="lbsl", construct == "smoking") %>% 
-  dplyr::select(name,label)
-
-# ---- target-1-lbsl-2 -------------------------------------------------
-# view the joint profile of responses
-ds %>% 
-  dplyr::filter(study_name=="lbsl") %>%
-  dplyr::group_by(SMK94, SMOKE) %>% 
-  dplyr::summarize(count = n()) 
-
-# ---- target-1-lbsl-3 -------------------------------------------------
-ds$SMK94 <- as.character(ds$SMK94) 
-ds$SMOKE <- as.character(ds$SMOKE) 
-# apply harmonization algorythm to generate values for `h_smoke_now`
-
-ds$h_smoke_now[ds$SMK94=="no" & ds$SMOKE=="smoke at present time" ] <- "YES"
-ds$h_smoke_now[ds$SMK94=="no" & ds$SMOKE=="don't smoke at present but smoked in the past" ] <- "NO"
-ds$h_smoke_now[ds$SMK94=="no " & ds$SMOKE=="never smoked" ] <- "NO"
-ds$h_smoke_now[ds$SMK94=="no " & is.na(ds$SMOKE) ] <- "NO"
-ds$h_smoke_now[ds$SMK94=="yes " & ds$SMOKE=="never smoked" ] <- "NO"
-ds$h_smoke_now[ds$SMK94=="yes " & ds$SMOKE=="never smoked" ] <- "NO"
-ds$h_smoke_now[is.na(ds$SMK94)  & ds$SMOKE=="never smoked" ] <- "NO"
-ds$h_smoke_now[is.na(ds$SMK94)  & ds$SMOKE=="never smoked" ] <- "NO"
-ds$h_smoke_now[is.na(ds$SMK94)  & is.na(ds$SMOKE) ] <- NA
-
-ds$h_smoke_now[ds$SMK94=="No" & is.na(ds$SMOKE) ] <- "NO"
-ds$h_smoke_now[is.na(ds$SMK94) & is.na(ds$SMOKE) ] <- NA
-
-# verify  the logic of recoding
-ds %>% 
-  dplyr::filter(study_name=="alsa") %>%
-  dplyr::group_by(SMOKER, PIPCIGAR, h_smoke_now) %>% 
-  dplyr::summarize(count = n()) 
-
+dto <- recode_with_hrule(dto,"alsa", c("SMOKER","PIPCIGAR"), "smoke_now")
 
 
 

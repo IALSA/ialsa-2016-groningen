@@ -37,10 +37,11 @@ names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
+dto[["metaData"]] %>% 
+  dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
   DT::datatable(
     class   = 'cell-border stripe',
-    caption = "Metadata",
+    caption = "Use filtering and sorting to produce custom views to guide your inspection of currently available meta data",
     filter  = "top",
     options = list(pageLength = 6, autoWidth = TRUE)
   )
