@@ -17,23 +17,12 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) for candidat studies
 - [reproducibility instructions](./utility/reproducibility-instructions.md)
 
-
-### Rationale and objectives 
-
-Integrative analysis of individual participant data across multiple studies is increasingly used to serve the needs of contemporary research. Adoption of such integrative approach is driven by different scientific rationales, including the usual requirements to obtain sufficient statistical power to investigate relatively rare events or complex interactions and permit rigorous comparison or replication across datasets. Furthermore, integrative agendas help maximizing the use of available data resources, increase cost-efficiency of certain research programs, and are sound catalysts for collaboration.
-
-Investigators integrating and co-analyzing individual participant data across existing studies necessarily need to address questions related to **data harmonization**. Harmonization involves achieving or *improving comparability of similar measures collected by separate studies* or database. But, retrospective harmonization (harmonization of individual participant data across existing studies) raises specific scientific issues and can be very challenging especially since variability across study designs, methods and procedures used to collect data at different points in time is generally unavoidable.
-
-Retrospective data harmonization, if not applied properly, might lead to substantial data measurement and assessment error. Obviously, the validity of the harmonized datasets depend on the use of a rigorous and transparent methodology through the initiation of the project and all the way until the dissemination of the harmonized output.
-
-In order to assess the impact of different harmonization procedures on the analysis results, different harmonization working groups will harmonize, integrate, and analyse data from several real datasets. In the workshop, each group will present the methodology used and results from data analysis. 
-
 ##### RESERACH QUESTION
 ***Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking?***
 
 ### Overview of Measures
 
-Each harmonization working group will work independently to achieve data harmonization, pooling, and analysis in the aim to answer the common research question: *Smoking Habits among older adults (50+ years): What is the prevalence of smoking? and what are the factors associated with smoking?*  
+Each harmonization working group will work independently to achieve data harmonization, pooling, and analysis in the aim to answer the common research question: *Smoking Habits among older adults (50+ years): What is the prevalence of smoking? and what are the factors associated with smoking?*  See the full [list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from all studies participating in the exercise.  
 
 See data provisioning documentation in the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) script. 
 
@@ -69,7 +58,18 @@ Below is a list of the main steps to be applied while conducting the harmonizati
  - 2.	Ensure the quality of the new harmonized variables created by reviewing processing methods and running descriptive statistics comparing raw and harmonized data.   
 * **Step 4** - Integrate harmonized variables and data into one common dataset.  
 * **Step 5** - Conduct bi-variant and multi-variant analysis to assess the main factors associated with current smoking status among older adults.    
-* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  [What to report?]()  
+* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  [What to report?](#what to report)  
+
+### Rationale and objectives 
+
+Integrative analysis of individual participant data across multiple studies is increasingly used to serve the needs of contemporary research. Adoption of such integrative approach is driven by different scientific rationales, including the usual requirements to obtain sufficient statistical power to investigate relatively rare events or complex interactions and permit rigorous comparison or replication across datasets. Furthermore, integrative agendas help maximizing the use of available data resources, increase cost-efficiency of certain research programs, and are sound catalysts for collaboration.
+
+Investigators integrating and co-analyzing individual participant data across existing studies necessarily need to address questions related to **data harmonization**. Harmonization involves achieving or *improving comparability of similar measures collected by separate studies* or database. But, retrospective harmonization (harmonization of individual participant data across existing studies) raises specific scientific issues and can be very challenging especially since variability across study designs, methods and procedures used to collect data at different points in time is generally unavoidable.
+
+Retrospective data harmonization, if not applied properly, might lead to substantial data measurement and assessment error. Obviously, the validity of the harmonized datasets depend on the use of a rigorous and transparent methodology through the initiation of the project and all the way until the dissemination of the harmonized output.
+
+In order to assess the impact of different harmonization procedures on the analysis results, different harmonization working groups will harmonize, integrate, and analyse data from several real datasets. In the workshop, each group will present the methodology used and results from data analysis. 
+
 
 ### What to report 
 Each harmonization work group should provide a short document reporting on the questions below.  
