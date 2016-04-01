@@ -18,18 +18,17 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [reproducibility instructions](./utility/reproducibility-instructions.md)
 
 ### RESERACH QUESTION
-> Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking? 
+> Habits, prevalence of, and factors associated with smoking among older adults.  
 
-### Overview of Measures
+### Measures
 
-Each harmonization working group will work independently to achieve data harmonization, pooling, and analysis in the aim to answer the common research question: *Smoking Habits among older adults (50+ years): What is the prevalence of smoking? and what are the factors associated with smoking?*  See the full [list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from all studies participating in the exercise.  
+ - [Full list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from five studies participating in the exercise.  
+- Data provisioning documentation : the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) report. 
 
-See data provisioning documentation in the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) script. 
-
-Main OUTCOME:   
+#### Main OUTCOME:   
 - Current smoking status  ([describe candidates](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking-basic-graphs.md), [harmonize](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking.md))
 
-Main COVARIATES:  
+#### Main COVARIATES:  
 - age   
 - sex  
 - marital status  
