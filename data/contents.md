@@ -15,7 +15,7 @@ Since files in this directory are not staged/committed, it's tough to communicat
 - `./data/unshared/derived/dto.rds` - the data transfer object (dto) of the project,  list object containing names, paths, dataframes, and metadata of the candidate studies
 
 ##### Files in `./data/shared/raw/`  
-- [`./data/shared/meta-data-map.csv`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/meta-data-map.csv) - contains classification of the variables observed in the raw data. Interact with a [dynamic table] based on its current content. 
+- [`./data/shared/meta-data-map.csv`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/meta-data-map.csv) - contains classification of the variables observed in the raw data. Changes introduced by manual edits. Interact with a [dynamic table]() based on its current content. 
 
 ##### Files in `./data/shared/derived/`   
 - `./data/shared/derived/meta-raw-alsa.csv` - raw variable names and labels 
