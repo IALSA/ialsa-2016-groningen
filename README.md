@@ -22,13 +22,13 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 
 ### Measures
 
- - [Full list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from five studies participating in the exercise.  
+- [Full list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from five studies participating in the exercise.  
 - Data provisioning documentation : the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) report. 
 
-#### Main OUTCOME:   
-- Current smoking status  ([describe candidates](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking-basic-graphs.md), [harmonize](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking.md))
+#### OUTCOME:   
+- Current smoking status  ([candidates](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking-basic-graphs.md), [harmonize](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/harmonization-smoking/harmonization-smoking.md))
 
-#### Main COVARIATES:  
+#### COVARIATES:  
 - age   
 - sex  
 - marital status  
