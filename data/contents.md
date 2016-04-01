@@ -12,7 +12,7 @@ Since files in this directory are not staged/committed, it's tough to communicat
 
 ##### Files in `./data/unshared/derived/`
 
-- `./data/unshared/derived/main_list.rds` - list object containing names, paths, dataframes, and metadata of the candidate studies
+- `./data/unshared/derived/dto.rds` - the data transfer object (dto) of the project,  list object containing names, paths, dataframes, and metadata of the candidate studies
 
 ##### Files in `./data/shared/raw/`  
 - [`./data/shared/meta-data-map.csv`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/meta-data-map.csv) - contains classification of the variables observed in the raw data. Interact with a [dynamic table] based on its current content. 
@@ -23,4 +23,4 @@ Since files in this directory are not staged/committed, it's tough to communicat
 - `./data/shared/derived/meta-raw-satsa.csv` - raw variable names and labels 
 - `./data/shared/derived/meta-raw-share.csv` - raw variable names and labels 
 - `./data/shared/derived/meta-raw-tilda.csv` - raw variable names and labels 
-- `./data/shared/derived/meta-raw-live.csv` - raw variable names and labels, combined. Refreshed every time `Ellis Islad` is executed.
+- [`./data/shared/derived/meta-raw-live.csv`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) - raw variable names and labels, combined. Refreshed every time `Ellis Islad` is executed.
