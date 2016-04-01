@@ -161,6 +161,7 @@ We output these tables into self-standing `.csv` files, so we can manually provi
 ```{r II-A-2-schema-sets-3, echo=TRUE}
 ```  
 
+You can examine them in [`./data/shared/derived/response-profiles/](../data/shared/response-profiles/)
 
 ## (II.B) `smoke_now`
 
