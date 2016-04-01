@@ -22,7 +22,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 
 ### Measures
 
-- [Full list of variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) from five studies participating in the exercise.  
+- Lists of [data objects] and [variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) used in the exercise.  
 - Data provisioning documentation : the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) report. 
 
 #### OUTCOME:   
