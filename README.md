@@ -18,7 +18,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - [reproducibility instructions](./utility/reproducibility-instructions.md)
 
 ### RESERACH QUESTION
-***Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking?***
+> Smoking habits among older adults: What is the prevalence of smoking? and what are the factors associated with smoking? 
 
 ### Overview of Measures
 
