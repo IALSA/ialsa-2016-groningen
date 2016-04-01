@@ -15,3 +15,24 @@ d <- data.frame(
 d
 
 table(d$name_old, d$name_new)
+
+
+
+# ---- how-to-pass-vector-of-strings-to-group-by --------------------
+# define function to extract profiles
+response_profile <- function(dto, h_target, study, varnames_values){
+  ds <- dto[["unitData"]][[study]]
+  varnames_values <- lapply(varnames_values, as.symbol)   # Convert character vector to list of symbols
+  d <- ds %>% 
+    dplyr::group_by_(.dots=varnames_values) %>% 
+    dplyr::summarize(count = n()) 
+  write.csv(d,paste0("./data/shared/derived/response-profiles/",h_target,"-",study,".csv"))
+}
+# extract response profile for data schema set from each study
+for(s in names(schema_sets)){
+  response_profile(dto,
+                   study = s,
+                   h_target = 'smoking',
+                   varnames_values = schema_sets[[s]]
+  )
+}
