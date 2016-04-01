@@ -339,8 +339,7 @@ names(dto)
 
 <pre><code class="r"># dto contains:  &quot;studyName&quot; ,  &quot;filePath&quot;,  &quot;unitData&quot;
 # we have just added the (3rd) element, a list of datasets:
-data_list &lt;- dto[[&quot;unitData&quot;]]
-names(data_list)
+names(dto[[&quot;unitData&quot;]])
 </code></pre>
 
 <pre><code>## [1] &quot;alsa&quot;  &quot;lbsl&quot;  &quot;satsa&quot; &quot;share&quot; &quot;tilda&quot;
@@ -352,7 +351,7 @@ names(data_list)
 </code></pre>
 
 <pre><code class="r"># inspect the variable names and their labels in the raw data files
-names_labels(data_list[[&quot;alsa&quot;]])
+names_labels(dto[[&quot;unitData&quot;]][[&quot;alsa&quot;]])
 </code></pre>
 
 <pre><code>##        name                               label
@@ -384,7 +383,7 @@ names_labels(data_list[[&quot;alsa&quot;]])
 ## 26 CURRWORK                   Currently working
 </code></pre>
 
-<pre><code class="r">names_labels(data_list[[&quot;lbsl&quot;]])
+<pre><code class="r">names_labels(dto[[&quot;unitData&quot;]][[&quot;lbsl&quot;]])
 </code></pre>
 
 <pre><code>##        name
@@ -441,7 +440,7 @@ names_labels(data_list[[&quot;alsa&quot;]])
 ## 25                                        Self-reported health compared to age peers
 </code></pre>
 
-<pre><code class="r">names_labels(data_list[[&quot;satsa&quot;]])
+<pre><code class="r">names_labels(dto[[&quot;unitData&quot;]][[&quot;satsa&quot;]])
 </code></pre>
 
 <pre><code>##        name
@@ -502,7 +501,7 @@ names_labels(data_list[[&quot;alsa&quot;]])
 ## 27                                                                                                                                                        Education
 </code></pre>
 
-<pre><code class="r">names_labels(data_list[[&quot;share&quot;]])
+<pre><code class="r">names_labels(dto[[&quot;unitData&quot;]][[&quot;share&quot;]])
 </code></pre>
 
 <pre><code>##          name                                           label
@@ -540,7 +539,7 @@ names_labels(data_list[[&quot;alsa&quot;]])
 ## 32   DN012DDK                                       dont know
 </code></pre>
 
-<pre><code class="r">names_labels(data_list[[&quot;tilda&quot;]])
+<pre><code class="r">names_labels(dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]])
 </code></pre>
 
 <pre><code>##                     name
@@ -628,14 +627,14 @@ names_labels(data_list[[&quot;alsa&quot;]])
 </code></pre>
 
 <pre><code class="r"># rename &quot;MAR4&quot; because it can be confused by machines for  March-4
-data_list[[&quot;tilda&quot;]] &lt;- plyr::rename(data_list[[&quot;tilda&quot;]], replace = c(&quot;MAR4&quot;= &quot;marital4&quot;))
+dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]] &lt;- plyr::rename(dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]], replace = c(&quot;MAR4&quot;= &quot;marital4&quot;))
 </code></pre>
 
 <pre><code class="r"># to prepare for the final step in which we add metadata to the dto
 # we begin by extracting the names and (hopefuly their) labels of variables from each dataset
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
-  save_csv &lt;- names_labels(data_list[[i]])
+  save_csv &lt;- names_labels(dto[[&quot;unitData&quot;]][[i]])
   write.csv(save_csv, paste0(&quot;./data/shared/derived/meta-raw-&quot;,i,&quot;.csv&quot;), 
             row.names = T)  
 }  
@@ -794,24 +793,24 @@ packages used):</p>
 ## [16] gtable_0.2.0        htmlwidgets_0.6     evaluate_0.8.3     
 ## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
 ## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
-## [25] parallel_3.2.4      Rttf2pt1_1.3.3      highr_0.5.1        
-## [28] Rcpp_0.12.3         acepack_1.3-3.3     scales_0.4.0       
-## [31] DT_0.1.40           formatR_1.3         Hmisc_3.17-2       
-## [34] jsonlite_0.9.19     lme4_1.1-11         gridExtra_2.2.1    
-## [37] testit_0.5          digest_0.6.9        stringi_1.0-1      
-## [40] dplyr_0.4.3         grid_3.2.4          tools_3.2.4        
-## [43] lazyeval_0.1.10     dichromat_2.0-0     Formula_1.2-1      
-## [46] cluster_2.0.3       car_2.1-1           extrafontdb_1.0    
-## [49] tidyr_0.4.1         MASS_7.3-45         Matrix_1.2-4       
-## [52] rsconnect_0.3.79    assertthat_0.1      minqa_1.2.4        
-## [55] rmarkdown_0.9.5     R6_2.1.2            rpart_4.1-10       
-## [58] nnet_7.3-12         nlme_3.1-126
+## [25] parallel_3.2.4      markdown_0.7.7      Rttf2pt1_1.3.3     
+## [28] highr_0.5.1         Rcpp_0.12.3         acepack_1.3-3.3    
+## [31] scales_0.4.0        DT_0.1.40           formatR_1.3        
+## [34] Hmisc_3.17-2        jsonlite_0.9.19     lme4_1.1-11        
+## [37] gridExtra_2.2.1     testit_0.5          digest_0.6.9       
+## [40] stringi_1.0-1       dplyr_0.4.3         grid_3.2.4         
+## [43] tools_3.2.4         lazyeval_0.1.10     dichromat_2.0-0    
+## [46] Formula_1.2-1       cluster_2.0.3       car_2.1-1          
+## [49] extrafontdb_1.0     tidyr_0.4.1         MASS_7.3-45        
+## [52] Matrix_1.2-4        rsconnect_0.3.79    assertthat_0.1     
+## [55] minqa_1.2.4         rmarkdown_0.9.5     R6_2.1.2           
+## [58] rpart_4.1-10        nnet_7.3-12         nlme_3.1-126
 </code></pre>
 
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-04-01 09:03:11 PDT&quot;
+<pre><code>## [1] &quot;2016-04-01 09:15:12 PDT&quot;
 </code></pre>
 
 </body>

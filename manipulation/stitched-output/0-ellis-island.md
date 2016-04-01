@@ -165,8 +165,7 @@ names(dto)
 ```r
 # dto contains:  "studyName" ,  "filePath",  "unitData"
 # we have just added the (3rd) element, a list of datasets:
-data_list <- dto[["unitData"]]
-names(data_list)
+names(dto[["unitData"]])
 ```
 
 ```
@@ -181,7 +180,7 @@ names(data_list)
 
 ```r
 # inspect the variable names and their labels in the raw data files
-names_labels(data_list[["alsa"]])
+names_labels(dto[["unitData"]][["alsa"]])
 ```
 
 ```
@@ -215,7 +214,7 @@ names_labels(data_list[["alsa"]])
 ```
 
 ```r
-names_labels(data_list[["lbsl"]])
+names_labels(dto[["unitData"]][["lbsl"]])
 ```
 
 ```
@@ -274,7 +273,7 @@ names_labels(data_list[["lbsl"]])
 ```
 
 ```r
-names_labels(data_list[["satsa"]])
+names_labels(dto[["unitData"]][["satsa"]])
 ```
 
 ```
@@ -337,7 +336,7 @@ names_labels(data_list[["satsa"]])
 ```
 
 ```r
-names_labels(data_list[["share"]])
+names_labels(dto[["unitData"]][["share"]])
 ```
 
 ```
@@ -377,7 +376,7 @@ names_labels(data_list[["share"]])
 ```
 
 ```r
-names_labels(data_list[["tilda"]])
+names_labels(dto[["unitData"]][["tilda"]])
 ```
 
 ```
@@ -467,7 +466,7 @@ names_labels(data_list[["tilda"]])
 
 ```r
 # rename "MAR4" because it can be confused by machines for  March-4
-data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "marital4"))
+dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
 ```
 
 ```r
@@ -475,7 +474,7 @@ data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "
 # we begin by extracting the names and (hopefuly their) labels of variables from each dataset
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
-  save_csv <- names_labels(data_list[[i]])
+  save_csv <- names_labels(dto[["unitData"]][[i]])
   write.csv(save_csv, paste0("./data/shared/derived/meta-raw-",i,".csv"), 
             row.names = T)  
 }  
@@ -652,18 +651,18 @@ sessionInfo()
 ## [16] gtable_0.2.0        htmlwidgets_0.6     evaluate_0.8.3     
 ## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
 ## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
-## [25] parallel_3.2.4      Rttf2pt1_1.3.3      highr_0.5.1        
-## [28] Rcpp_0.12.3         acepack_1.3-3.3     scales_0.4.0       
-## [31] DT_0.1.40           formatR_1.3         Hmisc_3.17-2       
-## [34] jsonlite_0.9.19     lme4_1.1-11         gridExtra_2.2.1    
-## [37] testit_0.5          digest_0.6.9        stringi_1.0-1      
-## [40] dplyr_0.4.3         grid_3.2.4          tools_3.2.4        
-## [43] lazyeval_0.1.10     dichromat_2.0-0     Formula_1.2-1      
-## [46] cluster_2.0.3       car_2.1-1           extrafontdb_1.0    
-## [49] tidyr_0.4.1         MASS_7.3-45         Matrix_1.2-4       
-## [52] rsconnect_0.3.79    assertthat_0.1      minqa_1.2.4        
-## [55] rmarkdown_0.9.5     R6_2.1.2            rpart_4.1-10       
-## [58] nnet_7.3-12         nlme_3.1-126
+## [25] parallel_3.2.4      markdown_0.7.7      Rttf2pt1_1.3.3     
+## [28] highr_0.5.1         Rcpp_0.12.3         acepack_1.3-3.3    
+## [31] scales_0.4.0        DT_0.1.40           formatR_1.3        
+## [34] Hmisc_3.17-2        jsonlite_0.9.19     lme4_1.1-11        
+## [37] gridExtra_2.2.1     testit_0.5          digest_0.6.9       
+## [40] stringi_1.0-1       dplyr_0.4.3         grid_3.2.4         
+## [43] tools_3.2.4         lazyeval_0.1.10     dichromat_2.0-0    
+## [46] Formula_1.2-1       cluster_2.0.3       car_2.1-1          
+## [49] extrafontdb_1.0     tidyr_0.4.1         MASS_7.3-45        
+## [52] Matrix_1.2-4        rsconnect_0.3.79    assertthat_0.1     
+## [55] minqa_1.2.4         rmarkdown_0.9.5     R6_2.1.2           
+## [58] rpart_4.1-10        nnet_7.3-12         nlme_3.1-126
 ```
 
 ```r
@@ -671,6 +670,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-01 09:03:11 PDT"
+## [1] "2016-04-01 09:15:12 PDT"
 ```
 

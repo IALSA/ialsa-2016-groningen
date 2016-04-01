@@ -74,8 +74,8 @@ names(dto[["unitData"]]) # elements in the subelement
 names(dto)
 # dto contains:  "studyName" ,  "filePath",  "unitData"
 # we have just added the (3rd) element, a list of datasets:
-data_list <- dto[["unitData"]]
-names(data_list)
+names(dto[["unitData"]])
+
 
 #
 ### dto (4) : collect metadata
@@ -83,16 +83,16 @@ names(data_list)
 
 # ---- inspect-raw-data -------------------------------------------------------------
 # inspect the variable names and their labels in the raw data files
-names_labels(data_list[["alsa"]])
-names_labels(data_list[["lbsl"]])
-names_labels(data_list[["satsa"]])
-names_labels(data_list[["share"]])
-names_labels(data_list[["tilda"]])
+names_labels(dto[["unitData"]][["alsa"]])
+names_labels(dto[["unitData"]][["lbsl"]])
+names_labels(dto[["unitData"]][["satsa"]])
+names_labels(dto[["unitData"]][["share"]])
+names_labels(dto[["unitData"]][["tilda"]])
 
 
 # ---- tweak-data --------------------------------------------------------------
 # rename "MAR4" because it can be confused by machines for  March-4
-data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "marital4"))
+dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
 
 
 
@@ -102,7 +102,7 @@ data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "
 # we begin by extracting the names and (hopefuly their) labels of variables from each dataset
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
-  save_csv <- names_labels(data_list[[i]])
+  save_csv <- names_labels(dto[["unitData"]][[i]])
   write.csv(save_csv, paste0("./data/shared/derived/meta-raw-",i,".csv"), 
             row.names = T)  
 }  
