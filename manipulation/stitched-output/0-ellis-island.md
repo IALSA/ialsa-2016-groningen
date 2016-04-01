@@ -7,9 +7,7 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
-# the purpose of this script is to create a data object (main_list)
-# (mail_list) which will hold all data and metadata from each candidate study of the exercise
-
+# the purpose of this script is to create a data object (dto) which will hold all data and metadata from each candidate study of the exercise
 # run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
 # knitr::stitch_rmd(script="./manipulation/0-ellis-island.R", output="./manipulation/stitched-output/0-ellis-island.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
@@ -36,10 +34,10 @@ requireNamespace("testit") #For asserting conditions meet expected patterns.
 
 ```r
 #
-# There will be a total of (4) elements in (main_list)
-main_list <- list() # creates empty list object to populate with script to follow 
+# There will be a total of (4) elements in (dto)
+dto <- list() # creates empty list object to populate with script to follow 
 #
-### main_list (1) : names of candidate studies
+### dto (1) : names of candidate studies
 #
 # inspect what files there are
 (listFiles <- list.files("./data/unshared/raw", full.names = T,  pattern = ".sav", recursive = F))
@@ -56,12 +54,12 @@ main_list <- list() # creates empty list object to populate with script to follo
 ```r
 # list the names of the studies to be used in subsequent code
 studyNames <- c("alsa", "lbsl", "satsa", "share", "tilda")
-main_list[["studyName"]] <- studyNames
+dto[["studyName"]] <- studyNames
 ```
 
 ```r
 #
-### main_list (2) : file paths to corresponding data files
+### dto (2) : file paths to corresponding data files
 #
 # manually declare the file paths to enforce the order and prevent mismatching
 alsa_path_input  <- "./data/unshared/raw/ALSA-Wave1.Final.sav"
@@ -71,7 +69,7 @@ share_path_input <- "./data/unshared/raw/SHARE-Israel-Wave1.Final.sav"
 tilda_path_input <- "./data/unshared/raw/TILDA-Wave1.Final.sav"     
 # combine file paths into a single object
 filePaths <- c(alsa_path_input, lbsl_path_input, satsa_path_input, share_path_input, tilda_path_input )
-main_list[["filePath"]] <- filePaths
+dto[["filePath"]] <- filePaths
 ```
 
 ```r
@@ -82,10 +80,10 @@ figure_path <- 'manipulation/stitched-output/'
 
 ```r
 #
-### main_list (3) : datasets with raw source data from each study
+### dto (3) : datasets with raw source data from each study
 #
-# at this point the object `main_list` contains components:
-names(main_list)
+# at this point the object `dto` contains components:
+names(dto)
 ```
 
 ```
@@ -93,15 +91,15 @@ names(main_list)
 ```
 
 ```r
-# next, we will add another element to this list `main_list`  and call it "unitData"
+# next, we will add another element to this list `dto`  and call it "unitData"
 # it will be a list object in itself, storing datasets from studies as seperate elements
-# no we will reach to the file paths in `main_list[["filePath"]][[i]] and input raw data sets
-# where `i` is iteratively each study in `main_list[["studyName"]][[i]]
+# no we will reach to the file paths in `dto[["filePath"]][[i]] and input raw data sets
+# where `i` is iteratively each study in `dto[["studyName"]][[i]]
 data_list <- list() # declare a list to populate
-for(i in seq_along(main_list[["studyName"]])){
+for(i in seq_along(dto[["studyName"]])){
   # i <- 1
   # input the 5 SPSS files in .SAV extension provided with the exercise
-  data_list[[i]] <- Hmisc::spss.get(main_list[["filePath"]][i], use.value.labels = TRUE) 
+  data_list[[i]] <- Hmisc::spss.get(dto[["filePath"]][i], use.value.labels = TRUE) 
 }
 ```
 
@@ -139,8 +137,8 @@ for(i in seq_along(main_list[["studyName"]])){
 
 ```r
 names(data_list) <- studyNames # name the elements of the data list
-main_list[["unitData"]] <- data_list # include data list into the main list as another element
-names(main_list) # elements in the main list object
+dto[["unitData"]] <- data_list # include data list into the main list as another element
+names(dto) # elements in the main list object
 ```
 
 ```
@@ -148,7 +146,7 @@ names(main_list) # elements in the main list object
 ```
 
 ```r
-names(main_list[["unitData"]]) # elements in the subelement 
+names(dto[["unitData"]]) # elements in the subelement 
 ```
 
 ```
@@ -156,8 +154,8 @@ names(main_list[["unitData"]]) # elements in the subelement
 ```
 
 ```r
-# at this point the object `main_list` contains components:
-names(main_list)
+# at this point the object `dto` contains components:
+names(dto)
 ```
 
 ```
@@ -165,9 +163,9 @@ names(main_list)
 ```
 
 ```r
-# main_list contains:  "studyName" ,  "filePath",  "unitData"
+# dto contains:  "studyName" ,  "filePath",  "unitData"
 # we have just added the (3rd) element, a list of datasets:
-data_list <- main_list[["unitData"]]
+data_list <- dto[["unitData"]]
 names(data_list)
 ```
 
@@ -177,7 +175,7 @@ names(data_list)
 
 ```r
 #
-### main_list (4) : collect metadata
+### dto (4) : collect metadata
 #
 ```
 
@@ -473,7 +471,7 @@ data_list[["tilda"]] <- plyr::rename(data_list[["tilda"]], replace = c("MAR4"= "
 ```
 
 ```r
-# to prepare for the final step in which we add metadata to the main_list
+# to prepare for the final step in which we add metadata to the dto
 # we begin by extracting the names and (hopefuly their) labels of variables from each dataset
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
@@ -499,8 +497,18 @@ write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)
 # decisions on variables' renaming and classification is encoded in this map
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
 dsm <- read.csv("./data/shared/meta-data-map.csv")
-# attach metadata object as the 4th element of the main_list
-main_list[["metaData"]] <- dsm
+dsm["X"] <- NULL # remove native counter variable, not needed
+dsm["X.1"] <- NULL # remove native counter variable, not needed
+# dsm$url <- if(is.na(dsm$url){paste0("[link](", dsm$url,")")
+dsm$url <- as.character(dsm$url)
+for(i in seq_along(dsm$url)){ # i <- 20
+  if(!dsm[i,"url"]==""){
+    dsm[i,"url"] <- paste0("[link](",dsm[i,"url"],")")
+  } 
+}   
+  
+# attach metadata object as the 4th element of the dto
+dto[["metaData"]] <- dsm
 ```
 
 ```r
@@ -511,15 +519,15 @@ main_list[["metaData"]] <- dsm
 
 ```r
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(main_list, file="./data/unshared/derived/main_list.rds", compress="xz")
+saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
 ```
 
 ```r
-# the production of the main_list object is now complete
+# the production of the dto object is now complete
 # we verify its structure and content:
-main_list <- readRDS("./data/unshared/derived/main_list.rds")
+dto <- readRDS("./data/unshared/derived/dto.rds")
 # each element this list is another list:
-names(main_list)
+names(dto)
 ```
 
 ```
@@ -528,7 +536,7 @@ names(main_list)
 
 ```r
 # 1st element - names of the studies as character vector
-main_list[["studyName"]]
+dto[["studyName"]]
 ```
 
 ```
@@ -537,7 +545,7 @@ main_list[["studyName"]]
 
 ```r
 # 2nd element - file paths of the data files for each study
-main_list[["filePath"]]
+dto[["filePath"]]
 ```
 
 ```
@@ -550,7 +558,7 @@ main_list[["filePath"]]
 
 ```r
 # 3rd element - list objects with 
-names(main_list[["unitData"]])
+names(dto[["unitData"]])
 ```
 
 ```
@@ -558,7 +566,7 @@ names(main_list[["unitData"]])
 ```
 
 ```r
-dplyr::tbl_df(main_list[["unitData"]][["alsa"]]) 
+dplyr::tbl_df(dto[["unitData"]][["alsa"]]) 
 ```
 
 ```
@@ -586,27 +594,27 @@ dplyr::tbl_df(main_list[["unitData"]][["alsa"]])
 
 ```r
 # 4th element - dataset with augmented names and labels for variables from all involved studies
-dplyr::tbl_df(main_list[["metaData"]])
+dplyr::tbl_df(dto[["metaData"]])
 ```
 
 ```
-## Source: local data frame [150 x 12]
+## Source: local data frame [150 x 10]
 ## 
-##        X study_name     name label_short     item construct     type
-##    (int)     (fctr)   (fctr)      (fctr)   (fctr)    (fctr)   (fctr)
-## 1      1       alsa   SEQNUM                   id        id     demo
-## 2      2       alsa EXRTHOUS             exertion           activity
-## 3      3       alsa HWMNWK2W              walking           activity
-## 4      4       alsa LSVEXC2W                                activity
-## 5      5       alsa LSVIGEXC                                activity
-## 6      6       alsa TMHVYEXR                                activity
-## 7      7       alsa TMVEXC2W                                activity
-## 8      8       alsa VIGEXC2W                                activity
-## 9      9       alsa  VIGEXCS                                activity
-## 10    10       alsa WALK2WKS                                activity
-## ..   ...        ...      ...         ...      ...       ...      ...
-## Variables not shown: categories (int), X.1 (lgl), label (fctr), url
-##   (fctr), notes (fctr)
+##    study_name     name                      label_short     item construct
+##        (fctr)   (fctr)                           (fctr)   (fctr)    (fctr)
+## 1        alsa   SEQNUM                  Sequence Number       id        id
+## 2        alsa EXRTHOUS            Exertion around house exertion          
+## 3        alsa HWMNWK2W   Times walked in past two weeks  walking          
+## 4        alsa LSVEXC2W Less vigor sessions last 2 weeks                   
+## 5        alsa LSVIGEXC          Less vigor past 2 weeks                   
+## 6        alsa TMHVYEXR     Time heavy physical exertion                   
+## 7        alsa TMVEXC2W          Vigor Time past 2 weeks                   
+## 8        alsa VIGEXC2W   Vigor Sessions in past 2 weeks                   
+## 9        alsa  VIGEXCS                Vigorous exercise                   
+## 10       alsa WALK2WKS             Walking past 2 weeks                   
+## ..        ...      ...                              ...      ...       ...
+## Variables not shown: type (fctr), categories (int), label (fctr), url
+##   (chr), notes (fctr)
 ```
 
 The R session information (including the OS info, R version and all
@@ -618,7 +626,7 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.3 (2015-12-10)
+## R version 3.2.4 Revised (2016-03-16 r70336)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows >= 8 x64 (build 9200)
 ## 
@@ -633,23 +641,29 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] magrittr_1.5
+## [1] knitr_1.12.3  ggplot2_2.1.0 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.3         RColorBrewer_1.1-2  formatR_1.3        
-##  [4] plyr_1.8.3          tools_3.2.3         extrafont_0.17     
-##  [7] rpart_4.1-10        evaluate_0.8.3      gtable_0.2.0       
-## [10] lattice_0.20-33     DBI_0.3.1           parallel_3.2.3     
-## [13] gridExtra_2.2.1     Rttf2pt1_1.3.3      dplyr_0.4.3        
-## [16] stringr_1.0.0       cluster_2.0.3       knitr_1.12.3       
-## [19] grid_3.2.3          nnet_7.3-12         R6_2.1.2           
-## [22] survival_2.38-3     readxl_0.1.0        foreign_0.8-66     
-## [25] latticeExtra_0.6-28 Formula_1.2-1       tidyr_0.4.1        
-## [28] ggplot2_2.1.0       extrafontdb_1.0     Hmisc_3.17-2       
-## [31] scales_0.4.0        splines_3.2.3       rsconnect_0.3.79   
-## [34] assertthat_0.1      dichromat_2.0-0     testit_0.5         
-## [37] colorspace_1.2-6    stringi_1.0-1       acepack_1.3-3.3    
-## [40] lazyeval_0.1.10     munsell_0.4.3       markdown_0.7.7
+##  [1] splines_3.2.4       lattice_0.20-33     colorspace_1.2-6   
+##  [4] htmltools_0.3       yaml_2.1.13         mgcv_1.8-12        
+##  [7] survival_2.38-3     nloptr_1.0.4        foreign_0.8-66     
+## [10] DBI_0.3.1           RColorBrewer_1.1-2  plyr_1.8.3         
+## [13] stringr_1.0.0       MatrixModels_0.4-1  munsell_0.4.3      
+## [16] gtable_0.2.0        htmlwidgets_0.6     evaluate_0.8.3     
+## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
+## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
+## [25] parallel_3.2.4      Rttf2pt1_1.3.3      highr_0.5.1        
+## [28] Rcpp_0.12.3         acepack_1.3-3.3     scales_0.4.0       
+## [31] DT_0.1.40           formatR_1.3         Hmisc_3.17-2       
+## [34] jsonlite_0.9.19     lme4_1.1-11         gridExtra_2.2.1    
+## [37] testit_0.5          digest_0.6.9        stringi_1.0-1      
+## [40] dplyr_0.4.3         grid_3.2.4          tools_3.2.4        
+## [43] lazyeval_0.1.10     dichromat_2.0-0     Formula_1.2-1      
+## [46] cluster_2.0.3       car_2.1-1           extrafontdb_1.0    
+## [49] tidyr_0.4.1         MASS_7.3-45         Matrix_1.2-4       
+## [52] rsconnect_0.3.79    assertthat_0.1      minqa_1.2.4        
+## [55] rmarkdown_0.9.5     R6_2.1.2            rpart_4.1-10       
+## [58] nnet_7.3-12         nlme_3.1-126
 ```
 
 ```r
@@ -657,6 +671,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-03-26 12:56:56 PDT"
+## [1] "2016-04-01 09:03:11 PDT"
 ```
 
