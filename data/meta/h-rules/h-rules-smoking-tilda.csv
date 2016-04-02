@@ -1,0 +1,9 @@
+,BH001,BH002,BEHSMOKER,BH003_F,count,smoke_now,smoked_ever
+1,Yes,Yes,Current,NA,1564,TRUE,TRUE
+2,Yes,"No, I have stopped",Past,YOUNG,1945,FALSE,TRUE
+3,Yes,"No, I have stopped",Past,ADULT,790,FALSE,TRUE
+4,Yes,"No, I have stopped",Past,MIDDLEAGED,19,FALSE,TRUE
+5,Yes,"No, I have stopped",Past,OLD,434,FALSE,TRUE
+6,Yes,"No, I have stopped",Past,NA,25,FALSE,TRUE
+7,No,UNDOCUMENTED CODE,Never,NA,3726,,FALSE
+8,NA,UNDOCUMENTED CODE,NA,NA,1,,

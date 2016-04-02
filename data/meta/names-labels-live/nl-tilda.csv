@@ -1,5 +1,5 @@
 "","name","label"
-"1","ID","Anonymised ID"
+"1","id","Anonymised ID"
 "2","AGE","Age at interview assuming DOB is 1st of specified month"
 "3","SEX","Gender"
 "4","GD002","gd002 - Is this respondent male or female?"

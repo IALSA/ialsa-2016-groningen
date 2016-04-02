@@ -73,7 +73,7 @@ The next section recaps this script, exposes the architecture of the DTO, and de
 
 ## (I.A) Ellis Island
 
-> All data are immigrants.
+> All data land on Ellis Island.
 
 The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
 
@@ -88,6 +88,11 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 <!-- Inspect the datasets.   -->
 ```{r inspect-data, echo=T, results='show', message=FALSE}
+```
+
+
+### (I.A.1) Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
 ```
 
 <!-- Tweak the datasets.   -->
@@ -175,49 +180,103 @@ You can examine them in [`./data/shared/derived/response-profiles/](../data/shar
 
 ### ALSA
 
-Item that can contribute to generating values for the harmonized variable `smoke_now`  are:
-```{r target-1-alsa-1, echo=TRUE}
+Items that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r II-B-smoke_now-alsa-1, echo=TRUE}
 ```
-
-and have the following counts of possible combination of values :
-```{r target-1-alsa-2, echo=TRUE}
-```
-
-The algorithm of harmonization is spelled out below: 
-```{r target-1-alsa-3, echo=TRUE, eval=F}
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-smoke_now-alsa-2, echo=TRUE}
 ```
 
 
 ### LBSL
-```{r target-1-lbsl-1, echo=TRUE}
+Items that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r II-B-smoke_now-lbsl-1, echo=TRUE}
 ```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-smoke_now-lbsl-2, echo=TRUE}
+```
+
+
 ### SATSA
+
+Items that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r II-B-smoke_now-satsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-smoke_now-satsa-2, echo=TRUE}
+```
+
 ### SHARE
+
+Items that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r II-B-smoke_now-share-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-smoke_now-share-2, echo=TRUE}
+```
+
+
 ### TILDA
 
-## (II.B) `smoked_ever`
+Items that can contribute to generating values for the harmonized variable `smoke_now`  are:
+```{r II-B-smoke_now-tilda-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-smoke_now-tilda-2, echo=TRUE}
+```
+
+
+## (II.C) `smoked_ever`
 
 > Have you ever smoked?
 
 ### ALSA
+Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
+```{r II-C-smoked_ever-alsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-smoked_ever-alsa-2, echo=TRUE}
+```
+
 ### LBSL
+Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
+```{r II-C-smoked_ever-lbsl-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-smoked_ever-lbsl-2, echo=TRUE}
+```
+
+
 ### SATSA
+
+Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
+```{r II-C-smoked_ever-satsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-c-smoked_ever-satsa-2, echo=TRUE}
+```
+
+
 ### SHARE
+
+Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
+```{r II-C-smoked_ever-share-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-c-smoked_ever-share-2, echo=TRUE}
+```
+
 ### TILDA
 
-## (II.C) Assembly 
-Now we combine the raw variables and harmonized variables. 
+Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
+```{r II-C-smoked_ever-tilda-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-smoked_ever-tilda-2, echo=TRUE}
+```
 
 
-# (III) Recapitulation
 
-## (III.A) Look back
-
-## (III.B) Was Made Done
-
-> what is your mark on history? 
-
-## (III.C) New beginnings
 
 
 

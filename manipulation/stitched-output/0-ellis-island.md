@@ -7,10 +7,11 @@ This report was automatically generated with the R package **knitr**
 
 
 ```r
-# the purpose of this script is to create a data object (dto) which will hold all data and metadata from each candidate study of the exercise
-# run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
+# The purpose of this script is to create a data object (dto) 
+# (dto) which will hold all data and metadata from each candidate study of the exercise
+# Run the line below to stitch a basic html output. For elaborated report, run the corresponding .Rmd file
 # knitr::stitch_rmd(script="./manipulation/0-ellis-island.R", output="./manipulation/stitched-output/0-ellis-island.md")
-#These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
+# These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
 cat("\f") # clear console 
 ```
@@ -190,6 +191,13 @@ names(dto[["unitData"]])
 ```r
 # rename "MAR4" because it can be confused by machines for  March-4
 dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
+ 
+# rename personal identifiers for consistency
+dto[["unitData"]][["alsa"]] <- plyr::rename(dto[["unitData"]][["alsa"]], replace = c("SEQNUM"= "id"))
+dto[["unitData"]][["lbsl"]] <- plyr::rename(dto[["unitData"]][["lbsl"]], replace = c("ID"= "id"))
+dto[["unitData"]][["satsa"]] <- plyr::rename(dto[["unitData"]][["satsa"]], replace = c("ID"= "id"))
+dto[["unitData"]][["share"]] <- plyr::rename(dto[["unitData"]][["share"]], replace = c("SAMPID.rec"= "id"))
+dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("ID"= "id"))
 ```
 
 ```r
@@ -198,19 +206,19 @@ dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], repla
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
   save_csv <- names_labels(dto[["unitData"]][[i]])
-  write.csv(save_csv, paste0("./data/shared/derived/meta-raw-",i,".csv"), 
+  write.csv(save_csv, paste0("./data/meta/names-labels-live/nl-",i,".csv"), 
             row.names = T)  
 }  
 # these 5 individual .cvs contain the original variable names and labels
 # now we combine these files to create the starter for our metadata object
 dum <- list()
 for(i in studyNames){  
-  dum[[i]] <- read.csv(paste0("./data/shared/derived/meta-raw-",i,".csv"),
+  dum[[i]] <- read.csv(paste0("./data/meta/names-labels-live/nl-",i,".csv"),
                        header = T, stringsAsFactors = F )  
 }
 mdsraw <- plyr::ldply(dum, data.frame,.id = "study_name") # convert list of ds into a single ds
 mdsraw["X"] <- NULL # remove native counter variable, not needed
-write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)  
+write.csv(mdsraw, "./data/meta/names-labels-live/names-labels-live.csv", row.names = T)  
 ```
 
 ```r
@@ -218,7 +226,7 @@ write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)
 # we made a dead copy of `./data/shared/derived/meta-raw-live.csv` and named it `./data/shared/meta-data-map.csv`
 # decisions on variables' renaming and classification is encoded in this map
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
-dsm <- read.csv("./data/shared/meta-data-map.csv")
+dsm <- read.csv("./data/meta/meta-data-map.csv")
 dsm["X"] <- NULL # remove native counter variable, not needed
 dsm["X.1"] <- NULL # remove native counter variable, not needed
 # dsm$url <- if(is.na(dsm$url){paste0("[link](", dsm$url,")")
@@ -294,19 +302,19 @@ dplyr::tbl_df(dto[["unitData"]][["alsa"]])
 ```
 ## Source: local data frame [2,087 x 26]
 ## 
-##    SEQNUM EXRTHOUS HWMNWK2W LSVEXC2W LSVIGEXC TMHVYEXR TMVEXC2W VIGEXC2W
-##     (int)   (fctr)    (int)    (int)   (fctr)    (int)    (int)    (int)
-## 1      41       No       14       NA       No       NA       NA       NA
-## 2      42       No       14        4      Yes       NA       NA       NA
-## 3      61       No       NA       NA       No       NA       NA       NA
-## 4      71       No       14       NA       No       NA       NA       NA
-## 5      91       No       28       NA       No       NA       NA       NA
-## 6     121       No       NA       NA       No       NA       NA       NA
-## 7     181       No       NA       NA       No       NA       NA       NA
-## 8     201       No       NA       NA       No       NA       NA       NA
-## 9     221       No       NA       NA       No       NA       NA       NA
-## 10    261       No       NA       NA       No       NA       NA       NA
-## ..    ...      ...      ...      ...      ...      ...      ...      ...
+##       id EXRTHOUS HWMNWK2W LSVEXC2W LSVIGEXC TMHVYEXR TMVEXC2W VIGEXC2W
+##    (int)   (fctr)    (int)    (int)   (fctr)    (int)    (int)    (int)
+## 1     41       No       14       NA       No       NA       NA       NA
+## 2     42       No       14        4      Yes       NA       NA       NA
+## 3     61       No       NA       NA       No       NA       NA       NA
+## 4     71       No       14       NA       No       NA       NA       NA
+## 5     91       No       28       NA       No       NA       NA       NA
+## 6    121       No       NA       NA       No       NA       NA       NA
+## 7    181       No       NA       NA       No       NA       NA       NA
+## 8    201       No       NA       NA       No       NA       NA       NA
+## 9    221       No       NA       NA       No       NA       NA       NA
+## 10   261       No       NA       NA       No       NA       NA       NA
+## ..   ...      ...      ...      ...      ...      ...      ...      ...
 ## Variables not shown: VIGEXCS (fctr), WALK2WKS (fctr), BTSM12MN (fctr),
 ##   HLTHBTSM (fctr), HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr),
 ##   SCHOOL (fctr), TYPQUAL (fctr), RETIRED (fctr), SMOKER (fctr), FR6ORMOR
@@ -367,7 +375,7 @@ sessionInfo()
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] splines_3.2.4       lattice_0.20-33     colorspace_1.2-6   
-##  [4] htmltools_0.3       yaml_2.1.13         mgcv_1.8-12        
+##  [4] htmltools_0.3.5     yaml_2.1.13         mgcv_1.8-12        
 ##  [7] survival_2.38-3     nloptr_1.0.4        foreign_0.8-66     
 ## [10] DBI_0.3.1           RColorBrewer_1.1-2  plyr_1.8.3         
 ## [13] stringr_1.0.0       MatrixModels_0.4-1  munsell_0.4.3      
@@ -375,15 +383,15 @@ sessionInfo()
 ## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
 ## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
 ## [25] parallel_3.2.4      markdown_0.7.7      Rttf2pt1_1.3.3     
-## [28] highr_0.5.1         Rcpp_0.12.3         acepack_1.3-3.3    
-## [31] scales_0.4.0        DT_0.1.40           formatR_1.3        
+## [28] highr_0.5.1         Rcpp_0.12.4         acepack_1.3-3.3    
+## [31] formatR_1.3         scales_0.4.0        DT_0.1.40          
 ## [34] Hmisc_3.17-2        jsonlite_0.9.19     lme4_1.1-11        
 ## [37] gridExtra_2.2.1     testit_0.5          digest_0.6.9       
 ## [40] stringi_1.0-1       dplyr_0.4.3         grid_3.2.4         
 ## [43] tools_3.2.4         lazyeval_0.1.10     dichromat_2.0-0    
-## [46] Formula_1.2-1       cluster_2.0.3       car_2.1-1          
+## [46] Formula_1.2-1       cluster_2.0.3       car_2.1-2          
 ## [49] extrafontdb_1.0     tidyr_0.4.1         MASS_7.3-45        
-## [52] Matrix_1.2-4        rsconnect_0.3.79    assertthat_0.1     
+## [52] Matrix_1.2-4        rsconnect_0.4.2.1   assertthat_0.1     
 ## [55] minqa_1.2.4         rmarkdown_0.9.5     R6_2.1.2           
 ## [58] rpart_4.1-10        nnet_7.3-12         nlme_3.1-126
 ```
@@ -393,6 +401,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-01 09:27:55 PDT"
+## [1] "2016-04-01 19:13:00 PDT"
 ```
 

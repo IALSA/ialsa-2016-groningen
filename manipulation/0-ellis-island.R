@@ -94,6 +94,13 @@ names(dto[["unitData"]])
 # ---- tweak-data --------------------------------------------------------------
 # rename "MAR4" because it can be confused by machines for  March-4
 dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
+ 
+# rename personal identifiers for consistency
+dto[["unitData"]][["alsa"]] <- plyr::rename(dto[["unitData"]][["alsa"]], replace = c("SEQNUM"= "id"))
+dto[["unitData"]][["lbsl"]] <- plyr::rename(dto[["unitData"]][["lbsl"]], replace = c("ID"= "id"))
+dto[["unitData"]][["satsa"]] <- plyr::rename(dto[["unitData"]][["satsa"]], replace = c("ID"= "id"))
+dto[["unitData"]][["share"]] <- plyr::rename(dto[["unitData"]][["share"]], replace = c("SAMPID.rec"= "id"))
+dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("ID"= "id"))
 
 # ---- collect-meta-data -----------------------------------------
 # to prepare for the final step in which we add metadata to the dto
@@ -101,26 +108,26 @@ dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], repla
 # and combine them in a single rectanguar object, long/stacked with respect to study names
 for(i in studyNames){  
   save_csv <- names_labels(dto[["unitData"]][[i]])
-  write.csv(save_csv, paste0("./data/shared/derived/meta-raw-",i,".csv"), 
+  write.csv(save_csv, paste0("./data/meta/names-labels-live/nl-",i,".csv"), 
             row.names = T)  
 }  
 # these 5 individual .cvs contain the original variable names and labels
 # now we combine these files to create the starter for our metadata object
 dum <- list()
 for(i in studyNames){  
-  dum[[i]] <- read.csv(paste0("./data/shared/derived/meta-raw-",i,".csv"),
+  dum[[i]] <- read.csv(paste0("./data/meta/names-labels-live/nl-",i,".csv"),
                        header = T, stringsAsFactors = F )  
 }
 mdsraw <- plyr::ldply(dum, data.frame,.id = "study_name") # convert list of ds into a single ds
 mdsraw["X"] <- NULL # remove native counter variable, not needed
-write.csv(mdsraw, "./data/shared/derived/meta-raw-live.csv", row.names = T)  
+write.csv(mdsraw, "./data/meta/names-labels-live/names-labels-live.csv", row.names = T)  
 
 # ----- import-meta-data-dead -----------------------------------------
 # after the final version of the data files used in the excerside have been obtained
 # we made a dead copy of `./data/shared/derived/meta-raw-live.csv` and named it `./data/shared/meta-data-map.csv`
 # decisions on variables' renaming and classification is encoded in this map
 # reproduce ellis-island script every time you make changes to `meta-data-map.csv`
-dsm <- read.csv("./data/shared/meta-data-map.csv")
+dsm <- read.csv("./data/meta/meta-data-map.csv")
 dsm["X"] <- NULL # remove native counter variable, not needed
 dsm["X.1"] <- NULL # remove native counter variable, not needed
 # dsm$url <- if(is.na(dsm$url){paste0("[link](", dsm$url,")")

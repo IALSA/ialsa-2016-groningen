@@ -1,5 +1,5 @@
 "","study_name","name","label"
-"1","alsa","SEQNUM","Sequence Number"
+"1","alsa","id","Sequence Number"
 "2","alsa","EXRTHOUS","Exertion around house"
 "3","alsa","HWMNWK2W","Times walked in past two weeks"
 "4","alsa","LSVEXC2W","Less vigor sessions last 2 weeks"
@@ -25,7 +25,7 @@
 "24","alsa","WEIGHT","Weight in kilograms"
 "25","alsa","PIPCIGAR","Smokes pipe or cigars"
 "26","alsa","CURRWORK","Currently working"
-"27","lbsl","ID",NA
+"27","lbsl","id",NA
 "28","lbsl","AGE94","Age in 1994"
 "29","lbsl","SEX94","Sex"
 "30","lbsl","MSTAT94","Marital Status in 1994"
@@ -50,7 +50,7 @@
 "49","lbsl","HWEIGHT","Self-reported weight in pounds"
 "50","lbsl","HHEIGHT","Self-reported height in inches"
 "51","lbsl","SRHEALTH","Self-reported health compared to age peers"
-"52","satsa","ID","Twin number"
+"52","satsa","id","Twin number"
 "53","satsa","GMARITAL","What is your marital status?"
 "54","satsa","GAMTWORK","Which of the following alternatives best describes your current work/retirement situation?"
 "55","satsa","GEVRSMK","Do you smoke cigarettes, cigars or a pipe? - Yes"
@@ -77,7 +77,7 @@
 "76","satsa","YRBORN",NA
 "77","satsa","QAGE3","age at Q3"
 "78","satsa","EDUC","Education"
-"79","share","SAMPID.rec",NA
+"79","share","id",NA
 "80","share","DN0030","year of birth"
 "81","share","GENDER","male or female"
 "82","share","DN0140","marital status"
@@ -109,7 +109,7 @@
 "108","share","DN012DOT","other further education"
 "109","share","DN012DRF","refused"
 "110","share","DN012DDK","dont know"
-"111","tilda","ID","Anonymised ID"
+"111","tilda","id","Anonymised ID"
 "112","tilda","AGE","Age at interview assuming DOB is 1st of specified month"
 "113","tilda","SEX","Gender"
 "114","tilda","GD002","gd002 - Is this respondent male or female?"

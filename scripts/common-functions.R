@@ -1,3 +1,41 @@
+# encode a multi-state variable useing csv mapping
+recode_with_hrule <- function(dto, study_name, variable_names, harmony_name){
+  unitData <- dto[["unitData"]][[study_name]] 
+  (hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
+  stem_name <- c("id",variable_names)
+  d <- dto[["unitData"]][[study_name]] %>% 
+    dplyr::select_(.dots=stem_name)
+  # head(d); str(d)
+  for(i in variable_names){
+    d[,i] <- as.character(d[,i])
+  }
+  # head(d); str(d)
+  # head(hrule);str(hrule)
+  dd <- base::merge(d, hrule[ ,c(variable_names, harmony_name)], by=variable_names, all.x=T)  
+  # head(dd)
+  # verify
+  dots_name <- lapply(c(variable_names, harmony_name), as.symbol)
+  dd %>% dplyr::group_by_(.dots=dots_name)%>%
+    dplyr::summarize(n=n()) %>% print(n=100)
+  # append multistate variable to the original data
+  # names(dd)
+  dd <- dd[,c("id",harmony_name)]
+  unitData <- unitData %>% 
+    dplyr::left_join(dd, by = "id") 
+  # head(unitData %>% dplyr::select(id, SMOKER, PIPCIGAR, smoke_now))
+  # unitData
+  return(unitData)
+}
+
+# study_name <- "alsa"
+# path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
+# dto[["unitData"]][[study_name]] <- recode_with_hrule(
+#   dto,
+#   study_name = study_name, 
+#   variable_names = c("SMOKER", "PIPCIGAR"), 
+#   harmony_name = "smoked_ever"
+# )
+
 # define function to extract profiles
 response_profile <- function(dto, h_target, study, varnames_values){
   ds <- dto[["unitData"]][[study]]

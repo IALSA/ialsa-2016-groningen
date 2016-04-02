@@ -1,0 +1,10 @@
+,SMK94,SMOKE,count,smoke_now,smoked_ever
+1,no,smoke at present time,3,TRUE,TRUE
+2,no,don't smoke at present but smoked in the past,272,FALSE,TRUE
+3,no,never smoked,205,FALSE,FALSE
+4,no,NA,3,FALSE,#N/A
+5,yes,smoke at present time,71,TRUE,TRUE
+6,yes,don't smoke at present but smoked in the past,3,TRUE,FALSE
+7,NA,don't smoke at present but smoked in the past,8,#N/A,TRUE
+8,NA,never smoked,2,#N/A,FALSE
+9,NA,NA,89,#N/A,#N/A

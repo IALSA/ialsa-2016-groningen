@@ -1,0 +1,34 @@
+,GSMOKNOW,GEVRSMK,GEVRSNS,count,smoke_now,smoked_ever
+1,No,Yes,"No, I have never taken snuff",24,FALSE,TRUE
+2,No,Yes,"No, I quit.",1,FALSE,TRUE
+3,No,"No, I have never smoked",Yes,2,FALSE,FALSE
+4,No,"No, I have never smoked","No, I have never taken snuff",56,FALSE,FALSE
+5,No,"No, I have never smoked","No, I quit.",1,FALSE,FALSE
+6,No,"No, I quit.",Yes,10,FALSE,TRUE
+7,No,"No, I quit.","No, I have never taken snuff",66,FALSE,TRUE
+8,No,"No, I quit.","No, I quit.",13,FALSE,TRUE
+9,No,"No, I quit.",NA,1,FALSE,TRUE
+10,No,NA,NA,9,FALSE,
+11,Yes,Yes,Yes,26,TRUE,TRUE
+12,Yes,Yes,"No, I have never taken snuff",249,TRUE,TRUE
+13,Yes,Yes,"No, I quit.",13,TRUE,TRUE
+14,Yes,Yes,NA,6,TRUE,TRUE
+15,Yes,"No, I have never smoked",Yes,13,TRUE,
+16,Yes,"No, I have never smoked","No, I have never taken snuff",1,TRUE,
+17,Yes,"No, I quit.",Yes,34,TRUE,
+18,Yes,"No, I quit.","No, I have never taken snuff",6,TRUE,
+19,Yes,"No, I quit.",NA,2,TRUE,
+20,Yes,NA,Yes,2,TRUE,
+21,Yes,NA,"No, I have never taken snuff",1,TRUE,
+22,Yes,NA,NA,12,TRUE,
+23,NA,Yes,"No, I have never taken snuff",8,,TRUE
+24,NA,"No, I have never smoked","No, I have never taken snuff",635,,
+25,NA,"No, I have never smoked","No, I quit.",6,,
+26,NA,"No, I have never smoked",NA,6,,
+27,NA,"No, I quit.",Yes,3,,
+28,NA,"No, I quit.","No, I have never taken snuff",206,,
+29,NA,"No, I quit.","No, I quit.",25,,
+30,NA,"No, I quit.",NA,3,,
+31,NA,NA,Yes,1,,
+32,NA,NA,"No, I have never taken snuff",2,,
+33,NA,NA,NA,54,,

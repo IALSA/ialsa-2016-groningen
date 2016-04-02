@@ -71,7 +71,7 @@ This report lists the candidate variable for DataScheme variables of the constru
 
 ## Ellis Island
 
-> All data arrive to Ellis Island. 
+> All data land on Ellis Island.
 
 The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
 
@@ -87,6 +87,11 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 <!-- Inspect the datasets.   -->
 ```{r inspect-data, echo=T }
 ```
+
+### (I.A.1) Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```
+
 
 <!-- Tweak the datasets.   -->
 ```{r tweak-data, echo=echoChunks }
