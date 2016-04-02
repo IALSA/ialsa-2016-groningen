@@ -23,7 +23,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 ### Measures
 
 - [Full list variables ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/shared/derived/meta-raw-live.csv) used in the exercise.  
-- Data provisioning documentation : the [Ellis Island](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) report. ([html](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/0-ellis-island.html)
+- Data provisioning documentation : the [Ellis Island](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/0-ellis-island.html) report.
 
 #### OUTCOME:   
 - Current smoking status  ([candidates](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonization-smoking-basic-graphs.html), [harmonization](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonization-smoking.html))
