@@ -36,6 +36,7 @@ dto[["filePath"]]
 names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
+# ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
 dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
   DT::datatable(
@@ -126,7 +127,7 @@ response_profile <- function(dto, h_target, study, varnames_values){
   d <- ds %>% 
     dplyr::group_by_(.dots=varnames_values) %>% 
     dplyr::summarize(count = n()) 
-  write.csv(d,paste0("./data/shared/derived/response-profiles/",h_target,"-",study,".csv"))
+  write.csv(d,paste0("./data/meta/response-profiles-live/",h_target,"-",study,".csv"))
 }
 # extract response profile for data schema set from each study
 for(s in names(schema_sets)){
@@ -137,55 +138,223 @@ for(s in names(schema_sets)){
                    )
 }
  
-# ---- target-1-alsa-1 -------------------------------------------------
-
-# dto[["metaData"]] %>%
-#   dplyr::filter(name %in% c("SMOKER", "PIPCIGAR")) %>%
-#   dplyr::select(study_name, name, label,categories)
-
-# view the joint profile of responses
-dto[["unitData"]][["alsa"]] %>% 
-  dplyr::group_by(SMOKER, PIPCIGAR) %>% 
-  dplyr::summarize(count = n()) 
 
 
-# ---- target-1-alsa-2 -------------------------------------------------
-path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
-(hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
+# ---- II-B-smoke_now-alsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(name %in% c("SMOKER", "PIPCIGAR")) %>%
+  dplyr::select(study_name, name, label,categories)
+# ---- II-B-smoke_now-alsa-2 -------------------------------------------------
+study_name <- "alsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-alsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("SMOKER", "PIPCIGAR"), 
+  harmony_name = "smoke_now"
+)
+# verify
+dto[["unitData"]][["alsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SMOKER", "PIPCIGAR", "smoke_now")
 
-# ---- target-1-alsa-3 -------------------------------------------------
-study = "alsa"
-raw_vars = c("SMOKER", "PIPCIGAR")
-h_var = "smoke_now"
 
-recode_from_meta <- function(ds, hrule, variable_names, harmony_name){
-  d <- merge(ds, hrule[, c(variable_names, harmony_name)], by=variable_names, all.x=T)
-}
 
-recode_with_hrule <- function(dto, study_name, variable_names, harmony_name){
-  path_to_hrule <- "./data/shared/raw/response-profiles/h-rule-smoking-alsa.csv"
-  (hrule <- read.csv(path_to_hrule, stringsAsFactors = F, na.strings = "NA"))
-  d <- dto[["unitData"]][["alsa"]] %>% 
-    dplyr::select_("SMOKER", "PIPCIGAR")
-  ddm <- base::merge(d,hrule[,c(variable_names, harmony_name, by=variable_names, all.x=T)] )  
-  
-}
+# ---- II-B-smoke_now-lbsl-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "lbsl", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-B-smoke_now-lbsl-2 -------------------------------------------------
+study_name <- "lbsl"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-lbsl.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("SMK94", "SMOKE"), 
+  harmony_name = "smoke_now"
+)
+# verify
+dto[["unitData"]][["lbsl"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SMK94", "SMOKE", "smoke_now")
 
-d <- recode_with_hrule(dto,"alsa", c("SMOKER","PIPCIGAR"), "smoke_now")
-head(d)
+
+
+# ---- II-B-smoke_now-satsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "satsa", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-B-smoke_now-satsa-2 -------------------------------------------------
+study_name <- "satsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-satsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("GEVRSMK", "GEVRSNS","GSMOKNOW"), 
+  harmony_name = "smoke_now"
+)
+# verify
+dto[["unitData"]][["satsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "GEVRSMK", "GEVRSNS","GSMOKNOW", "smoke_now")
+
+
+
+# ---- II-B-smoke_now-share-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "share", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-B-smoke_now-share-2 -------------------------------------------------
+study_name <- "share"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-share.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("BR0010", "BR0020","BR0030_F"), 
+  harmony_name = "smoke_now"
+)
+# verify
+dto[["unitData"]][["share"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "BR0010", "BR0020","BR0030_F", "smoke_now")
+
+
+
+# ---- II-B-smoke_now-tilda-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "tilda", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-B-smoke_now-tilda-2 -------------------------------------------------
+study_name <- "tilda"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-tilda.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("BH001", "BH002","BEHSMOKER","BH003_F" ), 
+  harmony_name = "smoke_now"
+)
+# verify
+dto[["unitData"]][["tilda"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "BH001", "BH002","BEHSMOKER","BH003_F", "smoke_now")
+
+
+
+
+
+# ---- II-C-smoked_ever-alsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(name %in% c("SMOKER", "PIPCIGAR")) %>%
+  dplyr::select(study_name, name, label,categories)
+# ---- II-C-smoked_ever-alsa-2 -------------------------------------------------
+study_name <- "alsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-alsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("SMOKER", "PIPCIGAR"), 
+  harmony_name = "smoked_ever"
+)
+# verify
+dto[["unitData"]][["alsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SMOKER", "PIPCIGAR", "smoked_ever")
+
+
+
+# ---- II-C-smoked_ever-lbsl-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "lbsl", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-smoked_ever-lbsl-2 -------------------------------------------------
+study_name <- "lbsl"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-lbsl.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("SMK94", "SMOKE"), 
+  harmony_name = "smoked_ever"
+)
+# verify
+dto[["unitData"]][["lbsl"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SMK94", "SMOKE", "smoked_ever")
+
+
+
+
+# ---- II-C-smoked_ever-satsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "satsa", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-smoked_ever-satsa-2 -------------------------------------------------
+study_name <- "satsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-satsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("GEVRSMK", "GEVRSNS","GSMOKNOW"), 
+  harmony_name = "smoked_ever"
+)
+# verify
+dto[["unitData"]][["satsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "GEVRSMK", "GEVRSNS","GSMOKNOW", "smoked_ever")
+
+
+
+# ---- II-C-smoked_ever-share-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "share", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-smoked_ever-share-2 -------------------------------------------------
+study_name <- "share"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-share.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("BR0010", "BR0020","BR0030_F"), 
+  harmony_name = "smoked_ever"
+)
+# verify
+dto[["unitData"]][["share"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "BR0010", "BR0020","BR0030_F", "smoked_ever")
+
+
+
+# ---- II-C-smoked_ever-tilda-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "tilda", construct == "smoking") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-smoked_ever-tilda-2 -------------------------------------------------
+study_name <- "tilda"
+path_to_hrule <- "./data/meta/h-rules/h-rules-smoking-tilda.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("BH001", "BH002","BEHSMOKER","BH003_F" ), 
+  harmony_name = "smoked_ever"
+)
+# verify
+dto[["unitData"]][["tilda"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "BH001", "BH002","BEHSMOKER","BH003_F", "smoked_ever")
+
+
 
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" , 
                   output_format="html_document", clean=TRUE)
-
-
-
-
-
-
-
-
 
 
 
