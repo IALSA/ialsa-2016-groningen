@@ -366,7 +366,7 @@ table( ds$smoked_ever, ds$study_name)
 
 
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" , 
+rmarkdown::render(input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" , 
                   output_format="html_document", clean=TRUE)
 
 

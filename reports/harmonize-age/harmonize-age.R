@@ -1,3 +1,4 @@
+# This report conducts harmonization procedure 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
@@ -32,7 +33,7 @@ names(dto)
 dto[["studyName"]]
 # 2nd element - file paths of the data files for each study as character vector
 dto[["filePath"]]
-# 3rd element - list objects with the following elements
+# 3rd element - is a list object containing the following elements
 names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
@@ -53,54 +54,89 @@ dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, cat
 # ---- basic-graph --------------------------------------------------------------
 
 
-# ----- view-metadata ---------------------------------------------
-# view metadata for the construct of age
+# ----- view-metadata-1 ---------------------------------------------
 dto[["metaData"]] %>%
   dplyr::filter(construct %in% c('age')) %>% 
   dplyr::select(-url, -label, -notes) %>%
   dplyr::arrange(study_name, item) %>%
   base::print()  
 
-# ----- alsa-AGE ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="alsa", name=="AGE") %>% dplyr::select(name,label)
-dto[["unitData"]][["alsa"]] %>% histogram_continuous("AGE", bin_width = 1)
+
+# ---- assemble ------------------
+# s ="alsa"
+dmls <- list()
+for(s in dto[["studyName"]]){
+  ds <- dto[["unitData"]][[s]]
+  (varnames <- names(ds))
+  (get_these_variables <- c("id","year_of_wave", "AGE","QAGE3","AGE94","YRBORN","DN0030"))
+  (variables_present <- varnames %in% get_these_variables)
+  dmls[[s]] <- ds[,variables_present]
+}
+# view the contents of the list object
+lapply(dmls, names)
+
+# ---- age-alsa ------------------------------------
+# transform into harmonized variable
+ds <- dmls[['alsa']]; head(ds)
+ds <- ds %>%
+  dplyr::mutate(age_in_years = AGE, # direct transform
+                   year_born = year_of_wave - age_in_years) %>% 
+  dplyr::select(-AGE)
+head(ds)
+dmls[['alsa']] <- ds
+
+# ---- age-lbsl ------------------------------------
+# transform into harmonized variable
+ds <- dmls[['lbsl']]; head(ds)
+ds <- ds %>%
+  dplyr::mutate(age_in_years = AGE94, # direct transform
+                year_born = year_of_wave - age_in_years) %>% 
+  dplyr::select(-AGE94)
+head(ds)
+dmls[['lbsl']] <- ds
+
+# ---- age-satsa ------------------------------------
+# transform into harmonized variable
+ds <- dmls[['satsa']]; head(ds)
+ds <- ds %>%
+  dplyr::mutate(age_in_years = QAGE3, # direct transform; (??) should it be rounded (??)
+                year_born = YRBORN +1900) %>%  
+  dplyr::select(-QAGE3, - YRBORN )
+head(ds)
+dmls[['satsa']] <- ds
+# Reconcile the difference between (YEAR_BORN) and (year_born)
+
+# ---- age-share ------------------------------------
+# transform into harmonized variable
+ds <- dmls[['share']]; head(ds)
+ds <- ds %>%
+  dplyr::mutate(year_born = DN0030, # direct transform
+                age_in_years = year_of_wave - year_born) %>%  
+  dplyr::select(-DN0030)
+head(ds)
+dmls[['share']] <- ds
+
+# ---- age-tilda ------------------------------------
+# transform into harmonized variable
+ds <- dmls[['tilda']]; head(ds)
+ds <- ds %>%
+  dplyr::mutate(age_in_years = AGE, # direct transform
+                year_born = year_of_wave - age_in_years) %>% 
+  dplyr::select(-AGE)
+head(ds)
+dmls[['tilda']] <- ds
+# Reconcile the difference between (YEAR_BORN) and (year_born)
 
 
-# ----- lbsl-AGE94 ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="lbsl", name=="AGE94") %>% dplyr::select(name,label)
-dto[["unitData"]][["lbsl"]] %>% histogram_continuous("AGE94", bin_width = 1)
-
-# ----- satsa-QAGE3 ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="satsa", name=="QAGE3") %>% dplyr::select(name,label)
-dto[["unitData"]][["satsa"]] %>% histogram_continuous("QAGE3", bin_width = 1)
-
-# ----- satsa-YRBORN ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="satsa", name=="YRBORN") %>% dplyr::select(name,label)
-dto[["unitData"]][["satsa"]] %>% histogram_continuous("YRBORN", bin_width = 1)
-
-
-# ----- share-DN0030 ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="share", name=="DN0030") %>% dplyr::select(name,label)
-dto[["unitData"]][["share"]] %>% dplyr::filter(!DN0030==99999) %>% histogram_continuous("DN0030", bin_width=1)
-
-
-# ----- tilda-AGE ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="tilda", name=="AGE") %>% dplyr::select(name,label)
-dto[["unitData"]][["tilda"]] %>% histogram_continuous("AGE", bin_width = 1)
-
+# ---- assemble-harmonized ------------------------------------
+ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
+ds$id <- 1:nrow(ds) # some ids values might be identical, replace
+head(ds)
 
 
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./reports/harmonization-age/harmonization-age-basic-graphs.Rmd" ,
+rmarkdown::render(input = "./reports/harmonize-age/harmonize-age.Rmd" , 
                   output_format="html_document", clean=TRUE)
-
-
-
-
-
-
-
-
 
 
 

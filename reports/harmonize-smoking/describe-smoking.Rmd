@@ -1,5 +1,5 @@
 ---
-title: "Harmonization exposition : age"
+title: "Describe: smoking"
 output:
   html_document:
     css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
@@ -42,10 +42,10 @@ opts_chunk$set(
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 # connect to the file with the underlying R script  
-read_chunk("./reports/harmonization-age/harmonization-age-basic-graphs.R") 
+read_chunk("./reports/harmonize-smoking/describe-smoking.R") 
 ```
 
-This report lists the candidate variable for DataScheme variables of the construct **age**.
+This report lists the candidate variable for DataScheme variables of the construct **smoking**.
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 ```{r load-packages, echo=echoChunks }
@@ -103,40 +103,78 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 # ALSA
 
-## AGE
-```{r alsa-AGE, echo=TRUE }
+## SMOKER
+```{r alsa-SMOKER, echo=TRUE }
 ```
+
+## PIPCIGAR
+```{r alsa-PIPCIGAR, echo=TRUE }
+```
+
 
 
 # LBSL
 
-## AGE94
-```{r lbsl-AGE94, echo=TRUE }
+## SMK94
+```{r lbsl-SMK94, echo=TRUE }
 ```
+
+## SMOKE
+```{r lbsl-SMOKE, echo=TRUE }
+```
+
 
 
 # SATSA
 
-## QAGE3
-```{r satsa-QAGE3, echo=TRUE }
+## GSMOKNOW
+```{r satsa-GSMOKNOW, echo=TRUE }
 ```
 
-## YRBORN
-```{r satsa-YRBORN, echo=TRUE }
+## GEVRSMK
+```{r satsa-GEVRSMK, echo=TRUE }
 ```
+
+## GEVRSNS
+```{r satsa-GEVRSNS, echo=TRUE }
+```
+
+
 
 # SHARE
 
-## DN0030
-```{r share-DN0030, echo=TRUE }
+## BR0010
+```{r share-BR0010, echo=TRUE }
 ```
+
+## BR0020
+```{r share-BR0020, echo=TRUE }
+```
+
+## BR0030
+```{r share-BR0030, echo=TRUE }
+```
+
+
 
 # TILDA
 
-## AGE
-```{r tilda-AGE, echo=TRUE }
+## BH001
+```{r tilda-BH001, echo=TRUE }
 ```
 
+## BH002
+```{r tilda-BH002, echo=TRUE }
+```
+
+## BH003
+```{r tilda-BH003, echo=TRUE }
+```
+
+
+## BEHSMOKER
+```{r tilda-BEHSMOKER, echo=TRUE }
+```
 
 ```{r}
 sessionInfo()

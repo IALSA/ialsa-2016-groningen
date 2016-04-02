@@ -3,21 +3,32 @@ knitr::stitch_rmd(
   output="./manipulation/stitched-output/0-ellis-island.md"
 )
 
+# Smoking
+# Describe
 rmarkdown::render(
-  input = "./reports/harmonization-smoking/harmonization-smoking.Rmd" ,
+  input = "./reports/harmonize-smoking/describe-smoking.Rmd" ,
+  output_format="html_document", clean=TRUE
+)
+# Harmonize
+rmarkdown::render(
+  input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 
 
+
+# Age
+# Describe
 rmarkdown::render(
-  input = "./reports/harmonization-smoking/harmonization-smoking-basic-graphs.Rmd" ,
+  input = "./reports/harmonize-age/describe-age.Rmd" ,
+  output_format="html_document", clean=TRUE
+)
+# Harmonize
+rmarkdown::render(
+  input = "./reports/harmonize-age/harmonize-age.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 
-rmarkdown::render(
-  input = "./reports/harmonization-age/harmonization-age-basic-graphs.Rmd" ,
-  output_format="html_document", clean=TRUE
-)
 
 
 

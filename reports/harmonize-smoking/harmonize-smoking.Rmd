@@ -1,5 +1,5 @@
 ---
-title: "Harmonization exposition : smoking"
+title: "Harmonize: smoking"
 output:
   html_document:
     css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
@@ -42,7 +42,7 @@ opts_chunk$set(
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 # connect to the file with the underlying R script  
-read_chunk("./reports/harmonization-smoking/harmonization-smoking.R") 
+read_chunk("./reports/harmonize-smoking/harmonize-smoking.R") 
 ```
 
 This report lists the candidate variable for DataScheme variables of the construct **smoking**.
@@ -91,7 +91,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-### (I.A.1) Meta
+### Meta
 ```{r meta-table, echo=TRUE, results='show', message=FALSE}
 ```
 
@@ -276,7 +276,7 @@ We encode the harmonization rule by manually editing the values in a correspondi
 ```
 
 
-## (II.C) Assembly 
+# (III) Recapitulation 
 
 At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variables `smoke_now` and `smoked_ever`. We retrieve harmonized variables to view frequency counts across studies: 
 
