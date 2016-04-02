@@ -1,3 +1,4 @@
+# This report conducts harmonization procedure 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
 rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
@@ -349,7 +350,19 @@ dto[["unitData"]][["tilda"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
   dplyr::select_("id", "BH001", "BH002","BEHSMOKER","BH003_F", "smoked_ever")
 
+names(dto[['unitData']][["tilda"]])
 
+# ---- II-C-assembly ---------------------------------------------
+dumlist <- list()
+for(s in dto[["studyName"]]){
+  ds <- dto[["unitData"]][[s]]
+  dumlist[[s]] <- ds[,c("id","smoke_now","smoked_ever")]
+}
+ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
+head(ds)
+ds$id <- 1:nrow(ds) # some ids values might be identical, replace
+table( ds$smoke_now, ds$study_name)
+table( ds$smoked_ever, ds$study_name)
 
 
 # ---- reproduce ---------------------------------------

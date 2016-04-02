@@ -24,3 +24,4 @@
 "23","HWEIGHT","Self-reported weight in pounds"
 "24","HHEIGHT","Self-reported height in inches"
 "25","SRHEALTH","Self-reported health compared to age peers"
+"26","year_of_wave",NA

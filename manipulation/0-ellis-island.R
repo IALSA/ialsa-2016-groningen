@@ -102,6 +102,18 @@ dto[["unitData"]][["satsa"]] <- plyr::rename(dto[["unitData"]][["satsa"]], repla
 dto[["unitData"]][["share"]] <- plyr::rename(dto[["unitData"]][["share"]], replace = c("SAMPID.rec"= "id"))
 dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("ID"= "id"))
 
+# https://www.maelstrom-research.org/mica/study/alsa
+dto[["unitData"]][["alsa"]]$year_of_wave <- 1992
+# https://www.maelstrom-research.org/mica/study/lbls
+dto[["unitData"]][["lbsl"]]$year_of_wave <- 1994
+# https://www.maelstrom-research.org/mica/study/satsa
+dto[["unitData"]][["satsa"]]$year_of_wave <- 1991
+# http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
+dto[["unitData"]][["share"]]$year_of_wave <- 2004
+# https://www.maelstrom-research.org/mica/study/tilda 
+dto[["unitData"]][["tilda"]]$year_of_wave <- 2009
+
+
 # ---- collect-meta-data -----------------------------------------
 # to prepare for the final step in which we add metadata to the dto
 # we begin by extracting the names and (hopefuly their) labels of variables from each dataset

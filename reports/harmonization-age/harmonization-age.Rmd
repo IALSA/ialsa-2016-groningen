@@ -1,0 +1,140 @@
+---
+title: "Harmonization exposition : smoking"
+output:
+  html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
+    keep_md: yes
+    theme: flatly
+    toc: yes
+---
+
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 4, 
+  fig.width = 5.5, 
+  out.width = "550px",
+  fig.path = 'figure_rmd/',     
+  dev = "png",
+  dpi = 400
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- FALSE
+options(width=120) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./reports/harmonization-smoking/harmonization-smoking.R") 
+```
+
+This report lists the candidate variable for DataScheme variables of the construct **smoking**.
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks, message=FALSE}
+#Put code in here.  It doesn't call a chunk in the codebehind file.
+```
+# (I) Exposition
+
+> This report is a record of interaction with a data transfer object (dto) produced by `./manipulation/0-ellis-island.R`. 
+
+The next section recaps this script, exposes the architecture of the DTO, and demonstrates the language of interacting with it.   
+
+## (I.A) Ellis Island
+
+> All data land on Ellis Island.
+
+The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
+
+- (1) Reads in raw data files from the candidate studies   
+- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/shared/derived/meta-data-live.csv`, which is updated every time Ellis Island script is executed.   
+- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/shared/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
+- (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=T, results='asis', message=FALSE}
+```
+
+<!-- Inspect the datasets.   -->
+```{r inspect-data, echo=T, results='show', message=FALSE}
+```
+
+
+### (I.A.1) Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Basic table view.   -->
+```{r basic-table, echo=TRUE, results='show', message=FALSE}
+```
+
+
+## (I.B) Target-H
+
+> Everybody wants to be somebody.
+
+We query metadata set to retrieve all variables potentially tapping the construct `smoking`. These are the candidates to enter the DataSchema and contribute to  computing harmonized variables. 
+
+***NOTE***: what is being retrieved depends on the manually entered values in the column `construct` of the metadata file `./data/shared/meta-data-map.csv`. To specify a different group of variables, edit the  metadata, not the script. 
+
+```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
+```
+
+View [descriptives : smoking](/reports/harmonization-smoking/harmonization-smoking-basic-graphs.md) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
+
+#### (1) `smoke_now` :  **Are you a smoker presently?**  
+  - `0` - NO - *healthy choice*  
+  - `1` - YES - *unhealthy choice*     
+  
+#### (2) `smoked_ever` **Have you ever smoked?**  
+  - `0` - NO - *healthy choice*  
+  - `1` - YES - *unhealthy choice*  
+
+These two variables will be manufactured by qualitative harmonization in the Development section. 
+ 
+# (II) Development
+
+In this section we will define the schema sets for harmonizing `smoking` construct (i.e.  specify which variables from which studies will be contributing to computing harmonized variables ). Each of these schema sets (e.g. `"alsa" = c("SMOKER", "PIPCIGAR")`) will have a particular pattern of possible response values to these variables(e.g. "id_1" = c("SMOKER"="YES", "PIPCIGAR"="NO")), which we will export for inspection as `.csv` tables. We then will manually edit these `.csv` tables, populating new columns that will map values of harmonized variables to the specific response pattern of the schema set variables. We then will import harmonization algorithms encoded in `.csv` tables and apply them to compute harmonized variables in the dataset combining raw and harmonized variables for `smoking` construct across studies.
+
+```{r II-C-assembly, echo=TRUE}
+```
+
+
+
+
+

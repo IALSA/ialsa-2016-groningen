@@ -368,6 +368,17 @@ dto[[&quot;unitData&quot;]][[&quot;lbsl&quot;]] &lt;- plyr::rename(dto[[&quot;un
 dto[[&quot;unitData&quot;]][[&quot;satsa&quot;]] &lt;- plyr::rename(dto[[&quot;unitData&quot;]][[&quot;satsa&quot;]], replace = c(&quot;ID&quot;= &quot;id&quot;))
 dto[[&quot;unitData&quot;]][[&quot;share&quot;]] &lt;- plyr::rename(dto[[&quot;unitData&quot;]][[&quot;share&quot;]], replace = c(&quot;SAMPID.rec&quot;= &quot;id&quot;))
 dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]] &lt;- plyr::rename(dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]], replace = c(&quot;ID&quot;= &quot;id&quot;))
+
+# https://www.maelstrom-research.org/mica/study/alsa
+dto[[&quot;unitData&quot;]][[&quot;alsa&quot;]]$year_of_wave &lt;- 1992
+# https://www.maelstrom-research.org/mica/study/lbls
+dto[[&quot;unitData&quot;]][[&quot;lbsl&quot;]]$year_of_wave &lt;- 1994
+# https://www.maelstrom-research.org/mica/study/satsa
+dto[[&quot;unitData&quot;]][[&quot;satsa&quot;]]$year_of_wave &lt;- 1991
+# http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
+dto[[&quot;unitData&quot;]][[&quot;share&quot;]]$year_of_wave &lt;- 2004
+# https://www.maelstrom-research.org/mica/study/tilda 
+dto[[&quot;unitData&quot;]][[&quot;tilda&quot;]]$year_of_wave &lt;- 2009
 </code></pre>
 
 <pre><code class="r"># to prepare for the final step in which we add metadata to the dto
@@ -456,7 +467,7 @@ names(dto[[&quot;unitData&quot;]])
 <pre><code class="r">dplyr::tbl_df(dto[[&quot;unitData&quot;]][[&quot;alsa&quot;]]) 
 </code></pre>
 
-<pre><code>## Source: local data frame [2,087 x 26]
+<pre><code>## Source: local data frame [2,087 x 27]
 ## 
 ##       id EXRTHOUS HWMNWK2W LSVEXC2W LSVIGEXC TMHVYEXR TMVEXC2W VIGEXC2W
 ##    (int)   (fctr)    (int)    (int)   (fctr)    (int)    (int)    (int)
@@ -475,7 +486,7 @@ names(dto[[&quot;unitData&quot;]])
 ##   HLTHBTSM (fctr), HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr),
 ##   SCHOOL (fctr), TYPQUAL (fctr), RETIRED (fctr), SMOKER (fctr), FR6ORMOR
 ##   (fctr), NOSTDRNK (fctr), FREQALCH (fctr), WEIGHT (dbl), PIPCIGAR (fctr),
-##   CURRWORK (fctr)
+##   CURRWORK (fctr), year_of_wave (dbl)
 </code></pre>
 
 <pre><code class="r"># 4th element - dataset with augmented names and labels for variables from all involved studies
@@ -550,7 +561,7 @@ packages used):</p>
 <pre><code class="r">Sys.time()
 </code></pre>
 
-<pre><code>## [1] &quot;2016-04-01 19:13:00 PDT&quot;
+<pre><code>## [1] &quot;2016-04-02 11:33:08 PDT&quot;
 </code></pre>
 
 </body>
