@@ -1,5 +1,5 @@
 ---
-title: "Describe: age"
+title: "Describe: sex"
 output:
   html_document:
     css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
