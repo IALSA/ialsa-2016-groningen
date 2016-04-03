@@ -78,8 +78,8 @@ The next section recaps this script, exposes the architecture of the DTO, and de
 The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
 
 - (1) Reads in raw data files from the candidate studies   
-- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/shared/derived/meta-data-live.csv`, which is updated every time Ellis Island script is executed.   
-- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/shared/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
+- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/meta/names-labels-live/names-labels-live.csv`, which is updated every time Ellis Island script is executed.   
+- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/meta/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
 - (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
 
 <!-- Load the datasets.   -->
@@ -169,7 +169,7 @@ We output these tables into self-standing `.csv` files, so we can manually provi
 ```{r II-A-2-schema-sets-3, echo=TRUE}
 ```  
 
-You can examine them in [`./data/shared/derived/response-profiles/](../data/shared/response-profiles/)
+You can examine them in [`./data/meta/response-profiles-live/](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live)
 
 ## (II.B) `smoke_now`
 
@@ -280,7 +280,7 @@ We encode the harmonization rule by manually editing the values in a correspondi
 
 At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variables `smoke_now` and `smoked_ever`. We retrieve harmonized variables to view frequency counts across studies: 
 
-```{r II-C-assembly, echo=TRUE}
+```{r III-A-assembly, echo=TRUE}
 ```
 
 
