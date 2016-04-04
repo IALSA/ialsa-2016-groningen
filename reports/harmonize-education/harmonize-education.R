@@ -230,6 +230,11 @@ ds$educ4 <- ordered(
 table( ds$educ4, ds$study_name)
 
 
+head(dto[["unitData"]][["alsa"]])
+# ---- save-to-disk ------------------------------------------------------------
+# Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
+saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
+
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(

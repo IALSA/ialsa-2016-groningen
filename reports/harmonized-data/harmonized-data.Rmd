@@ -1,5 +1,5 @@
 ---
-title: "Harmonize: age"
+title: "Harmonized Data"
 output:
   html_document:
     css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
@@ -42,10 +42,10 @@ opts_chunk$set(
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 # connect to the file with the underlying R script  
-read_chunk("./reports/harmonize-age/harmonize-age.R") 
+read_chunk("./reports/harmonized-data/harmonized-data.R") 
 ```
 
-This report lists the candidate variable for DataScheme variables of the construct **age**.
+This report combines harmonized variables from all studies into a single data set with `study_name` as a factor. 
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
 ```{r load-packages, echo=echoChunks, message=FALSE}
@@ -104,70 +104,11 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-## (I.B) Target-H
+### Combined data
 
-> Everybody wants to be somebody.
-
-We query metadata set to retrieve all variables potentially tapping the construct `age`. These are the candidates to enter the DataSchema and contribute to  computing harmonized variables. 
-
-***NOTE***: what is being retrieved depends on the manually entered values in the column `construct` of the metadata file `./data/shared/meta-data-map.csv`. To specify a different group of variables, edit the  metadata, not the script. 
-
-```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
+```{r assemble, echo=TRUE, results='show', message=FALSE}
 ```
 
-View [descriptives : age](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html) for closer examination of each candidates.  After reviewing  these descriptives and relevant codebooks, the following harmonization target for construct `age` have been adopted.   
-
-Each study is to provide:
-
-* `year_of_wave` - the calendaric year in which the measurement wave occured. These data values are added manually, after consulting respective study's documentation.   
-* `year_born` - the calendaric year in which the respondent was born  
-* `age_in_years` - the age of respondent in years   
-
-  
-
-These variables will be generated next, in the Development section. 
- 
-# (II) Development
-
-We export DataSchema variables for `age` into a single object for easier handling.
-
-```{r assemble, echo=TRUE}
-```
-
-Next, variables will be renamed and computed to fill the mold of the harmonization target.
-
-### ALSA
-```{r age-alsa, echo=TRUE}
-```
-
-### LBSL
-```{r age-lbsl, echo=TRUE}
-```
-
-### SATSA
-```{r age-satsa, echo=TRUE}
-```
-
-### SHARE
-```{r age-share, echo=TRUE}
-```
-
-### TILDA
-```{r age-tilda, echo=TRUE}
-```
-
-# III. Recapitulation
-
-At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variables `year_of_wave`,`age_in_years`, amd `year_born`. We retrieve harmonized variables to view frequency counts across studies: 
-
-```{r III-A-assembly, echo=TRUE}
-```
-
-
-Finally, we have added the newly created, harmonized variables to the raw source objects and save the data transfer object.
-
-```{r save-to-disk, echo=TRUE}
-```
 
 
 

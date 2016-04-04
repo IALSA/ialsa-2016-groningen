@@ -86,12 +86,12 @@ rmarkdown::render(
   output_format = "html_document", 
   clean = TRUE
 )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-work/harmonize-work.Rmd",
-  output_format = "html_document", 
-  clean = TRUE
-)
+# # Harmonize (sonata)
+# rmarkdown::render(
+#   input = "./reports/harmonize-work/harmonize-work.Rmd",
+#   output_format = "html_document", 
+#   clean = TRUE
+# )
 
 
 
@@ -112,8 +112,18 @@ rmarkdown::render(
 
 
 
-# ---- reproduce ---------------------------------------
+
+# # ---- reproduce ---------------------------------------
+# rmarkdown::render(
+#   input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+#   output_format="html_document", clean=TRUE
+# )
+
+
 rmarkdown::render(
-  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
   output_format="html_document", clean=TRUE
 )
+
+
+

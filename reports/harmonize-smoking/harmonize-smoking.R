@@ -365,6 +365,12 @@ table( ds$smoke_now, ds$study_name)
 table( ds$smoked_ever, ds$study_name)
 
 
+# ---- save-to-disk ------------------------------------------------------------
+# Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
+saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
+
+
+
 # ---- reproduce ---------------------------------------
 rmarkdown::render(input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" , 
                   output_format="html_document", clean=TRUE)

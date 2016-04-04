@@ -212,12 +212,16 @@ We encode the harmonization rule by manually editing the values in a correspondi
 
 # (III) Recapitulation 
 
-At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variable `education`. We retrieve harmonized variables to view frequency counts across studies: 
+At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variable `educ4`. We retrieve harmonized variables to view frequency counts across studies: 
 
 ```{r III-A-assembly, echo=TRUE}
 ```
 
 
+Finally, we have added the newly created, harmonized variables to the raw source objects and save the data transfer object.
+
+```{r save-to-disk, echo=TRUE}
+```
 
 
 

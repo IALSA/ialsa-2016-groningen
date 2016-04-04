@@ -54,118 +54,26 @@ dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, cat
 # ---- basic-graph --------------------------------------------------------------
 
 
-# ----- view-metadata-1 ---------------------------------------------
-dto[["metaData"]] %>%
-  dplyr::filter(construct %in% c('age')) %>% 
-  dplyr::select(-url, -label, -notes) %>%
-  dplyr::arrange(study_name, item) %>%
-  base::print()  
-
-
 # ---- assemble ------------------
 dmls <- list() # dummy list
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]] # get study data from dto
   (varnames <- names(ds)) # see what variables there are
-  (get_these_variables <- c("id", "AGE","QAGE3","AGE94","YRBORN","DN0030")) 
+  (get_these_variables <- c("id","year_of_wave","age_in_years","year_born", "smoke_now","smoked_ever","sex","marital","educ4")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
 }
 lapply(dmls, names) # view the contents of the list object
 
-
-# ---- age-alsa ------------------------------------
-# review existing variables
-ds <- dmls[['alsa']]; head(ds)
-# # https://www.maelstrom-research.org/mica/study/alsa
-ds$year_of_wave <- 1992
-ds <- ds %>% # transform into harmonization target
-  dplyr::mutate(age_in_years = AGE, # rename
-                   year_born = year_of_wave - age_in_years # compute
-                ) %>% 
-  dplyr::select(-AGE)
-head(ds)
-dmls[['alsa']] <- ds
-
-# ---- age-lbsl ------------------------------------
-# review existing variables
-ds <- dmls[['lbsl']]; head(ds)
-# https://www.maelstrom-research.org/mica/study/lbls
-ds$year_of_wave <- 1994
-ds <- ds %>% # transform into harmonization target
-  dplyr::mutate(age_in_years = AGE94, # rename
-                year_born = year_of_wave - age_in_years # compute
-                ) %>% 
-  dplyr::select(-AGE94)
-head(ds)
-dmls[['lbsl']] <- ds # replace with augmented
-
-# ---- age-satsa ------------------------------------
-# review existing variables
-ds <- dmls[['satsa']]; head(ds)
-# https://www.maelstrom-research.org/mica/study/satsa
-ds$year_of_wave <- 1991
-ds <- ds %>% # transform into harmonization target
-  dplyr::mutate(age_in_years = QAGE3, # direct transform; (??) should it be rounded (??)
-                year_born = YRBORN +1900 # compute
-                ) %>%  
-  dplyr::select(-QAGE3, - YRBORN )
-head(ds)
-dmls[['satsa']] <- ds
-
-
-# ---- age-share ------------------------------------
-# review existing variables
-ds <- dmls[['share']]; head(ds)
-# http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
-ds$year_of_wave <- 2004
-ds <- ds %>% # transform into harmonization target
-  dplyr::mutate(year_born = DN0030, # rename
-                age_in_years = year_of_wave - year_born # compute
-                ) %>%  
-  dplyr::select(-DN0030)
-head(ds)
-dmls[['share']] <- ds
-
-# ---- age-tilda ------------------------------------
-# review existing variables
-ds <- dmls[['tilda']]; head(ds)
-# https://www.maelstrom-research.org/mica/study/tilda
-ds$year_of_wave <- 2009
-ds <- ds %>% # transform into harmonization target
-  dplyr::mutate(age_in_years = AGE, # rename
-                year_born = year_of_wave - age_in_years # compute
-                ) %>% 
-  dplyr::select(-AGE)
-head(ds)
-dmls[['tilda']] <- ds
-
-
-
-# ---- III-A-assembly ---------------------------------------------
-# convert the dummy list into a dataframe with study names as factor
 ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 head(ds)
 
-# augment dto with the harmonized age variables
-for(s in dto[["studyName"]]){
-  d <- dto[["unitData"]][[s]]
-  d <- d %>% 
-    dplyr::left_join(dmls[[s]], by = "id")
-  dto[["unitData"]][[s]] <- d
-  
-}
-
-
-# ---- save-to-disk ------------------------------------------------------------
-# Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
-saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
-
-
 # ---- reproduce ---------------------------------------
-rmarkdown::render(input = "./reports/harmonize-age/harmonize-age.Rmd" , 
-                  output_format="html_document", clean=TRUE)
+rmarkdown::render(
+  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
+  output_format="html_document", clean=TRUE
+)
 
 
 
