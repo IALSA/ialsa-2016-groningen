@@ -33,7 +33,7 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - age  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-age.html))   
 - sex  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-sex.html))  
 - marital status   ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-marital.html))  
-- educational level   
+- educational level  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-education.html))    
 - working status   
 - alcohol consumption   
 - level of physical activity    
