@@ -93,6 +93,25 @@ rmarkdown::render(
   clean = TRUE
 )
 
+
+
+# Alcohol
+# Describe (prelude) 
+rmarkdown::render(
+  input = "./reports/harmonize-alcohol/describe-alcohol.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+# Harmonize (sonata)
+# rmarkdown::render(
+#   input = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd",
+#   output_format = "html_document", 
+#   clean = TRUE
+# )
+
+
+
+
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
   input = "./reports/harmonize-education/harmonize-education.Rmd" ,

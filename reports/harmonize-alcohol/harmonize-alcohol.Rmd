@@ -1,0 +1,226 @@
+---
+title: "Harmonize: alcohol"
+output:
+  html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
+    keep_md: yes
+    theme: flatly
+    toc: yes
+---
+
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 4, 
+  fig.width = 5.5, 
+  out.width = "550px",
+  fig.path = 'figure_rmd/',     
+  dev = "png",
+  dpi = 400
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- FALSE
+options(width=120) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./reports/harmonize-work/harmonize-work.R") 
+```
+
+This report lists the candidate variable for DataScheme variables of the construct **work status**.
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks, message=FALSE}
+#Put code in here.  It doesn't call a chunk in the codebehind file.
+```
+# (I) Exposition
+
+> This report is a record of interaction with a data transfer object (dto) produced by `./manipulation/0-ellis-island.R`. 
+
+The next section recaps this script, exposes the architecture of the DTO, and demonstrates the language of interacting with it.   
+
+## (I.A) Ellis Island
+
+> All data land on Ellis Island.
+
+The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
+
+- (1) Reads in raw data files from the candidate studies   
+- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/shared/derived/meta-data-live.csv`, which is updated every time Ellis Island script is executed.   
+- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/shared/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
+- (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=T, results='asis', message=FALSE}
+```
+
+<!-- Inspect the datasets.   -->
+```{r inspect-data, echo=T, results='show', message=FALSE}
+```
+
+
+### Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Basic table view.   -->
+```{r basic-table, echo=TRUE, results='show', message=FALSE}
+```
+
+
+## (I.B) Target-H
+
+> Everybody wants to be somebody.
+
+We query metadata set to retrieve all variables potentially tapping the construct `education`. These are the candidates to enter the DataSchema and contribute to  computing harmonized variables. 
+
+***NOTE***: what is being retrieved depends on the manually entered values in the column `construct` of the metadata file `./data/shared/meta-data-map.csv`. To specify a different group of variables, edit the  metadata, not the script. 
+
+```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
+```
+
+View [descriptives : education](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html) for closer examination of each candidate. 
+
+After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `education` have been adopted:
+
+** THE FOLLOWING IS THE TEMPLATE COPY FROM EDUCATION. COME BACK WHEN YOU HAVE HARMONIZATION RULES ***
+
+
+#### Target (1) : `emp_stat`   
+  - `1` - `less then high-school` 
+  - `2` - `high-school most` 
+  - `3` - `college`
+  - `4` - `college plus`
+  
+
+These variables will be generated next, in the Development section. 
+
+# (II) Development
+
+The particulare goal of this section is to ensure that the schema to encode the values for the `education` variable is consisten across studies. 
+
+In this section we will define the schema sets for harmonizing `education` construct (i.e.  specify which variables from which studies will be contributing to computing harmonized variables ). Each of these schema sets will have a particular pattern of possible response values to these variables, which we will export for inspection as `.csv` tables. We then will manually edit these `.csv` tables, populating new columns that will map values of harmonized variables to the specific response pattern of the schema set variables. We then will import harmonization algorithms encoded in `.csv` tables and apply them to compute harmonized variables in the dataset combining raw and harmonized variables for `education` construct across studies.
+
+## (II.A) 
+
+
+### (1) Schema sets
+Having all potential variables in categorical format we have defined the sets of data schema variables thus: 
+```{r II-A-2-schema-sets-1, echo=TRUE}
+```  
+Each of these schema sets  have a particular pattern of possible response values, for example:
+
+```{r II-A-2-schema-sets-2, echo=TRUE}
+```  
+We output these tables into self-standing `.csv` files, so we can manually provide the logic of computing harmonized variables.
+
+```{r II-A-2-schema-sets-3, echo=TRUE}
+```  
+
+You can examine them in [`./data/meta/response-profiles-live/](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live)
+
+## (II.B) `educ4`
+
+#### Target (1) : `educ4`   
+  - `1` - `less then high-school` 
+  - `2` - `high-school most` 
+  - `3` - `college`
+  - `4` - `college plus`
+  
+
+### ALSA
+
+Items that can contribute to generating values for the harmonized variable `education`  are:
+```{r II-B-education-alsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-education-alsa-2, echo=TRUE}
+```
+
+
+### LBSL
+Items that can contribute to generating values for the harmonized variable `education`  are:
+```{r II-B-education-lbsl-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-education-lbsl-2, echo=TRUE}
+```
+
+
+### SATSA
+
+Items that can contribute to generating values for the harmonized variable `education`  are:
+```{r II-B-education-satsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-education-satsa-2, echo=TRUE}
+```
+
+### SHARE
+
+Items that can contribute to generating values for the harmonized variable `education`  are:
+```{r II-B-education-share-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-education-share-2, echo=TRUE}
+```
+
+
+### TILDA
+
+Items that can contribute to generating values for the harmonized variable `education`  are:
+```{r II-B-education-tilda-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-B-education-tilda-2, echo=TRUE}
+```
+
+
+
+# (III) Recapitulation 
+
+At this point the `dto[["unitData"]]` elements (raw data files for each study) have been augmented with the harmonized variable `education`. We retrieve harmonized variables to view frequency counts across studies: 
+
+```{r III-A-assembly, echo=TRUE}
+```
+
+
+
+
+

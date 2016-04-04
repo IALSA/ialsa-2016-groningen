@@ -1,0 +1,250 @@
+---
+title: "Describe: alcohol"
+output:
+  html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
+    keep_md: yes
+    theme: flatly
+    toc: yes
+---
+
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = FALSE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 4, 
+  fig.width = 5.5, 
+  out.width = "550px",
+  fig.path = 'basic-graphs/',     
+  dev = "png",
+  dpi = 400
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- FALSE
+options(width=120) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./reports/harmonize-alcohol/describe-alcohol.R") 
+```
+
+This report lists the candidate variable for DataScheme variables of the construct **alcohol**.
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks }
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks }
+```
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare-globals, echo=echoChunks }
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks }
+#Put code in here.  It doesn't call a chunk in the codebehind file.
+```
+# Exposition
+
+> This report is meant to be compiled after having executed the script `./manipulation/0-ellis-island.R`, which prepares the necessary data transfer object (DTO). We begin with a brief recap of this script and the DTO it produces.  
+
+## Ellis Island
+
+> All data land on Ellis Island.
+
+The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
+
+- (1) Reads in raw data files from the candidate studies   
+- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/shared/derived/meta-data-live.csv`, which is updated every time Ellis Island script is executed.   
+- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/shared/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
+- (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=T}
+```
+
+<!-- Inspect the datasets.   -->
+```{r inspect-data, echo=T }
+```
+
+### Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```
+
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echoChunks }
+```
+
+<!-- Basic table view.   -->
+```{r basic-table, echo=TRUE }
+```
+
+# ALSA
+
+## FR6ORMOR
+```{r alsa-FR6ORMOR, echo=TRUE }
+```
+
+## FREQALCH
+```{r alsa-FREQALCH, echo=TRUE }
+```
+
+## NOSTDRNK
+```{r alsa-NOSTDRNK, echo=TRUE }
+```
+
+
+
+
+# LBSL
+
+## ALCOHOL
+```{r lbsl-ALCOHOL, echo=TRUE }
+```
+
+## BEER
+```{r lbsl-BEER, echo=TRUE }
+```
+
+## HARDLIQ
+```{r lbsl-HARDLIQ, echo=TRUE }
+```
+
+## WINE
+```{r lbsl-WINE, echo=TRUE }
+```
+
+
+
+# SATSA
+
+## GALCOHOL
+```{r satsa-GALCOHOL, echo=TRUE }
+```
+
+## GBEERX
+```{r satsa-GBEERX, echo=TRUE }
+```
+
+## GBOTVIN
+```{r satsa-GBOTVIN, echo=TRUE }
+```
+
+## GDRLOTS
+```{r satsa-GDRLOTS, echo=TRUE }
+```
+
+## GEVRALK
+```{r satsa-GEVRALK, echo=TRUE }
+```
+
+## GFREQBER
+```{r satsa-GFREQBER, echo=TRUE }
+```
+
+## GFREQLIQ
+```{r satsa-GFREQLIQ, echo=TRUE }
+```
+
+## GFREQVIN
+```{r satsa-GFREQVIN, echo=TRUE }
+```
+
+## GLIQX
+```{r satsa-GLIQX, echo=TRUE }
+```
+
+## GSTOPALK
+```{r satsa-GSTOPALK, echo=TRUE }
+```
+
+## GVINX
+```{r satsa-GVINX, echo=TRUE }
+```
+
+
+
+
+# SHARE
+
+## BR0100
+```{r share-BR0100, echo=TRUE }
+```
+
+## BR0110
+```{r share-BR0110, echo=TRUE }
+```
+
+## BR0120
+```{r share-BR0120, echo=TRUE }
+```
+
+## BR0130
+```{r share-BR0130, echo=TRUE }
+```
+
+
+
+# TILDA
+
+## DRINKSPERDAY
+```{r tilda-BEHALC.DRINKSPERDAY, echo=TRUE }
+```
+
+## DRINKSPERWEEK
+```{r tilda-BEHALC.DRINKSPERWEEK, echo=TRUE }
+```
+
+## BEHALC.FREQ.WEEK
+```{r tilda-BEHALC.FREQ.WEEK, echo=TRUE }
+```
+
+## SCQALCOFREQ
+```{r tilda-SCQALCOFREQ, echo=TRUE }
+```
+
+## SCQALCOHOL
+```{r tilda-SCQALCOHOL, echo=TRUE }
+```
+
+## SCQALCONO1
+```{r tilda-SCQALCONO1, echo=TRUE }
+```
+
+## SCQALCONO2
+```{r tilda-SCQALCONO2, echo=TRUE }
+```
+
+
+
+
+
+```{r}
+sessionInfo()
+
+```
+
+
+
