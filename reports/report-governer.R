@@ -10,13 +10,14 @@ rmarkdown::render(
   output_format="html_document", clean=TRUE
 )
 
+
 # Smoking
-# Describe
+# Describe (prelude)
 rmarkdown::render(
   input = "./reports/harmonize-smoking/describe-smoking.Rmd" ,
   output_format="html_document", clean=TRUE
 )
-# Harmonize
+# Harmonize (sonata)
 rmarkdown::render(
   input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" ,
   output_format="html_document", clean=TRUE
@@ -24,12 +25,12 @@ rmarkdown::render(
 
 
 # Age
-# Describe
+# Describe (prelude)
 rmarkdown::render(
   input = "./reports/harmonize-age/describe-age.Rmd" ,
   output_format="html_document", clean=TRUE
 )
-# Harmonize
+# Harmonize (sonata)
 rmarkdown::render(
   input = "./reports/harmonize-age/harmonize-age.Rmd" ,
   output_format="html_document", clean=TRUE
@@ -37,19 +38,20 @@ rmarkdown::render(
 
 
 # Sex
-# Describe
+# Describe (prelude)
 rmarkdown::render(
   input = "./reports/harmonize-sex/describe-sex.Rmd" ,
   output_format="html_document", clean=TRUE
 )
-# Harmonize
+# Harmonize (sonata)
 rmarkdown::render(
   input = "./reports/harmonize-sex/harmonize-sex.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 
+
 # Marital
-# Describe (prelude)
+# Describe (prelude) 
 rmarkdown::render(
   input = "./reports/harmonize-marital/describe-marital.Rmd",
   output_format = "html_document", 
@@ -62,14 +64,35 @@ rmarkdown::render(
   clean = TRUE
 )
 
+
 # Education
-# Describe (prelude)
+# Describe (prelude) 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
   input = "./reports/harmonize-education/describe-education.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 # Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+  output_format="html_document", clean=TRUE
+)
+
+
+# Work status
+# Describe (prelude) 
+rmarkdown::render(
+  input = "./reports/harmonize-work/describe-work.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-work/harmonize-work.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
   input = "./reports/harmonize-education/harmonize-education.Rmd" ,
