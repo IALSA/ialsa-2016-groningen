@@ -27,6 +27,8 @@
 - level of physical activity  (describe, harmonize)   
 - perceived health  (describe, harmonize)   
 	
+#### Harmonized data
+- review currenlty available harmonized variables in a [combined dataset](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonized-data.html)
 
 ## Instructions supplied to all teams:
 	
