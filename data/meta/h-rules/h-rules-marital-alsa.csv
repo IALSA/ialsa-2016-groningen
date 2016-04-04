@@ -1,0 +1,8 @@
+,MARITST,count,marital
+1,Married,1361,mar_cohab
+2,De facto,6,mar_cohab
+3,Separated,16,sep_divorced
+4,Divorced,33,sep_divorced
+5,Widowed,594,widowed
+6,Never married,76,single
+7,NA,1,

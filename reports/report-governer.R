@@ -48,4 +48,16 @@ rmarkdown::render(
   output_format="html_document", clean=TRUE
 )
 
-
+# Marital
+# Describe (prelude)
+rmarkdown::render(
+  input = "./reports/harmonize-marital/describe-marital.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-marital/harmonize-marital.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)

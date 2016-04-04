@@ -93,7 +93,7 @@ names(dto[["unitData"]])
 
 # ---- tweak-data --------------------------------------------------------------
 # rename "MAR4" because it can be confused by machines for  March-4
-dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "marital4"))
+dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("MAR4"= "MAR_4"))
  
 # rename personal identifiers for consistency
 dto[["unitData"]][["alsa"]] <- plyr::rename(dto[["unitData"]][["alsa"]], replace = c("SEQNUM"= "id"))
