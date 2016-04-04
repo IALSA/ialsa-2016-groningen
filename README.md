@@ -48,7 +48,7 @@ Below is a list of the main steps to be applied while conducting the harmonizati
  - 2.	Ensure the quality of the new harmonized variables created by reviewing processing methods and running descriptive statistics comparing raw and harmonized data.   
 * **Step 4** - Integrate harmonized variables and data into one common dataset.  
 * **Step 5** - Conduct bi-variant and multi-variant analysis to assess the main factors associated with current smoking status among older adults.    
-* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  [What to report?](#what to report)  
+* **Step 6** -  Report on all the steps listed above and present the results of the analysis.  [What to report?](#what-to-report)  
 
 ### Rationale and objectives 
 
