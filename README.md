@@ -5,19 +5,11 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 [edit me](https://github.com/IALSA/ialsa-2016-groningen/edit/master/README.md)
 
 
-### Welcome
-- [letter of invitation](./documentation/log/invite.pdf)   
-- [list of participants](./documentation/log/participants.pdf)
-- [summary of the agenda](./documentation/log/agenda.pdf) 
-- [directions and locations](./documentation/log/directions.pdf)
+**Welcome** : - [letter of invitation](./documentation/log/invite.pdf) - [list of participants](./documentation/log/participants.pdf) - [summary of the agenda](./documentation/log/agenda.pdf) - [directions and locations](./documentation/log/directions.pdf) 
 
-### Documentation
-- [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed)
-- list of [source data objects](./data/contents.md) used in the exercise
-- [resources and references](./documentation/resources-references.md)
-- [reproducibility instructions](./utility/reproducibility-instructions.md)
+**Documentation** : - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) - [source data objects](./data/contents.md)  - [resources and references](./documentation/resources-references.md) - [reproducibility instructions](./utility/reproducibility-instructions.md) 
 
-### RESERACH QUESTION
+### Research question
 > Habits, prevalence of, and factors associated with smoking among older adults.  
 
 ### Measures
@@ -39,6 +31,8 @@ Maelstrom Harmonization Workshop. Assessing the impact of different harmonizatio
 - level of physical activity  (describe, harmonize)   
 - perceived health  (describe, harmonize)   
 	
+
+## Instructions supplied to all teams:
 	
 ### Procedures  
 to be followed by each harmonization working group: 
