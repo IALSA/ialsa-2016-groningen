@@ -1,3 +1,4 @@
+# Ellis Island
 knitr::stitch_rmd(
   script="./manipulation/0-ellis-island.R", 
   output="./manipulation/stitched-output/0-ellis-island.md"
@@ -20,7 +21,6 @@ rmarkdown::render(
   input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" ,
   output_format="html_document", clean=TRUE
 )
-
 
 
 # Age
@@ -60,4 +60,18 @@ rmarkdown::render(
   input = "./reports/harmonize-marital/harmonize-marital.Rmd",
   output_format = "html_document", 
   clean = TRUE
+)
+
+# Education
+# Describe (prelude)
+# ---- reproduce ---------------------------------------
+rmarkdown::render(
+  input = "./reports/harmonize-education/describe-education.Rmd" ,
+  output_format="html_document", clean=TRUE
+)
+# Harmonize (sonata)
+# ---- reproduce ---------------------------------------
+rmarkdown::render(
+  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+  output_format="html_document", clean=TRUE
 )
