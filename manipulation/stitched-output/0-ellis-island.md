@@ -198,17 +198,6 @@ dto[["unitData"]][["lbsl"]] <- plyr::rename(dto[["unitData"]][["lbsl"]], replace
 dto[["unitData"]][["satsa"]] <- plyr::rename(dto[["unitData"]][["satsa"]], replace = c("ID"= "id"))
 dto[["unitData"]][["share"]] <- plyr::rename(dto[["unitData"]][["share"]], replace = c("SAMPID.rec"= "id"))
 dto[["unitData"]][["tilda"]] <- plyr::rename(dto[["unitData"]][["tilda"]], replace = c("ID"= "id"))
-
-# https://www.maelstrom-research.org/mica/study/alsa
-dto[["unitData"]][["alsa"]]$year_of_wave <- 1992
-# https://www.maelstrom-research.org/mica/study/lbls
-dto[["unitData"]][["lbsl"]]$year_of_wave <- 1994
-# https://www.maelstrom-research.org/mica/study/satsa
-dto[["unitData"]][["satsa"]]$year_of_wave <- 1991
-# http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
-dto[["unitData"]][["share"]]$year_of_wave <- 2004
-# https://www.maelstrom-research.org/mica/study/tilda 
-dto[["unitData"]][["tilda"]]$year_of_wave <- 2009
 ```
 
 ```r
@@ -311,7 +300,7 @@ dplyr::tbl_df(dto[["unitData"]][["alsa"]])
 ```
 
 ```
-## Source: local data frame [2,087 x 27]
+## Source: local data frame [2,087 x 26]
 ## 
 ##       id EXRTHOUS HWMNWK2W LSVEXC2W LSVIGEXC TMHVYEXR TMVEXC2W VIGEXC2W
 ##    (int)   (fctr)    (int)    (int)   (fctr)    (int)    (int)    (int)
@@ -330,7 +319,7 @@ dplyr::tbl_df(dto[["unitData"]][["alsa"]])
 ##   HLTHBTSM (fctr), HLTHLIFE (fctr), AGE (int), SEX (fctr), MARITST (fctr),
 ##   SCHOOL (fctr), TYPQUAL (fctr), RETIRED (fctr), SMOKER (fctr), FR6ORMOR
 ##   (fctr), NOSTDRNK (fctr), FREQALCH (fctr), WEIGHT (dbl), PIPCIGAR (fctr),
-##   CURRWORK (fctr), year_of_wave (dbl)
+##   CURRWORK (fctr)
 ```
 
 ```r
@@ -412,6 +401,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-04 11:40:35 PDT"
+## [1] "2016-04-04 13:07:56 PDT"
 ```
 
