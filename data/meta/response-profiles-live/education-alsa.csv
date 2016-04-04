@@ -1,0 +1,51 @@
+"","SCHOOL","TYPQUAL","count"
+"1","Never went to school","Trade or Apprenticeship",1
+"2","Never went to school","Certificate or Diploma",4
+"3","Never went to school",NA,25
+"4","Under fourteen years","Secondary School Course",2
+"5","Under fourteen years","Trade or Apprenticeship",36
+"6","Under fourteen years","Certificate or Diploma",27
+"7","Under fourteen years","Bachelor Degree or Post Graduate Diploma",1
+"8","Under fourteen years","Adult Education or Hobby Course",1
+"9","Under fourteen years","Other",1
+"10","Under fourteen years",NA,238
+"11","Fourteen years","Secondary School Course",1
+"12","Fourteen years","Trade or Apprenticeship",109
+"13","Fourteen years","Certificate or Diploma",72
+"14","Fourteen years","Bachelor Degree or Post Graduate Diploma",6
+"15","Fourteen years","Higher Qualification",5
+"16","Fourteen years","Adult Education or Hobby Course",8
+"17","Fourteen years","Other",2
+"18","Fourteen years","No Formal Tuition",2
+"19","Fourteen years",NA,614
+"20","Fifteen years","Secondary School Course",8
+"21","Fifteen years","Trade or Apprenticeship",52
+"22","Fifteen years","Certificate or Diploma",71
+"23","Fifteen years","Bachelor Degree or Post Graduate Diploma",6
+"24","Fifteen years","Adult Education or Hobby Course",1
+"25","Fifteen years","Other",1
+"26","Fifteen years",NA,243
+"27","Sixteen years","Secondary School Course",4
+"28","Sixteen years","Trade or Apprenticeship",26
+"29","Sixteen years","Certificate or Diploma",82
+"30","Sixteen years","Bachelor Degree or Post Graduate Diploma",14
+"31","Sixteen years","Higher Qualification",2
+"32","Sixteen years",NA,152
+"33","Seventeen years","Secondary School Course",1
+"34","Seventeen years","Trade or Apprenticeship",6
+"35","Seventeen years","Certificate or Diploma",41
+"36","Seventeen years","Bachelor Degree or Post Graduate Diploma",22
+"37","Seventeen years","Higher Qualification",1
+"38","Seventeen years","Adult Education or Hobby Course",1
+"39","Seventeen years","Other",2
+"40","Seventeen years",NA,57
+"41","Eighteen or more years","Primary School Course",1
+"42","Eighteen or more years","Secondary School Course",1
+"43","Eighteen or more years","Trade or Apprenticeship",6
+"44","Eighteen or more years","Certificate or Diploma",34
+"45","Eighteen or more years","Bachelor Degree or Post Graduate Diploma",31
+"46","Eighteen or more years","Higher Qualification",6
+"47","Eighteen or more years","No Formal Tuition",1
+"48","Eighteen or more years",NA,33
+"49",NA,"Certificate or Diploma",1
+"50",NA,NA,25

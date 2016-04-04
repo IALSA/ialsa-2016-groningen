@@ -1,10 +1,3 @@
-"","DN0140","count"
-"1","married and living together with spouse",2039
-"2","registered partnership",10
-"3","married, living separated from spouse",19
-"4","never married",51
-"5","divorced",140
-"6","widowed",336
-"7","refusal",1
-"8","don't know",1
-"9",NA,1
+"","GENDER","count"
+"1","male",1139
+"2","female",1459

@@ -1,8 +1,3 @@
-"","MARITST","count"
-"1","Married",1361
-"2","De facto",6
-"3","Separated",16
-"4","Divorced",33
-"5","Widowed",594
-"6","Never married",76
-"7",NA,1
+"","SEX","count"
+"1","Male",1056
+"2","Female",1031

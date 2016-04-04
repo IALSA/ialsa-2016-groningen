@@ -1,0 +1,75 @@
+,DN0100,DN012D01,DN012D02,DN012D03,DN012D04,DN012D05,DN012D09,DN012DNO,DN012DOT,DN012DRF,DN012DDK,count,educ4
+1,Elementary school,not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,25,less than high-school
+2,Elementary school,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,468,less than high-school
+3,Elementary school,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,1,less than high-school
+4,Elementary school,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,2,less than high-school
+5,Elementary school,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,1,less than high-school
+6,Elementary school,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,4,less than high-school
+7,"Partial occipational secondary school (did not graduate, no",not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,21,less than high-school
+8,"Partial occipational secondary school (did not graduate, no",not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,79,less than high-school
+9,"Partial occipational secondary school (did not graduate, no",not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,1,less than high-school
+10,"Partial occipational secondary school (did not graduate, no",not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,1,less than high-school
+11,full occipational secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,34,less than high-school
+12,full occipational secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,120,less than high-school
+13,full occipational secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,1,less than high-school
+14,full occipational secondary school (no matriculation),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,2,less than high-school
+15,full occipational secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,4,less than high-school
+16,full occipational secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,selected,not selected,not selected,1,less than high-school
+17,full occipational secondary school (no matriculation),not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,8,less than high-school
+18,full occipational secondary school (no matriculation),not selected,not selected,selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,1,less than high-school
+19,full occipational secondary school (no matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,3,less than high-school
+20,full occipational secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,1,high-school most
+21,full occipational secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,16,high-school most
+22,full occipational secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,42,high-school most
+23,full occipational secondary school (with matriculation),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,11,high-school most
+24,full occipational secondary school (with matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,25,high-school most
+25,full occipational secondary school (with matriculation),not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,15,high-school most
+26,full occipational secondary school (with matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,3,high-school most
+27,partial Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,19,high-school most
+28,partial Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,180,high-school most
+29,partial Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,1,high-school most
+30,partial Academic secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,4,high-school most
+31,partial Academic secondary school (no matriculation),not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,9,high-school most
+32,partial Academic secondary school (no matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,5,high-school most
+33,partial Academic secondary school (no matriculation),selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,1,high-school most
+34,full Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,44,high-school most
+35,full Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,194,high-school most
+36,full Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,2,high-school most
+37,full Academic secondary school (no matriculation),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,6,high-school most
+38,full Academic secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,13,high-school most
+39,full Academic secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,selected,not selected,not selected,1,high-school most
+40,full Academic secondary school (no matriculation),not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,9,high-school most
+41,full Academic secondary school (no matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,4,high-school most
+42,full Academic secondary school (no matriculation),not selected,selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,1,high-school most
+43,full Academic secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,98,college
+44,full Academic secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,271,college
+45,full Academic secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,selected,not selected,not selected,4,college
+46,full Academic secondary school (with matriculation),not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,3,college
+47,full Academic secondary school (with matriculation),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,212,college
+48,full Academic secondary school (with matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,318,college
+49,full Academic secondary school (with matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,selected,not selected,not selected,1,college
+50,full Academic secondary school (with matriculation),not selected,not selected,not selected,selected,not selected,selected,not selected,not selected,not selected,not selected,2,college
+51,full Academic secondary school (with matriculation),not selected,not selected,not selected,selected,selected,not selected,not selected,not selected,not selected,not selected,1,college
+52,full Academic secondary school (with matriculation),not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,67,college
+53,full Academic secondary school (with matriculation),not selected,not selected,selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,3,college
+54,full Academic secondary school (with matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,34,college
+55,full Academic secondary school (with matriculation),not selected,selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,2,college
+56,full Academic secondary school (with matriculation),selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,7,college
+57,full Academic secondary school (with matriculation),selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,1,college
+58,yeshiva secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,2,college
+59,yeshiva secondary school (no matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,2,college
+60,yeshiva secondary school (no matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,2,college
+61,yeshiva secondary school (no matriculation),selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,2,college
+62,yeshiva secondary school (wih matriculation),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,2,college plus
+63,yeshiva secondary school (wih matriculation),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,1,college plus
+64,yeshiva secondary school (wih matriculation),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,3,college plus
+65,none,not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,2,less than high-school
+66,none,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,141,less than high-school
+67,other type (also abroad),not selected,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,7,
+68,other type (also abroad),not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,16,
+69,other type (also abroad),not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,5,
+70,other type (also abroad),not selected,not selected,not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,2,
+71,other type (also abroad),not selected,selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,1,
+72,other type (also abroad),selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,not selected,1,
+73,don't know,not selected,not selected,not selected,not selected,not selected,not selected,selected,not selected,not selected,not selected,1,
+74,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,1,
