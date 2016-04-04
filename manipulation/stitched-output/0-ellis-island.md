@@ -341,19 +341,19 @@ dplyr::tbl_df(dto[["metaData"]])
 ```
 ## Source: local data frame [150 x 10]
 ## 
-##    study_name     name                      label_short     item construct
-##        (fctr)   (fctr)                           (fctr)   (fctr)    (fctr)
-## 1        alsa   SEQNUM                  Sequence Number       id        id
-## 2        alsa EXRTHOUS            Exertion around house exertion          
-## 3        alsa HWMNWK2W   Times walked in past two weeks  walking          
-## 4        alsa LSVEXC2W Less vigor sessions last 2 weeks                   
-## 5        alsa LSVIGEXC          Less vigor past 2 weeks                   
-## 6        alsa TMHVYEXR     Time heavy physical exertion                   
-## 7        alsa TMVEXC2W          Vigor Time past 2 weeks                   
-## 8        alsa VIGEXC2W   Vigor Sessions in past 2 weeks                   
-## 9        alsa  VIGEXCS                Vigorous exercise                   
-## 10       alsa WALK2WKS             Walking past 2 weeks                   
-## ..        ...      ...                              ...      ...       ...
+##    study_name     name                      label_short   item construct
+##        (fctr)   (fctr)                           (fctr) (fctr)    (fctr)
+## 1        alsa   SEQNUM                  Sequence Number     id        id
+## 2        alsa EXRTHOUS            Exertion around house         exertion
+## 3        alsa HWMNWK2W   Times walked in past two weeks          walking
+## 4        alsa LSVEXC2W Less vigor sessions last 2 weeks            vigor
+## 5        alsa LSVIGEXC          Less vigor past 2 weeks            vigor
+## 6        alsa TMHVYEXR     Time heavy physical exertion         exertion
+## 7        alsa TMVEXC2W          Vigor Time past 2 weeks            vigor
+## 8        alsa VIGEXC2W   Vigor Sessions in past 2 weeks            vigor
+## 9        alsa  VIGEXCS                Vigorous exercise            vigor
+## 10       alsa WALK2WKS             Walking past 2 weeks          walking
+## ..        ...      ...                              ...    ...       ...
 ## Variables not shown: type (fctr), categories (int), label (fctr), url
 ##   (chr), notes (fctr)
 ```
@@ -412,6 +412,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-04 09:10:53 PDT"
+## [1] "2016-04-04 09:43:21 PDT"
 ```
 
