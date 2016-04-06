@@ -1,10 +1,10 @@
-,DM001,count,educ4
-1,Some primary (not complete),280,less than high-school
-2,Primary or equivalent,2232,high-school most
-3,Intermediate/junior/group certificate or equivalent,1971,high-school most
-4,Leaving certificate or equivalent,1460,high-school most
-5,Diploma/certificate,1335,high-school most
-6,Primary degree,730,college
-7,Postgraduate/higher degree,483,college plus
-8,None,9,less than high-school
-9,NA,4,
+,DM001,count,educ4,
+1,Some primary (not complete),280,less than high-school,less than high-school
+2,Primary or equivalent,2232,less than high-school,high-school most
+3,Intermediate/junior/group certificate or equivalent,1971,less than high-school,high-school most
+4,Leaving certificate or equivalent,1460,high school,high-school most
+5,Diploma/certificate,1335,more than high school,high-school most
+6,Primary degree,730,more than high school,college
+7,Postgraduate/higher degree,483,more than high school,college plus
+8,None,9,less than high-school,less than high-school
+9,NA,4,,
