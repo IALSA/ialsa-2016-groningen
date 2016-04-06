@@ -15,20 +15,20 @@
 14,Yes,Yes,NA,6,TRUE,TRUE
 15,Yes,"No, I have never smoked",Yes,13,TRUE,
 16,Yes,"No, I have never smoked","No, I have never taken snuff",1,TRUE,
-17,Yes,"No, I quit.",Yes,34,TRUE,
-18,Yes,"No, I quit.","No, I have never taken snuff",6,TRUE,
-19,Yes,"No, I quit.",NA,2,TRUE,
+17,Yes,"No, I quit.",Yes,34,TRUE,TRUE
+18,Yes,"No, I quit.","No, I have never taken snuff",6,TRUE,TRUE
+19,Yes,"No, I quit.",NA,2,TRUE,TRUE
 20,Yes,NA,Yes,2,TRUE,
 21,Yes,NA,"No, I have never taken snuff",1,TRUE,
 22,Yes,NA,NA,12,TRUE,
 23,NA,Yes,"No, I have never taken snuff",8,,TRUE
-24,NA,"No, I have never smoked","No, I have never taken snuff",635,,
-25,NA,"No, I have never smoked","No, I quit.",6,,
-26,NA,"No, I have never smoked",NA,6,,
-27,NA,"No, I quit.",Yes,3,,
-28,NA,"No, I quit.","No, I have never taken snuff",206,,
-29,NA,"No, I quit.","No, I quit.",25,,
-30,NA,"No, I quit.",NA,3,,
+24,NA,"No, I have never smoked","No, I have never taken snuff",635,FALSE,FALSE
+25,NA,"No, I have never smoked","No, I quit.",6,FALSE,
+26,NA,"No, I have never smoked",NA,6,FALSE,FALSE
+27,NA,"No, I quit.",Yes,3,FALSE,TRUE
+28,NA,"No, I quit.","No, I have never taken snuff",206,FALSE,TRUE
+29,NA,"No, I quit.","No, I quit.",25,FALSE,TRUE
+30,NA,"No, I quit.",NA,3,FALSE,TRUE
 31,NA,NA,Yes,1,,
 32,NA,NA,"No, I have never taken snuff",2,,
 33,NA,NA,NA,54,,
