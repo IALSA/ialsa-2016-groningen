@@ -1,7 +1,7 @@
 ,DN0140,count,marital
 1,married and living together with spouse,2039,mar_cohab
 2,registered partnership,10,mar_cohab
-3,"married, living separated from spouse",19,mar_cohab
+3,"married, living separated from spouse",19,sep_divorced
 4,never married,51,single
 5,divorced,140,sep_divorced
 6,widowed,336,widowed
