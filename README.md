@@ -25,7 +25,7 @@
 - working status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html), harmonize)
 - alcohol consumption ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html), harmonize)   
 - level of physical activity  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html), harmonize)      
-- perceived health  (describe, harmonize)   
+- perceived health  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-health.html), harmonize)      
 	
 #### Harmonized data
 - review currenlty available harmonized variables in a [combined dataset](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonized-data.html)
