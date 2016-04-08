@@ -371,7 +371,7 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.1.0 magrittr_1.5 
+## [1] knitr_1.12.3  ggplot2_2.1.0 magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
 ##  [1] splines_3.2.4       lattice_0.20-33     colorspace_1.2-6   
@@ -380,9 +380,9 @@ sessionInfo()
 ## [10] DBI_0.3.1           RColorBrewer_1.1-2  plyr_1.8.3         
 ## [13] stringr_1.0.0       MatrixModels_0.4-1  munsell_0.4.3      
 ## [16] gtable_0.2.0        htmlwidgets_0.6     evaluate_0.8.3     
-## [19] labeling_0.3        latticeExtra_0.6-28 knitr_1.12.3       
-## [22] SparseM_1.7         extrafont_0.17      quantreg_5.21      
-## [25] pbkrtest_0.4-6      parallel_3.2.4      Rttf2pt1_1.3.3     
+## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
+## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
+## [25] parallel_3.2.4      markdown_0.7.7      Rttf2pt1_1.3.3     
 ## [28] highr_0.5.1         Rcpp_0.12.4         acepack_1.3-3.3    
 ## [31] scales_0.4.0        DT_0.1.40           formatR_1.3        
 ## [34] Hmisc_3.17-3        jsonlite_0.9.19     lme4_1.1-11        
@@ -401,6 +401,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-08 09:59:44 PDT"
+## [1] "2016-04-08 12:41:09 PDT"
 ```
 
