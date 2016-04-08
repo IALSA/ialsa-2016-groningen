@@ -5,19 +5,18 @@
 
 **Documentation** : - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) - [source data objects](./data/contents.md)  - [resources and references](./documentation/resources-references.md) - [reproducibility instructions](./utility/reproducibility-instructions.md) 
 
-### Research question
+### Focus
 > Habits, prevalence of, and factors associated with smoking among older adults.  
 
-### Measures
+### Overview
 
 - Full list of [variables and their labels ](https://github.com/IALSA/ialsa-2016-groningen/blob/master/data/meta/names-labels-live/names-labels-live.csv) used in the exercise, as extracted from the raw source files. This file was augmented with [additional meta-data](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/view-meta-data.html).     
 - Data provisioning documentation : the [Ellis Island](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/0-ellis-island.html) report.
 - [Harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) : mapping pattern of responses to values of the harmonized variables.
 
-#### OUTCOME:   
-- Current smoking status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-smoking.html))  
+### Measures and Harmonization
 
-#### COVARIATES:  
+- Current smoking status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-smoking.html))  
 - age  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-age.html))   
 - sex  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-sex.html))  
 - marital status   ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-marital.html))  
