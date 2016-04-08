@@ -1,3 +1,33 @@
+# categorize a continuous variable useing csv mapping
+recode_with_crule <- function(dto, study_name, variable_names, categorization_name){
+  unitData <- dto[["unitData"]][[study_name]] 
+  (crule <- read.csv(path_to_crule, stringsAsFactors = F, na.strings = "NA"))
+  stem_name <- c("id",variable_names)
+  d <- dto[["unitData"]][[study_name]] %>% 
+    dplyr::select_(.dots=stem_name)
+  # head(d); str(d)
+  for(i in variable_names){
+    d[,i] <- as.character(d[,i])
+  }
+  # head(d); str(d)
+  # head(crule);str(crule)
+  dd <- base::merge(d, crule[ ,c(variable_names, categorization_name)], by=variable_names, all.x=T)  
+  # head(dd)
+  # verify
+  dots_name <- lapply(c(variable_names, categorization_name), as.symbol)
+  dd %>% dplyr::group_by_(.dots=dots_name)%>%
+    dplyr::summarize(n=n()) %>% print(n=100)
+  # append multistate variable to the original data
+  # names(dd)
+  dd <- dd[,c("id",categorization_name)]
+  unitData <- unitData %>% 
+    dplyr::left_join(dd, by = "id") 
+  # head(unitData %>% dplyr::select(id, SMOKER, PIPCIGAR, smoke_now))
+  # unitData
+  return(unitData)
+}
+
+
 # encode a multi-state variable useing csv mapping
 recode_with_hrule <- function(dto, study_name, variable_names, harmony_name){
   unitData <- dto[["unitData"]][[study_name]] 

@@ -72,6 +72,42 @@ dto[["unitData"]][["share"]] %>% dplyr::filter(!BR0030==9999) %>% histogram_cont
 # categorize continuous variable BR0030 of SHARE
 ds <- dto[["unitData"]][["share"]]
 
+
+# export categories
+categorization_profile <- function(dto, study, variable_name){
+  ds <- dto[["unitData"]][[study]]
+  variable_name <- lapply(variable_name, as.symbol)   # Convert character vector to list of symbols
+  d <- ds %>% 
+    dplyr::group_by_(.dots=variable_name) %>% 
+    dplyr::summarize(count = n()) 
+  write.csv(d,paste0("./data/meta/categorization-live/",study,"-",variable_name,".csv"))
+}
+categorization_profile(dto,"share","BR0030")
+
+# import categories
+
+# apply categories
+
+
+
+
+study_name <- "share"
+path_to_crule <- "./data/meta/c-rules/c-rules-share-BR0030.csv"
+dto[["unitData"]][[study_name]] <- recode_with_crule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("BR0030"), 
+  categorization_name = "decades_smoked"
+)
+# verify
+dto[["unitData"]][["alsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SMOKER", "PIPCIGAR", "smoke_now")
+
+
+
+
+
 ds$BR0030_F[ds$BR0030 == 0]                      <- "less than 1"
 ds$BR0030_F[ds$BR0030 > 1  & ds$BR0030 <= 10   ] <- "1-10 years"
 ds$BR0030_F[ds$BR0030 > 11 & ds$BR0030 <= 20  ] <- "11-20 years"
