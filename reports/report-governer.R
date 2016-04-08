@@ -110,7 +110,13 @@ rmarkdown::render(
 # )
 
 
-
+# Physical activity
+# Describe (prelude) 
+rmarkdown::render(
+  input = "./reports/harmonize-physact/describe-physact.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
 
 
 # # ---- reproduce ---------------------------------------
