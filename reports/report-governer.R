@@ -128,11 +128,15 @@ rmarkdown::render(
 )
 
 
-# # ---- reproduce ---------------------------------------
-# rmarkdown::render(
-#   input = "./reports/harmonize-education/harmonize-education.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
+# Physique
+# Describe (prelude) 
+rmarkdown::render(
+  input = "./reports/harmonize-physique/describe-physique.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+
+
 
 
 rmarkdown::render(
