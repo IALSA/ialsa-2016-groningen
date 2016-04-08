@@ -1,9 +1,5 @@
-"","BH001","BH002","BEHSMOKER","BH003_F","count"
-"1","Yes","Yes","Current",NA,1564
-"2","Yes","No, I have stopped","Past","YOUNG",1945
-"3","Yes","No, I have stopped","Past","ADULT",790
-"4","Yes","No, I have stopped","Past","MIDDLEAGED",19
-"5","Yes","No, I have stopped","Past","OLD",434
-"6","Yes","No, I have stopped","Past",NA,25
-"7","No","UNDOCUMENTED CODE","Never",NA,3726
-"8",NA,"UNDOCUMENTED CODE",NA,NA,1
+"","BH001","BH002","BEHSMOKER","count"
+"1","Yes","Yes","Current",1564
+"2","Yes","No, I have stopped","Past",3213
+"3","No","UNDOCUMENTED CODE","Never",3726
+"4",NA,"UNDOCUMENTED CODE",NA,1

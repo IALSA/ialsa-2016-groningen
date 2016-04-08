@@ -140,20 +140,9 @@ Preliminary inspection of the schema sets variables revealed two continuous meas
 ```{r II-A-categorization-1, echo=TRUE}
 ```  
 
-After examining their distribution and consulting relevant literature, we have constructed the following rules for transforming these continuous variables into categorical. 
-</br>
+The variable `BR0030` of SATSA has been excluded from the Data Schema for operationalizing harmonized items of the construct `smoking`. We do not need to know *how long* they smoked, only that they *do not smoke* now.
 
-#### Recode variable `BR0030` in SHARE
-```{r II-A-categorization-2, echo=TRUE}
-```  
-</br>
-
-#### Recode variable `BH003` in TILDA 
-
-```{r II-A-categorization-3, echo=TRUE}
-```  
-
-
+The variable `BH003 ` of TILDA has been excluded from the Data Schema for operationalizing harmonized items of the construct `smoking`. We do not need to know *when* they quit, only that they *did* quit (or never smoked).
 
 
 ### (2) Schema sets
