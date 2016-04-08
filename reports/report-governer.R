@@ -81,7 +81,7 @@ rmarkdown::render(
 
 # Work status
 # Describe (prelude) 
-rmarkdown::render(
+rmarkdown::render( 
   input = "./reports/harmonize-work/describe-work.Rmd",
   output_format = "html_document", 
   clean = TRUE
@@ -114,6 +114,15 @@ rmarkdown::render(
 # Describe (prelude) 
 rmarkdown::render(
   input = "./reports/harmonize-physact/describe-physact.Rmd",
+  output_format = "html_document", 
+  clean = TRUE
+)
+
+
+# Health
+# Describe (prelude) 
+rmarkdown::render(
+  input = "./reports/harmonize-health/describe-health.Rmd",
   output_format = "html_document", 
   clean = TRUE
 )
