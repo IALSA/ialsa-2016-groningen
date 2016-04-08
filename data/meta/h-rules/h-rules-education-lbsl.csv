@@ -1,19 +1,19 @@
-,EDUC94,count,educ4
-1,4,1,less than high-school
-2,7,6,less than high-school
-3,8,16,less than high-school
-4,9,4,less than high-school
-5,10,29,less than high-school
-6,11,18,less than high-school
-7,12,170,high-school most
-8,13,40,high-school most
-9,14,85,high-school most
-10,15,37,high-school most
-11,16,62,college
-12,17,15,college
-13,18,28,college
-14,19,10,college
-15,20,31,college plus
-16,21,1,college plus
-17,23,1,college plus
+,EDUC94,count,educ3
+1,4,1,less than high school
+2,7,6,less than high school
+3,8,16,less than high school
+4,9,4,less than high school
+5,10,29,less than high school
+6,11,18,less than high school
+7,12,170,high school
+8,13,40,more than high school
+9,14,85,more than high school
+10,15,37,more than high school
+11,16,62,more than high school
+12,17,15,more than high school
+13,18,28,more than high school
+14,19,10,more than high school
+15,20,31,more than high school
+16,21,1,more than high school
+17,23,1,more than high school
 18,NA,102,

@@ -1,51 +1,51 @@
-,SCHOOL,TYPQUAL,count,educ4
-8,Under fourteen years,Adult Education or Hobby Course,1,high-school most
-16,Fourteen years,Adult Education or Hobby Course,8,high-school most
-24,Fifteen years,Adult Education or Hobby Course,1,high-school most
-38,Seventeen years,Adult Education or Hobby Course,1,high-school most
-7,Under fourteen years,Bachelor Degree or Post Graduate Diploma,1,college
-14,Fourteen years,Bachelor Degree or Post Graduate Diploma,6,college
-23,Fifteen years,Bachelor Degree or Post Graduate Diploma,6,college
-30,Sixteen years,Bachelor Degree or Post Graduate Diploma,14,college
-36,Seventeen years,Bachelor Degree or Post Graduate Diploma,22,college
-45,Eighteen or more years,Bachelor Degree or Post Graduate Diploma,31,college
-2,Never went to school,Certificate or Diploma,4,less than high-school
-6,Under fourteen years,Certificate or Diploma,27,high-school most
-13,Fourteen years,Certificate or Diploma,72,high-school most
-22,Fifteen years,Certificate or Diploma,71,high-school most
-29,Sixteen years,Certificate or Diploma,82,high-school most
-35,Seventeen years,Certificate or Diploma,41,high-school most
-44,Eighteen or more years,Certificate or Diploma,34,high-school most
-49,NA,Certificate or Diploma,1,high-school most
-15,Fourteen years,Higher Qualification,5,high-school most
-31,Sixteen years,Higher Qualification,2,high-school most
-37,Seventeen years,Higher Qualification,1,high-school most
-46,Eighteen or more years,Higher Qualification,6,high-school most
-3,Never went to school,NA,25,less than high-school
-10,Under fourteen years,NA,238,less than high-school
-19,Fourteen years,NA,614,less than high-school
-26,Fifteen years,NA,243,less than high-school
-32,Sixteen years,NA,152,less than high-school
-40,Seventeen years,NA,57,less than high-school
-48,Eighteen or more years,NA,33,less than high-school
+,SCHOOL,TYPQUAL,count,educ3
+45,Eighteen or more years,Bachelor Degree or Post Graduate Diploma,31,more than high school
+44,Eighteen or more years,Certificate or Diploma,34,more than high school
+46,Eighteen or more years,Higher Qualification,6,more than high school
+48,Eighteen or more years,NA,33,more than high school
+47,Eighteen or more years,No Formal Tuition,1,more than high school
+41,Eighteen or more years,Primary School Course,1,more than high school
+42,Eighteen or more years,Secondary School Course,1,more than high school
+43,Eighteen or more years,Trade or Apprenticeship,6,more than high school
+24,Fifteen years,Adult Education or Hobby Course,1,more than high school
+23,Fifteen years,Bachelor Degree or Post Graduate Diploma,6,more than high school
+22,Fifteen years,Certificate or Diploma,71,more than high school
+26,Fifteen years,NA,243,more than high school
+25,Fifteen years,Other,1,more than high school
+20,Fifteen years,Secondary School Course,8,more than high school
+21,Fifteen years,Trade or Apprenticeship,52,more than high school
+16,Fourteen years,Adult Education or Hobby Course,8,high school
+14,Fourteen years,Bachelor Degree or Post Graduate Diploma,6,high school
+13,Fourteen years,Certificate or Diploma,72,high school
+15,Fourteen years,Higher Qualification,5,high school
+19,Fourteen years,NA,614,high school
+18,Fourteen years,No Formal Tuition,2,high school
+17,Fourteen years,Other,2,high school
+11,Fourteen years,Secondary School Course,1,high school
+12,Fourteen years,Trade or Apprenticeship,109,high school
+49,NA,Certificate or Diploma,1,
 50,NA,NA,25,
-18,Fourteen years,No Formal Tuition,2,less than high-school
-47,Eighteen or more years,No Formal Tuition,1,less than high-school
-9,Under fourteen years,Other,1,less than high-school
-17,Fourteen years,Other,2,less than high-school
-25,Fifteen years,Other,1,less than high-school
-39,Seventeen years,Other,2,less than high-school
-41,Eighteen or more years,Primary School Course,1,college
-4,Under fourteen years,Secondary School Course,2,college
-11,Fourteen years,Secondary School Course,1,college
-20,Fifteen years,Secondary School Course,8,college
-27,Sixteen years,Secondary School Course,4,college
-33,Seventeen years,Secondary School Course,1,college
-42,Eighteen or more years,Secondary School Course,1,college
-1,Never went to school,Trade or Apprenticeship,1,less than high-school
-5,Under fourteen years,Trade or Apprenticeship,36,college
-12,Fourteen years,Trade or Apprenticeship,109,college
-21,Fifteen years,Trade or Apprenticeship,52,college
-28,Sixteen years,Trade or Apprenticeship,26,college
-34,Seventeen years,Trade or Apprenticeship,6,college
-43,Eighteen or more years,Trade or Apprenticeship,6,college
+2,Never went to school,Certificate or Diploma,4,less than high school
+3,Never went to school,NA,25,less than high school
+1,Never went to school,Trade or Apprenticeship,1,less than high school
+38,Seventeen years,Adult Education or Hobby Course,1,less than high school
+36,Seventeen years,Bachelor Degree or Post Graduate Diploma,22,more than high school
+35,Seventeen years,Certificate or Diploma,41,more than high school
+37,Seventeen years,Higher Qualification,1,more than high school
+40,Seventeen years,NA,57,more than high school
+39,Seventeen years,Other,2,more than high school
+33,Seventeen years,Secondary School Course,1,more than high school
+34,Seventeen years,Trade or Apprenticeship,6,more than high school
+30,Sixteen years,Bachelor Degree or Post Graduate Diploma,14,more than high school
+29,Sixteen years,Certificate or Diploma,82,more than high school
+31,Sixteen years,Higher Qualification,2,more than high school
+32,Sixteen years,NA,152,more than high school
+27,Sixteen years,Secondary School Course,4,more than high school
+28,Sixteen years,Trade or Apprenticeship,26,more than high school
+8,Under fourteen years,Adult Education or Hobby Course,1,less than high school
+7,Under fourteen years,Bachelor Degree or Post Graduate Diploma,1,less than high school
+6,Under fourteen years,Certificate or Diploma,27,less than high school
+10,Under fourteen years,NA,238,less than high school
+9,Under fourteen years,Other,1,less than high school
+4,Under fourteen years,Secondary School Course,2,less than high school
+5,Under fourteen years,Trade or Apprenticeship,36,less than high school
