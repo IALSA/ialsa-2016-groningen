@@ -109,9 +109,16 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r assemble, echo=TRUE, results='show', message=FALSE}
 ```
 
+### Basic model
+
+We test the harmonized data with a simple logistic regression
+```{r basic-model, echo=TRUE, results='show', message=FALSE}
+```
+
+
 Export data to be used by Mplus
 
-```{r export-data, echo=TRUE, results='show', message=FALSE}
+```{r save-for-Mplus, echo=TRUE, results='show', message=FALSE}
 ```
 
 

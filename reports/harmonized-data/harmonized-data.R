@@ -59,7 +59,11 @@ dmls <- list() # dummy list
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]] # get study data from dto
   (varnames <- names(ds)) # see what variables there are
-  (get_these_variables <- c("id","year_of_wave","age_in_years","year_born", "smoke_now","smoked_ever","sex","marital","educ4")) 
+  (get_these_variables <- c("id",
+                            "year_of_wave","age_in_years","year_born",
+                            "sex",
+                            "marital",
+                            "smoke_now","smoked_ever")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
 }
@@ -69,13 +73,36 @@ ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 head(ds)
 
+# ---- save-for-Mplus ---------------------------
 
-# ---- export-data -------------------------------------
-# At this point we would like to export the data in .dat format
-# to be fed to Mplus for any subsequent modeling
-write.table(ds,"./data/unshared/derived/combined-harmonized-dataset.dat", row.names=F, col.names=F)
-write(names(ds),"./data/unshared/derived/c-h-dataset-variable-names.txt", sep=" ")
+write.table(ds,"./data/unshared/derived/combined-harmonized-data-set.dat", row.names=F, col.names=F)
+write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
+# ----- basic-model ------------------
+
+
+mdl <- glm(
+  formula = smoke_now ~ 1 + age_in_years + sex + marital + study_name, 
+  data = ds
+  )
+mdl 
+
+# useful functions working with GLM model objects
+summary(mdl) # model summary
+coefficients(mdl) # point estimates of model parameters (aka "model solution")
+knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
+knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
+confint(mdl, level=0.95) # confidence intervals for the estimated parameters
+
+# predict(mdl); fitted(mld) # generate prediction of the full model (all effects)
+# residuals(mdl) # difference b/w observed and modeled values
+anova(mdl) # put results into a familiary ANOVA table
+# influence(mdl) # regression diagnostics
+
+
+# create a model summary object to query 
+(summod <- summary(mdl))
+str(summod)
 
 
 

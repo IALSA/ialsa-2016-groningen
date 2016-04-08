@@ -65,6 +65,16 @@ rmarkdown::render(
 )
 
 
+
+rmarkdown::render(
+  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
+  output_format="html_document", clean=TRUE
+)
+
+
+
+##### unverified harmonizations below #####
+
 # Education
 # Describe (prelude) 
 # ---- reproduce ---------------------------------------
@@ -138,11 +148,6 @@ rmarkdown::render(
 
 
 
-
-rmarkdown::render(
-  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
-  output_format="html_document", clean=TRUE
-)
 
 
 
