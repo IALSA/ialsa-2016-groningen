@@ -41,7 +41,7 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
   DT::datatable(
     class   = 'cell-border stripe',
-    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+    caption = "This is the primary metadata file. Edit at `./data/meta/meta-data-map.csv",
     filter  = "top",
     options = list(pageLength = 6, autoWidth = TRUE)
   )
@@ -58,11 +58,11 @@ dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, cat
 
 
 # view metadata for the construct of smoking
-mds_sub <- mds %>%
-  dplyr::filter(construct %in% c('smoking')) %>% 
-  dplyr::select(-url, -label, -notes, - X) %>%
+mds_sub <- dto[["metaData"]] %>%
+  dplyr::filter(construct %in% c('smoking')) %>%
+  dplyr::select(-url, -label, -notes) %>%
   dplyr::arrange(study_name, item)
-base::print(mds_sub,nrow(mds_sub))  
+base::print(mds_sub,nrow(mds_sub))
 
 
 
@@ -128,12 +128,6 @@ dto[["unitData"]][["tilda"]] %>% histogram_discrete("BEHSMOKER")
 # ---- reproduce ---------------------------------------
 rmarkdown::render(input = "./reports/harmonize-smoking/describe-smoking.Rmd" ,
                   output_format="html_document", clean=TRUE)
-
-
-
-
-
-
 
 
 
