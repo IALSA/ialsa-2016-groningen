@@ -24,7 +24,7 @@
 - educational level  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-education.html))    
 - working status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html), harmonize)
 - alcohol consumption ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html), harmonize)   
-- level of physical activity  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html), harmonize)     
+- level of physical activity  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html), harmonize)      
 - perceived health  (describe, harmonize)   
 	
 #### Harmonized data
