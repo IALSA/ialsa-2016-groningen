@@ -69,6 +69,16 @@ ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 head(ds)
 
+
+# ---- export-data -------------------------------------
+# At this point we would like to export the data in .dat format
+# to be fed to Mplus for any subsequent modeling
+write.table(ds,"./data/unshared/derived/combined-harmonized-dataset.dat", row.names=F, col.names=F)
+write(names(ds),"./data/unshared/derived/c-h-dataset-variable-names.txt", sep=" ")
+
+
+
+
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
   input = "./reports/harmonized-data/harmonized-data.Rmd" , 
