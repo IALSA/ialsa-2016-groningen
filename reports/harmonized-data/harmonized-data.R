@@ -72,9 +72,26 @@ lapply(dmls, names) # view the contents of the list object
 ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 head(ds)
+saveRDS(ds, "./data/unshared/derived/ds_harmonized.rds")
+
 
 # ---- save-for-Mplus ---------------------------
+convert_to_numeric <- c("smoke_now","smoked_ever")
+for(v in convert_to_numeric){
+  ds[,v] <- as.integer(ds[,v])
+}
+ds$female <- car::recode(ds$sex,"
+                         'male'   = 0;
+                         'female' = 1;
+                         ", as.numeric.result=TRUE )
 
+ds$marital_n <- car::recode(ds$marital,"
+                         'single'      = 0;
+                         'mar_cohab'   = 1;
+                         'sep_divorced'= 2; 
+                         'widowed'     = 3
+                         ", as.numeric.result=TRUE )
+str(ds)
 write.table(ds,"./data/unshared/derived/combined-harmonized-data-set.dat", row.names=F, col.names=F)
 write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 

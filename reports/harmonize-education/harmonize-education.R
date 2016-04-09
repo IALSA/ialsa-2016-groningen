@@ -186,7 +186,10 @@ knitr::kable(dto[["unitData"]][["share"]] %>%
                  "DN012D04","DN012D05","DN012D09", "DN012DNO", "DN012DOT",
                  "DN012DRF", "DN012DDK", "educ4"))
 
-
+dto[["unitData"]][["share"]] %>% 
+  dplyr::group_by(DN0100) %>% 
+  dplyr::summarize(count=n())
+  
 
 # ---- II-B-education-tilda-1 -------------------------------------------------
 dto[["metaData"]] %>%

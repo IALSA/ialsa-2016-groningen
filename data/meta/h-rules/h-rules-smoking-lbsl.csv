@@ -1,10 +1,10 @@
 ,SMK94,SMOKE,count,smoke_now,smoked_ever,note
-1,no,smoke at present time,3,,,drop as inconsistent
+1,no,smoke at present time,3,NA,NA,drop as inconsistent
 2,no,don't smoke at present but smoked in the past,272,FALSE,TRUE,
 3,no,never smoked,205,FALSE,FALSE,
-4,no,NA,3,FALSE,,
+4,no,NA,3,FALSE,NA,
 5,yes,smoke at present time,71,TRUE,TRUE,
-6,yes,don't smoke at present but smoked in the past,3,,,drop as inconsistent
-7,NA,don't smoke at present but smoked in the past,8,,TRUE,
-8,NA,never smoked,2,,FALSE,
-9,NA,NA,89,,,
+6,yes,don't smoke at present but smoked in the past,3,NA,NA,drop as inconsistent
+7,NA,don't smoke at present but smoked in the past,8,NA,TRUE,
+8,NA,never smoked,2,NA,FALSE,
+9,NA,NA,89,NA,NA,

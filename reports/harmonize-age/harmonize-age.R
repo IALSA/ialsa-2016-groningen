@@ -63,15 +63,18 @@ dto[["metaData"]] %>%
 
 
 # ---- assemble ------------------
+get_these_variables <- c("id", "AGE","QAGE3","AGE94","YRBORN","DN0030")
 dmls <- list() # dummy list
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]] # get study data from dto
   (varnames <- names(ds)) # see what variables there are
-  (get_these_variables <- c("id", "AGE","QAGE3","AGE94","YRBORN","DN0030")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
 }
 lapply(dmls, names) # view the contents of the list object
+
+
+
 
 
 # ---- age-alsa ------------------------------------
@@ -79,17 +82,21 @@ lapply(dmls, names) # view the contents of the list object
 ds <- dmls[['alsa']]; head(ds)
 # # https://www.maelstrom-research.org/mica/study/alsa
 ds$year_of_wave <- 1992
+ds$AGE <- as.numeric(ds$AGE)
 ds <- ds %>% # transform into harmonization target
   dplyr::mutate(age_in_years = AGE, # rename
                    year_born = year_of_wave - age_in_years # compute
                 ) %>% 
-  dplyr::select(-AGE)
+  dplyr::select(-AGE) 
 head(ds)
+str(ds)
+sapply(ds,summary)
 dmls[['alsa']] <- ds
 
 # ---- age-lbsl ------------------------------------
 # review existing variables
 ds <- dmls[['lbsl']]; head(ds)
+ds$AGE94 <- as.numeric(ds$AGE94)
 # https://www.maelstrom-research.org/mica/study/lbls
 ds$year_of_wave <- 1994
 ds <- ds %>% # transform into harmonization target
@@ -98,25 +105,32 @@ ds <- ds %>% # transform into harmonization target
                 ) %>% 
   dplyr::select(-AGE94)
 head(ds)
+str(ds)
+sapply(ds,summary)
 dmls[['lbsl']] <- ds # replace with augmented
 
 # ---- age-satsa ------------------------------------
 # review existing variables
 ds <- dmls[['satsa']]; head(ds)
+ds$YRBORN <- as.numeric(ds$YRBORN)
+ds$QAGE3 <- as.numeric(ds$QAGE3)
 # https://www.maelstrom-research.org/mica/study/satsa
 ds$year_of_wave <- 1991
 ds <- ds %>% # transform into harmonization target
   dplyr::mutate(age_in_years = QAGE3, # direct transform; (??) should it be rounded (??)
-                year_born = YRBORN +1900 # compute
+                year_born = YRBORN + 1900 # compute
                 ) %>%  
-  dplyr::select(-QAGE3, - YRBORN )
+  dplyr::select(-QAGE3, - YRBORN ) 
 head(ds)
+str(ds)
+sapply(ds,summary)
 dmls[['satsa']] <- ds
 
 
 # ---- age-share ------------------------------------
 # review existing variables
 ds <- dmls[['share']]; head(ds)
+ds$DN0030 <- as.numeric(ds$DN0030)
 # http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
 ds$year_of_wave <- 2004
 ds <- ds %>% # transform into harmonization target
@@ -124,12 +138,16 @@ ds <- ds %>% # transform into harmonization target
                 age_in_years = year_of_wave - year_born # compute
                 ) %>%  
   dplyr::select(-DN0030)
+str(ds)
+ds[ds$age_in_years<1,"age_in_years"] <- NA
 head(ds)
+sapply(ds, summary)
 dmls[['share']] <- ds
 
 # ---- age-tilda ------------------------------------
 # review existing variables
 ds <- dmls[['tilda']]; head(ds)
+ds$AGE <- as.numeric(ds$AGE)
 # https://www.maelstrom-research.org/mica/study/tilda
 ds$year_of_wave <- 2009
 ds <- ds %>% # transform into harmonization target
@@ -137,7 +155,9 @@ ds <- ds %>% # transform into harmonization target
                 year_born = year_of_wave - age_in_years # compute
                 ) %>% 
   dplyr::select(-AGE)
+str(ds)
 head(ds)
+sapply(ds, summary)
 dmls[['tilda']] <- ds
 
 
@@ -146,7 +166,7 @@ dmls[['tilda']] <- ds
 # convert the dummy list into a dataframe with study names as factor
 ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-head(ds)
+head(ds); str(ds)
 
 # augment dto with the harmonized age variables
 for(s in dto[["studyName"]]){
