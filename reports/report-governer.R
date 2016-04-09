@@ -66,11 +66,6 @@ rmarkdown::render(
 
 
 
-rmarkdown::render(
-  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
-  output_format="html_document", clean=TRUE
-)
-
 
 
 ##### unverified harmonizations below #####
@@ -82,13 +77,21 @@ rmarkdown::render(
 #   input = "./reports/harmonize-education/describe-education.Rmd" ,
 #   output_format="html_document", clean=TRUE
 # )
-# # Harmonize (sonata)
-# rmarkdown::render(
-#   input = "./reports/harmonize-education/harmonize-education.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
-# 
-# 
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+  output_format="html_document", clean=TRUE
+)
+
+
+# produce combined harmonized data
+rmarkdown::render(
+  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
+  output_format="html_document", clean=TRUE
+)
+
+
+
 # # Work status
 # # Describe (prelude) 
 # rmarkdown::render( 

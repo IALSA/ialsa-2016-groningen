@@ -63,6 +63,7 @@ for(s in dto[["studyName"]]){
                             "year_of_wave","age_in_years","year_born",
                             "sex",
                             "marital",
+                            "educ3",
                             "smoke_now","smoked_ever")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
@@ -91,6 +92,13 @@ ds$marital_n <- car::recode(ds$marital,"
                          'sep_divorced'= 2; 
                          'widowed'     = 3
                          ", as.numeric.result=TRUE )
+ds$educ3_n <- car::recode(ds$educ3,"
+                         'less than high school'= 0;
+                         'high school'          = 1;
+                         'more than high school'= 2
+                         
+                         ", as.numeric.result=TRUE )
+
 str(ds)
 write.table(ds,"./data/unshared/derived/combined-harmonized-data-set.dat", row.names=F, col.names=F)
 write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
@@ -99,10 +107,10 @@ write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
 
 mdl <- glm(
-  formula = smoke_now ~ 1 + age_in_years + sex + marital + study_name, 
+  formula = smoke_now ~ -1 + study_name + age_in_years + sex + marital + educ3, 
   data = ds
   )
-mdl 
+mdl
 
 # useful functions working with GLM model objects
 summary(mdl) # model summary

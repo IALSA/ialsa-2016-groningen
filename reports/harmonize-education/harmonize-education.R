@@ -112,12 +112,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("SCHOOL","TYPQUAL"), 
-  harmony_name = "educ4"
+  harmony_name = "educ3"
 )
 # verify
 dto[["unitData"]][["alsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SCHOOL","TYPQUAL","educ4")
+  dplyr::select_("id", "SCHOOL","TYPQUAL","educ3")
 
 
 
@@ -133,12 +133,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("EDUC94"), 
-  harmony_name = "educ4"
+  harmony_name = "educ3"
 )
 # verify
 dto[["unitData"]][["lbsl"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "EDUC94", "educ4")
+  dplyr::select_("id", "EDUC94", "educ3")
 
 
 
@@ -154,12 +154,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("EDUC"), 
-  harmony_name = "educ4"
+  harmony_name = "educ3"
 )
 # verify
 dto[["unitData"]][["satsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "EDUC", "educ4")
+  dplyr::select_("id", "EDUC", "educ3")
 
 
 
@@ -173,21 +173,21 @@ study_name <- "share"
 path_to_hrule <- "./data/meta/h-rules/h-rules-education-share.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
-  study_name = study_name, 
+  study_name = study_name,
   variable_names = c("DN0100","DN012D01","DN012D02","DN012D03",
                      "DN012D04","DN012D05","DN012D09", "DN012DNO", "DN012DOT",
-                     "DN012DRF", "DN012DDK"), 
-  harmony_name = "educ4"
+                     "DN012DRF", "DN012DDK"),
+  harmony_name = "educ3"
 )
 # verify
 knitr::kable(dto[["unitData"]][["share"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
   dplyr::select_("id", "DN0100","DN012D01","DN012D02","DN012D03",
                  "DN012D04","DN012D05","DN012D09", "DN012DNO", "DN012DOT",
-                 "DN012DRF", "DN012DDK", "educ4"))
+                 "DN012DRF", "DN012DDK", "educ3"))
 
-dto[["unitData"]][["share"]] %>% 
-  dplyr::group_by(DN0100) %>% 
+dto[["unitData"]][["share"]] %>%
+  dplyr::group_by(DN0100) %>%
   dplyr::summarize(count=n())
   
 
@@ -203,12 +203,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("DM001"), 
-  harmony_name = "educ4"
+  harmony_name = "educ3"
 )
 # verify
 dto[["unitData"]][["tilda"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "DM001", "educ4")
+  dplyr::select_("id", "DM001", "educ3")
 
 
 
@@ -218,21 +218,26 @@ dto[["unitData"]][["tilda"]] %>%
 dumlist <- list()
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]]
-  dumlist[[s]] <- ds[,c("id","educ4")]
+  dumlist[[s]] <- ds[,c("id","educ3")]
 }
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-ds$educ4 <- ordered(
-  ds$educ4, 
-  levels = c("less than high-school", 
-             "high-school most", 
-             "college", 
-             "college plus")
+ds$educ3 <- car::recode(ds$educ3,"
+                         'less than high school'=0;
+                         'high school' =1;
+                         'more than high school'=2
+                         ",as.factor.result=TRUE )
+ds$educ3 <- factor(
+  ds$educ3,
+  levels = c("less than high school",
+             "high school",
+             "more than high school"),
+  labels = c(0,1,2)
 )
-table( ds$educ4, ds$study_name)
+table( ds$educ3, ds$study_name, useNA = "always")
 
-
+str(ds$educ3)
 head(dto[["unitData"]][["alsa"]])
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
