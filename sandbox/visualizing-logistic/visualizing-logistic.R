@@ -123,7 +123,7 @@ graph_logistic_simple <- function(ds, x_name, y_name, color_group, alpha_level=.
     )
   # return(g)
 }
-# g <- graph_logistic_simple(ds=d,"age_in_years", "smoke_now_p", "sex", .3)
+# g <- graph_logistic_simple(ds=ds,"age_in_years", "smoke_now_p", "sex", .3)
 # g
 # ---- define-complex-3-graph-function -----------------------
 
@@ -188,7 +188,7 @@ d <- ds %>% na.omit()
 mdl <- glm(
   formula = smoke_now ~ -1 + study_name + age_in_years +sex + marital + educ3,
   # formula = smoke_now ~ -1 + study_name + age_in_years + sex ,
-  data = d
+  data = d, family = "binomial"
 );summary(mdl)
 d$smoke_now_p <- predict(mdl)
 d <- d %>%  dplyr::select(id, study_name, age_in_years, sex, marital, educ3, smoke_now_p)
