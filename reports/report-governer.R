@@ -10,6 +10,13 @@ knitr::stitch_rmd(
 #   output_format="html_document", clean=TRUE
 # )
 
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-work/harmonize-work.Rmd",
+  output_format = "html_document",
+  clean = TRUE
+)
+
 
 # Smoking
 # Describe (prelude)
@@ -99,12 +106,12 @@ rmarkdown::render(
 #   output_format = "html_document", 
 #   clean = TRUE
 # )
-# # # Harmonize (sonata)
-# # rmarkdown::render(
-# #   input = "./reports/harmonize-work/harmonize-work.Rmd",
-# #   output_format = "html_document", 
-# #   clean = TRUE
-# # )
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-work/harmonize-work.Rmd",
+  output_format = "html_document",
+  clean = TRUE
+)
 # 
 # 
 # 
@@ -139,7 +146,12 @@ rmarkdown::render(
 #   output_format = "html_document", 
 #   clean = TRUE
 # )
-# 
+# Harmonize (sonata)
+rmarkdown::render(
+  input = "./reports/harmonize-health/harmonize-health.Rmd",
+  output_format = "html_document",
+  clean = TRUE
+)
 # 
 # # Physique
 # # Describe (prelude) 
