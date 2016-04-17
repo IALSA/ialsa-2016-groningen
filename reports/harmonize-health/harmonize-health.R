@@ -211,9 +211,12 @@ for(s in dto[["studyName"]]){
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-table( ds$poor_health, ds$study_name)
+table( ds$poor_health, ds$study_name, useNA = "always")
 
 
+# ---- save-to-disk ------------------------------------------------------------
+# Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
+saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
 
 
 # ---- save-to-disk ------------------------------------------------------------

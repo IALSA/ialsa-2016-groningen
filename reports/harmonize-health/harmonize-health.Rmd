@@ -218,4 +218,8 @@ Finally, we have added the newly created, harmonized variables to the raw source
 ```{r save-to-disk, echo=TRUE}
 ```
 
+Finally, we have added the newly created, harmonized variables to the raw source objects and save the data transfer object.
+
+```{r save-to-disk, echo=TRUE}
+```
 
