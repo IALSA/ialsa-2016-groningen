@@ -1,6 +1,6 @@
-"","RETIRED","CURRWORK","count"
-"1","Yes","No",1767
-"2","No","No",134
-"3",NA,"Yes",31
-"4",NA,"No",137
-"5",NA,NA,18
+,RETIRED,CURRWORK,count,current_work2
+1,Yes,No,1767,FALSE
+2,No,No,134,FALSE
+3,NA,Yes,31,TRUE
+4,NA,No,137,FALSE
+5,NA,NA,18,NA

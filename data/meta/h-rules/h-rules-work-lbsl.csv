@@ -1,10 +1,10 @@
-"","NOWRK94","count"
-"1","yes, full time",105
-"2","yes, part time",64
-"3","yes, more than one job",2
-"4","no, retired",318
-"5","no, homemaker",34
-"6","no, unemployed",7
-"7","no, not seeking work",7
-"8","no, disabled",14
-"9",NA,105
+,NOWRK94,count,current_work2
+1,"yes, full time",105,TRUE
+2,"yes, part time",64,TRUE
+3,"yes, more than one job",2,TRUE
+4,"no, retired",318,FALSE
+5,"no, homemaker",34,FALSE
+6,"no, unemployed",7,FALSE
+7,"no, not seeking work",7,FALSE
+8,"no, disabled",14,FALSE
+9,NA,105,NA

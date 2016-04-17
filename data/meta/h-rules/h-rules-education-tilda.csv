@@ -3,8 +3,8 @@
 2,Primary or equivalent,2232,less than high school
 3,Intermediate/junior/group certificate or equivalent,1971,less than high school
 4,Leaving certificate or equivalent,1460,high school
-5,Diploma/certificate,1335,more than high school
-6,Primary degree,730,more than high school
+5,Diploma/certificate,1335,high school
+6,Primary degree,730,less than high school
 7,Postgraduate/higher degree,483,more than high school
 8,None,9,less than high school
 9,NA,4,NA

@@ -1,11 +1,11 @@
-"","EP0050","count"
-"1","Retired",1071
-"2","Employed or self-employed (including working for family busi",932
-"3","Unemployed, seeking job",64
-"4","Unemployed, not seeking job",64
-"5","Temporarily sick or disabled",46
-"6","Permanently sick or disabled",89
-"7","Homemaker",289
-"8","Other (specify)",34
-"9","Don't know",1
-"10",NA,8
+,EP0050,count,current_work2
+1,Retired,1071,FALSE
+2,Employed or self-employed (including working for family busi,932,TRUE
+3,"Unemployed, seeking job",64,FALSE
+4,"Unemployed, not seeking job",64,FALSE
+5,Temporarily sick or disabled,46,FALSE
+6,Permanently sick or disabled,89,FALSE
+7,Homemaker,289,FALSE
+8,Other (specify),34,FALSE
+9,Don't know,1,FALSE
+10,NA,8,NA
