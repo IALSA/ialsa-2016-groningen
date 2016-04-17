@@ -21,11 +21,11 @@
 - sex  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-sex.html))  
 - marital status   ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-marital.html))  
 - educational level  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-education.html))    
-- working status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html), harmonize)
-- alcohol consumption ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html), harmonize)   
-- level of physical activity  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html), harmonize)      
-- perceived health  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-health.html), harmonize)      
-- physique  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physique.html), harmonize)      
+- working status  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-work.html)) 
+- alcohol consumption ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-alcohol.html))   
+- level of physical activity  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-physact.html))  
+- perceived health  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-health.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-health.html))     
+- physique  ([describe](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physique.html), [harmonize](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-physique.html))     
 	
 #### Harmonized data
 - review currenlty available harmonized variables in a [combined dataset](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonized-data.html)
