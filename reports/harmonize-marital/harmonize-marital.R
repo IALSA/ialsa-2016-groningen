@@ -142,7 +142,7 @@ dto[["unitData"]][["lbsl"]] %>%
 
 # ---- II-B-marital-satsa-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "satsa", construct == "GMARITAL") %>%
+  dplyr::filter(study_name == "satsa", construct == "marital") %>%
   # dplyr::filter(name %in% c("GMARITAL")) %>%
   dplyr::select(study_name, name, label_short,categories)
 # ---- II-B-marital-satsa-2 -------------------------------------------------
