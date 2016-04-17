@@ -97,114 +97,103 @@ for(s in names(schema_sets)){
                    )
 }
  
-#### THE REST IS A DUMMY FROM EDUCATION. 
-#### COME BACK WHEN YOU HAVE HARMONIZATION RULES
-
 # ---- II-B-work-alsa-1 -------------------------------------------------
 dto[["metaData"]] %>%
   dplyr::filter(study_name=="alsa", construct %in% c("work_status")) %>%
   dplyr::select(study_name, name, label,categories)
-# ---- II-B-education-alsa-2 -------------------------------------------------
+# ---- II-B-work-alsa-2 -------------------------------------------------
 study_name <- "alsa"
-path_to_hrule <- "./data/meta/h-rules/h-rules-education-alsa.csv"
+path_to_hrule <- "./data/meta/h-rules/h-rules-work-alsa.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
-  variable_names = c("SCHOOL","TYPQUAL"), 
-  harmony_name = "educ4"
+  variable_names = c("RETIRED","CURRWORK"), 
+  harmony_name = "current_work_2"
 )
 # verify
 dto[["unitData"]][["alsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SCHOOL","TYPQUAL","educ4")
+  dplyr::select_("id", "RETIRED","CURRWORK", "current_work_2")
 
 
 
-# ---- II-B-education-lbsl-1 -------------------------------------------------
+# ---- II-B-work-lbsl-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "lbsl", construct == "education") %>%
-  # dplyr::filter(name %in% c("EDUC94")) %>%
+  dplyr::filter(study_name == "lbsl", construct == "work_status") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-education-lbsl-2 -------------------------------------------------
+# ---- II-B-work-lbsl-2 -------------------------------------------------
 study_name <- "lbsl"
-path_to_hrule <- "./data/meta/h-rules/h-rules-education-lbsl.csv"
+path_to_hrule <- "./data/meta/h-rules/h-rules-work-lbsl.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
-  variable_names = c("EDUC94"), 
-  harmony_name = "educ4"
+  variable_names = c("NOWRK94"), 
+  harmony_name = "current_work_2"
 )
 # verify
 dto[["unitData"]][["lbsl"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "EDUC94", "educ4")
+  dplyr::select_("id", "NOWRK94", "current_work_2")
 
 
 
-# ---- II-B-education-satsa-1 -------------------------------------------------
+# ---- II-B-work-satsa-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "satsa", construct == "education") %>%
-  # dplyr::filter(name %in% c("EDUC")) %>%
+  dplyr::filter(study_name == "satsa", construct == "work_status") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-education-satsa-2 -------------------------------------------------
+# ---- II-B-work-satsa-2 -------------------------------------------------
 study_name <- "satsa"
-path_to_hrule <- "./data/meta/h-rules/h-rules-education-satsa.csv"
+path_to_hrule <- "./data/meta/h-rules/h-rules-work-satsa.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
-  variable_names = c("EDUC"), 
-  harmony_name = "educ4"
+  variable_names = c("GAMTWORK"), 
+  harmony_name = "current_work_2"
 )
 # verify
 dto[["unitData"]][["satsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "EDUC", "educ4")
+  dplyr::select_("id", "GAMTWORK", "current_work_2")
 
 
 
-# ---- II-B-education-share-1 -------------------------------------------------
+# ---- II-B-work-share-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "share", construct == "education") %>%
-  # dplyr::filter(name %in% c("DN0100")) %>%
+  dplyr::filter(study_name == "share", construct == "work_status") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-education-share-2 -------------------------------------------------
+# ---- II-B-work-share-2 -------------------------------------------------
 study_name <- "share"
-path_to_hrule <- "./data/meta/h-rules/h-rules-education-share.csv"
+path_to_hrule <- "./data/meta/h-rules/h-rules-work-share.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
-  variable_names = c("DN0100","DN012D01","DN012D02","DN012D03",
-                     "DN012D04","DN012D05","DN012D09", "DN012DNO", "DN012DOT",
-                     "DN012DRF", "DN012DDK"), 
-  harmony_name = "educ4"
+  variable_names = c("EP0050"), 
+  harmony_name = "current_work_2"
 )
 # verify
 knitr::kable(dto[["unitData"]][["share"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "DN0100","DN012D01","DN012D02","DN012D03",
-                 "DN012D04","DN012D05","DN012D09", "DN012DNO", "DN012DOT",
-                 "DN012DRF", "DN012DDK", "educ4"))
+  dplyr::select_("id", "EP0050", "current_work_2"))
 
 
 
-# ---- II-B-education-tilda-1 -------------------------------------------------
+# ---- II-B-work-tilda-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "tilda", construct == "education") %>%
-  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::filter(study_name == "tilda", construct == "work_status") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-education-tilda-2 -------------------------------------------------
+# ---- II-B-work-tilda-2 -------------------------------------------------
 study_name <- "tilda"
-path_to_hrule <- "./data/meta/h-rules/h-rules-education-tilda.csv"
+path_to_hrule <- "./data/meta/h-rules/h-rules-work-tilda.csv"
 dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
-  variable_names = c("DM001"), 
-  harmony_name = "educ4"
+  variable_names = c("WE001","WE003"), 
+  harmony_name = "current_work_2"
 )
 # verify
 dto[["unitData"]][["tilda"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "DM001", "educ4")
+  dplyr::select_("id","WE001","WE003","current_work_2")
 
 
 
@@ -214,25 +203,18 @@ dto[["unitData"]][["tilda"]] %>%
 dumlist <- list()
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]]
-  dumlist[[s]] <- ds[,c("id","educ4")]
+  dumlist[[s]] <- ds[,c("id","current_work_2")]
 }
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-ds$educ4 <- ordered(
-  ds$educ4, 
-  levels = c("less than high-school", 
-             "high-school most", 
-             "college", 
-             "college plus")
-)
-table( ds$educ4, ds$study_name)
+table( ds$current_work_2, ds$study_name)
 
 
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
-  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
+  input = "./reports/harmonize-work/harmonize-work.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 
