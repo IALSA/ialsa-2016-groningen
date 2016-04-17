@@ -327,8 +327,8 @@ for(s in dto[["studyName"]]){
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-table( ds$smoke_now, ds$study_name)
-table( ds$smoked_ever, ds$study_name)
+table( ds$smoke_now, ds$study_name, useNA = "always")
+table( ds$smoked_ever, ds$study_name, useNA = "always")
 
 
 # ---- save-to-disk ------------------------------------------------------------

@@ -56,7 +56,7 @@ dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, cat
 
 # ----- view-metadata-1 ---------------------------------------------
 meta_data <- dto[["metaData"]] %>%
-  dplyr::filter(construct %in% c('work_status')) %>% 
+  dplyr::filter(construct %in% c('physique')) %>% 
   dplyr::select(study_name, name, construct, label_short, categories, url) %>%
   dplyr::arrange(construct, study_name)
 knitr::kable(meta_data)
@@ -64,136 +64,114 @@ knitr::kable(meta_data)
 
 # ---- II-A-1-schema-sets-1 -------------------------
 schema_sets <- list(
-  "alsa" = c("RETIRED","CURRWORK"),
-  "lbsl" = c("NOWRK94"),
-  "satsa" =  c("GAMTWORK"),
-  "share" = c("EP0050"), 
-  "tilda" = c("WE001","WE003") 
+  "alsa" = c("WEIGHT"),
+  "lbsl" = c("HEIGHT94", "WEIGHT94","HHEIGHT","HWEIGHT"),
+  "satsa" =  c("GHTCM","GWTKG","GPI"),
+  "share" = c("PH0130","PH0120"), 
+  "tilda" = c("HEIGHT","WEIGHT") 
 )
 
 # ---- II-A-1-schema-sets-2 --------------------
-# view the profile of responses
-dto[["unitData"]][["alsa"]] %>% 
-  dplyr::group_by(RETIRED,CURRWORK) %>% 
-  dplyr::summarize(count = n()) 
 
 
-# ---- II-A-1-schema-sets-3 --------------------
-# define function to extract profiles
-response_profile <- function(dto, h_target, study, varnames_values){
-  ds <- dto[["unitData"]][[study]]
-  varnames_values <- lapply(varnames_values, as.symbol)   # Convert character vector to list of symbols
-  d <- ds %>% 
-    dplyr::group_by_(.dots=varnames_values) %>% 
-    dplyr::summarize(count = n()) 
-  write.csv(d,paste0("./data/meta/response-profiles-live/",h_target,"-",study,".csv"))
-}
-# extract response profile for data schema set from each study
-for(s in names(schema_sets)){
-  response_profile(dto,
-                   study = s,
-                   h_target = 'work',
-                   varnames_values = schema_sets[[s]]
-                   )
-}
  
-# ---- II-B-work-alsa-1 -------------------------------------------------
+# ---- II-B-physique-alsa-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name=="alsa", construct %in% c("work_status")) %>%
+  dplyr::filter(study_name=="alsa", construct %in% c("physique")) %>%
   dplyr::select(study_name, name, label,categories)
-# ---- II-B-work-alsa-2 -------------------------------------------------
-study_name <- "alsa"
-path_to_hrule <- "./data/meta/h-rules/h-rules-work-alsa.csv"
-dto[["unitData"]][[study_name]] <- recode_with_hrule(
-  dto,
-  study_name = study_name, 
-  variable_names = c("RETIRED","CURRWORK"), 
-  harmony_name = "current_work_2"
-)
+# ---- II-B-physique-alsa-2 -------------------------------------------------
+dto[["unitData"]][["alsa"]] <- dto[["unitData"]][["alsa"]] %>% 
+    dplyr::mutate(
+      HIEGHT = NA,
+      bmi = (WEIGHT)/ (HIEGHT^2))
 # verify
 dto[["unitData"]][["alsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "RETIRED","CURRWORK", "current_work_2")
+  dplyr::select_("id", "WEIGHT","HIEGHT", "bmi")
 
 
-
-# ---- II-B-work-lbsl-1 -------------------------------------------------
+# ---- II-B-physique-lbsl-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "lbsl", construct == "work_status") %>%
+  dplyr::filter(study_name == "lbsl", construct == "physique") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-work-lbsl-2 -------------------------------------------------
-study_name <- "lbsl"
-path_to_hrule <- "./data/meta/h-rules/h-rules-work-lbsl.csv"
-dto[["unitData"]][[study_name]] <- recode_with_hrule(
-  dto,
-  study_name = study_name, 
-  variable_names = c("NOWRK94"), 
-  harmony_name = "current_work_2"
-)
+# ---- II-B-physique-lbsl-2 -------------------------------------------------
+dto[["unitData"]][["lbsl"]] <- dto[["unitData"]][["lbsl"]] %>% 
+  dplyr::mutate(bmi = (WEIGHT94 * 703)/ (HEIGHT94^2))
 # verify
 dto[["unitData"]][["lbsl"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "NOWRK94", "current_work_2")
+  dplyr::select_("id", "WEIGHT94","HEIGHT94", "bmi")
+# graph
+histogram_continuous(dto[["unitData"]][["lbsl"]],"bmi")
 
-
-
-# ---- II-B-work-satsa-1 -------------------------------------------------
+# ---- II-B-physique-satsa-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "satsa", construct == "work_status") %>%
+  dplyr::filter(study_name == "satsa", construct == "physique") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-work-satsa-2 -------------------------------------------------
-study_name <- "satsa"
-path_to_hrule <- "./data/meta/h-rules/h-rules-work-satsa.csv"
-dto[["unitData"]][[study_name]] <- recode_with_hrule(
-  dto,
-  study_name = study_name, 
-  variable_names = c("GAMTWORK"), 
-  harmony_name = "current_work_2"
-)
+# ---- II-B-physique-satsa-2 -------------------------------------------------
+dto[["unitData"]][["satsa"]] <- dto[["unitData"]][["satsa"]] %>% 
+  dplyr::mutate(bmi = (GWTKG)/ ((GHTCM/100)^2))
 # verify
 dto[["unitData"]][["satsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "GAMTWORK", "current_work_2")
+  dplyr::select_("id", "GWTKG","GHTCM","GPI", "bmi")
+# graph
+histogram_continuous(dto[["unitData"]][["satsa"]],"bmi")
 
 
-
-# ---- II-B-work-share-1 -------------------------------------------------
+# ---- II-B-physique-share-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "share", construct == "work_status") %>%
+  dplyr::filter(study_name == "share", construct == "physique") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-work-share-2 -------------------------------------------------
-study_name <- "share"
-path_to_hrule <- "./data/meta/h-rules/h-rules-work-share.csv"
-dto[["unitData"]][[study_name]] <- recode_with_hrule(
-  dto,
-  study_name = study_name, 
-  variable_names = c("EP0050"), 
-  harmony_name = "current_work_2"
-)
+# ---- II-B-physique-share-2 -------------------------------------------------
+# recode non-numeric flags
+ds <- dto[["unitData"]][["share"]]
+str(ds$PH0130); summary(ds$PH0130); table(ds$PH0130)
+ds$PH0130 <- as.numeric(ds$PH0130)
+ds$PH0130 <- car::recode(ds$PH0130, "
+            c(9999998,9999999) = NA
+            ")
+str(ds$PH0120); summary(ds$PH0120); table(ds$PH0120)
+ds$PH0120 <- car::recode(ds$PH0120, "
+            c(0,10, 1000000) = NA
+            ")
+ds <- ds %>% 
+  dplyr::mutate(bmi = (PH0120)/ ((PH0130/100)^2))
+dto[["unitData"]][["share"]] <- ds
 # verify
-knitr::kable(dto[["unitData"]][["share"]] %>%
+dto[["unitData"]][["share"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "EP0050", "current_work_2"))
+  dplyr::select_("id", "PH0120" ,"PH0130", "bmi")
+# graph
+histogram_continuous(dto[["unitData"]][["share"]],"bmi")
 
 
 
-# ---- II-B-work-tilda-1 -------------------------------------------------
+# ---- II-B-physique-tilda-1 -------------------------------------------------
 dto[["metaData"]] %>%
-  dplyr::filter(study_name == "tilda", construct == "work_status") %>%
+  dplyr::filter(study_name == "tilda", construct == "physique") %>%
   dplyr::select(study_name, name, label_short,categories)
-# ---- II-B-work-tilda-2 -------------------------------------------------
-study_name <- "tilda"
-path_to_hrule <- "./data/meta/h-rules/h-rules-work-tilda.csv"
-dto[["unitData"]][[study_name]] <- recode_with_hrule(
-  dto,
-  study_name = study_name, 
-  variable_names = c("WE001","WE003"), 
-  harmony_name = "current_work_2"
-)
+# ---- II-B-physique-tilda-2 -------------------------------------------------
+ds <- dto[["unitData"]][["tilda"]]
+ds <- ds %>% 
+  dplyr::mutate(
+    weight = ifelse(
+    !is.na(WEIGHT), WEIGHT, ifelse(
+      !is.na(SR.WEIGHT.KILOGRAMMES),SR.WEIGHT.KILOGRAMMES, NA)),
+    height = ifelse(
+      !is.na(HEIGHT), HEIGHT, ifelse(
+        !is.na(SR.HEIGHT.CENTIMETRES),SR.HEIGHT.CENTIMETRES, NA))
+  ) 
+ds <- ds %>%
+  dplyr::mutate(bmi = (weight)/ ((height/100)^2))
+dto[["unitData"]][["tilda"]] <- ds
 # verify
 dto[["unitData"]][["tilda"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id","WE001","WE003","current_work_2")
+  dplyr::select_("id","weight", "height", "bmi")
+# graph
+histogram_continuous(dto[["unitData"]][["tilda"]],"bmi")
+
 
 
 
@@ -203,13 +181,15 @@ dto[["unitData"]][["tilda"]] %>%
 dumlist <- list()
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]]
-  dumlist[[s]] <- ds[,c("id","current_work_2")]
+  dumlist[[s]] <- ds[,c("id","bmi")]
 }
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-table( ds$current_work_2, ds$study_name, useNA = "always")
-
+for(s in dto[["studyName"]]){
+  print(s)
+  print(summary(dto[["unitData"]][[s]]$bmi))
+}
 
 # ---- save-to-disk ------------------------------------------------------------
 # Save as a compress, binary R dataset.  It's no longer readable with a text editor, but it saves metadata (eg, factor information).
@@ -218,7 +198,7 @@ saveRDS(dto, file="./data/unshared/derived/dto.rds", compress="xz")
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(
-  input = "./reports/harmonize-work/harmonize-work.Rmd" ,
+  input = "./reports/harmonize-bmi/harmonize-bmi.Rmd" ,
   output_format="html_document", clean=TRUE
 )
 

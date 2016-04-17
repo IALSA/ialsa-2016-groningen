@@ -103,6 +103,7 @@ for(s in names(schema_sets)){
 dto[["metaData"]] %>%
   dplyr::filter(study_name=="alsa", name %in% c("SEX")) %>%
   dplyr::select(study_name, name, label,categories)
+
 # ---- II-B-sex-alsa-2 -------------------------------------------------
 study_name <- "alsa"
 path_to_hrule <- "./data/meta/h-rules/h-rules-sex-alsa.csv"
@@ -110,12 +111,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("SEX"), 
-  harmony_name = "sex"
+  harmony_name = "female"
 )
 # verify
 dto[["unitData"]][["alsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SEX","sex")
+  dplyr::select_("id", "SEX","female")
 
 
 
@@ -131,12 +132,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("SEX94"), 
-  harmony_name = "sex"
+  harmony_name = "female"
 )
 # verify
 dto[["unitData"]][["lbsl"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SEX94", "sex")
+  dplyr::select_("id", "SEX94", "female")
 
 
 
@@ -152,12 +153,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("SEX"), 
-  harmony_name = "sex"
+  harmony_name = "female"
 )
 # verify
 dto[["unitData"]][["satsa"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SEX", "sex")
+  dplyr::select_("id", "SEX", "female")
 
 
 
@@ -173,12 +174,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("GENDER"), 
-  harmony_name = "sex"
+  harmony_name = "female"
 )
 # verify
 dto[["unitData"]][["share"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "GENDER", "sex")
+  dplyr::select_("id", "GENDER", "female")
 
 
 
@@ -194,12 +195,12 @@ dto[["unitData"]][[study_name]] <- recode_with_hrule(
   dto,
   study_name = study_name, 
   variable_names = c("SEX", "GD002"), 
-  harmony_name = "sex"
+  harmony_name = "female"
 )
 # verify
 dto[["unitData"]][["tilda"]] %>%
   dplyr::filter(id %in% sample(unique(id),10)) %>%
-  dplyr::select_("id", "SEX", "GD002", "sex")
+  dplyr::select_("id", "SEX", "GD002", "female")
 
 
 
@@ -209,12 +210,12 @@ dto[["unitData"]][["tilda"]] %>%
 dumlist <- list()
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]]
-  dumlist[[s]] <- ds[,c("id","sex")]
+  dumlist[[s]] <- ds[,c("id","female")]
 }
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-table( ds$sex, ds$study_name)
+table( ds$female, ds$study_name, useNA = "always")
 
 
 

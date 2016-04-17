@@ -61,10 +61,15 @@ for(s in dto[["studyName"]]){
   (varnames <- names(ds)) # see what variables there are
   (get_these_variables <- c("id",
                             "year_of_wave","age_in_years","year_born",
-                            "sex",
+                            "female",
                             "marital",
                             "educ3",
-                            "smoke_now","smoked_ever")) 
+                            "smoke_now","smoked_ever",
+                            "current_work_2",
+                            "current_drink",
+                            "sedentary",
+                            "poor_health",
+                            "bmi")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
 }
@@ -81,10 +86,6 @@ convert_to_numeric <- c("smoke_now","smoked_ever")
 for(v in convert_to_numeric){
   ds[,v] <- as.integer(ds[,v])
 }
-ds$female <- car::recode(ds$sex,"
-                         'male'   = 0;
-                         'female' = 1;
-                         ", as.numeric.result=TRUE )
 
 ds$marital_n <- car::recode(ds$marital,"
                          'single'      = 0;
@@ -107,8 +108,8 @@ write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
 
 mdl <- glm(
-  formula = smoke_now ~ -1 + study_name + age_in_years + sex + marital + educ3, 
-  data = ds
+  formula = smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3, 
+  data = ds, family = "binomial"
   )
 mdl
 
