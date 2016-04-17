@@ -379,20 +379,22 @@ sessionInfo()
 ##  [7] mgcv_1.8-12         survival_2.38-3     nloptr_1.0.4       
 ## [10] foreign_0.8-66      DBI_0.3.1           RColorBrewer_1.1-2 
 ## [13] plyr_1.8.3          stringr_1.0.0       MatrixModels_0.4-1 
-## [16] munsell_0.4.3       gtable_0.2.0        evaluate_0.8.3     
-## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
-## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
-## [25] parallel_3.2.4      Rttf2pt1_1.3.3      highr_0.5.1        
-## [28] Rcpp_0.12.4         acepack_1.3-3.3     scales_0.4.0       
-## [31] formatR_1.3         Hmisc_3.17-3        lme4_1.1-11        
-## [34] gridExtra_2.2.1     testit_0.5          digest_0.6.9       
-## [37] stringi_1.0-1       dplyr_0.4.3         grid_3.2.4         
-## [40] tools_3.2.4         lazyeval_0.1.10     dichromat_2.0-0    
-## [43] Formula_1.2-1       cluster_2.0.3       car_2.1-2          
-## [46] extrafontdb_1.0     tidyr_0.4.1         MASS_7.3-45        
-## [49] Matrix_1.2-4        rsconnect_0.4.2.1   assertthat_0.1     
-## [52] minqa_1.2.4         rmarkdown_0.9.5     R6_2.1.2           
-## [55] rpart_4.1-10        nnet_7.3-12         nlme_3.1-126
+## [16] munsell_0.4.3       gtable_0.2.0        htmlwidgets_0.6    
+## [19] evaluate_0.8.3      labeling_0.3        latticeExtra_0.6-28
+## [22] SparseM_1.7         extrafont_0.17      quantreg_5.21      
+## [25] pbkrtest_0.4-6      parallel_3.2.4      markdown_0.7.7     
+## [28] highr_0.5.1         Rttf2pt1_1.3.3      Rcpp_0.12.4        
+## [31] acepack_1.3-3.3     DT_0.1.40           scales_0.4.0       
+## [34] formatR_1.3         jsonlite_0.9.19     Hmisc_3.17-3       
+## [37] lme4_1.1-11         gridExtra_2.2.1     testit_0.5         
+## [40] digest_0.6.9        stringi_1.0-1       dplyr_0.4.3        
+## [43] grid_3.2.4          tools_3.2.4         lazyeval_0.1.10    
+## [46] dichromat_2.0-0     Formula_1.2-1       cluster_2.0.3      
+## [49] car_2.1-2           extrafontdb_1.0     tidyr_0.4.1        
+## [52] MASS_7.3-45         Matrix_1.2-4        rsconnect_0.4.2.1  
+## [55] assertthat_0.1      minqa_1.2.4         rmarkdown_0.9.5    
+## [58] R6_2.1.2            rpart_4.1-10        nnet_7.3-12        
+## [61] nlme_3.1-126
 ```
 
 ```r
@@ -400,6 +402,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-10 09:05:25 PDT"
+## [1] "2016-04-17 09:19:40 PDT"
 ```
 

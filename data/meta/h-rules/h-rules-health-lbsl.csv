@@ -1,0 +1,8 @@
+,SRHEALTH,count,poor_health
+1,very good,163,FALSE
+2,good,173,FALSE
+3,moderately good,177,TRUE
+4,moderately poor,41,TRUE
+5,poor,7,TRUE
+6,very poor,3,TRUE
+7,NA,92,NA

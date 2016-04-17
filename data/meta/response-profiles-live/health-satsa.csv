@@ -1,0 +1,16 @@
+"","GGENHLTH","GHLTHOTH","count"
+"1","good","better",305
+"2","good","about the same",539
+"3","good","worse",3
+"4","good","UNDOCUMENTED CODE",1
+"5","good",NA,5
+"6","reasonable","better",56
+"7","reasonable","about the same",468
+"8","reasonable","worse",57
+"9","reasonable",NA,6
+"10","bad","about the same",10
+"11","bad","worse",31
+"12","bad",NA,1
+"13",NA,"better",1
+"14",NA,"about the same",2
+"15",NA,NA,12

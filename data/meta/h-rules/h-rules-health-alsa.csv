@@ -1,0 +1,67 @@
+,HLTHLIFE,BTSM12MN,HLTHBTSM,count,poor_health
+1,Excellent,Better now,Better,29,FALSE
+2,Excellent,Better now,Same,2,FALSE
+3,Excellent,About the same,Better,122,FALSE
+4,Excellent,About the same,Same,19,FALSE
+5,Excellent,About the same,Worse,1,FALSE
+6,Excellent,About the same,Don t Know,1,FALSE
+7,Excellent,Not as good now,Better,16,FALSE
+8,Excellent,Not as good now,Same,1,FALSE
+9,Very Good,Better now,Better,77,FALSE
+10,Very Good,Better now,Same,13,FALSE
+11,Very Good,Better now,Don t Know,2,FALSE
+12,Very Good,About the same,Better,308,FALSE
+13,Very Good,About the same,Same,87,FALSE
+14,Very Good,About the same,Don t Know,5,FALSE
+15,Very Good,About the same,NA,1,FALSE
+16,Very Good,Not as good now,Better,74,FALSE
+17,Very Good,Not as good now,Same,28,FALSE
+18,Very Good,Not as good now,Worse,2,FALSE
+19,Very Good,Not as good now,Don t Know,1,FALSE
+20,Very Good,Don t Know,Same,1,FALSE
+21,Good,Better now,Better,49,FALSE
+22,Good,Better now,Same,29,FALSE
+23,Good,Better now,Worse,2,FALSE
+24,Good,About the same,Better,245,FALSE
+25,Good,About the same,Same,138,FALSE
+26,Good,About the same,Worse,4,FALSE
+27,Good,About the same,Don t Know,5,FALSE
+28,Good,About the same,NA,1,FALSE
+29,Good,Not as good now,Better,86,FALSE
+30,Good,Not as good now,Same,60,FALSE
+31,Good,Not as good now,Worse,8,FALSE
+32,Good,Not as good now,Don t Know,5,FALSE
+33,Good,Not as good now,NA,1,FALSE
+34,Fair,Better now,Better,23,TRUE
+35,Fair,Better now,Same,29,TRUE
+36,Fair,Better now,Worse,5,TRUE
+37,Fair,Better now,Don t Know,7,TRUE
+38,Fair,About the same,Better,91,TRUE
+39,Fair,About the same,Same,76,TRUE
+40,Fair,About the same,Worse,13,TRUE
+41,Fair,About the same,Don t Know,9,TRUE
+42,Fair,About the same,NA,4,TRUE
+43,Fair,Not as good now,Better,67,TRUE
+44,Fair,Not as good now,Same,107,TRUE
+45,Fair,Not as good now,Worse,35,TRUE
+46,Fair,Not as good now,Don t Know,7,TRUE
+47,Fair,Not as good now,NA,3,TRUE
+48,Fair,NA,NA,1,TRUE
+49,Poor,Better now,Better,4,TRUE
+50,Poor,Better now,Same,5,TRUE
+51,Poor,Better now,Worse,7,TRUE
+52,Poor,Better now,Don t Know,1,TRUE
+53,Poor,About the same,Better,13,TRUE
+54,Poor,About the same,Same,12,TRUE
+55,Poor,About the same,Worse,14,TRUE
+56,Poor,About the same,Don t Know,2,TRUE
+57,Poor,About the same,NA,2,TRUE
+58,Poor,Not as good now,Better,19,TRUE
+59,Poor,Not as good now,Same,39,TRUE
+60,Poor,Not as good now,Worse,56,TRUE
+61,Poor,Not as good now,Don t Know,5,TRUE
+62,Poor,Not as good now,NA,1,TRUE
+63,Poor,NA,NA,1,TRUE
+64,Don t Know,Better now,Better,1,NA
+65,NA,Don t Know,Don t Know,1,NA
+66,NA,NA,NA,4,NA

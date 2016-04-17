@@ -1,0 +1,29 @@
+"","PH001","PH009","count"
+"1","Excellent","Excellent",1041
+"2","Excellent","Very good",270
+"3","Excellent","Good",49
+"4","Very good","Excellent",520
+"5","Very good","Very good",1594
+"6","Very good","Good",318
+"7","Very good","Fair",13
+"8","Very good","Poor",1
+"9","Very good",NA,2
+"10","Good","Excellent",194
+"11","Good","Very good",847
+"12","Good","Good",1541
+"13","Good","Fair",165
+"14","Good","Poor",7
+"15","Good",NA,4
+"16","Fair","Excellent",38
+"17","Fair","Very good",152
+"18","Fair","Good",561
+"19","Fair","Fair",717
+"20","Fair","Poor",43
+"21","Fair",NA,6
+"22","Poor","Excellent",6
+"23","Poor","Very good",7
+"24","Poor","Good",56
+"25","Poor","Fair",126
+"26","Poor","Poor",222
+"27","Poor",NA,3
+"28",NA,"Very good",1

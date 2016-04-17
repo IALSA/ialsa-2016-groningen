@@ -1,0 +1,16 @@
+,GGENHLTH,GHLTHOTH,count,poor_health
+1,good,better,305,FALSE
+2,good,about the same,539,FALSE
+3,good,worse,3,FALSE
+4,good,UNDOCUMENTED CODE,1,FALSE
+5,good,NA,5,FALSE
+6,reasonable,better,56,TRUE
+7,reasonable,about the same,468,TRUE
+8,reasonable,worse,57,TRUE
+9,reasonable,NA,6,TRUE
+10,bad,about the same,10,TRUE
+11,bad,worse,31,TRUE
+12,bad,NA,1,TRUE
+13,NA,better,1,NA
+14,NA,about the same,2,NA
+15,NA,NA,12,NA

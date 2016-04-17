@@ -1,0 +1,50 @@
+,PH0020,PH0030,PH0520,PH0530,count,poor_health
+1,very good,NA,excellent,NA,124,FALSE
+2,very good,NA,very good,NA,165,FALSE
+3,very good,NA,good,NA,23,FALSE
+4,very good,NA,fair,NA,2,FALSE
+5,good,NA,excellent,NA,18,FALSE
+6,good,NA,very good,NA,119,FALSE
+7,good,NA,good,NA,201,FALSE
+8,good,NA,fair,NA,17,FALSE
+9,good,NA,poor,NA,2,FALSE
+10,good,NA,NA,NA,1,FALSE
+11,fair,NA,excellent,NA,57,TRUE
+12,fair,NA,very good,NA,23,TRUE
+13,fair,NA,good,NA,148,TRUE
+14,fair,NA,fair,NA,204,TRUE
+15,fair,NA,poor,NA,20,TRUE
+16,fair,NA,don't know,NA,2,TRUE
+17,bad,NA,excellent,NA,21,TRUE
+18,bad,NA,very good,NA,3,TRUE
+19,bad,NA,good,NA,9,TRUE
+20,bad,NA,fair,NA,37,TRUE
+21,bad,NA,poor,NA,80,TRUE
+22,very bad,NA,excellent,NA,2,TRUE
+23,very bad,NA,very good,NA,1,TRUE
+24,very bad,NA,good,NA,1,TRUE
+25,very bad,NA,fair,NA,3,TRUE
+26,very bad,NA,poor,NA,36,TRUE
+27,NA,excellent,NA,very good,113,FALSE
+28,NA,excellent,NA,good,12,FALSE
+29,NA,excellent,NA,fair,3,FALSE
+30,NA,excellent,NA,bad,1,FALSE
+31,NA,very good,NA,very good,201,FALSE
+32,NA,very good,NA,good,69,FALSE
+33,NA,very good,NA,fair,7,FALSE
+34,NA,good,NA,very good,20,FALSE
+35,NA,good,NA,good,230,FALSE
+36,NA,good,NA,fair,81,FALSE
+37,NA,good,NA,bad,2,FALSE
+38,NA,fair,NA,very good,6,TRUE
+39,NA,fair,NA,good,46,TRUE
+40,NA,fair,NA,fair,241,TRUE
+41,NA,fair,NA,bad,27,TRUE
+42,NA,poor,NA,good,7,TRUE
+43,NA,poor,NA,fair,68,TRUE
+44,NA,poor,NA,bad,97,TRUE
+45,NA,poor,NA,very bad,43,TRUE
+46,NA,poor,NA,don't know,1,TRUE
+47,NA,poor,NA,NA,1,TRUE
+48,NA,don't know,NA,good,1,NA
+49,NA,NA,NA,NA,2,NA
