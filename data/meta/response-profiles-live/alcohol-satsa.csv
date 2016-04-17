@@ -1,0 +1,232 @@
+"","GALCOHOL","GEVRALK","GBEERX","GLIQX","GVINX","count"
+"1","No","Yes","1 glass or less","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",3
+"2","No","Yes","1 glass or less",NA,"20 cl",1
+"3","No","Yes","1 glass or less",NA,NA,3
+"4","No","Yes","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"5","No","Yes",NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",5
+"6","No","Yes",NA,"4 cl (approx. a small shot or equivalent)","20 cl",1
+"7","No","Yes",NA,"4 cl (approx. a small shot or equivalent)",NA,3
+"8","No","Yes",NA,NA,"10 cl (1 wine glass)",5
+"9","No","Yes",NA,NA,"20 cl",1
+"10","No","Yes",NA,NA,NA,45
+"11","No","No, I have never drunk alcoholic drinks","1 glass or less",NA,"10 cl (1 wine glass)",5
+"12","No","No, I have never drunk alcoholic drinks","1 glass or less",NA,NA,8
+"13","No","No, I have never drunk alcoholic drinks","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"14","No","No, I have never drunk alcoholic drinks","1 bottle (33 cl)",NA,NA,2
+"15","No","No, I have never drunk alcoholic drinks",NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",2
+"16","No","No, I have never drunk alcoholic drinks",NA,"4 cl (approx. a small shot or equivalent)",NA,3
+"17","No","No, I have never drunk alcoholic drinks",NA,NA,"10 cl (1 wine glass)",8
+"18","No","No, I have never drunk alcoholic drinks",NA,NA,NA,324
+"19","No","No, I quit.","1 glass or less","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"20","No","No, I quit.","1 glass or less",NA,NA,1
+"21","No","No, I quit.","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)",NA,1
+"22","No","No, I quit.","1 bottle (33 cl)",NA,NA,1
+"23","No","No, I quit.",NA,"8 cl",NA,1
+"24","No","No, I quit.",NA,NA,"10 cl (1 wine glass)",1
+"25","No","No, I quit.",NA,NA,"20 cl",1
+"26","No","No, I quit.",NA,NA,NA,66
+"27","No",NA,"1 glass or less","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"28","No",NA,"1 glass or less","4 cl (approx. a small shot or equivalent)",NA,1
+"29","No",NA,"1 glass or less",NA,NA,1
+"30","No",NA,NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"31","No",NA,NA,"4 cl (approx. a small shot or equivalent)",NA,1
+"32","No",NA,NA,NA,"10 cl (1 wine glass)",1
+"33","No",NA,NA,NA,NA,29
+"34","Yes","Yes","1 glass or less","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",100
+"35","Yes","Yes","1 glass or less","4 cl (approx. a small shot or equivalent)","20 cl",44
+"36","Yes","Yes","1 glass or less","4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",4
+"37","Yes","Yes","1 glass or less","4 cl (approx. a small shot or equivalent)",NA,5
+"38","Yes","Yes","1 glass or less","6 cl (a big shot or equivalent)","10 cl (1 wine glass)",27
+"39","Yes","Yes","1 glass or less","6 cl (a big shot or equivalent)","20 cl",26
+"40","Yes","Yes","1 glass or less","6 cl (a big shot or equivalent)","37 cl (half a bottle)",10
+"41","Yes","Yes","1 glass or less","6 cl (a big shot or equivalent)",NA,7
+"42","Yes","Yes","1 glass or less","8 cl","10 cl (1 wine glass)",3
+"43","Yes","Yes","1 glass or less","8 cl","20 cl",14
+"44","Yes","Yes","1 glass or less","8 cl","37 cl (half a bottle)",4
+"45","Yes","Yes","1 glass or less","8 cl",NA,4
+"46","Yes","Yes","1 glass or less","12 cl","10 cl (1 wine glass)",2
+"47","Yes","Yes","1 glass or less","12 cl","20 cl",6
+"48","Yes","Yes","1 glass or less","12 cl","37 cl (half a bottle)",1
+"49","Yes","Yes","1 glass or less","12 cl",NA,5
+"50","Yes","Yes","1 glass or less","18 cl","10 cl (1 wine glass)",1
+"51","Yes","Yes","1 glass or less","18 cl","20 cl",3
+"52","Yes","Yes","1 glass or less","18 cl","37 cl (half a bottle)",5
+"53","Yes","Yes","1 glass or less","18 cl",NA,1
+"54","Yes","Yes","1 glass or less","37 cl (half a bottle)","37 cl (half a bottle)",3
+"55","Yes","Yes","1 glass or less","37 cl (half a bottle)",NA,1
+"56","Yes","Yes","1 glass or less","75 cl (1 whole bottle)",NA,1
+"57","Yes","Yes","1 glass or less",NA,"10 cl (1 wine glass)",15
+"58","Yes","Yes","1 glass or less",NA,"20 cl",4
+"59","Yes","Yes","1 glass or less",NA,"37 cl (half a bottle)",1
+"60","Yes","Yes","1 glass or less",NA,"75 cl (one whole bottle)",1
+"61","Yes","Yes","1 glass or less",NA,NA,1
+"62","Yes","Yes","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",15
+"63","Yes","Yes","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","20 cl",19
+"64","Yes","Yes","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",12
+"65","Yes","Yes","1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)",NA,7
+"66","Yes","Yes","1 bottle (33 cl)","6 cl (a big shot or equivalent)","10 cl (1 wine glass)",12
+"67","Yes","Yes","1 bottle (33 cl)","6 cl (a big shot or equivalent)","20 cl",30
+"68","Yes","Yes","1 bottle (33 cl)","6 cl (a big shot or equivalent)","37 cl (half a bottle)",25
+"69","Yes","Yes","1 bottle (33 cl)","6 cl (a big shot or equivalent)","60 cl",2
+"70","Yes","Yes","1 bottle (33 cl)","6 cl (a big shot or equivalent)",NA,8
+"71","Yes","Yes","1 bottle (33 cl)","8 cl","10 cl (1 wine glass)",8
+"72","Yes","Yes","1 bottle (33 cl)","8 cl","20 cl",37
+"73","Yes","Yes","1 bottle (33 cl)","8 cl","37 cl (half a bottle)",18
+"74","Yes","Yes","1 bottle (33 cl)","8 cl","60 cl",1
+"75","Yes","Yes","1 bottle (33 cl)","8 cl","75 cl (one whole bottle)",1
+"76","Yes","Yes","1 bottle (33 cl)","8 cl",NA,5
+"77","Yes","Yes","1 bottle (33 cl)","12 cl","10 cl (1 wine glass)",7
+"78","Yes","Yes","1 bottle (33 cl)","12 cl","20 cl",31
+"79","Yes","Yes","1 bottle (33 cl)","12 cl","37 cl (half a bottle)",20
+"80","Yes","Yes","1 bottle (33 cl)","12 cl","60 cl",3
+"81","Yes","Yes","1 bottle (33 cl)","12 cl",NA,4
+"82","Yes","Yes","1 bottle (33 cl)","18 cl","10 cl (1 wine glass)",1
+"83","Yes","Yes","1 bottle (33 cl)","18 cl","20 cl",8
+"84","Yes","Yes","1 bottle (33 cl)","18 cl","37 cl (half a bottle)",14
+"85","Yes","Yes","1 bottle (33 cl)","18 cl","75 cl (one whole bottle)",1
+"86","Yes","Yes","1 bottle (33 cl)","18 cl",NA,8
+"87","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)","10 cl (1 wine glass)",2
+"88","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)","20 cl",5
+"89","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)","37 cl (half a bottle)",7
+"90","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)","60 cl",1
+"91","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)","75 cl (one whole bottle)",3
+"92","Yes","Yes","1 bottle (33 cl)","37 cl (half a bottle)",NA,5
+"93","Yes","Yes","1 bottle (33 cl)","75 cl (1 whole bottle)","37 cl (half a bottle)",1
+"94","Yes","Yes","1 bottle (33 cl)",NA,"10 cl (1 wine glass)",4
+"95","Yes","Yes","1 bottle (33 cl)",NA,"20 cl",4
+"96","Yes","Yes","1 bottle (33 cl)",NA,"37 cl (half a bottle)",1
+"97","Yes","Yes","1 bottle (33 cl)",NA,"60 cl",1
+"98","Yes","Yes","1 bottle (33 cl)",NA,"75 cl (one whole bottle)",2
+"99","Yes","Yes","1 bottle (33 cl)",NA,NA,2
+"100","Yes","Yes","2 bottles","4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",2
+"101","Yes","Yes","2 bottles","6 cl (a big shot or equivalent)","10 cl (1 wine glass)",1
+"102","Yes","Yes","2 bottles","6 cl (a big shot or equivalent)","20 cl",2
+"103","Yes","Yes","2 bottles","6 cl (a big shot or equivalent)","37 cl (half a bottle)",3
+"104","Yes","Yes","2 bottles","6 cl (a big shot or equivalent)","60 cl",1
+"105","Yes","Yes","2 bottles","6 cl (a big shot or equivalent)","75 cl (one whole bottle)",1
+"106","Yes","Yes","2 bottles","8 cl","20 cl",5
+"107","Yes","Yes","2 bottles","8 cl","37 cl (half a bottle)",5
+"108","Yes","Yes","2 bottles","8 cl","75 cl (one whole bottle)",1
+"109","Yes","Yes","2 bottles","12 cl","10 cl (1 wine glass)",2
+"110","Yes","Yes","2 bottles","12 cl","20 cl",1
+"111","Yes","Yes","2 bottles","12 cl","37 cl (half a bottle)",4
+"112","Yes","Yes","2 bottles","12 cl","75 cl (one whole bottle)",1
+"113","Yes","Yes","2 bottles","12 cl",NA,2
+"114","Yes","Yes","2 bottles","18 cl","10 cl (1 wine glass)",1
+"115","Yes","Yes","2 bottles","18 cl","20 cl",2
+"116","Yes","Yes","2 bottles","18 cl","37 cl (half a bottle)",2
+"117","Yes","Yes","2 bottles","18 cl",NA,3
+"118","Yes","Yes","2 bottles","37 cl (half a bottle)","20 cl",3
+"119","Yes","Yes","2 bottles","37 cl (half a bottle)","75 cl (one whole bottle)",4
+"120","Yes","Yes","2 bottles","37 cl (half a bottle)",NA,2
+"121","Yes","Yes","2 bottles","60 cl","20 cl",1
+"122","Yes","Yes","2 bottles","75 cl (1 whole bottle)","10 cl (1 wine glass)",1
+"123","Yes","Yes","3 bottles (two 45 cl cans)","4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",1
+"124","Yes","Yes","3 bottles (two 45 cl cans)","4 cl (approx. a small shot or equivalent)",NA,1
+"125","Yes","Yes","3 bottles (two 45 cl cans)","8 cl","10 cl (1 wine glass)",1
+"126","Yes","Yes","3 bottles (two 45 cl cans)","8 cl","20 cl",1
+"127","Yes","Yes","3 bottles (two 45 cl cans)","8 cl","37 cl (half a bottle)",4
+"128","Yes","Yes","3 bottles (two 45 cl cans)","8 cl","60 cl",2
+"129","Yes","Yes","3 bottles (two 45 cl cans)","12 cl","20 cl",2
+"130","Yes","Yes","3 bottles (two 45 cl cans)","12 cl","37 cl (half a bottle)",1
+"131","Yes","Yes","3 bottles (two 45 cl cans)","12 cl",NA,1
+"132","Yes","Yes","3 bottles (two 45 cl cans)","18 cl","10 cl (1 wine glass)",1
+"133","Yes","Yes","3 bottles (two 45 cl cans)","18 cl","20 cl",1
+"134","Yes","Yes","3 bottles (two 45 cl cans)","18 cl","37 cl (half a bottle)",1
+"135","Yes","Yes","3 bottles (two 45 cl cans)","18 cl","75 cl (one whole bottle)",2
+"136","Yes","Yes","3 bottles (two 45 cl cans)","18 cl",NA,1
+"137","Yes","Yes","3 bottles (two 45 cl cans)","37 cl (half a bottle)","37 cl (half a bottle)",2
+"138","Yes","Yes","3 bottles (two 45 cl cans)","37 cl (half a bottle)",NA,2
+"139","Yes","Yes","3 bottles (two 45 cl cans)","75 cl (1 whole bottle)","37 cl (half a bottle)",1
+"140","Yes","Yes","3 bottles (two 45 cl cans)",NA,"75 cl (one whole bottle)",1
+"141","Yes","Yes","3 bottles (two 45 cl cans)",NA,NA,1
+"142","Yes","Yes","4 bottles","12 cl",NA,2
+"143","Yes","Yes","4 bottles","37 cl (half a bottle)","37 cl (half a bottle)",2
+"144","Yes","Yes","4 bottles","37 cl (half a bottle)",NA,1
+"145","Yes","Yes","5 bottles","37 cl (half a bottle)","10 cl (1 wine glass)",1
+"146","Yes","Yes","5 bottles","37 cl (half a bottle)","37 cl (half a bottle)",2
+"147","Yes","Yes","5 bottles","37 cl (half a bottle)","More than 1 whole bottle",1
+"148","Yes","Yes","5 bottles","37 cl (half a bottle)",NA,1
+"149","Yes","Yes","5 bottles","60 cl","37 cl (half a bottle)",1
+"150","Yes","Yes","6 bottles or more","18 cl","More than 1 whole bottle",1
+"151","Yes","Yes","6 bottles or more","37 cl (half a bottle)","37 cl (half a bottle)",2
+"152","Yes","Yes","6 bottles or more","37 cl (half a bottle)",NA,2
+"153","Yes","Yes","6 bottles or more","75 cl (1 whole bottle)",NA,2
+"154","Yes","Yes","6 bottles or more",NA,NA,1
+"155","Yes","Yes",NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",39
+"156","Yes","Yes",NA,"4 cl (approx. a small shot or equivalent)","20 cl",21
+"157","Yes","Yes",NA,"4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",7
+"158","Yes","Yes",NA,"4 cl (approx. a small shot or equivalent)",NA,6
+"159","Yes","Yes",NA,"6 cl (a big shot or equivalent)","10 cl (1 wine glass)",9
+"160","Yes","Yes",NA,"6 cl (a big shot or equivalent)","20 cl",10
+"161","Yes","Yes",NA,"6 cl (a big shot or equivalent)","37 cl (half a bottle)",2
+"162","Yes","Yes",NA,"6 cl (a big shot or equivalent)",NA,5
+"163","Yes","Yes",NA,"8 cl","10 cl (1 wine glass)",3
+"164","Yes","Yes",NA,"8 cl","20 cl",7
+"165","Yes","Yes",NA,"8 cl","37 cl (half a bottle)",5
+"166","Yes","Yes",NA,"8 cl",NA,1
+"167","Yes","Yes",NA,"12 cl","10 cl (1 wine glass)",1
+"168","Yes","Yes",NA,"12 cl","20 cl",3
+"169","Yes","Yes",NA,"12 cl","37 cl (half a bottle)",1
+"170","Yes","Yes",NA,"12 cl","60 cl",1
+"171","Yes","Yes",NA,"12 cl",NA,1
+"172","Yes","Yes",NA,"18 cl","10 cl (1 wine glass)",2
+"173","Yes","Yes",NA,"18 cl","37 cl (half a bottle)",1
+"174","Yes","Yes",NA,"18 cl","60 cl",1
+"175","Yes","Yes",NA,"18 cl",NA,2
+"176","Yes","Yes",NA,"37 cl (half a bottle)",NA,3
+"177","Yes","Yes",NA,"60 cl","37 cl (half a bottle)",1
+"178","Yes","Yes",NA,NA,"10 cl (1 wine glass)",13
+"179","Yes","Yes",NA,NA,"20 cl",3
+"180","Yes","Yes",NA,NA,"37 cl (half a bottle)",1
+"181","Yes","Yes",NA,NA,NA,3
+"182","Yes","No, I have never drunk alcoholic drinks","1 glass or less",NA,"10 cl (1 wine glass)",2
+"183","Yes","No, I have never drunk alcoholic drinks","1 glass or less",NA,"20 cl",2
+"184","Yes","No, I have never drunk alcoholic drinks","1 glass or less",NA,NA,5
+"185","Yes","No, I have never drunk alcoholic drinks","1 bottle (33 cl)",NA,NA,1
+"186","Yes","No, I have never drunk alcoholic drinks","2 bottles","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"187","Yes","No, I have never drunk alcoholic drinks",NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"188","Yes","No, I have never drunk alcoholic drinks",NA,NA,"10 cl (1 wine glass)",2
+"189","Yes","No, I have never drunk alcoholic drinks",NA,NA,"20 cl",1
+"190","Yes","No, I quit.","1 glass or less",NA,"10 cl (1 wine glass)",1
+"191","Yes","No, I quit.","1 glass or less",NA,NA,1
+"192","Yes","No, I quit.","1 bottle (33 cl)","6 cl (a big shot or equivalent)","37 cl (half a bottle)",1
+"193","Yes","No, I quit.","1 bottle (33 cl)",NA,"10 cl (1 wine glass)",1
+"194","Yes","No, I quit.","1 bottle (33 cl)",NA,NA,1
+"195","Yes",NA,"1 glass or less","4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",5
+"196","Yes",NA,"1 glass or less","4 cl (approx. a small shot or equivalent)","20 cl",1
+"197","Yes",NA,"1 glass or less","4 cl (approx. a small shot or equivalent)",NA,2
+"198","Yes",NA,"1 glass or less","6 cl (a big shot or equivalent)","10 cl (1 wine glass)",1
+"199","Yes",NA,"1 glass or less","6 cl (a big shot or equivalent)",NA,1
+"200","Yes",NA,"1 glass or less",NA,"10 cl (1 wine glass)",2
+"201","Yes",NA,"1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)","37 cl (half a bottle)",1
+"202","Yes",NA,"1 bottle (33 cl)","4 cl (approx. a small shot or equivalent)",NA,2
+"203","Yes",NA,"1 bottle (33 cl)","6 cl (a big shot or equivalent)","20 cl",1
+"204","Yes",NA,"1 bottle (33 cl)","6 cl (a big shot or equivalent)","37 cl (half a bottle)",1
+"205","Yes",NA,"1 bottle (33 cl)","8 cl","37 cl (half a bottle)",1
+"206","Yes",NA,"1 bottle (33 cl)","8 cl","60 cl",1
+"207","Yes",NA,"1 bottle (33 cl)","8 cl",NA,1
+"208","Yes",NA,"1 bottle (33 cl)","12 cl","10 cl (1 wine glass)",1
+"209","Yes",NA,"1 bottle (33 cl)","18 cl","20 cl",1
+"210","Yes",NA,"1 bottle (33 cl)","37 cl (half a bottle)","20 cl",2
+"211","Yes",NA,"2 bottles","6 cl (a big shot or equivalent)","10 cl (1 wine glass)",1
+"212","Yes",NA,"2 bottles","12 cl",NA,1
+"213","Yes",NA,"2 bottles","18 cl","37 cl (half a bottle)",1
+"214","Yes",NA,"3 bottles (two 45 cl cans)","6 cl (a big shot or equivalent)","37 cl (half a bottle)",1
+"215","Yes",NA,"6 bottles or more","75 cl (1 whole bottle)",NA,1
+"216","Yes",NA,NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",1
+"217","Yes",NA,NA,"4 cl (approx. a small shot or equivalent)",NA,1
+"218","Yes",NA,NA,"8 cl","20 cl",1
+"219",NA,"Yes","1 glass or less","4 cl (approx. a small shot or equivalent)",NA,2
+"220",NA,"Yes","1 bottle (33 cl)","12 cl","20 cl",1
+"221",NA,"Yes","2 bottles","6 cl (a big shot or equivalent)","20 cl",1
+"222",NA,"Yes","2 bottles","12 cl","37 cl (half a bottle)",1
+"223",NA,"Yes",NA,"4 cl (approx. a small shot or equivalent)","10 cl (1 wine glass)",2
+"224",NA,"Yes",NA,"4 cl (approx. a small shot or equivalent)",NA,1
+"225",NA,"Yes",NA,"6 cl (a big shot or equivalent)","10 cl (1 wine glass)",1
+"226",NA,"Yes",NA,NA,NA,2
+"227",NA,"No, I have never drunk alcoholic drinks","1 glass or less",NA,NA,1
+"228",NA,"No, I have never drunk alcoholic drinks",NA,NA,"10 cl (1 wine glass)",1
+"229",NA,"No, I have never drunk alcoholic drinks",NA,NA,NA,6
+"230",NA,NA,"1 glass or less",NA,NA,1
+"231",NA,NA,NA,NA,NA,14

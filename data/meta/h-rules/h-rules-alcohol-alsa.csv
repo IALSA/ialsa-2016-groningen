@@ -1,0 +1,52 @@
+,FREQALCH,NOSTDRNK,FR6ORMOR,count,current_drink
+1,Never,NA,NA,774,FALSE
+2,Monthly or less,One or two,Never,337,TRUE
+3,Monthly or less,One or two,Less than monthly,6,TRUE
+4,Monthly or less,Three or four,Never,18,TRUE
+5,Monthly or less,Three or four,Less than monthly,3,TRUE
+6,Monthly or less,Five or six,Less than monthly,2,TRUE
+7,Monthly or less,Seven to nine,Less than monthly,1,TRUE
+8,Monthly or less,NA,NA,1,TRUE
+9,Two to four times a month,One or two,Never,132,TRUE
+10,Two to four times a month,One or two,Less than monthly,4,TRUE
+11,Two to four times a month,One or two,Monthly,2,TRUE
+12,Two to four times a month,Three or four,Never,18,TRUE
+13,Two to four times a month,Three or four,Less than monthly,5,TRUE
+14,Two to four times a month,Five or six,Never,2,TRUE
+15,Two to four times a month,Five or six,Less than monthly,1,TRUE
+16,Two to four times a month,Five or six,Weekly,1,TRUE
+17,Two to four times a month,Seven to nine,Monthly,1,TRUE
+18,Two to four times a month,Seven to nine,Weekly,1,TRUE
+19,Two to three times a week,One or two,Never,149,TRUE
+20,Two to three times a week,One or two,Less than monthly,14,TRUE
+21,Two to three times a week,One or two,Monthly,6,TRUE
+22,Two to three times a week,Three or four,Never,23,TRUE
+23,Two to three times a week,Three or four,Less than monthly,9,TRUE
+24,Two to three times a week,Three or four,Weekly,1,TRUE
+25,Two to three times a week,Five or six,Never,1,TRUE
+26,Two to three times a week,Five or six,Less than monthly,3,TRUE
+27,Two to three times a week,Five or six,Monthly,1,TRUE
+28,Two to three times a week,Five or six,Weekly,3,TRUE
+29,Two to three times a week,Five or six,Daily or almost daily,1,TRUE
+30,Two to three times a week,Seven to nine,Never,1,TRUE
+31,Two to three times a week,Seven to nine,Weekly,1,TRUE
+32,Two to three times a week,Ten or more,Weekly,1,TRUE
+33,Four or more times a week,One or two,Never,324,TRUE
+34,Four or more times a week,One or two,Less than monthly,49,TRUE
+35,Four or more times a week,One or two,Monthly,7,TRUE
+36,Four or more times a week,One or two,Weekly,3,TRUE
+37,Four or more times a week,Three or four,Never,52,TRUE
+38,Four or more times a week,Three or four,Less than monthly,35,TRUE
+39,Four or more times a week,Three or four,Monthly,15,TRUE
+40,Four or more times a week,Three or four,Weekly,15,TRUE
+41,Four or more times a week,Three or four,Daily or almost daily,1,TRUE
+42,Four or more times a week,Five or six,Never,6,TRUE
+43,Four or more times a week,Five or six,Less than monthly,2,TRUE
+44,Four or more times a week,Five or six,Monthly,5,TRUE
+45,Four or more times a week,Five or six,Weekly,6,TRUE
+46,Four or more times a week,Five or six,Daily or almost daily,12,TRUE
+47,Four or more times a week,Seven to nine,Never,1,TRUE
+48,Four or more times a week,Seven to nine,Monthly,2,TRUE
+49,Four or more times a week,Seven to nine,Daily or almost daily,8,TRUE
+50,Four or more times a week,Ten or more,Daily or almost daily,1,TRUE
+51,NA,NA,NA,20,NA

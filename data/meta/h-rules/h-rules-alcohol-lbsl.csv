@@ -1,0 +1,175 @@
+,ALCOHOL,BEER,HARDLIQ,WINE,count,current_drink
+1,never drank,0,0,0,10,FALSE
+2,never drank,NA,NA,NA,82,FALSE
+3,not in last year,0,0,0,13,FALSE
+4,not in last year,1,0,0,1,FALSE
+5,not in last year,NA,NA,NA,78,FALSE
+6,few times a year,0,0,0,69,TRUE
+7,few times a year,0,0,1,10,TRUE
+8,few times a year,0,0,2,2,TRUE
+9,few times a year,0,1,0,1,TRUE
+10,few times a year,1,0,0,5,TRUE
+11,few times a year,1,0,1,1,TRUE
+12,few times a year,1,0,2,2,TRUE
+13,few times a year,1,NA,1,1,TRUE
+14,few times a year,1,NA,NA,1,TRUE
+15,few times a year,2,0,0,3,TRUE
+16,few times a year,2,0,1,2,TRUE
+17,few times a year,2,0,5,1,TRUE
+18,few times a year,3,0,0,1,TRUE
+19,few times a year,9,9,9,1,TRUE
+20,few times a year,NA,NA,NA,43,TRUE
+21,once or twice per month,0,0,0,10,TRUE
+22,once or twice per month,0,0,1,9,TRUE
+23,once or twice per month,0,0,2,2,TRUE
+24,once or twice per month,0,0,3,2,TRUE
+25,once or twice per month,0,0,4,1,TRUE
+26,once or twice per month,0,1,0,4,TRUE
+27,once or twice per month,0,1,1,1,TRUE
+28,once or twice per month,0,2,0,4,TRUE
+29,once or twice per month,0,2,1,1,TRUE
+30,once or twice per month,0,5,0,1,TRUE
+31,once or twice per month,0,8,0,1,TRUE
+32,once or twice per month,1,0,0,4,TRUE
+33,once or twice per month,1,0,1,1,TRUE
+34,once or twice per month,1,0,2,1,TRUE
+35,once or twice per month,1,0,4,1,TRUE
+36,once or twice per month,1,1,1,1,TRUE
+37,once or twice per month,2,0,0,3,TRUE
+38,once or twice per month,2,0,1,1,TRUE
+39,once or twice per month,2,2,0,2,TRUE
+40,once or twice per month,2,2,1,1,TRUE
+41,once or twice per month,2,2,4,1,TRUE
+42,once or twice per month,3,3,0,1,TRUE
+43,once or twice per month,4,0,0,1,TRUE
+44,once or twice per month,6,0,1,1,TRUE
+45,once or twice per month,NA,1,NA,1,TRUE
+46,once or twice per month,NA,4,NA,1,TRUE
+47,once or twice per month,NA,NA,2,1,TRUE
+48,once or twice per month,NA,NA,NA,1,TRUE
+49,once a week,0,0,0,5,TRUE
+50,once a week,0,0,1,2,TRUE
+51,once a week,0,0,2,5,TRUE
+52,once a week,0,0,3,1,TRUE
+53,once a week,0,0,4,1,TRUE
+54,once a week,0,0,5,1,TRUE
+55,once a week,0,0,6,1,TRUE
+56,once a week,0,1,0,2,TRUE
+57,once a week,0,1,1,3,TRUE
+58,once a week,0,1,3,1,TRUE
+59,once a week,0,2,0,4,TRUE
+60,once a week,0,2,1,1,TRUE
+61,once a week,0,4,1,1,TRUE
+62,once a week,1,0,0,2,TRUE
+63,once a week,1,0,2,2,TRUE
+64,once a week,3,1,1,1,TRUE
+65,once a week,6,0,0,2,TRUE
+66,two or three times weekly,0,0,0,1,TRUE
+67,two or three times weekly,0,0,1,1,TRUE
+68,two or three times weekly,0,0,2,3,TRUE
+69,two or three times weekly,0,0,3,5,TRUE
+70,two or three times weekly,0,0,4,2,TRUE
+71,two or three times weekly,0,0,6,2,TRUE
+72,two or three times weekly,0,1,2,1,TRUE
+73,two or three times weekly,0,1,4,1,TRUE
+74,two or three times weekly,0,2,0,2,TRUE
+75,two or three times weekly,0,2,3,1,TRUE
+76,two or three times weekly,0,2,10,2,TRUE
+77,two or three times weekly,0,3,1,1,TRUE
+78,two or three times weekly,0,3,2,2,TRUE
+79,two or three times weekly,0,4,0,1,TRUE
+80,two or three times weekly,0,4,3,1,TRUE
+81,two or three times weekly,0,5,0,2,TRUE
+82,two or three times weekly,0,6,0,2,TRUE
+83,two or three times weekly,0,6,4,1,TRUE
+84,two or three times weekly,0,6,6,2,TRUE
+85,two or three times weekly,1,0,4,1,TRUE
+86,two or three times weekly,1,1,1,1,TRUE
+87,two or three times weekly,1,2,0,1,TRUE
+88,two or three times weekly,2,0,1,2,TRUE
+89,two or three times weekly,2,0,4,1,TRUE
+90,two or three times weekly,2,0,8,1,TRUE
+91,two or three times weekly,2,2,4,1,TRUE
+92,two or three times weekly,3,0,0,2,TRUE
+93,two or three times weekly,4,0,2,1,TRUE
+94,two or three times weekly,4,6,2,1,TRUE
+95,two or three times weekly,4,6,3,1,TRUE
+96,two or three times weekly,5,0,0,2,TRUE
+97,two or three times weekly,5,2,4,1,TRUE
+98,two or three times weekly,10,0,0,1,TRUE
+99,two or three times weekly,10,2,NA,1,TRUE
+100,two or three times weekly,15,0,0,1,TRUE
+101,two or three times weekly,18,1,2,1,TRUE
+102,two or three times weekly,NA,1,4,1,TRUE
+103,two or three times weekly,NA,5,NA,1,TRUE
+104,two or three times weekly,NA,NA,4,1,TRUE
+105,two or three times weekly,NA,NA,NA,3,TRUE
+106,daily or almost daily,0,0,6,1,TRUE
+107,daily or almost daily,0,0,7,4,TRUE
+108,daily or almost daily,0,0,8,1,TRUE
+109,daily or almost daily,0,0,9,1,TRUE
+110,daily or almost daily,0,0,10,1,TRUE
+111,daily or almost daily,0,0,14,1,TRUE
+112,daily or almost daily,0,0,15,2,TRUE
+113,daily or almost daily,0,1,5,1,TRUE
+114,daily or almost daily,0,1,6,1,TRUE
+115,daily or almost daily,0,1,10,1,TRUE
+116,daily or almost daily,0,2,5,1,TRUE
+117,daily or almost daily,0,2,10,1,TRUE
+118,daily or almost daily,0,2,14,3,TRUE
+119,daily or almost daily,0,2,15,1,TRUE
+120,daily or almost daily,0,4,4,1,TRUE
+121,daily or almost daily,0,4,5,1,TRUE
+122,daily or almost daily,0,4,12,1,TRUE
+123,daily or almost daily,0,5,0,2,TRUE
+124,daily or almost daily,0,6,3,1,TRUE
+125,daily or almost daily,0,7,0,3,TRUE
+126,daily or almost daily,0,7,3,1,TRUE
+127,daily or almost daily,0,7,5,1,TRUE
+128,daily or almost daily,0,7,7,2,TRUE
+129,daily or almost daily,0,8,0,1,TRUE
+130,daily or almost daily,0,14,0,2,TRUE
+131,daily or almost daily,0,14,1,1,TRUE
+132,daily or almost daily,0,14,10,1,TRUE
+133,daily or almost daily,0,25,0,1,TRUE
+134,daily or almost daily,1,2,6,1,TRUE
+135,daily or almost daily,1,2,15,1,TRUE
+136,daily or almost daily,1,14,0,1,TRUE
+137,daily or almost daily,1,14,2,1,TRUE
+138,daily or almost daily,1,14,12,1,TRUE
+139,daily or almost daily,2,7,3,1,TRUE
+140,daily or almost daily,2,10,0,1,TRUE
+141,daily or almost daily,2,14,10,1,TRUE
+142,daily or almost daily,3,0,7,1,TRUE
+143,daily or almost daily,3,0,12,1,TRUE
+144,daily or almost daily,3,6,0,1,TRUE
+145,daily or almost daily,4,3,2,1,TRUE
+146,daily or almost daily,4,12,0,1,TRUE
+147,daily or almost daily,5,6,0,1,TRUE
+148,daily or almost daily,6,0,0,1,TRUE
+149,daily or almost daily,6,3,2,1,TRUE
+150,daily or almost daily,7,0,0,1,TRUE
+151,daily or almost daily,7,0,2,1,TRUE
+152,daily or almost daily,7,2,0,1,TRUE
+153,daily or almost daily,7,2,3,1,TRUE
+154,daily or almost daily,7,7,NA,1,TRUE
+155,daily or almost daily,8,0,0,1,TRUE
+156,daily or almost daily,8,0,8,1,TRUE
+157,daily or almost daily,9,0,0,1,TRUE
+158,daily or almost daily,10,0,0,2,TRUE
+159,daily or almost daily,10,0,1,1,TRUE
+160,daily or almost daily,10,2,0,1,TRUE
+161,daily or almost daily,10,5,NA,1,TRUE
+162,daily or almost daily,12,0,6,2,TRUE
+163,daily or almost daily,14,3,7,1,TRUE
+164,daily or almost daily,25,3,0,1,TRUE
+165,daily or almost daily,30,0,0,1,TRUE
+166,daily or almost daily,NA,7,7,1,TRUE
+167,daily or almost daily,NA,7,NA,3,TRUE
+168,daily or almost daily,NA,14,NA,1,TRUE
+169,daily or almost daily,NA,15,3,1,TRUE
+170,daily or almost daily,NA,21,NA,1,TRUE
+171,daily or almost daily,NA,NA,7,1,TRUE
+172,daily or almost daily,NA,NA,21,1,TRUE
+173,NA,0,0,0,1,FALSE
+174,NA,NA,NA,NA,93,NA

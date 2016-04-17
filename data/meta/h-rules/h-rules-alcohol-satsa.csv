@@ -1,0 +1,232 @@
+,GALCOHOL,GEVRALK,GBEERX,GLIQX,GVINX,count,current_drink
+1,No,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),3,FALSE
+2,No,Yes,1 glass or less,NA,20 cl,1,FALSE
+3,No,Yes,1 glass or less,NA,NA,3,FALSE
+4,No,Yes,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,FALSE
+5,No,Yes,NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),5,FALSE
+6,No,Yes,NA,4 cl (approx. a small shot or equivalent),20 cl,1,FALSE
+7,No,Yes,NA,4 cl (approx. a small shot or equivalent),NA,3,FALSE
+8,No,Yes,NA,NA,10 cl (1 wine glass),5,FALSE
+9,No,Yes,NA,NA,20 cl,1,FALSE
+10,No,Yes,NA,NA,NA,45,FALSE
+11,No,"No, I have never drunk alcoholic drinks",1 glass or less,NA,10 cl (1 wine glass),5,FALSE
+12,No,"No, I have never drunk alcoholic drinks",1 glass or less,NA,NA,8,FALSE
+13,No,"No, I have never drunk alcoholic drinks",1 bottle (33 cl),4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,FALSE
+14,No,"No, I have never drunk alcoholic drinks",1 bottle (33 cl),NA,NA,2,FALSE
+15,No,"No, I have never drunk alcoholic drinks",NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),2,FALSE
+16,No,"No, I have never drunk alcoholic drinks",NA,4 cl (approx. a small shot or equivalent),NA,3,FALSE
+17,No,"No, I have never drunk alcoholic drinks",NA,NA,10 cl (1 wine glass),8,FALSE
+18,No,"No, I have never drunk alcoholic drinks",NA,NA,NA,324,FALSE
+19,No,"No, I quit.",1 glass or less,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,FALSE
+20,No,"No, I quit.",1 glass or less,NA,NA,1,FALSE
+21,No,"No, I quit.",1 bottle (33 cl),4 cl (approx. a small shot or equivalent),NA,1,FALSE
+22,No,"No, I quit.",1 bottle (33 cl),NA,NA,1,FALSE
+23,No,"No, I quit.",NA,8 cl,NA,1,FALSE
+24,No,"No, I quit.",NA,NA,10 cl (1 wine glass),1,FALSE
+25,No,"No, I quit.",NA,NA,20 cl,1,FALSE
+26,No,"No, I quit.",NA,NA,NA,66,FALSE
+27,No,NA,1 glass or less,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,FALSE
+28,No,NA,1 glass or less,4 cl (approx. a small shot or equivalent),NA,1,FALSE
+29,No,NA,1 glass or less,NA,NA,1,FALSE
+30,No,NA,NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,FALSE
+31,No,NA,NA,4 cl (approx. a small shot or equivalent),NA,1,FALSE
+32,No,NA,NA,NA,10 cl (1 wine glass),1,FALSE
+33,No,NA,NA,NA,NA,29,FALSE
+34,Yes,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),100,TRUE
+35,Yes,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),20 cl,44,TRUE
+36,Yes,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),37 cl (half a bottle),4,TRUE
+37,Yes,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),NA,5,TRUE
+38,Yes,Yes,1 glass or less,6 cl (a big shot or equivalent),10 cl (1 wine glass),27,TRUE
+39,Yes,Yes,1 glass or less,6 cl (a big shot or equivalent),20 cl,26,TRUE
+40,Yes,Yes,1 glass or less,6 cl (a big shot or equivalent),37 cl (half a bottle),10,TRUE
+41,Yes,Yes,1 glass or less,6 cl (a big shot or equivalent),NA,7,TRUE
+42,Yes,Yes,1 glass or less,8 cl,10 cl (1 wine glass),3,TRUE
+43,Yes,Yes,1 glass or less,8 cl,20 cl,14,TRUE
+44,Yes,Yes,1 glass or less,8 cl,37 cl (half a bottle),4,TRUE
+45,Yes,Yes,1 glass or less,8 cl,NA,4,TRUE
+46,Yes,Yes,1 glass or less,12 cl,10 cl (1 wine glass),2,TRUE
+47,Yes,Yes,1 glass or less,12 cl,20 cl,6,TRUE
+48,Yes,Yes,1 glass or less,12 cl,37 cl (half a bottle),1,TRUE
+49,Yes,Yes,1 glass or less,12 cl,NA,5,TRUE
+50,Yes,Yes,1 glass or less,18 cl,10 cl (1 wine glass),1,TRUE
+51,Yes,Yes,1 glass or less,18 cl,20 cl,3,TRUE
+52,Yes,Yes,1 glass or less,18 cl,37 cl (half a bottle),5,TRUE
+53,Yes,Yes,1 glass or less,18 cl,NA,1,TRUE
+54,Yes,Yes,1 glass or less,37 cl (half a bottle),37 cl (half a bottle),3,TRUE
+55,Yes,Yes,1 glass or less,37 cl (half a bottle),NA,1,TRUE
+56,Yes,Yes,1 glass or less,75 cl (1 whole bottle),NA,1,TRUE
+57,Yes,Yes,1 glass or less,NA,10 cl (1 wine glass),15,TRUE
+58,Yes,Yes,1 glass or less,NA,20 cl,4,TRUE
+59,Yes,Yes,1 glass or less,NA,37 cl (half a bottle),1,TRUE
+60,Yes,Yes,1 glass or less,NA,75 cl (one whole bottle),1,TRUE
+61,Yes,Yes,1 glass or less,NA,NA,1,TRUE
+62,Yes,Yes,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),15,TRUE
+63,Yes,Yes,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),20 cl,19,TRUE
+64,Yes,Yes,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),37 cl (half a bottle),12,TRUE
+65,Yes,Yes,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),NA,7,TRUE
+66,Yes,Yes,1 bottle (33 cl),6 cl (a big shot or equivalent),10 cl (1 wine glass),12,TRUE
+67,Yes,Yes,1 bottle (33 cl),6 cl (a big shot or equivalent),20 cl,30,TRUE
+68,Yes,Yes,1 bottle (33 cl),6 cl (a big shot or equivalent),37 cl (half a bottle),25,TRUE
+69,Yes,Yes,1 bottle (33 cl),6 cl (a big shot or equivalent),60 cl,2,TRUE
+70,Yes,Yes,1 bottle (33 cl),6 cl (a big shot or equivalent),NA,8,TRUE
+71,Yes,Yes,1 bottle (33 cl),8 cl,10 cl (1 wine glass),8,TRUE
+72,Yes,Yes,1 bottle (33 cl),8 cl,20 cl,37,TRUE
+73,Yes,Yes,1 bottle (33 cl),8 cl,37 cl (half a bottle),18,TRUE
+74,Yes,Yes,1 bottle (33 cl),8 cl,60 cl,1,TRUE
+75,Yes,Yes,1 bottle (33 cl),8 cl,75 cl (one whole bottle),1,TRUE
+76,Yes,Yes,1 bottle (33 cl),8 cl,NA,5,TRUE
+77,Yes,Yes,1 bottle (33 cl),12 cl,10 cl (1 wine glass),7,TRUE
+78,Yes,Yes,1 bottle (33 cl),12 cl,20 cl,31,TRUE
+79,Yes,Yes,1 bottle (33 cl),12 cl,37 cl (half a bottle),20,TRUE
+80,Yes,Yes,1 bottle (33 cl),12 cl,60 cl,3,TRUE
+81,Yes,Yes,1 bottle (33 cl),12 cl,NA,4,TRUE
+82,Yes,Yes,1 bottle (33 cl),18 cl,10 cl (1 wine glass),1,TRUE
+83,Yes,Yes,1 bottle (33 cl),18 cl,20 cl,8,TRUE
+84,Yes,Yes,1 bottle (33 cl),18 cl,37 cl (half a bottle),14,TRUE
+85,Yes,Yes,1 bottle (33 cl),18 cl,75 cl (one whole bottle),1,TRUE
+86,Yes,Yes,1 bottle (33 cl),18 cl,NA,8,TRUE
+87,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),10 cl (1 wine glass),2,TRUE
+88,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),20 cl,5,TRUE
+89,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),37 cl (half a bottle),7,TRUE
+90,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),60 cl,1,TRUE
+91,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),75 cl (one whole bottle),3,TRUE
+92,Yes,Yes,1 bottle (33 cl),37 cl (half a bottle),NA,5,TRUE
+93,Yes,Yes,1 bottle (33 cl),75 cl (1 whole bottle),37 cl (half a bottle),1,TRUE
+94,Yes,Yes,1 bottle (33 cl),NA,10 cl (1 wine glass),4,TRUE
+95,Yes,Yes,1 bottle (33 cl),NA,20 cl,4,TRUE
+96,Yes,Yes,1 bottle (33 cl),NA,37 cl (half a bottle),1,TRUE
+97,Yes,Yes,1 bottle (33 cl),NA,60 cl,1,TRUE
+98,Yes,Yes,1 bottle (33 cl),NA,75 cl (one whole bottle),2,TRUE
+99,Yes,Yes,1 bottle (33 cl),NA,NA,2,TRUE
+100,Yes,Yes,2 bottles,4 cl (approx. a small shot or equivalent),37 cl (half a bottle),2,TRUE
+101,Yes,Yes,2 bottles,6 cl (a big shot or equivalent),10 cl (1 wine glass),1,TRUE
+102,Yes,Yes,2 bottles,6 cl (a big shot or equivalent),20 cl,2,TRUE
+103,Yes,Yes,2 bottles,6 cl (a big shot or equivalent),37 cl (half a bottle),3,TRUE
+104,Yes,Yes,2 bottles,6 cl (a big shot or equivalent),60 cl,1,TRUE
+105,Yes,Yes,2 bottles,6 cl (a big shot or equivalent),75 cl (one whole bottle),1,TRUE
+106,Yes,Yes,2 bottles,8 cl,20 cl,5,TRUE
+107,Yes,Yes,2 bottles,8 cl,37 cl (half a bottle),5,TRUE
+108,Yes,Yes,2 bottles,8 cl,75 cl (one whole bottle),1,TRUE
+109,Yes,Yes,2 bottles,12 cl,10 cl (1 wine glass),2,TRUE
+110,Yes,Yes,2 bottles,12 cl,20 cl,1,TRUE
+111,Yes,Yes,2 bottles,12 cl,37 cl (half a bottle),4,TRUE
+112,Yes,Yes,2 bottles,12 cl,75 cl (one whole bottle),1,TRUE
+113,Yes,Yes,2 bottles,12 cl,NA,2,TRUE
+114,Yes,Yes,2 bottles,18 cl,10 cl (1 wine glass),1,TRUE
+115,Yes,Yes,2 bottles,18 cl,20 cl,2,TRUE
+116,Yes,Yes,2 bottles,18 cl,37 cl (half a bottle),2,TRUE
+117,Yes,Yes,2 bottles,18 cl,NA,3,TRUE
+118,Yes,Yes,2 bottles,37 cl (half a bottle),20 cl,3,TRUE
+119,Yes,Yes,2 bottles,37 cl (half a bottle),75 cl (one whole bottle),4,TRUE
+120,Yes,Yes,2 bottles,37 cl (half a bottle),NA,2,TRUE
+121,Yes,Yes,2 bottles,60 cl,20 cl,1,TRUE
+122,Yes,Yes,2 bottles,75 cl (1 whole bottle),10 cl (1 wine glass),1,TRUE
+123,Yes,Yes,3 bottles (two 45 cl cans),4 cl (approx. a small shot or equivalent),37 cl (half a bottle),1,TRUE
+124,Yes,Yes,3 bottles (two 45 cl cans),4 cl (approx. a small shot or equivalent),NA,1,TRUE
+125,Yes,Yes,3 bottles (two 45 cl cans),8 cl,10 cl (1 wine glass),1,TRUE
+126,Yes,Yes,3 bottles (two 45 cl cans),8 cl,20 cl,1,TRUE
+127,Yes,Yes,3 bottles (two 45 cl cans),8 cl,37 cl (half a bottle),4,TRUE
+128,Yes,Yes,3 bottles (two 45 cl cans),8 cl,60 cl,2,TRUE
+129,Yes,Yes,3 bottles (two 45 cl cans),12 cl,20 cl,2,TRUE
+130,Yes,Yes,3 bottles (two 45 cl cans),12 cl,37 cl (half a bottle),1,TRUE
+131,Yes,Yes,3 bottles (two 45 cl cans),12 cl,NA,1,TRUE
+132,Yes,Yes,3 bottles (two 45 cl cans),18 cl,10 cl (1 wine glass),1,TRUE
+133,Yes,Yes,3 bottles (two 45 cl cans),18 cl,20 cl,1,TRUE
+134,Yes,Yes,3 bottles (two 45 cl cans),18 cl,37 cl (half a bottle),1,TRUE
+135,Yes,Yes,3 bottles (two 45 cl cans),18 cl,75 cl (one whole bottle),2,TRUE
+136,Yes,Yes,3 bottles (two 45 cl cans),18 cl,NA,1,TRUE
+137,Yes,Yes,3 bottles (two 45 cl cans),37 cl (half a bottle),37 cl (half a bottle),2,TRUE
+138,Yes,Yes,3 bottles (two 45 cl cans),37 cl (half a bottle),NA,2,TRUE
+139,Yes,Yes,3 bottles (two 45 cl cans),75 cl (1 whole bottle),37 cl (half a bottle),1,TRUE
+140,Yes,Yes,3 bottles (two 45 cl cans),NA,75 cl (one whole bottle),1,TRUE
+141,Yes,Yes,3 bottles (two 45 cl cans),NA,NA,1,TRUE
+142,Yes,Yes,4 bottles,12 cl,NA,2,TRUE
+143,Yes,Yes,4 bottles,37 cl (half a bottle),37 cl (half a bottle),2,TRUE
+144,Yes,Yes,4 bottles,37 cl (half a bottle),NA,1,TRUE
+145,Yes,Yes,5 bottles,37 cl (half a bottle),10 cl (1 wine glass),1,TRUE
+146,Yes,Yes,5 bottles,37 cl (half a bottle),37 cl (half a bottle),2,TRUE
+147,Yes,Yes,5 bottles,37 cl (half a bottle),More than 1 whole bottle,1,TRUE
+148,Yes,Yes,5 bottles,37 cl (half a bottle),NA,1,TRUE
+149,Yes,Yes,5 bottles,60 cl,37 cl (half a bottle),1,TRUE
+150,Yes,Yes,6 bottles or more,18 cl,More than 1 whole bottle,1,TRUE
+151,Yes,Yes,6 bottles or more,37 cl (half a bottle),37 cl (half a bottle),2,TRUE
+152,Yes,Yes,6 bottles or more,37 cl (half a bottle),NA,2,TRUE
+153,Yes,Yes,6 bottles or more,75 cl (1 whole bottle),NA,2,TRUE
+154,Yes,Yes,6 bottles or more,NA,NA,1,TRUE
+155,Yes,Yes,NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),39,TRUE
+156,Yes,Yes,NA,4 cl (approx. a small shot or equivalent),20 cl,21,TRUE
+157,Yes,Yes,NA,4 cl (approx. a small shot or equivalent),37 cl (half a bottle),7,TRUE
+158,Yes,Yes,NA,4 cl (approx. a small shot or equivalent),NA,6,TRUE
+159,Yes,Yes,NA,6 cl (a big shot or equivalent),10 cl (1 wine glass),9,TRUE
+160,Yes,Yes,NA,6 cl (a big shot or equivalent),20 cl,10,TRUE
+161,Yes,Yes,NA,6 cl (a big shot or equivalent),37 cl (half a bottle),2,TRUE
+162,Yes,Yes,NA,6 cl (a big shot or equivalent),NA,5,TRUE
+163,Yes,Yes,NA,8 cl,10 cl (1 wine glass),3,TRUE
+164,Yes,Yes,NA,8 cl,20 cl,7,TRUE
+165,Yes,Yes,NA,8 cl,37 cl (half a bottle),5,TRUE
+166,Yes,Yes,NA,8 cl,NA,1,TRUE
+167,Yes,Yes,NA,12 cl,10 cl (1 wine glass),1,TRUE
+168,Yes,Yes,NA,12 cl,20 cl,3,TRUE
+169,Yes,Yes,NA,12 cl,37 cl (half a bottle),1,TRUE
+170,Yes,Yes,NA,12 cl,60 cl,1,TRUE
+171,Yes,Yes,NA,12 cl,NA,1,TRUE
+172,Yes,Yes,NA,18 cl,10 cl (1 wine glass),2,TRUE
+173,Yes,Yes,NA,18 cl,37 cl (half a bottle),1,TRUE
+174,Yes,Yes,NA,18 cl,60 cl,1,TRUE
+175,Yes,Yes,NA,18 cl,NA,2,TRUE
+176,Yes,Yes,NA,37 cl (half a bottle),NA,3,TRUE
+177,Yes,Yes,NA,60 cl,37 cl (half a bottle),1,TRUE
+178,Yes,Yes,NA,NA,10 cl (1 wine glass),13,TRUE
+179,Yes,Yes,NA,NA,20 cl,3,TRUE
+180,Yes,Yes,NA,NA,37 cl (half a bottle),1,TRUE
+181,Yes,Yes,NA,NA,NA,3,TRUE
+182,Yes,"No, I have never drunk alcoholic drinks",1 glass or less,NA,10 cl (1 wine glass),2,TRUE
+183,Yes,"No, I have never drunk alcoholic drinks",1 glass or less,NA,20 cl,2,TRUE
+184,Yes,"No, I have never drunk alcoholic drinks",1 glass or less,NA,NA,5,TRUE
+185,Yes,"No, I have never drunk alcoholic drinks",1 bottle (33 cl),NA,NA,1,TRUE
+186,Yes,"No, I have never drunk alcoholic drinks",2 bottles,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,TRUE
+187,Yes,"No, I have never drunk alcoholic drinks",NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,TRUE
+188,Yes,"No, I have never drunk alcoholic drinks",NA,NA,10 cl (1 wine glass),2,TRUE
+189,Yes,"No, I have never drunk alcoholic drinks",NA,NA,20 cl,1,TRUE
+190,Yes,"No, I quit.",1 glass or less,NA,10 cl (1 wine glass),1,TRUE
+191,Yes,"No, I quit.",1 glass or less,NA,NA,1,TRUE
+192,Yes,"No, I quit.",1 bottle (33 cl),6 cl (a big shot or equivalent),37 cl (half a bottle),1,TRUE
+193,Yes,"No, I quit.",1 bottle (33 cl),NA,10 cl (1 wine glass),1,TRUE
+194,Yes,"No, I quit.",1 bottle (33 cl),NA,NA,1,TRUE
+195,Yes,NA,1 glass or less,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),5,TRUE
+196,Yes,NA,1 glass or less,4 cl (approx. a small shot or equivalent),20 cl,1,TRUE
+197,Yes,NA,1 glass or less,4 cl (approx. a small shot or equivalent),NA,2,TRUE
+198,Yes,NA,1 glass or less,6 cl (a big shot or equivalent),10 cl (1 wine glass),1,TRUE
+199,Yes,NA,1 glass or less,6 cl (a big shot or equivalent),NA,1,TRUE
+200,Yes,NA,1 glass or less,NA,10 cl (1 wine glass),2,TRUE
+201,Yes,NA,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),37 cl (half a bottle),1,TRUE
+202,Yes,NA,1 bottle (33 cl),4 cl (approx. a small shot or equivalent),NA,2,TRUE
+203,Yes,NA,1 bottle (33 cl),6 cl (a big shot or equivalent),20 cl,1,TRUE
+204,Yes,NA,1 bottle (33 cl),6 cl (a big shot or equivalent),37 cl (half a bottle),1,TRUE
+205,Yes,NA,1 bottle (33 cl),8 cl,37 cl (half a bottle),1,TRUE
+206,Yes,NA,1 bottle (33 cl),8 cl,60 cl,1,TRUE
+207,Yes,NA,1 bottle (33 cl),8 cl,NA,1,TRUE
+208,Yes,NA,1 bottle (33 cl),12 cl,10 cl (1 wine glass),1,TRUE
+209,Yes,NA,1 bottle (33 cl),18 cl,20 cl,1,TRUE
+210,Yes,NA,1 bottle (33 cl),37 cl (half a bottle),20 cl,2,TRUE
+211,Yes,NA,2 bottles,6 cl (a big shot or equivalent),10 cl (1 wine glass),1,TRUE
+212,Yes,NA,2 bottles,12 cl,NA,1,TRUE
+213,Yes,NA,2 bottles,18 cl,37 cl (half a bottle),1,TRUE
+214,Yes,NA,3 bottles (two 45 cl cans),6 cl (a big shot or equivalent),37 cl (half a bottle),1,TRUE
+215,Yes,NA,6 bottles or more,75 cl (1 whole bottle),NA,1,TRUE
+216,Yes,NA,NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),1,TRUE
+217,Yes,NA,NA,4 cl (approx. a small shot or equivalent),NA,1,TRUE
+218,Yes,NA,NA,8 cl,20 cl,1,TRUE
+219,NA,Yes,1 glass or less,4 cl (approx. a small shot or equivalent),NA,2,NA
+220,NA,Yes,1 bottle (33 cl),12 cl,20 cl,1,NA
+221,NA,Yes,2 bottles,6 cl (a big shot or equivalent),20 cl,1,NA
+222,NA,Yes,2 bottles,12 cl,37 cl (half a bottle),1,NA
+223,NA,Yes,NA,4 cl (approx. a small shot or equivalent),10 cl (1 wine glass),2,NA
+224,NA,Yes,NA,4 cl (approx. a small shot or equivalent),NA,1,NA
+225,NA,Yes,NA,6 cl (a big shot or equivalent),10 cl (1 wine glass),1,NA
+226,NA,Yes,NA,NA,NA,2,NA
+227,NA,"No, I have never drunk alcoholic drinks",1 glass or less,NA,NA,1,FALSE
+228,NA,"No, I have never drunk alcoholic drinks",NA,NA,10 cl (1 wine glass),1,FALSE
+229,NA,"No, I have never drunk alcoholic drinks",NA,NA,NA,6,FALSE
+230,NA,NA,1 glass or less,NA,NA,1,NA
+231,NA,NA,NA,NA,NA,14,NA

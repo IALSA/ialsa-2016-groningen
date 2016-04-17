@@ -1,0 +1,52 @@
+"","FREQALCH","NOSTDRNK","FR6ORMOR","count"
+"1","Never",NA,NA,774
+"2","Monthly or less","One or two","Never",337
+"3","Monthly or less","One or two","Less than monthly",6
+"4","Monthly or less","Three or four","Never",18
+"5","Monthly or less","Three or four","Less than monthly",3
+"6","Monthly or less","Five or six","Less than monthly",2
+"7","Monthly or less","Seven to nine","Less than monthly",1
+"8","Monthly or less",NA,NA,1
+"9","Two to four times a month","One or two","Never",132
+"10","Two to four times a month","One or two","Less than monthly",4
+"11","Two to four times a month","One or two","Monthly",2
+"12","Two to four times a month","Three or four","Never",18
+"13","Two to four times a month","Three or four","Less than monthly",5
+"14","Two to four times a month","Five or six","Never",2
+"15","Two to four times a month","Five or six","Less than monthly",1
+"16","Two to four times a month","Five or six","Weekly",1
+"17","Two to four times a month","Seven to nine","Monthly",1
+"18","Two to four times a month","Seven to nine","Weekly",1
+"19","Two to three times a week","One or two","Never",149
+"20","Two to three times a week","One or two","Less than monthly",14
+"21","Two to three times a week","One or two","Monthly",6
+"22","Two to three times a week","Three or four","Never",23
+"23","Two to three times a week","Three or four","Less than monthly",9
+"24","Two to three times a week","Three or four","Weekly",1
+"25","Two to three times a week","Five or six","Never",1
+"26","Two to three times a week","Five or six","Less than monthly",3
+"27","Two to three times a week","Five or six","Monthly",1
+"28","Two to three times a week","Five or six","Weekly",3
+"29","Two to three times a week","Five or six","Daily or almost daily",1
+"30","Two to three times a week","Seven to nine","Never",1
+"31","Two to three times a week","Seven to nine","Weekly",1
+"32","Two to three times a week","Ten or more","Weekly",1
+"33","Four or more times a week","One or two","Never",324
+"34","Four or more times a week","One or two","Less than monthly",49
+"35","Four or more times a week","One or two","Monthly",7
+"36","Four or more times a week","One or two","Weekly",3
+"37","Four or more times a week","Three or four","Never",52
+"38","Four or more times a week","Three or four","Less than monthly",35
+"39","Four or more times a week","Three or four","Monthly",15
+"40","Four or more times a week","Three or four","Weekly",15
+"41","Four or more times a week","Three or four","Daily or almost daily",1
+"42","Four or more times a week","Five or six","Never",6
+"43","Four or more times a week","Five or six","Less than monthly",2
+"44","Four or more times a week","Five or six","Monthly",5
+"45","Four or more times a week","Five or six","Weekly",6
+"46","Four or more times a week","Five or six","Daily or almost daily",12
+"47","Four or more times a week","Seven to nine","Never",1
+"48","Four or more times a week","Seven to nine","Monthly",2
+"49","Four or more times a week","Seven to nine","Daily or almost daily",8
+"50","Four or more times a week","Ten or more","Daily or almost daily",1
+"51",NA,NA,NA,20

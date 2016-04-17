@@ -1,0 +1,169 @@
+,BR0100,BR0110,BR0120,BR0130,count,current_drink
+1,almost every day,almost every day,almost every day,almost every day,1,TRUE
+2,almost every day,almost every day,once or twice a week,once or twice a month,1,TRUE
+3,almost every day,almost every day,once or twice a week,less than once a month,1,TRUE
+4,almost every day,almost every day,less than once a month,once or twice a month,1,TRUE
+5,almost every day,five or six days a week,five or six days a week,less than once a month,1,TRUE
+6,almost every day,five or six days a week,not at all in the last 6 months,not at all in the last 6 months,1,TRUE
+7,almost every day,three or four days a week,three or four days a week,three or four days a week,1,TRUE
+8,almost every day,three or four days a week,less than once a month,not at all in the last 6 months,1,TRUE
+9,almost every day,once or twice a week,almost every day,once or twice a month,1,TRUE
+10,almost every day,once or twice a week,almost every day,not at all in the last 6 months,1,TRUE
+11,almost every day,once or twice a week,once or twice a week,not at all in the last 6 months,1,TRUE
+12,almost every day,once or twice a week,once or twice a month,once or twice a month,1,TRUE
+13,almost every day,once or twice a month,almost every day,once or twice a week,1,TRUE
+14,almost every day,once or twice a month,almost every day,not at all in the last 6 months,1,TRUE
+15,almost every day,once or twice a month,once or twice a week,five or six days a week,1,TRUE
+16,almost every day,once or twice a month,once or twice a week,not at all in the last 6 months,2,TRUE
+17,almost every day,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,2,TRUE
+18,almost every day,less than once a month,once or twice a month,once or twice a month,1,TRUE
+19,almost every day,less than once a month,once or twice a month,not at all in the last 6 months,2,TRUE
+20,almost every day,less than once a month,less than once a month,less than once a month,2,TRUE
+21,almost every day,less than once a month,less than once a month,not at all in the last 6 months,2,TRUE
+22,almost every day,less than once a month,not at all in the last 6 months,not at all in the last 6 months,1,TRUE
+23,almost every day,not at all in the last 6 months,almost every day,three or four days a week,1,TRUE
+24,almost every day,not at all in the last 6 months,almost every day,less than once a month,1,TRUE
+25,almost every day,not at all in the last 6 months,almost every day,not at all in the last 6 months,2,TRUE
+26,almost every day,not at all in the last 6 months,three or four days a week,not at all in the last 6 months,2,TRUE
+27,almost every day,not at all in the last 6 months,once or twice a week,three or four days a week,1,TRUE
+28,almost every day,not at all in the last 6 months,once or twice a week,once or twice a week,1,TRUE
+29,almost every day,not at all in the last 6 months,once or twice a week,once or twice a month,1,TRUE
+30,almost every day,not at all in the last 6 months,once or twice a week,not at all in the last 6 months,3,TRUE
+31,almost every day,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,1,TRUE
+32,almost every day,not at all in the last 6 months,less than once a month,less than once a month,1,TRUE
+33,almost every day,not at all in the last 6 months,less than once a month,not at all in the last 6 months,6,TRUE
+34,almost every day,not at all in the last 6 months,not at all in the last 6 months,almost every day,2,TRUE
+35,almost every day,not at all in the last 6 months,not at all in the last 6 months,once or twice a week,1,TRUE
+36,almost every day,not at all in the last 6 months,not at all in the last 6 months,less than once a month,1,TRUE
+37,almost every day,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,25,TRUE
+38,five or six days a week,five or six days a week,not at all in the last 6 months,not at all in the last 6 months,2,TRUE
+39,five or six days a week,once or twice a month,less than once a month,not at all in the last 6 months,1,TRUE
+40,five or six days a week,once or twice a month,not at all in the last 6 months,once or twice a month,1,TRUE
+41,five or six days a week,less than once a month,three or four days a week,five or six days a week,1,TRUE
+42,five or six days a week,less than once a month,once or twice a month,less than once a month,1,TRUE
+43,five or six days a week,less than once a month,less than once a month,less than once a month,1,TRUE
+44,five or six days a week,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,1,TRUE
+45,five or six days a week,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,6,TRUE
+46,three or four days a week,three or four days a week,once or twice a week,five or six days a week,1,TRUE
+47,three or four days a week,three or four days a week,once or twice a week,once or twice a week,1,TRUE
+48,three or four days a week,three or four days a week,once or twice a week,once or twice a month,1,TRUE
+49,three or four days a week,three or four days a week,once or twice a week,less than once a month,1,TRUE
+50,three or four days a week,three or four days a week,once or twice a month,less than once a month,1,TRUE
+51,three or four days a week,three or four days a week,not at all in the last 6 months,not at all in the last 6 months,1,TRUE
+52,three or four days a week,once or twice a week,three or four days a week,three or four days a week,1,TRUE
+53,three or four days a week,once or twice a week,three or four days a week,once or twice a week,2,TRUE
+54,three or four days a week,once or twice a week,once or twice a week,three or four days a week,1,TRUE
+55,three or four days a week,once or twice a week,once or twice a week,less than once a month,1,TRUE
+56,three or four days a week,once or twice a week,once or twice a week,not at all in the last 6 months,1,TRUE
+57,three or four days a week,once or twice a week,once or twice a month,once or twice a week,1,TRUE
+58,three or four days a week,once or twice a week,not at all in the last 6 months,once or twice a month,1,TRUE
+59,three or four days a week,once or twice a week,not at all in the last 6 months,not at all in the last 6 months,1,TRUE
+60,three or four days a week,less than once a month,once or twice a week,not at all in the last 6 months,2,TRUE
+61,three or four days a week,less than once a month,once or twice a month,less than once a month,1,TRUE
+62,three or four days a week,less than once a month,less than once a month,less than once a month,1,TRUE
+63,three or four days a week,less than once a month,less than once a month,not at all in the last 6 months,1,TRUE
+64,three or four days a week,less than once a month,not at all in the last 6 months,not at all in the last 6 months,3,TRUE
+65,three or four days a week,not at all in the last 6 months,once or twice a week,not at all in the last 6 months,2,TRUE
+66,three or four days a week,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,3,TRUE
+67,three or four days a week,not at all in the last 6 months,less than once a month,not at all in the last 6 months,2,TRUE
+68,three or four days a week,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,13,TRUE
+69,once or twice a week,three or four days a week,three or four days a week,once or twice a week,1,TRUE
+70,once or twice a week,three or four days a week,once or twice a week,once or twice a week,1,TRUE
+71,once or twice a week,three or four days a week,once or twice a week,not at all in the last 6 months,2,TRUE
+72,once or twice a week,once or twice a week,three or four days a week,once or twice a week,1,TRUE
+73,once or twice a week,once or twice a week,three or four days a week,not at all in the last 6 months,1,TRUE
+74,once or twice a week,once or twice a week,once or twice a week,once or twice a week,4,TRUE
+75,once or twice a week,once or twice a week,once or twice a week,once or twice a month,2,TRUE
+76,once or twice a week,once or twice a week,once or twice a week,less than once a month,2,TRUE
+77,once or twice a week,once or twice a week,once or twice a week,not at all in the last 6 months,8,TRUE
+78,once or twice a week,once or twice a week,once or twice a month,once or twice a week,1,TRUE
+79,once or twice a week,once or twice a week,once or twice a month,once or twice a month,1,TRUE
+80,once or twice a week,once or twice a week,once or twice a month,less than once a month,1,TRUE
+81,once or twice a week,once or twice a week,once or twice a month,not at all in the last 6 months,8,TRUE
+82,once or twice a week,once or twice a week,less than once a month,less than once a month,1,TRUE
+83,once or twice a week,once or twice a week,less than once a month,not at all in the last 6 months,2,TRUE
+84,once or twice a week,once or twice a week,not at all in the last 6 months,once or twice a month,2,TRUE
+85,once or twice a week,once or twice a week,not at all in the last 6 months,not at all in the last 6 months,8,TRUE
+86,once or twice a week,once or twice a month,once or twice a week,once or twice a month,1,TRUE
+87,once or twice a week,once or twice a month,once or twice a week,less than once a month,1,TRUE
+88,once or twice a week,once or twice a month,once or twice a week,not at all in the last 6 months,1,TRUE
+89,once or twice a week,once or twice a month,once or twice a month,once or twice a month,2,TRUE
+90,once or twice a week,once or twice a month,once or twice a month,less than once a month,4,TRUE
+91,once or twice a week,once or twice a month,once or twice a month,not at all in the last 6 months,3,TRUE
+92,once or twice a week,once or twice a month,less than once a month,not at all in the last 6 months,1,TRUE
+93,once or twice a week,once or twice a month,not at all in the last 6 months,once or twice a week,1,TRUE
+94,once or twice a week,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,2,TRUE
+95,once or twice a week,once or twice a month,not at all in the last 6 months,don't know,1,TRUE
+96,once or twice a week,less than once a month,once or twice a week,once or twice a month,2,TRUE
+97,once or twice a week,less than once a month,once or twice a week,less than once a month,2,TRUE
+98,once or twice a week,less than once a month,once or twice a week,not at all in the last 6 months,1,TRUE
+99,once or twice a week,less than once a month,once or twice a month,once or twice a month,1,TRUE
+100,once or twice a week,less than once a month,once or twice a month,not at all in the last 6 months,2,TRUE
+101,once or twice a week,less than once a month,less than once a month,once or twice a week,1,TRUE
+102,once or twice a week,less than once a month,less than once a month,once or twice a month,1,TRUE
+103,once or twice a week,less than once a month,less than once a month,less than once a month,4,TRUE
+104,once or twice a week,less than once a month,less than once a month,not at all in the last 6 months,4,TRUE
+105,once or twice a week,less than once a month,not at all in the last 6 months,not at all in the last 6 months,7,TRUE
+106,once or twice a week,not at all in the last 6 months,three or four days a week,not at all in the last 6 months,1,TRUE
+107,once or twice a week,not at all in the last 6 months,once or twice a week,three or four days a week,1,TRUE
+108,once or twice a week,not at all in the last 6 months,once or twice a week,once or twice a week,2,TRUE
+109,once or twice a week,not at all in the last 6 months,once or twice a week,less than once a month,3,TRUE
+110,once or twice a week,not at all in the last 6 months,once or twice a week,not at all in the last 6 months,14,TRUE
+111,once or twice a week,not at all in the last 6 months,once or twice a month,once or twice a month,1,TRUE
+112,once or twice a week,not at all in the last 6 months,once or twice a month,less than once a month,1,TRUE
+113,once or twice a week,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,9,TRUE
+114,once or twice a week,not at all in the last 6 months,less than once a month,less than once a month,2,TRUE
+115,once or twice a week,not at all in the last 6 months,less than once a month,not at all in the last 6 months,9,TRUE
+116,once or twice a week,not at all in the last 6 months,not at all in the last 6 months,once or twice a month,1,TRUE
+117,once or twice a week,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,108,TRUE
+118,once or twice a month,almost every day,less than once a month,less than once a month,1,TRUE
+119,once or twice a month,three or four days a week,less than once a month,not at all in the last 6 months,1,TRUE
+120,once or twice a month,once or twice a week,once or twice a month,not at all in the last 6 months,1,TRUE
+121,once or twice a month,once or twice a month,once or twice a week,once or twice a month,1,TRUE
+122,once or twice a month,once or twice a month,once or twice a week,not at all in the last 6 months,1,TRUE
+123,once or twice a month,once or twice a month,once or twice a month,once or twice a month,4,TRUE
+124,once or twice a month,once or twice a month,once or twice a month,less than once a month,3,TRUE
+125,once or twice a month,once or twice a month,once or twice a month,not at all in the last 6 months,8,TRUE
+126,once or twice a month,once or twice a month,less than once a month,less than once a month,2,TRUE
+127,once or twice a month,once or twice a month,less than once a month,not at all in the last 6 months,2,TRUE
+128,once or twice a month,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,3,TRUE
+129,once or twice a month,less than once a month,once or twice a week,not at all in the last 6 months,1,TRUE
+130,once or twice a month,less than once a month,once or twice a month,once or twice a month,1,TRUE
+131,once or twice a month,less than once a month,once or twice a month,not at all in the last 6 months,3,TRUE
+132,once or twice a month,less than once a month,less than once a month,once or twice a month,1,TRUE
+133,once or twice a month,less than once a month,less than once a month,less than once a month,2,TRUE
+134,once or twice a month,less than once a month,less than once a month,not at all in the last 6 months,8,TRUE
+135,once or twice a month,less than once a month,not at all in the last 6 months,not at all in the last 6 months,6,TRUE
+136,once or twice a month,not at all in the last 6 months,once or twice a week,once or twice a week,1,TRUE
+137,once or twice a month,not at all in the last 6 months,once or twice a week,not at all in the last 6 months,2,TRUE
+138,once or twice a month,not at all in the last 6 months,once or twice a month,once or twice a month,2,TRUE
+139,once or twice a month,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,13,TRUE
+140,once or twice a month,not at all in the last 6 months,less than once a month,less than once a month,4,TRUE
+141,once or twice a month,not at all in the last 6 months,less than once a month,not at all in the last 6 months,6,TRUE
+142,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,three or four days a week,1,TRUE
+143,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,once or twice a month,2,TRUE
+144,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,less than once a month,2,TRUE
+145,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,63,TRUE
+146,once or twice a month,not at all in the last 6 months,don't know,not at all in the last 6 months,1,TRUE
+147,less than once a month,once or twice a week,not at all in the last 6 months,once or twice a week,1,TRUE
+148,less than once a month,once or twice a month,once or twice a month,less than once a month,1,TRUE
+149,less than once a month,once or twice a month,once or twice a month,not at all in the last 6 months,1,TRUE
+150,less than once a month,once or twice a month,less than once a month,less than once a month,1,TRUE
+151,less than once a month,once or twice a month,less than once a month,not at all in the last 6 months,1,TRUE
+152,less than once a month,once or twice a month,not at all in the last 6 months,not at all in the last 6 months,2,TRUE
+153,less than once a month,less than once a month,once or twice a month,less than once a month,3,TRUE
+154,less than once a month,less than once a month,once or twice a month,not at all in the last 6 months,2,TRUE
+155,less than once a month,less than once a month,less than once a month,less than once a month,25,TRUE
+156,less than once a month,less than once a month,less than once a month,not at all in the last 6 months,21,TRUE
+157,less than once a month,less than once a month,not at all in the last 6 months,not at all in the last 6 months,10,TRUE
+158,less than once a month,not at all in the last 6 months,once or twice a week,not at all in the last 6 months,1,TRUE
+159,less than once a month,not at all in the last 6 months,once or twice a month,once or twice a month,1,TRUE
+160,less than once a month,not at all in the last 6 months,once or twice a month,less than once a month,2,TRUE
+161,less than once a month,not at all in the last 6 months,once or twice a month,not at all in the last 6 months,3,TRUE
+162,less than once a month,not at all in the last 6 months,less than once a month,once or twice a month,3,TRUE
+163,less than once a month,not at all in the last 6 months,less than once a month,less than once a month,10,TRUE
+164,less than once a month,not at all in the last 6 months,less than once a month,not at all in the last 6 months,34,TRUE
+165,less than once a month,not at all in the last 6 months,not at all in the last 6 months,less than once a month,4,TRUE
+166,less than once a month,not at all in the last 6 months,not at all in the last 6 months,not at all in the last 6 months,94,TRUE
+167,not at all in the last 6 months,NA,NA,NA,1855,FALSE
+168,NA,NA,NA,NA,4,NA
