@@ -115,27 +115,29 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-### Graphical functions
-
-
-```{r define-elemental-graph-function, echo=TRUE}
-```
-
-
-```{r define-complex-3-graph-function, echo=TRUE}
-```
-
-```{r define-complex-8-graph-function, echo=TRUE}
-```
 
 ### Study as factor
-```{r study-as-factor-in-model, echo=TRUE}
+```{r fit-model-with-study-as-factor, echo=TRUE}
 ```
+
+```{r graph-points-study-as-factor, echo=TRUE}
+```
+
+```{r graph-curves-study-as-factor, echo=TRUE}
+```
+
 
 
 ### Study as cluster
-```{r study-as-individual-data-set, echo=TRUE}
+```{r fit-model-with-study-as-cluster, echo=TRUE}
 ```
+
+```{r graph-points-study-as-cluster, echo=TRUE}
+```
+
+```{r graph-curves-study-as-cluster, echo=TRUE}
+```
+
 
 
 

@@ -8,6 +8,7 @@ cat("\f") # clear console
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
 source("./scripts/common-functions.R") # used in multiple reports
 source("./scripts/graph-presets.R") # fonts, colors, themes 
+source("./scripts/graph-logistic.R")
 
 # ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
@@ -38,14 +39,14 @@ names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
 # ---- meta-table --------------------------------------------------------
-# # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-# dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
-#   DT::datatable(
-#     class   = 'cell-border stripe',
-#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-#     filter  = "top",
-#     options = list(pageLength = 6, autoWidth = TRUE)
-#   )
+# 4th element - a dataset names and labels of raw variables + added metadata for all studies
+dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -108,7 +109,7 @@ t <- table(
 # basic counts
 table(ds$study_name, ds$smoke_now, useNA = "always")
 table(ds$study_name, ds$smoked_ever, useNA = "always")
-table(ds$study_name, ds$sex, useNA = "always")
+table(ds$study_name, ds$female, useNA = "always")
 table(ds$study_name, ds$marital, useNA = "always")
 table(ds$study_name, ds$educ3, useNA = "always")
 
@@ -116,102 +117,42 @@ table(ds$study_name, ds$educ3, useNA = "always")
 # ----- basic-model ------------------
 
 
-# ---- define-elemental-graph-function -----------------------------
-
-graph_logistic_simple <- function(ds, x_name, y_name, color_group, alpha_level=.5){
-  g <- ggplot2::ggplot(ds, aes_string(x=x_name)) +
-    geom_point(aes_string(y=y_name, color=color_group), shape=16, alpha=alpha_level) +
-    facet_grid(study_name ~ .) + 
-    main_theme +
-    theme(
-      legend.position="top"
-    )
-  # return(g)
-}
-# g <- graph_logistic_simple(ds=ds,"age_in_years", "smoke_now_p", "sex", .3)
-# g
-# ---- define-complex-3-graph-function -----------------------
-
-graph_logistic_complex_3 <- function(
-  ds, 
-  x_name, 
-  y_name, 
-  alpha_level
-){
-  g_female <- graph_logistic_simple(ds,x_name, y_name, "female", alpha_level)
-  g_marital <- graph_logistic_simple(ds,x_name, y_name, "marital", alpha_level)
-  g_educ <- graph_logistic_simple(ds,x_name, y_name, "educ3", alpha_level)
-  
-  grid::grid.newpage()    
-  #Defnie the relative proportions among the panels in the mosaic.
-  layout <- grid::grid.layout(nrow=1, ncol=3,
-                              widths=grid::unit(c(.333, .333, .333) ,c("null","null","null")),
-                              heights=grid::unit(c(1), c("null"))
-  )
-  grid::pushViewport(grid::viewport(layout=layout))
-  print(g_female,     vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
-  print(g_marital, vp=grid::viewport(layout.pos.row=1, layout.pos.col=2 ))
-  print(g_educ,    vp=grid::viewport(layout.pos.row=1, layout.pos.col=3 ))
-  grid::popViewport(0)
-  
-} 
-# graph_logistic_complex_3(ds=d,"age_in_years", "smoke_now_p", .3)
 
 
-# ---- define-complex-8-graph-function -----------------------
-graph_logistic_complex_8 <- function(
-  ds, 
-  x_name, 
-  y_name, 
-  alpha_level
-){
-  g_sex <- graph_logistic_simple(ds,x_name, y_name, "sex", alpha_level)
-  g_marital <- graph_logistic_simple(ds,x_name, y_name, "marital", alpha_level)
-  g_educ <- graph_logistic_simple(ds,x_name, y_name, "educ3", alpha_level)
-  
-  grid::grid.newpage()    
-  #Defnie the relative proportions among the panels in the mosaic.
-  layout <- grid::grid.layout(nrow=1, ncol=8,
-                              widths=grid::unit(c(.125, .125, .125, .125,
-                                                  .125, .125, .125, .125) ,
-                                                c("null","null","null","null",
-                                                  "null","null","null","null")),
-                              heights=grid::unit(c(1), c("null"))
-  )
-  grid::pushViewport(grid::viewport(layout=layout))
-  print(g_sex,     vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
-  print(g_marital, vp=grid::viewport(layout.pos.row=1, layout.pos.col=2 ))
-  print(g_educ,    vp=grid::viewport(layout.pos.row=1, layout.pos.col=3 ))
-  grid::popViewport(0)
-  
-} 
-# graph_logistic_complex_8(ds=d,"age_in_years", "smoke_now_p", .3)
 
-# ---- study-as-factor-in-model ----------------------------------------
-str(ds)
-d <- ds %>% na.omit()
+# ---- fit-model-with-study-as-factor ----------------------------------------
+d <- ds %>% 
+  dplyr::select_("id", "study_name", "smoke_now", 
+                 "age_in_years", "female", "marital", "educ3","poor_health") %>% 
+  na.omit()
 mdl <- glm(
-  formula = smoke_now ~ -1 + study_name + age_in_years +sex + marital + educ3,
-  # formula = smoke_now ~ -1 + study_name + age_in_years + sex ,
+  formula = smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3 + poor_health,
   data = d, family = "binomial"
 );summary(mdl)
 d$smoke_now_p <- predict(mdl)
-d <- d %>%  dplyr::select(id, study_name, age_in_years, sex, marital, educ3, smoke_now_p)
-# summary(mdl) # model summary
-# coefficients(mdl) # point estimates of model parameters (aka "model solution")
-# knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
-# knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
-# confint(mdl, level=0.95) # confidence intervals for the estimated parameters
 
-graph_logistic_complex_3(ds=d,"age_in_years", "smoke_now_p", .3)
+# ---- graph-points-study-as-factor ----------------------
 
-graph_logistic_complex_8(ds=d,"age_in_years", "smoke_now_p", .3)
+graph_logistic_point_complex_4(
+  ds = d, 
+  x_name = "age_in_years", 
+  y_name = "smoke_now_p", 
+  covar_order = c("female","marital","educ3","poor_health"),
+  alpha_level = .3) 
+
+# ---- graph-curves-study-as-factor ----------------------
+graph_logitstic_curve_complex_4(
+  ds = d, 
+  x_name = "age_in_years", 
+  y_name = "smoke_now", 
+  covar_order = c("female","marital","educ3","poor_health"),
+  alpha_level = .3) 
 
 
-# ---- study-as-individual-data-set -------------------------
+# ---- fit-model-with-study-as-cluster ----------------------------------------
 
 model_outcome <- "smoke_now"
-model_predictors <- c("age_in_years", "sex", "marital", "educ3")
+model_predictors <- c("age_in_years", "female", "marital", "educ3","poor_health")
 
 ml <- list() # create a model list object to contain model estimation and modeled data
 for(s in dto[["studyName"]]){
@@ -219,7 +160,7 @@ for(s in dto[["studyName"]]){
     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
     na.omit()
   mdl <- stats::glm( # fit model
-    formula = smoke_now ~ age_in_years +sex + marital + educ3,
+    formula = smoke_now ~ age_in_years +female + marital + educ3 + poor_health ,
     data = d, family="binomial"
   ); summary(mdl); 
   modeled_response_name <- paste0(model_outcome,"_p")
@@ -227,32 +168,40 @@ for(s in dto[["studyName"]]){
   ml[["data"]][[s]] <- d
   ml[["model"]][[s]] <- mdl
 }
-names(ml[["data"]])
-names(ml[["model"]])
+# names(ml[["data"]])
+# names(ml[["model"]])
 
 d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
 d$id <- 1:nrow(d) # some ids values might be identical, replace
 head(d)
 
-g <- graph_logistic_simple(ds=d, "age_in_years","smoke_now_p","sex")
-g 
-graph_logistic_complex_3(ds=d, "age_in_years","smoke_now_p",.3)
-graph_logistic_complex_8(ds=d, "age_in_years","smoke_now_p",.3)
+# ---- graph-points-study-as-cluster ----------------------
+
+graph_logistic_point_complex_4(
+  ds = d, 
+  x_name = "age_in_years", 
+  y_name = "smoke_now_p", 
+  covar_order = c("female","marital","educ3","poor_health"),
+  alpha_level = .3) 
+
+
+# ---- graph-curves-study-as-cluster ----------------------
+graph_logitstic_curve_complex_4(
+  ds = d, 
+  x_name = "age_in_years", 
+  y_name = "smoke_now", 
+  covar_order = c("female","marital","educ3","poor_health"),
+  alpha_level = .3) 
+
+
+
 
 
 # ----- dummy ---------------------------
-ld <- d %>%  dplyr::select(id, study_name, age_in_years,sex, marital, educ3, smoke_now_p)
+ld <- d %>%  dplyr::select(id, study_name, age_in_years,female, marital, educ3, smoke_now_p)
 
 
-
-
-
-
-
-
-
-
-
+# ---- glm-support --------------------------
 # useful functions working with GLM model objects
 summary(mdl) # model summary
 coefficients(mdl) # point estimates of model parameters (aka "model solution")
