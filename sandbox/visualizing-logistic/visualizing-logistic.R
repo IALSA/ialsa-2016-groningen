@@ -61,10 +61,15 @@ for(s in dto[["studyName"]]){
   (varnames <- names(ds)) # see what variables there are
   (get_these_variables <- c("id",
                             "year_of_wave","age_in_years","year_born",
-                            "sex",
+                            "female",
                             "marital",
                             "educ3",
-                            "smoke_now","smoked_ever")) 
+                            "smoke_now","smoked_ever",
+                            "current_work_2",
+                            "current_drink",
+                            "sedentary",
+                            "poor_health",
+                            "bmi")) 
   (variables_present <- varnames %in% get_these_variables) # variables on the list
   dmls[[s]] <- ds[,variables_present] # keep only them
 }
@@ -133,7 +138,7 @@ graph_logistic_complex_3 <- function(
   y_name, 
   alpha_level
 ){
-  g_sex <- graph_logistic_simple(ds,x_name, y_name, "sex", alpha_level)
+  g_female <- graph_logistic_simple(ds,x_name, y_name, "female", alpha_level)
   g_marital <- graph_logistic_simple(ds,x_name, y_name, "marital", alpha_level)
   g_educ <- graph_logistic_simple(ds,x_name, y_name, "educ3", alpha_level)
   
@@ -144,7 +149,7 @@ graph_logistic_complex_3 <- function(
                               heights=grid::unit(c(1), c("null"))
   )
   grid::pushViewport(grid::viewport(layout=layout))
-  print(g_sex,     vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
+  print(g_female,     vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
   print(g_marital, vp=grid::viewport(layout.pos.row=1, layout.pos.col=2 ))
   print(g_educ,    vp=grid::viewport(layout.pos.row=1, layout.pos.col=3 ))
   grid::popViewport(0)
