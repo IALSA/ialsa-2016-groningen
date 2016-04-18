@@ -4,164 +4,58 @@ knitr::stitch_rmd(
   output="./manipulation/stitched-output/0-ellis-island.md"
 )
 
-# # Meta data dynamic tables
-# rmarkdown::render(
-#   input = "./reports/view-meta-data/view-meta-data.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
 
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-work/harmonize-work.Rmd",
-  output_format = "html_document",
-  clean = TRUE
+pathsDescribe <- c(
+    "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
+  , "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
+  , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
+  , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
+  , "marital"   = "./reports/harmonize-marita/harmonize-marital.Rmd"
+  , "education" = "./reports/harmonize-education/harmonize-education.Rmd"
+  , "work"      = "./reports/harmonize-work/harmonize-work.Rmd"
+  , "alcohol"   = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd"
+  , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
+  , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
+  , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
 )
 
+# Build the reports -------------------------------------------------------
+# for( pathRmd in pathsDescribe ) { 
+#   rmarkdown::render( 
+#     input = pathRmd,
+#     output_format = "html_document",
+#     clean = TRUE) 
+# } 
 
-# Smoking
-# Describe (prelude)
-# rmarkdown::render(
-#   input = "./reports/harmonize-smoking/describe-smoking.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-smoking/harmonize-smoking.Rmd" ,
-  output_format="html_document", clean=TRUE
+
+
+pathsHarmonize <- c(
+    "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
+  , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
+  , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
+  , "marital"   = "./reports/harmonize-marital/harmonize-marital.Rmd"
+  , "education" = "./reports/harmonize-education/harmonize-education.Rmd"
+  , "work"      = "./reports/harmonize-work/harmonize-work.Rmd"
+  , "alcohol"   = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd"
+  , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
+  , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
+  , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
+  , "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
 )
+  
 
-
-# Age
-# Describe (prelude)
-# rmarkdown::render(
-#   input = "./reports/harmonize-age/describe-age.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-age/harmonize-age.Rmd" ,
-  output_format="html_document", clean=TRUE
-)
-
-
-# Sex
-# Describe (prelude)
-# rmarkdown::render(
-#   input = "./reports/harmonize-sex/describe-sex.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-sex/harmonize-sex.Rmd" ,
-  output_format="html_document", clean=TRUE
-)
-
-
-# Marital
-# Describe (prelude) 
-# rmarkdown::render(
-#   input = "./reports/harmonize-marital/describe-marital.Rmd",
-#   output_format = "html_document",
-#   clean = TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-marital/harmonize-marital.Rmd",
-  output_format = "html_document", 
-  clean = TRUE
-)
+# Build the reports -------------------------------------------------------
+for( pathRmd in pathsHarmonize ) { 
+   rmarkdown::render( 
+     input = pathRmd,
+     output_format = "html_document",
+     clean = TRUE) 
+} 
 
 
 
 
 
-##### unverified harmonizations below #####
-# 
-# # Education
-# # Describe (prelude) 
-# # ---- reproduce ---------------------------------------
-# rmarkdown::render(
-#   input = "./reports/harmonize-education/describe-education.Rmd" ,
-#   output_format="html_document", clean=TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-education/harmonize-education.Rmd" ,
-  output_format="html_document", clean=TRUE
-)
-
-
-# produce combined harmonized data
-rmarkdown::render(
-  input = "./reports/harmonized-data/harmonized-data.Rmd" , 
-  output_format="html_document", clean=TRUE
-)
-
-
-
-# # Work status
-# # Describe (prelude) 
-# rmarkdown::render( 
-#   input = "./reports/harmonize-work/describe-work.Rmd",
-#   output_format = "html_document", 
-#   clean = TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-work/harmonize-work.Rmd",
-  output_format = "html_document",
-  clean = TRUE
-)
-# 
-# 
-# 
-# # Alcohol
-# # Describe (prelude) 
-# rmarkdown::render(
-#   input = "./reports/harmonize-alcohol/describe-alcohol.Rmd",
-#   output_format = "html_document", 
-#   clean = TRUE
-# )
-# # Harmonize (sonata)
-# # rmarkdown::render(
-# #   input = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd",
-# #   output_format = "html_document", 
-# #   clean = TRUE
-# # )
-# 
-# 
-# # Physical activity
-# # Describe (prelude) 
-# rmarkdown::render(
-#   input = "./reports/harmonize-physact/describe-physact.Rmd",
-#   output_format = "html_document", 
-#   clean = TRUE
-# )
-# 
-# 
-# # Health
-# # Describe (prelude) 
-# rmarkdown::render(
-#   input = "./reports/harmonize-health/describe-health.Rmd",
-#   output_format = "html_document", 
-#   clean = TRUE
-# )
-# Harmonize (sonata)
-rmarkdown::render(
-  input = "./reports/harmonize-health/harmonize-health.Rmd",
-  output_format = "html_document",
-  clean = TRUE
-)
-# 
-# # Physique
-# # Describe (prelude) 
-# rmarkdown::render(
-#   input = "./reports/harmonize-physique/describe-physique.Rmd",
-#   output_format = "html_document", 
-#   clean = TRUE
-# )
-# 
-# 
 
 
 
