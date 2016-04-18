@@ -73,9 +73,9 @@ dto[["unitData"]][["alsa"]]%>% dplyr::group_by_("CURRWORK") %>% dplyr::summarize
 
 
 # ----- lbsl-NOWRK94 ---------------------------------
-dto[["metaData"]] %>% dplyr::filter(study_name=="lbsl", name=="EDUC94") %>% dplyr::select(name,label)
-dto[["unitData"]][["lbsl"]]%>% histogram_discrete("EDUC94")
-dto[["unitData"]][["lbsl"]]%>% dplyr::group_by_("EDUC94") %>% dplyr::summarize(n=n())
+dto[["metaData"]] %>% dplyr::filter(study_name=="lbsl", name=="NOWRK94") %>% dplyr::select(name,label)
+dto[["unitData"]][["lbsl"]]%>% histogram_discrete("NOWRK94")
+dto[["unitData"]][["lbsl"]]%>% dplyr::group_by_("NOWRK94") %>% dplyr::summarize(n=n())
 
 # ----- satsa-GAMTWORK ---------------------------------
 dto[["metaData"]] %>% dplyr::filter(study_name=="satsa", name=="GAMTWORK") %>% dplyr::select(name,label)
