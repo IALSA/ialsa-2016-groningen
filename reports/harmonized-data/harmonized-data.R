@@ -39,13 +39,13 @@ names(dto[["unitData"]])
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
-  DT::datatable(
-    class   = 'cell-border stripe',
-    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-    filter  = "top",
-    options = list(pageLength = 6, autoWidth = TRUE)
-  )
+# dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>% 
+#   DT::datatable(
+#     class   = 'cell-border stripe',
+#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+#     filter  = "top",
+#     options = list(pageLength = 6, autoWidth = TRUE)
+#   )
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -87,34 +87,41 @@ for(v in convert_to_numeric){
   ds[,v] <- as.integer(ds[,v])
 }
 
-ds$marital_n <- car::recode(ds$marital,"
-                         'single'      = 0;
-                         'mar_cohab'   = 1;
-                         'sep_divorced'= 2; 
-                         'widowed'     = 3
-                         ", as.numeric.result=TRUE )
-ds$educ3_n <- car::recode(ds$educ3,"
-                         'less than high school'= 0;
-                         'high school'          = 1;
-                         'more than high school'= 2
-                         
-                         ", as.numeric.result=TRUE )
+# ds$marital_n <- car::recode(ds$marital,"
+#                          'single'      = 0;
+#                          'mar_cohab'   = 1;
+#                          'sep_divorced'= 2; 
+#                          'widowed'     = 3
+#                          ", as.numeric.result=TRUE )
+# ds$educ3_n <- car::recode(ds$educ3,"
+#                          'less than high school'= 0;
+#                          'high school'          = 1;
+#                          'more than high school'= 2
+#                          
+#                          ", as.numeric.result=TRUE )
 
 str(ds)
-write.table(ds,"./data/unshared/derived/combined-harmonized-data-set.dat", row.names=F, col.names=F)
-write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
+# write.table(ds,"./data/unshared/derived/combined-harmonized-data-set.dat", row.names=F, col.names=F)
+# write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
 # ----- basic-model ------------------
 
 
-mdl <- glm(
-  formula = smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3, 
+m1 <- glm(
+  formula = smoke_now ~ 1 + study_name + age_in_years + female + marital + educ3, 
   data = ds, family = "binomial"
   )
-mdl
+m1
+
+m2 <- glm(
+  formula = smoke_now ~ -1  + age_in_years + female + marital + educ3, 
+  data = ds_sub_share, family = "binomial"
+)
+m2
 
 # useful functions working with GLM model objects
-summary(mdl) # model summary
+summary(m1) # model summary
+summary(m2)
 coefficients(mdl) # point estimates of model parameters (aka "model solution")
 knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
 knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
