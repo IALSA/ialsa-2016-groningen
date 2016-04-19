@@ -246,6 +246,28 @@ d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
 d$id <- 1:nrow(d) # some ids values might be identical, replace
 head(d)
 
+graph_logitstic_curve_simple <- function(
+  ds, 
+  x_name, 
+  y_name, 
+  color_group, 
+  alpha_level=.5
+){
+  p <- ggplot(d, aes(x=x_name, y=y_name)) 
+  p + geom_point() + 
+    # geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
+    #                              fill=as.factor(color_group)), alpha=alpha_level) +
+    # geom_line(aes(y=fit, colour=as.factor(color_group))) +
+    # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
+    #                                fill=as.factor(covar3)), alpha=0.5) + 
+    # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
+    facet_grid(study_name ~ .)+
+    labs(title="Logistic curve")
+}
+graph_logitstic_curve_simple(x_name = "age_in_years",
+                             y_name = "smoke_now",
+                             color_group = "female",
+                             alpha_level = .5)
 
 
 # Plot everything
