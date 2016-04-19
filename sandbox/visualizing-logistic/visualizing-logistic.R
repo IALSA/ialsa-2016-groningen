@@ -155,7 +155,6 @@ ds_predicted_global <- expand.grid(
 ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
 ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
 
-head(ds2)
 
 
 ds_predicted_study_list <- list()
@@ -263,11 +262,27 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
     prediction_line  = paste(female, educ3_f, sep="-")
   )
 
+reference_group <- c(
+  "female"    = TRUE,
+  "educ3_f"   = "high school"
+)
+
+ds_replicated_predicted$keep <- NA
+for( i in seq_len(nrow(ds_replicated_predicted)) ) {
+  if( ds_replicated_predicted$facet_line[i] == "female" ) {
+    keep <- ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]
+  } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
+    keep <- ds_replicated_predicted$female[i]==reference_group["female"]
+  }
+  ds_replicated_predicted$keep[i] <- keep
+}
+ds_replicated_predicted2 <- ds_replicated_predicted[ds_replicated_predicted$keep, ]
+
 table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
-  geom_line(data=ds_replicated_predicted) +
-  geom_point(data=ds_replicated_predicted) +
+  geom_line(data=ds_replicated_predicted2) +
+  geom_point(data=ds_replicated_predicted2) +
   # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
   geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
