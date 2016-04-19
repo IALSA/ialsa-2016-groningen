@@ -132,7 +132,7 @@ ds2 <- ds %>%
   )
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
@@ -144,7 +144,7 @@ ds2$smoke_now_p <- predict(model_global)
 
 ds_predicted_global <- expand.grid(
   study_name      = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
-  age_in_years    = seq.int(40, 100, 5),
+  age_in_years    = seq.int(40, 100, 10),
   female        = sort(unique(ds2$female)),
   educ3_f       = sort(unique(ds2$educ3_f)),
   # marital_f     = sort(unique(d$marital_f)),
@@ -166,7 +166,7 @@ for( study_name_ in dto[["studyName"]] ) {
   model_study_list[[study_name_]] <- model_study
   
   d_predicted <- expand.grid(
-    age_in_years  = seq.int(40, 100, 5),
+    age_in_years  = seq.int(40, 100, 10),
     female        = sort(unique(ds2$female)),
     educ3_f       = sort(unique(ds2$educ3_f)),
     # marital_f     = sort(unique(d$marital_f)),
@@ -259,30 +259,24 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
   ) %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(
-    smoke_now_hat_p  = plogis(smoke_now_hat)
+    smoke_now_hat_p  = plogis(smoke_now_hat),
+    prediction_line  = paste(female, educ3_f, sep="-")
   )
 
-# ds_replicated %>% 
-#   dplyr::select_("female") %>% 
-#   unlist()
-# 
-# palette[as.character(ds_replicated$female)]
-# # palette[ds_replicated$female]
-# head(ds_replicated$educ3)
-# head(palette[ds_replicated$educ3])
+table(ds_replicated_predicted$prediction_line)
 
-
-ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=color_stroke, group=factor(color_stroke))) +
-  geom_line(data=ds_replicated_predicted, aes(y=smoke_now_hat_p)) +
-  geom_point(data=ds_replicated_predicted, aes(y=smoke_now_hat_p)) +
+ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
+  geom_line(data=ds_replicated_predicted) +
+  geom_point(data=ds_replicated_predicted) +
   # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
-  geom_point(shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
+  geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
   facet_grid(facet_line ~ study_name) +
   theme_light() +
   theme(legend.position="none")+
   labs(x="Age", y="P(Smoke Now)")
 
+head(ds_predicted_global)
 
 # a<- predict(model)
 # aa<- predict(model)
