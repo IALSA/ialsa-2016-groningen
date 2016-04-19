@@ -8,7 +8,11 @@
 # ---- simple-curve-plot -------------------------------
 
 binomial_smooth <- function(...) {
-  geom_smooth(method = "glm", method.args = list(family = "binomial"), ...)
+  geom_smooth(
+    method = "glm", 
+    method.args = list(family = "binomial"),
+    ...
+    )
 }
 
 graph_logitstic_curve_simple <- function(
@@ -59,9 +63,9 @@ graph_logitstic_curve_complex_4 <- function(
   )
   grid::pushViewport(grid::viewport(layout=layout))
   print(g_1,  vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
-  print(g_2, vp=grid::viewport(layout.pos.row=2, layout.pos.col=1 ))
-  print(g_3,    vp=grid::viewport(layout.pos.row=3, layout.pos.col=1 ))
-  print(g_4,    vp=grid::viewport(layout.pos.row=4, layout.pos.col=1 ))
+  print(g_2,  vp=grid::viewport(layout.pos.row=2, layout.pos.col=1 ))
+  print(g_3,  vp=grid::viewport(layout.pos.row=3, layout.pos.col=1 ))
+  print(g_4,  vp=grid::viewport(layout.pos.row=4, layout.pos.col=1 ))
   grid::popViewport(0)
   
 } 
@@ -90,16 +94,20 @@ graph_logitstic_curve_simple_sep <- function(
     ggplot(d, aes_string(x_name,y_name,color=color_group )) +
       geom_jitter(height = 0.2, shape=21, fill=NA) +
       binomial_smooth() +
-      facet_grid(. ~ study_name) +
+      # facet_grid(. ~ study_name) +
       main_theme +
       theme(
         legend.position="right"
       )
 }
-# graph_logitstic_curve_simple(x_name = "age_in_years",
-#                              y_name = "smoke_now",
-#                              color_group = "female",
-#                              alpha_level = .5)
+# graph_logitstic_curve_simple_sep(
+#   ds = d,
+#   x_name = "age_in_years",
+#   y_name = "smoke_now",
+#   color_group = "female",
+#   one_study = "alsa",
+#   alpha_level = .5
+# )
 # IN DEVELOPMENT CLOSE
 
 
@@ -114,10 +122,10 @@ graph_logitstic_curve_complex_4 <- function(
   covar_order,
   alpha_level
 ){
-  g_1 <- graph_logitstic_curve_simple(ds,x_name, y_name, one_study, covar_order[1], alpha_level)
-  g_2 <- graph_logitstic_curve_simple(ds,x_name, y_name, one_study,  covar_order[2], alpha_level)
-  g_3 <- graph_logitstic_curve_simple(ds,x_name, y_name, one_study,  covar_order[3], alpha_level)
-  g_4 <- graph_logitstic_curve_simple(ds,x_name, y_name,  one_study, covar_order[4], alpha_level)
+  g_1 <- graph_logitstic_curve_simple(ds,x_name, y_name,  covar_order[1], alpha_level)
+  g_2 <- graph_logitstic_curve_simple(ds,x_name, y_name,  covar_order[2], alpha_level)
+  g_3 <- graph_logitstic_curve_simple(ds,x_name, y_name,  covar_order[3], alpha_level)
+  g_4 <- graph_logitstic_curve_simple(ds,x_name, y_name,  covar_order[4], alpha_level)
   
   grid::grid.newpage()    
   #Defnie the relative proportions among the panels in the mosaic.
@@ -126,10 +134,10 @@ graph_logitstic_curve_complex_4 <- function(
                               heights=grid::unit(c(.2, .2, .2,.2,.2) ,c("null","null","null","null","null"))
   )
   grid::pushViewport(grid::viewport(layout=layout))
-  print(g_1,  vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
+  print(g_1, vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
   print(g_2, vp=grid::viewport(layout.pos.row=2, layout.pos.col=1 ))
-  print(g_3,    vp=grid::viewport(layout.pos.row=3, layout.pos.col=1 ))
-  print(g_4,    vp=grid::viewport(layout.pos.row=4, layout.pos.col=1 ))
+  print(g_3, vp=grid::viewport(layout.pos.row=3, layout.pos.col=1 ))
+  print(g_4, vp=grid::viewport(layout.pos.row=4, layout.pos.col=1 ))
   grid::popViewport(0)
   
 } 
