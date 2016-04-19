@@ -132,7 +132,7 @@ ds2 <- ds %>%
   )
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
@@ -148,7 +148,7 @@ ds_predicted_global <- expand.grid(
   female        = sort(unique(ds2$female)),
   educ3_f       = sort(unique(ds2$educ3_f)),
   # marital_f     = sort(unique(d$marital_f)),
-  # poor_health   = sort(unique(d$poor_health)),
+  poor_health   = sort(unique(ds$poor_health)),
   stringsAsFactors = FALSE
 ) 
 
@@ -168,8 +168,8 @@ for( study_name_ in dto[["studyName"]] ) {
     age_in_years  = seq.int(40, 100, 10),
     female        = sort(unique(ds2$female)),
     educ3_f       = sort(unique(ds2$educ3_f)),
-    # marital_f     = sort(unique(d$marital_f)),
-    # poor_health   = sort(unique(d$poor_health)),
+    # marital_f     = sort(unique(ds$marital_f)),
+    poor_health   = sort(unique(ds$poor_health)),
     #TODO: add more predictors -possibly as ranges (instead of fixed values)
     stringsAsFactors = FALSE
   ) 
@@ -184,37 +184,42 @@ for( study_name_ in dto[["studyName"]] ) {
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
-ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female)) +
-  geom_line() +
-  geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
-  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
-  facet_grid(. ~ study_name) +
-  theme_light()
+# ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female)) +
+#   geom_line() +
+#   geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
+#   geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
+#   facet_grid(. ~ study_name) +
+#   theme_light()
 
 
 ds_replicated_list <- list( #rename ds_replicated_observed_list
   female  = ds2,
-  educ3_f   = ds2
+  educ3_f   = ds2,
+  poor_health = ds2
 )
 ds_replicated_predicted_list <- list(  #rename ds_replicated_predicted_study_list
   female  = ds_predicted_study,
-  educ3_f   = ds_predicted_study
+  educ3_f   = ds_predicted_study,
+  poor_health = ds_predicted_study
 )
 ds_replicated_predicted_global_list <- list( 
   female  = ds_predicted_global,
-  educ3_f   = ds_predicted_global
+  educ3_f   = ds_predicted_global, 
+  poor_health = ds_predicted_global
 )
 
 assign_color <- function( d2, facet_line ) {
-  reference_color <- "skyblue"
+  reference_color <- "black"
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
   variable <- facet_line[1]
   
   if( variable == "female") {
-    palette_row <- c("TRUE"="pink", "FALSE"=reference_color)
+    palette_row <- c("TRUE"=reference_color, "FALSE"="skyblue")
   } else if( variable %in% c("educ3", "educ3_f") ) {
     palette_row <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
-  } else {
+  } else if( variable %in% c("poor_health") ) {
+    palette_row <- c("FALSE"=reference_color, "TRUE"="tomato")
+  }else {
     stop("The palette for this variable is not defined.")
   }
   
@@ -237,7 +242,7 @@ assign_prediction <- function( d2, study_name ) {
 
 ds_replicated <- ds_replicated_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
-  # dplyr::select(facet_line, female, educ3) %>% 
+  # dplyr::select(facet_line, female, educ3_f, poor_health) %>% # was turned off
   dplyr::group_by(facet_line) %>% 
   dplyr::mutate(
     color_stroke = assign_color(., facet_line)
@@ -246,7 +251,7 @@ ds_replicated <- ds_replicated_list %>%
 
 ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::bind_rows(.id="facet_line") %>%
-  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f) %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, poor_health) %>%
   dplyr::group_by(facet_line) %>%
   dplyr::mutate(
     color_stroke     = assign_color(., facet_line)
@@ -259,21 +264,22 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(
     smoke_now_hat_p  = plogis(smoke_now_hat),
-    prediction_line  = paste(female, educ3_f, sep="-")
+    prediction_line  = paste(female, educ3_f,poor_health, sep="-")
   )
 
 ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This block should be almost identical to the one above.
   dplyr::bind_rows(.id="facet_line") %>%
-  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f) %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, poor_health) %>%
   dplyr::mutate(
     smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
     smoke_now_hat_p  = plogis(smoke_now_hat),
-    prediction_line  = paste(female, educ3_f, sep="-")
+    prediction_line  = paste(female, educ3_f, poor_health, sep="-")
   )
 
 reference_group <- c(
   "female"    = TRUE,
-  "educ3_f"   = "high school"
+  "educ3_f"   = "high school",
+  "poor_health" = FALSE
 )
 
 ds_replicated_predicted <- ds_replicated_predicted %>% 
@@ -288,12 +294,19 @@ testit::assert("The two replicated predicted datasets should have the same numbe
 for( i in seq_len(nrow(ds_replicated_predicted)) ) {
   if( ds_replicated_predicted$facet_line[i] == "female" ) {
     keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) #Add more conditions/predictors here
+    keep_study  <- (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$female[i]==reference_group["female"])
+    keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     
   } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
     keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) #Add more conditions/predictors here
+    keep_study <- (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
-  }
+    keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+  
+  } 
+  
+  
   ds_replicated_predicted$keep[i] <- keep_study
   ds_replicated_predicted_global$keep[i] <- keep_global
 }
@@ -305,7 +318,7 @@ table(ds_replicated_predicted$prediction_line)
 ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
   geom_line(data=ds_replicated_predicted2) +
   geom_point(data=ds_replicated_predicted2) +
-  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=.5) + #linetype="CC"
+  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=5, alpha=.4) + #linetype="CC"
   geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
   scale_color_identity() +
