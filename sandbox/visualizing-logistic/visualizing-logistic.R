@@ -132,27 +132,26 @@ model <- glm(
  family = binomial(link="logit")
 ) ;summary(model)
 d$smoke_now_p <- predict(model)
-d$smoke_now_p2 <- predict(model)
 head(d)
 # a<- predict(model)
 # aa<- predict(model)
 # ---- graph-points-study-as-factor ----------------------
 
-graph_logistic_point_complex_4(
-  ds = d, 
-  x_name = "age_in_years", 
-  y_name = "smoke_now_p", 
-  covar_order = c("female","marital","educ3","poor_health"),
-  alpha_level = .3) 
-
+# graph_logistic_point_complex_4(
+#   ds = d, 
+#   x_name = "age_in_years", 
+#   y_name = "smoke_now_p", 
+#   covar_order = c("female","marital","educ3","poor_health"),
+#   alpha_level = .3) 
+# 
 
 # ---- graph-curves-study-as-factor ----------------------
-graph_logitstic_curve_complex_4(
-  ds = d, 
-  x_name = "age_in_years", 
-  y_name = "smoke_now", 
-  covar_order = c("female","marital","educ3","poor_health"),
-  alpha_level = .3) 
+# graph_logitstic_curve_complex_4(
+#   ds = d, 
+#   x_name = "age_in_years", 
+#   y_name = "smoke_now", 
+#   covar_order = c("female","marital","educ3","poor_health"),
+#   alpha_level = .3) 
 
 # ---- fit-model-with-study-as-cluster ----------------------------------------
 
@@ -182,13 +181,13 @@ head(d)
 
 # ---- graph-points-study-as-cluster ----------------------
 
-graph_logistic_point_complex_4(
-  ds = d, 
-  x_name = "age_in_years", 
-  y_name = "smoke_now_p", 
-  covar_order = c("female","marital","educ3","poor_health"),
-  alpha_level = .3) 
-
+# graph_logistic_point_complex_4(
+#   ds = d, 
+#   x_name = "age_in_years", 
+#   y_name = "smoke_now_p", 
+#   covar_order = c("female","marital","educ3","poor_health"),
+#   alpha_level = .3) 
+# 
 
 # ---- graph-curves-study-as-cluster ----------------------
 
@@ -229,6 +228,7 @@ for(s in dto[["studyName"]]){
   # Combine the hypothetical data and predicted values
   ds_new <- cbind(ds_temp, ds_predicted)
   head(ds_new)
+  # ymin= y_lower
   # Calculate confidence intervals
   std <- qnorm(0.95 / 2 + 0.5)
   ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
@@ -245,7 +245,7 @@ for(s in dto[["studyName"]]){
 d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
 d$id <- 1:nrow(d) # some ids values might be identical, replace
 head(d)
-
+ 
 graph_logitstic_curve_simple <- function(
   ds, 
   x_name, 
@@ -253,16 +253,25 @@ graph_logitstic_curve_simple <- function(
   color_group, 
   alpha_level=.5
 ){
-  p <- ggplot(d, aes(x=x_name, y=y_name)) 
-  p + geom_point() + 
-    # geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
-    #                              fill=as.factor(color_group)), alpha=alpha_level) +
-    # geom_line(aes(y=fit, colour=as.factor(color_group))) +
-    # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
-    #                                fill=as.factor(covar3)), alpha=0.5) + 
-    # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
-    facet_grid(study_name ~ .)+
-    labs(title="Logistic curve")
+  
+  
+  ggplot(ds, aes(x=age_in_years, y=smoke_now)) +
+    geom_point(position=position_jitter(width=.3, height=.08), alpha=0.4,
+               shape=21, size=1.5) +
+    geom_line(data=d, colour="#1177FF", size=1)
+  
+  
+  # 
+  # p <- ggplot(d, aes_string(x=age_in_years, y=smoke_now)) 
+  # p + geom_point() + 
+  #   geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
+  #                                fill=as.factor(female)), alpha=.5) +
+  #   geom_line(aes(y=fit, colour=as.factor(female))) +
+  #   # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
+  #   #                                fill=as.factor(covar3)), alpha=0.5) + 
+  #   # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
+  #   facet_grid(study_name ~ .)+
+  #   labs(title="Logistic curve")
 }
 graph_logitstic_curve_simple(x_name = "age_in_years",
                              y_name = "smoke_now",
