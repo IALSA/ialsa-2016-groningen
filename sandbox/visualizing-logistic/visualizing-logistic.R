@@ -192,14 +192,17 @@ ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female))
   theme_light()
 
 
-ds_replicated_list <- list(
+ds_replicated_list <- list( #rename ds_replicated_observed_list
   female  = ds2,
   educ3_f   = ds2
 )
-
-ds_replicated_predicted_list <- list(
+ds_replicated_predicted_list <- list(  #rename ds_replicated_predicted_study_list
   female  = ds_predicted_study,
   educ3_f   = ds_predicted_study
+)
+ds_replicated_predicted_global_list <- list( 
+  female  = ds_predicted_global,
+  educ3_f   = ds_predicted_global
 )
 
 assign_color <- function( d2, facet_line ) {
@@ -230,10 +233,11 @@ assign_prediction <- function( d2, study_name ) {
   study_name <- study_name[1]
   
   m <- model_study_list[[study_name]]
-
+  
   d2$smoke_now_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
   d2$smoke_now_hat[d2$study_name==study_name]
 }
+
 
 ds_replicated <- ds_replicated_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
@@ -262,28 +266,44 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
     prediction_line  = paste(female, educ3_f, sep="-")
   )
 
+ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This block should be almost identical to the one above.
+  dplyr::bind_rows(.id="facet_line") %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f) %>%
+  dplyr::mutate(
+    smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
+    smoke_now_hat_p  = plogis(smoke_now_hat)
+  )
+
 reference_group <- c(
   "female"    = TRUE,
   "educ3_f"   = "high school"
 )
 
 ds_replicated_predicted$keep <- NA
+ds_replicated_predicted_global$keep <- NA
+testit::assert("The two replicated predicted datasets should have the same number of rows.", nrow(ds_replicated_predicted)==nrow(ds_replicated_predicted_global))
+
 for( i in seq_len(nrow(ds_replicated_predicted)) ) {
   if( ds_replicated_predicted$facet_line[i] == "female" ) {
-    keep <- ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]
+    keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) #Add more conditions/predictors here
+    keep_global <- keep_study & (ds_replicated_predicted$female[i]==reference_group["female"])
+    
   } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
-    keep <- ds_replicated_predicted$female[i]==reference_group["female"]
+    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) #Add more conditions/predictors here
+    keep_global <- keep_study & (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
   }
-  ds_replicated_predicted$keep[i] <- keep
+  ds_replicated_predicted$keep[i] <- keep_study
+  ds_replicated_predicted_global$keep[i] <- keep_global
 }
 ds_replicated_predicted2 <- ds_replicated_predicted[ds_replicated_predicted$keep, ]
+ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_predicted_global$keep, ]
 
 table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
   geom_line(data=ds_replicated_predicted2) +
   geom_point(data=ds_replicated_predicted2) +
-  # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
+  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=.5) + #linetype="CC"
   geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
   facet_grid(facet_line ~ study_name) +
