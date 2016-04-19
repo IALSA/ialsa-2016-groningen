@@ -208,10 +208,7 @@ ds_replicated_predicted_global_list <- list(
 assign_color <- function( d2, facet_line ) {
   reference_color <- "skyblue"
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
-  # variable <- sub("_facet$", "", facet_line[1])
   variable <- facet_line[1]
-  
-  # browser()
   
   if( variable == "female") {
     palette_row <- c("TRUE"="pink", "FALSE"=reference_color)
@@ -221,7 +218,6 @@ assign_color <- function( d2, facet_line ) {
     stop("The palette for this variable is not defined.")
   }
   
-  # browser()
   d3 <- d2[d2$facet_line==facet_line, ] %>% 
     dplyr::rename_("dv" = variable)
   
@@ -271,13 +267,19 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
   dplyr::select(study_name, facet_line, age_in_years, female, educ3_f) %>%
   dplyr::mutate(
     smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
-    smoke_now_hat_p  = plogis(smoke_now_hat)
+    smoke_now_hat_p  = plogis(smoke_now_hat),
+    prediction_line  = paste(female, educ3_f, sep="-")
   )
 
 reference_group <- c(
   "female"    = TRUE,
   "educ3_f"   = "high school"
 )
+
+ds_replicated_predicted <- ds_replicated_predicted %>% 
+  dplyr::arrange(prediction_line)
+ds_replicated_predicted_global <- ds_replicated_predicted_global %>% 
+  dplyr::arrange(prediction_line)
 
 ds_replicated_predicted$keep <- NA
 ds_replicated_predicted_global$keep <- NA
@@ -306,6 +308,7 @@ ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_li
   geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=.5) + #linetype="CC"
   geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
+  scale_color_identity() +
   facet_grid(facet_line ~ study_name) +
   theme_light() +
   theme(legend.position="none")+
