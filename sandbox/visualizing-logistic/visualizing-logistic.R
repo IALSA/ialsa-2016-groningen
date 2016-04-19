@@ -122,7 +122,7 @@ table(ds$study_name, ds$educ3, useNA = "always")
 
 
 # ---- fit-model-with-study-as-factor ----------------------------------------
-d <- ds %>% 
+ds2 <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", 
                  "age_in_years", "female", "marital", "educ3","poor_health") %>% 
   na.omit() %>% 
@@ -136,17 +136,17 @@ eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
- data = d, 
+ data = ds2, 
  family = binomial(link="logit")
 ) 
 summary(model_global)
-d$smoke_now_p <- predict(model_global)
+ds2$smoke_now_p <- predict(model_global)
 
 ds_predicted_global <- expand.grid(
-  study_name      = sort(unique(d$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
+  study_name      = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
   age_in_years    = seq.int(40, 100, 5),
-  female        = sort(unique(d$female)),
-  educ3_f       = sort(unique(d$educ3_f)),
+  female        = sort(unique(ds2$female)),
+  educ3_f       = sort(unique(ds2$educ3_f)),
   # marital_f     = sort(unique(d$marital_f)),
   # poor_health   = sort(unique(d$poor_health)),
   stringsAsFactors = FALSE
@@ -155,21 +155,20 @@ ds_predicted_global <- expand.grid(
 ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
 ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
 
-head(d)
+head(ds2)
 
 
 ds_predicted_study_list <- list()
-ds_model_study_list <- list()
+model_study_list <- list()
 for( study_name_ in dto[["studyName"]] ) {
-  d_study <- d[d$study_name==study_name_, ]
+  d_study <- ds2[ds2$study_name==study_name_, ]
   model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
-  ds_model_study_list[[study_name_]] <- model_study
-  
+  model_study_list[[study_name_]] <- model_study
   
   d_predicted <- expand.grid(
     age_in_years  = seq.int(40, 100, 5),
-    female        = sort(unique(d$female)),
-    educ3_f       = sort(unique(d$educ3_f)),
+    female        = sort(unique(ds2$female)),
+    educ3_f       = sort(unique(ds2$educ3_f)),
     # marital_f     = sort(unique(d$marital_f)),
     # poor_health   = sort(unique(d$poor_health)),
     #TODO: add more predictors -possibly as ranges (instead of fixed values)
@@ -195,25 +194,27 @@ ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female))
 
 
 ds_replicated_list <- list(
-  female_facet  = ds,
-  educ3_facet   = ds
+  female  = ds2,
+  educ3_f   = ds2
 )
 
 ds_replicated_predicted_list <- list(
   female  = ds_predicted_study,
-  educ3   = ds_predicted_study
+  educ3_f   = ds_predicted_study
 )
 
 assign_color <- function( d2, facet_line ) {
   reference_color <- "skyblue"
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
-  variable <- sub("_facet$", "", facet_line[1])
+  # variable <- sub("_facet$", "", facet_line[1])
+  variable <- facet_line[1]
   
+  # browser()
   
   if( variable == "female") {
-    palette <- c("TRUE"="pink", "FALSE"=reference_color)
-  } else if( variable == "educ3") {
-    palette <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
+    palette_row <- c("TRUE"="pink", "FALSE"=reference_color)
+  } else if( variable %in% c("educ3", "educ3_f") ) {
+    palette_row <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
   } else {
     stop("The palette for this variable is not defined.")
   }
@@ -222,7 +223,17 @@ assign_color <- function( d2, facet_line ) {
   d3 <- d2[d2$facet_line==facet_line, ] %>% 
     dplyr::rename_("dv" = variable)
   
-  palette[as.character(d3$dv)]
+  palette_row[as.character(d3$dv)]
+}
+
+assign_prediction <- function( d2, study_name ) {
+  testit::assert("Only one `study_name` value should be passed.", dplyr::n_distinct(study_name)==1L)
+  study_name <- study_name[1]
+  
+  m <- model_study_list[[study_name]]
+
+  d2$smoke_now_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
+  d2$smoke_now_hat[d2$study_name==study_name]
 }
 
 ds_replicated <- ds_replicated_list %>% 
@@ -234,16 +245,22 @@ ds_replicated <- ds_replicated_list %>%
   ) %>% 
   dplyr::ungroup()
 
-# ds_replicated_predicted <- ds_replicated_predicted_list %>% 
-#   dplyr::bind_rows(.id="facet_line") %>%
-#   dplyr::select(study_name, facet_line, female, educ3_f) %>%
-#   dplyr::group_by(facet_line) %>% 
-#   dplyr::mutate(
-#     color_stroke     = assign_color(., facet_line),
-#     smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
-#     smoke_now_hat_p  = plogis(smoke_now_hat) 
-#   ) %>% 
-#   dplyr::ungroup()
+ds_replicated_predicted <- ds_replicated_predicted_list %>%
+  dplyr::bind_rows(.id="facet_line") %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f) %>%
+  dplyr::group_by(facet_line) %>%
+  dplyr::mutate(
+    color_stroke     = assign_color(., facet_line)
+  ) %>%
+  dplyr::ungroup() %>%
+  dplyr::group_by(study_name) %>%
+  dplyr::mutate(
+    smoke_now_hat    = assign_prediction(., study_name)
+  ) %>%
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    smoke_now_hat_p  = plogis(smoke_now_hat)
+  )
 
 # ds_replicated %>% 
 #   dplyr::select_("female") %>% 
@@ -255,8 +272,9 @@ ds_replicated <- ds_replicated_list %>%
 # head(palette[ds_replicated$educ3])
 
 
-ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=color_stroke)) +
-  # geom_line() +
+ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=color_stroke, group=factor(color_stroke))) +
+  geom_line(data=ds_replicated_predicted, aes(y=smoke_now_hat_p)) +
+  geom_point(data=ds_replicated_predicted, aes(y=smoke_now_hat_p)) +
   # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
   geom_point(shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   scale_y_continuous(label=scales::percent) +
