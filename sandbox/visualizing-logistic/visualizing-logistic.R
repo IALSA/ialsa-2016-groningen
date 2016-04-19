@@ -132,8 +132,8 @@ d <- ds %>%
   )
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
-#eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female"))
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female"))
+# eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
  data = d, 
@@ -145,7 +145,7 @@ d$smoke_now_p <- predict(model_global)
 ds_predicted_global <- expand.grid(
   study_name      = sort(unique(d$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
   age_in_years    = seq.int(40, 100, 5),
-  # female        = sort(unique(d$female)),
+  female        = sort(unique(d$female)),
   # marital_f     = sort(unique(d$marital_f)),
   # poor_health   = sort(unique(d$poor_health)),
   stringsAsFactors = FALSE
@@ -164,7 +164,7 @@ for( study_name_ in dto[["studyName"]] ) {
   
   d_predicted <- expand.grid(
     age_in_years  = seq.int(40, 100, 5),
-    # female        = sort(unique(d$female)),
+    female        = sort(unique(d$female)),
     # marital_f     = sort(unique(d$marital_f)),
     # poor_health   = sort(unique(d$poor_health)),
     #TODO: add more predictors -possibly as ranges (instead of fixed values)
@@ -181,10 +181,10 @@ for( study_name_ in dto[["studyName"]] ) {
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
-ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p)) +
+ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female)) +
   geom_line() +
-  geom_line(data=ds_predicted_global, size=.5, color="purple", linetype="CC") +
-  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now))) +
+  geom_line(data=ds_predicted_global, size=.5, linetype="CC") + #, 
+  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), na.rm=T) +
   facet_grid(. ~ study_name) +
   theme_light()
 
