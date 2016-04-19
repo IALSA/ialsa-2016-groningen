@@ -20,7 +20,7 @@ requireNamespace("tidyr") # data manipulation
 requireNamespace("dplyr") # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("plyr")
 requireNamespace("testit")# For asserting conditions meet expected patterns.
-requireNamespace("car") # For it's `recode()` function.
+# requireNamespace("car") # For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
 
@@ -97,7 +97,8 @@ ds %>%
                    observed = n(),
                    min_born = min(year_born),
                    med_born = median(year_born),
-                   max_born = max(year_born)) 
+                   max_born = max(year_born)) %>% 
+  dplyr::ungroup()
                    
 # see counts across age groups and studies 
 t <- table(
@@ -124,15 +125,49 @@ table(ds$study_name, ds$educ3, useNA = "always")
 d <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", 
                  "age_in_years", "female", "marital", "educ3","poor_health") %>% 
-  na.omit()
+  na.omit() %>% 
+  dplyr::mutate(
+    marital_f         = as.factor(marital),
+    educ3_f           = as.factor(educ3)
+  )
 
-model <- glm(
- smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3 + poor_health,
+#eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
+model_global <- glm(
+ eq,
  data = d, 
  family = binomial(link="logit")
-) ;summary(model)
-d$smoke_now_p <- predict(model)
+) 
+summary(model_global)
+d$smoke_now_p <- predict(model_global)
 head(d)
+
+
+model_studies <- list()
+
+for( study_index in seq_along(dto[["studyName"]]) ) {
+  study_name_ <- dto[["studyName"]][study_index]
+  
+  d_study <- d[d$study_name=="tilda", ]
+  model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
+  
+  d_predicted <- data.frame(
+    age_in_years  = seq.int(40, 100, 5)
+    , stringsAsFactors = FALSE
+  ) 
+  
+  d_predicted$smoke_now      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  d_predicted$smoke_now_p    <- plogis(d_predicted$smoke_now)                         #probability (ie, s-curve)
+  
+  # ggplot(d_predicted, aes(x=age_in_years, y=smoke_now_p))  +
+  #   geom_line()
+    
+  summary(model_study)
+  # model_studies[[study_index]] <- sddsdsdsf
+}
+
+
+
 # a<- predict(model)
 # aa<- predict(model)
 # ---- graph-points-study-as-factor ----------------------
@@ -155,29 +190,29 @@ head(d)
 
 # ---- fit-model-with-study-as-cluster ----------------------------------------
 
-model_outcome <- "smoke_now"
-model_predictors <- c("age_in_years", "female", "marital", "educ3","poor_health")
-
-ml <- list() # create a model list object to contain model estimation and modeled data
-for(s in dto[["studyName"]]){
-  d <- dto[['unitData']][[s]] %>% 
-    dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-    na.omit()
-  mdl <- stats::glm( # fit model
-    formula = smoke_now ~ age_in_years +female + marital + educ3 + poor_health ,
-    data = d, family="binomial"
-  ); summary(mdl); 
-  modeled_response_name <- paste0(model_outcome,"_p")
-  d[,modeled_response_name] <- predict(mdl)
-  ml[["data"]][[s]] <- d
-  ml[["model"]][[s]] <- mdl
-}
+# model_outcome <- "smoke_now"
+# model_predictors <- c("age_in_years", "female", "marital", "educ3","poor_health")
+# 
+# ml <- list() # create a model list object to contain model estimation and modeled data
+# for(s in dto[["studyName"]]){
+#   d <- dto[['unitData']][[s]] %>% 
+#     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
+#     na.omit()
+#   mdl <- stats::glm( # fit model
+#     formula = smoke_now ~ age_in_years +female + marital + educ3 + poor_health ,
+#     data = d, family="binomial"
+#   ); summary(mdl); 
+#   modeled_response_name <- paste0(model_outcome,"_p")
+#   d[,modeled_response_name] <- predict(mdl)
+#   ml[["data"]][[s]] <- d
+#   ml[["model"]][[s]] <- mdl
+# }
 # names(ml[["data"]])
 # names(ml[["model"]])
 
-d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-d$id <- 1:nrow(d) # some ids values might be identical, replace
-head(d)
+# d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
+# d$id <- 1:nrow(d) # some ids values might be identical, replace
+# head(d)
 
 # ---- graph-points-study-as-cluster ----------------------
 
@@ -194,57 +229,57 @@ head(d)
 
 
 
-# d <- ds %>% 
-#   dplyr::select_("id", "study_name", "smoke_now", 
-#                  "age_in_years", "female", "poor_health") %>% 
-#   na.omit()
-
-model_outcome <- "smoke_now"
-model_predictors <- c("age_in_years", "female", "poor_health")
-
-ml <- list() # create a model list object to contain model estimation and modeled data
-for(s in dto[["studyName"]]){
-  d <- dto[['unitData']][[s]] %>% 
-    dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-    na.omit()
-  model_formula <- as.formula(smoke_now ~ age_in_years + female + poor_health)
-  model <- glm(model_formula, data=d, family=binomial(link="logit"))
-  
-  #generate odds 
-  modeled_response_name <- paste0(model_outcome,"_p")
-  d[,modeled_response_name] <- predict(model)
-  head(d)
-  
-  # generate probabilities
-  # Create a temporary data frame of hypothetical values
-  ds_temp<- as.data.frame(
-    d %>% 
-      dplyr::select_("age_in_years", "female", "poor_health"))
-  head(ds_temp)
-  # Predict the fitted values given the model and hypothetical data
-  ds_predicted <- as.data.frame(predict(model, newdata = ds_temp, 
-                                        type="link", se=TRUE))
-  head(ds_predicted)
-  # Combine the hypothetical data and predicted values
-  ds_new <- cbind(ds_temp, ds_predicted)
-  head(ds_new)
-  # ymin= y_lower
-  # Calculate confidence intervals
-  std <- qnorm(0.95 / 2 + 0.5)
-  ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
-  ds_new$ymax <- model$family$linkinv(ds_new$fit + std * ds_new$se)
-  ds_new$fit <- model$family$linkinv(ds_new$fit)  # Rescale to 0-1
-  head(d); head(ds_new)
- 
-  ml[["data"]][[s]] <- ds_new
-  ml[["model"]][[s]] <- model
-}
-# names(ml[["data"]])
-# names(ml[["model"]])
-
-d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-d$id <- 1:nrow(d) # some ids values might be identical, replace
-head(d)
+# # d <- ds %>% 
+# #   dplyr::select_("id", "study_name", "smoke_now", 
+# #                  "age_in_years", "female", "poor_health") %>% 
+# #   na.omit()
+# 
+# model_outcome <- "smoke_now"
+# model_predictors <- c("age_in_years", "female", "poor_health")
+# 
+# ml <- list() # create a model list object to contain model estimation and modeled data
+# for(s in dto[["studyName"]]){
+#   d <- dto[['unitData']][[s]] %>% 
+#     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
+#     na.omit()
+#   model_formula <- as.formula(smoke_now ~ age_in_years + female + poor_health)
+#   model <- glm(model_formula, data=d, family=binomial(link="logit"))
+#   
+#   #generate odds 
+#   modeled_response_name <- paste0(model_outcome,"_p")
+#   d[,modeled_response_name] <- predict(model)
+#   head(d)
+#   
+#   # generate probabilities
+#   # Create a temporary data frame of hypothetical values
+#   ds_temp<- as.data.frame(
+#     d %>% 
+#       dplyr::select_("age_in_years", "female", "poor_health"))
+#   head(ds_temp)
+#   # Predict the fitted values given the model and hypothetical data
+#   ds_predicted <- as.data.frame(predict(model, newdata = ds_temp, 
+#                                         type="link", se=TRUE))
+#   head(ds_predicted)
+#   # Combine the hypothetical data and predicted values
+#   ds_new <- cbind(ds_temp, ds_predicted)
+#   head(ds_new)
+#   # ymin= y_lower
+#   # Calculate confidence intervals
+#   std <- qnorm(0.95 / 2 + 0.5)
+#   ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
+#   ds_new$ymax <- model$family$linkinv(ds_new$fit + std * ds_new$se)
+#   ds_new$fit <- model$family$linkinv(ds_new$fit)  # Rescale to 0-1
+#   head(d); head(ds_new)
+#  
+#   ml[["data"]][[s]] <- ds_new
+#   ml[["model"]][[s]] <- model
+# }
+# # names(ml[["data"]])
+# # names(ml[["model"]])
+# 
+# d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
+# d$id <- 1:nrow(d) # some ids values might be identical, replace
+# head(d)
  
 graph_logitstic_curve_simple <- function(
   ds, 
@@ -323,21 +358,3 @@ rmarkdown::render(
   input = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd" , 
   output_format="html_document", clean=TRUE
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
