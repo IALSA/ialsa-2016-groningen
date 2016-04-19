@@ -125,12 +125,17 @@ d <- ds %>%
   dplyr::select_("id", "study_name", "smoke_now", 
                  "age_in_years", "female", "marital", "educ3","poor_health") %>% 
   na.omit()
-mdl <- glm(
-  formula = smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3 + poor_health,
-  data = d, family = "binomial"
-);summary(mdl)
-d$smoke_now_p <- predict(mdl)
 
+model <- glm(
+ smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3 + poor_health,
+ data = d, 
+ family = binomial(link="logit")
+) ;summary(model)
+d$smoke_now_p <- predict(model)
+d$smoke_now_p2 <- predict(model)
+head(d)
+# a<- predict(model)
+# aa<- predict(model)
 # ---- graph-points-study-as-factor ----------------------
 
 graph_logistic_point_complex_4(
@@ -140,6 +145,7 @@ graph_logistic_point_complex_4(
   covar_order = c("female","marital","educ3","poor_health"),
   alpha_level = .3) 
 
+
 # ---- graph-curves-study-as-factor ----------------------
 graph_logitstic_curve_complex_4(
   ds = d, 
@@ -147,7 +153,6 @@ graph_logitstic_curve_complex_4(
   y_name = "smoke_now", 
   covar_order = c("female","marital","educ3","poor_health"),
   alpha_level = .3) 
-
 
 # ---- fit-model-with-study-as-cluster ----------------------------------------
 
@@ -186,13 +191,74 @@ graph_logistic_point_complex_4(
 
 
 # ---- graph-curves-study-as-cluster ----------------------
-graph_logitstic_curve_complex_4(
-  ds = d, 
-  x_name = "age_in_years", 
-  y_name = "smoke_now", 
-  covar_order = c("female","marital","educ3","poor_health"),
-  alpha_level = .3) 
 
+
+
+
+# d <- ds %>% 
+#   dplyr::select_("id", "study_name", "smoke_now", 
+#                  "age_in_years", "female", "poor_health") %>% 
+#   na.omit()
+
+model_outcome <- "smoke_now"
+model_predictors <- c("age_in_years", "female", "poor_health")
+
+ml <- list() # create a model list object to contain model estimation and modeled data
+for(s in dto[["studyName"]]){
+  d <- dto[['unitData']][[s]] %>% 
+    dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
+    na.omit()
+  model_formula <- as.formula(smoke_now ~ age_in_years + female + poor_health)
+  model <- glm(model_formula, data=d, family=binomial(link="logit"))
+  
+  #generate odds 
+  modeled_response_name <- paste0(model_outcome,"_p")
+  d[,modeled_response_name] <- predict(model)
+  head(d)
+  
+  # generate probabilities
+  # Create a temporary data frame of hypothetical values
+  ds_temp<- as.data.frame(
+    d %>% 
+      dplyr::select_("age_in_years", "female", "poor_health"))
+  head(ds_temp)
+  # Predict the fitted values given the model and hypothetical data
+  ds_predicted <- as.data.frame(predict(model, newdata = ds_temp, 
+                                        type="link", se=TRUE))
+  head(ds_predicted)
+  # Combine the hypothetical data and predicted values
+  ds_new <- cbind(ds_temp, ds_predicted)
+  head(ds_new)
+  # Calculate confidence intervals
+  std <- qnorm(0.95 / 2 + 0.5)
+  ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
+  ds_new$ymax <- model$family$linkinv(ds_new$fit + std * ds_new$se)
+  ds_new$fit <- model$family$linkinv(ds_new$fit)  # Rescale to 0-1
+  head(d); head(ds_new)
+ 
+  ml[["data"]][[s]] <- ds_new
+  ml[["model"]][[s]] <- model
+}
+# names(ml[["data"]])
+# names(ml[["model"]])
+
+d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
+d$id <- 1:nrow(d) # some ids values might be identical, replace
+head(d)
+
+
+
+# Plot everything
+p <- ggplot(d, aes(x=age_in_years, y=as.numeric(smoke_now))) 
+p + geom_point() + 
+  geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax,
+                                 fill=as.factor(female)), alpha=0.5) +
+  geom_line(data=ds_new, aes(y=fit, colour=as.factor(female))) +
+  # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
+  #                                fill=as.factor(covar3)), alpha=0.5) + 
+  # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
+  facet_grid(study_name ~ .)+
+  labs(title="Logistic curve")
 
 
 
