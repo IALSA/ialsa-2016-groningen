@@ -158,9 +158,12 @@ head(d)
 
 
 ds_predicted_study_list <- list()
+ds_model_study_list <- list()
 for( study_name_ in dto[["studyName"]] ) {
   d_study <- d[d$study_name==study_name_, ]
   model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
+  ds_model_study_list[[study_name_]] <- model_study
+  
   
   d_predicted <- expand.grid(
     age_in_years  = seq.int(40, 100, 5),
@@ -183,9 +186,25 @@ ds_predicted_study <- ds_predicted_study_list %>%
 
 ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female)) +
   geom_line() +
-  geom_line(data=ds_predicted_global, size=.5, linetype="CC") + #, 
-  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), na.rm=T) +
+  geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
+  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
   facet_grid(. ~ study_name) +
+  theme_light()
+
+
+ds_replicated_list <- list(
+  female_facet  = ds,
+  educ3_facet   = ds
+)
+
+ds_replicated <- ds_replicated_list %>% 
+  dplyr::bind_rows(.id="facet_line")
+
+ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=female)) +
+  # geom_line() +
+  # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
+  geom_point(shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
+  facet_grid(facet_line ~ study_name) +
   theme_light()
 
 
