@@ -146,6 +146,7 @@ ds_predicted_global <- expand.grid(
   study_name      = sort(unique(d$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
   age_in_years    = seq.int(40, 100, 5),
   female        = sort(unique(d$female)),
+  educ3_f       = sort(unique(d$educ3_f)),
   # marital_f     = sort(unique(d$marital_f)),
   # poor_health   = sort(unique(d$poor_health)),
   stringsAsFactors = FALSE
@@ -168,6 +169,7 @@ for( study_name_ in dto[["studyName"]] ) {
   d_predicted <- expand.grid(
     age_in_years  = seq.int(40, 100, 5),
     female        = sort(unique(d$female)),
+    educ3_f       = sort(unique(d$educ3_f)),
     # marital_f     = sort(unique(d$marital_f)),
     # poor_health   = sort(unique(d$poor_health)),
     #TODO: add more predictors -possibly as ranges (instead of fixed values)
@@ -197,15 +199,60 @@ ds_replicated_list <- list(
   educ3_facet   = ds
 )
 
-ds_replicated <- ds_replicated_list %>% 
-  dplyr::bind_rows(.id="facet_line")
+assign_color <- function( d2, facet_line ) {
+  reference_color <- "skyblue"
+  # testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
+  variable <- sub("_facet$", "", facet_line[1])
+  
+  
+  if( variable == "female") {
+    palette <- c("TRUE"="pink", "FALSE"=reference_color)
+    level <- ds$female
+  } else if( variable == "educ3") {
+    palette <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
+    level <- ds$educ3
+  } else {
+    stop("The palette for this variable is not defined.")
+  }
+  
+  # browser()
+  # level <- d2 %>% 
+  #   dplyr::select_(variable) %>% 
+  #   unlist()
+  
+  palette[as.character(level)]
+  # return( palette )
+}
 
-ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=female)) +
+ds_replicated <- ds_replicated_list %>% 
+  dplyr::bind_rows(.id="facet_line") %>%
+  # dplyr::select(facet_line, female, educ3) %>% 
+  dplyr::group_by(facet_line) %>% 
+  dplyr::mutate(
+    color_stroke = assign_color(., facet_line)
+  ) %>% 
+  dplyr::ungroup()
+  
+
+
+# ds_replicated %>% 
+#   dplyr::select_("female") %>% 
+#   unlist()
+# 
+# palette[as.character(ds_replicated$female)]
+# # palette[ds_replicated$female]
+# head(ds_replicated$educ3)
+# head(palette[ds_replicated$educ3])
+
+
+ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=color_stroke)) +
   # geom_line() +
   # geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
   geom_point(shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
+  scale_y_continuous(label=scales::percent) +
   facet_grid(facet_line ~ study_name) +
-  theme_light()
+  theme_light() +
+  theme(legend.position="none")
 
 
 # a<- predict(model)
