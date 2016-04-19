@@ -132,6 +132,7 @@ d <- ds %>%
   )
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
+#eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female"))
 eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
@@ -140,32 +141,52 @@ model_global <- glm(
 ) 
 summary(model_global)
 d$smoke_now_p <- predict(model_global)
+
+ds_predicted_global <- expand.grid(
+  study_name      = sort(unique(d$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
+  age_in_years    = seq.int(40, 100, 5),
+  # female        = sort(unique(d$female)),
+  # marital_f     = sort(unique(d$marital_f)),
+  # poor_health   = sort(unique(d$poor_health)),
+  stringsAsFactors = FALSE
+) 
+
+ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
+ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
+
 head(d)
 
 
-model_studies <- list()
-
-for( study_index in seq_along(dto[["studyName"]]) ) {
-  study_name_ <- dto[["studyName"]][study_index]
-  
-  d_study <- d[d$study_name=="tilda", ]
+ds_predicted_study_list <- list()
+for( study_name_ in dto[["studyName"]] ) {
+  d_study <- d[d$study_name==study_name_, ]
   model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
   
-  d_predicted <- data.frame(
-    age_in_years  = seq.int(40, 100, 5)
-    , stringsAsFactors = FALSE
+  d_predicted <- expand.grid(
+    age_in_years  = seq.int(40, 100, 5),
+    # female        = sort(unique(d$female)),
+    # marital_f     = sort(unique(d$marital_f)),
+    # poor_health   = sort(unique(d$poor_health)),
+    #TODO: add more predictors -possibly as ranges (instead of fixed values)
+    stringsAsFactors = FALSE
   ) 
   
-  d_predicted$smoke_now      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$smoke_now_p    <- plogis(d_predicted$smoke_now)                         #probability (ie, s-curve)
-  
+  d_predicted$smoke_now_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                         #probability (ie, s-curve)
+  ds_predicted_study_list[[study_name_]] <- d_predicted
   # ggplot(d_predicted, aes(x=age_in_years, y=smoke_now_p))  +
   #   geom_line()
-    
-  summary(model_study)
-  # model_studies[[study_index]] <- sddsdsdsf
 }
 
+ds_predicted_study <- ds_predicted_study_list %>% 
+  dplyr::bind_rows(.id="study_name")
+
+ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p)) +
+  geom_line() +
+  geom_line(data=ds_predicted_global, size=.5, color="purple", linetype="CC") +
+  geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now))) +
+  facet_grid(. ~ study_name) +
+  theme_light()
 
 
 # a<- predict(model)
