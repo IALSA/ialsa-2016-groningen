@@ -40,13 +40,13 @@ names(dto[["unitData"]])
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
-  DT::datatable(
-    class   = 'cell-border stripe',
-    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-    filter  = "top",
-    options = list(pageLength = 6, autoWidth = TRUE)
-  )
+# dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+#   DT::datatable(
+#     class   = 'cell-border stripe',
+#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+#     filter  = "top",
+#     options = list(pageLength = 6, autoWidth = TRUE)
+#   )
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -116,38 +116,132 @@ table(ds$study_name, ds$educ3, useNA = "always")
 
 # ----- basic-model ------------------
 
-
-
-
-
 # ---- fit-model-with-study-as-factor ----------------------------------------
-d <- ds %>% 
+ds2 <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", 
                  "age_in_years", "female", "marital", "educ3","poor_health") %>% 
-  na.omit()
+  na.omit() %>% 
+  dplyr::mutate(
+    marital_f         = as.factor(marital),
+    educ3_f           = as.factor(educ3)
+  )
 
-model <- glm(
- smoke_now ~ -1 + study_name + age_in_years + female + marital + educ3 + poor_health,
- data = d, 
- family = binomial(link="logit")
-) ;summary(model)
-d$smoke_now_p <- predict(model)
-head(d)
-# a<- predict(model)
-# aa<- predict(model)
+#eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
+# eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health"))
+# eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
+model_global <- glm(
+  eq,
+  data = ds2, 
+  family = binomial(link="logit")
+) 
+summary(model_global)
+ds2$smoke_now_p <- predict(model_global)
+
+# ds_predicted_global <- expand.grid(
+#   study_name      = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
+#   age_in_years    = seq.int(40, 100, 10),
+#   female        = sort(unique(ds2$female)),
+#   educ3_f       = sort(unique(ds2$educ3_f)),
+#   # marital_f     = sort(unique(d$marital_f)),
+#   poor_health   = sort(unique(ds2$poor_health)),
+#   stringsAsFactors = FALSE
+# ) 
+
+ds_predicted_global <- ds2 %>% dplyr::select_(
+  "study_name",
+  "age_in_years", 
+  "female",        
+  "educ3_f",       
+  "marital_f" ,
+  "poor_health"  
+) 
+
+ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
+ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
+
+
+
+ds_predicted_study_list <- list()
+model_study_list <- list()
+for( study_name_ in dto[["studyName"]] ) {
+  d_study <- ds2[ds2$study_name==study_name_, ]
+  model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
+  model_study_list[[study_name_]] <- model_study
+  
+  # d_predicted <- expand.grid(
+  #   age_in_years  = seq.int(40, 100, 10),
+  #   female        = sort(unique(ds2$female)),
+  #   educ3_f       = sort(unique(ds2$educ3_f)),
+  #   # marital_f     = sort(unique(ds2$marital_f)),
+  #   poor_health   = sort(unique(ds2$poor_health)),
+  #   #TODO: add more predictors -possibly as ranges (instead of fixed values)
+  #   stringsAsFactors = FALSE
+  # ) 
+  
+  d_predicted <- ds2 %>% dplyr::select_(
+    "age_in_years", 
+    "female",        
+    "educ3_f",       
+    "marital_f" ,
+    "poor_health"  
+  ) 
+  
+  d_predicted$smoke_now_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                         #probability (ie, s-curve)
+  ds_predicted_study_list[[study_name_]] <- d_predicted
+  # ggplot(d_predicted, aes(x=age_in_years, y=smoke_now_p))  +
+  #   geom_line()
+}
+
+ds_predicted_study <- ds_predicted_study_list %>% 
+  dplyr::bind_rows(.id="study_name")
+
+ 
+# ds = ds_predicted_global
+# x_name = "age_in_years"
+# y_name = "smoke_now_hat"
+# color_group = "female"
+# alpha_level=.5
+graph_logistic_point_simple <- function(
+  ds, 
+  x_name, 
+  y_name, 
+  color_group, 
+  alpha_level=.5
+){
+  g <- ggplot2::ggplot(ds, aes_string(x=x_name)) +
+    geom_point(aes_string(y=y_name, color=color_group), shape=16, alpha=alpha_level) +
+    facet_grid(. ~ study_name) + 
+    main_theme +
+    theme(
+      legend.position="right"
+    )
+  # return(g)
+}
+
+g <- graph_logistic_point_simple(
+  ds = ds_predicted_global,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat",
+  color_group = "marital_f",
+  alpha_level = .5
+)
+g
+
 # ---- graph-points-study-as-factor ----------------------
 
 graph_logistic_point_complex_4(
-  ds = d,
+  ds = ds_predicted_global,
   x_name = "age_in_years",
   y_name = "smoke_now_p",
-  covar_order = c("female","marital","educ3","poor_health"),
+  covar_order = c("female","educ3_f","poor_health"),
   alpha_level = .3)
 
 
 # ---- graph-curves-study-as-factor ----------------------
 # graph_logitstic_curve_complex_4(
-#   ds = d, 
+#   ds = s, 
 #   x_name = "age_in_years", 
 #   y_name = "smoke_now", 
 #   covar_order = c("female","marital","educ3","poor_health"),
