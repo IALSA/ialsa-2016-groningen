@@ -199,29 +199,30 @@ ds_replicated_list <- list(
   educ3_facet   = ds
 )
 
+ds_replicated_predicted_list <- list(
+  female  = ds_predicted_study,
+  educ3   = ds_predicted_study
+)
+
 assign_color <- function( d2, facet_line ) {
   reference_color <- "skyblue"
-  # testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
+  testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
   variable <- sub("_facet$", "", facet_line[1])
   
   
   if( variable == "female") {
     palette <- c("TRUE"="pink", "FALSE"=reference_color)
-    level <- ds$female
   } else if( variable == "educ3") {
     palette <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
-    level <- ds$educ3
   } else {
     stop("The palette for this variable is not defined.")
   }
   
   # browser()
-  # level <- d2 %>% 
-  #   dplyr::select_(variable) %>% 
-  #   unlist()
+  d3 <- d2[d2$facet_line==facet_line, ] %>% 
+    dplyr::rename_("dv" = variable)
   
-  palette[as.character(level)]
-  # return( palette )
+  palette[as.character(d3$dv)]
 }
 
 ds_replicated <- ds_replicated_list %>% 
@@ -232,8 +233,17 @@ ds_replicated <- ds_replicated_list %>%
     color_stroke = assign_color(., facet_line)
   ) %>% 
   dplyr::ungroup()
-  
 
+# ds_replicated_predicted <- ds_replicated_predicted_list %>% 
+#   dplyr::bind_rows(.id="facet_line") %>%
+#   dplyr::select(study_name, facet_line, female, educ3_f) %>%
+#   dplyr::group_by(facet_line) %>% 
+#   dplyr::mutate(
+#     color_stroke     = assign_color(., facet_line),
+#     smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
+#     smoke_now_hat_p  = plogis(smoke_now_hat) 
+#   ) %>% 
+#   dplyr::ungroup()
 
 # ds_replicated %>% 
 #   dplyr::select_("female") %>% 
@@ -252,7 +262,8 @@ ggplot(ds_replicated, aes(x=age_in_years, y=as.integer(smoke_now), color=color_s
   scale_y_continuous(label=scales::percent) +
   facet_grid(facet_line ~ study_name) +
   theme_light() +
-  theme(legend.position="none")
+  theme(legend.position="none")+
+  labs(x="Age", y="P(Smoke Now)")
 
 
 # a<- predict(model)
