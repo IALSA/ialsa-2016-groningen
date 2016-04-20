@@ -20,13 +20,13 @@ requireNamespace("tidyr") # data manipulation
 requireNamespace("dplyr") # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("plyr")
 requireNamespace("testit")# For asserting conditions meet expected patterns.
-# requireNamespace("car") # For it's `recode()` function.
 
 # ---- declare-globals ---------------------------------------------------------
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
 dto <- readRDS("./data/unshared/derived/dto.rds")
+
 # ---- inspect-data -------------------------------------------------------------
 # the list is composed of the following elements
 names(dto)
@@ -38,9 +38,11 @@ dto[["filePath"]]
 names(dto[["unitData"]])
 # each of these elements is a raw data set of a corresponding study, for example
 dplyr::tbl_df(dto[["unitData"]][["lbsl"]]) 
+
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+dto[["metaData"]] %>% 
+  dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
   DT::datatable(
     class   = 'cell-border stripe',
     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
@@ -54,25 +56,25 @@ dto[["metaData"]] %>% dplyr::select(study_name, name, item, construct, type, cat
 
 # ---- basic-graph --------------------------------------------------------------
 
-
 # ---- assemble ------------------
 dmls <- list() # dummy list
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]] # get study data from dto
-  (varnames <- names(ds)) # see what variables there are
-  (get_these_variables <- c("id",
-                            "year_of_wave","age_in_years","year_born",
-                            "female",
-                            "marital",
-                            "educ3",
-                            "smoke_now","smoked_ever",
-                            "current_work_2",
-                            "current_drink",
-                            "sedentary",
-                            "poor_health",
-                            "bmi")) 
-  (variables_present <- varnames %in% get_these_variables) # variables on the list
-  dmls[[s]] <- ds[,variables_present] # keep only them
+  get_these_variables <- c(
+    "id",
+    "year_of_wave","age_in_years","year_born",
+    "female",
+    "marital",
+    "educ3",
+    "smoke_now","smoked_ever",
+    "current_work_2",
+    "current_drink",
+    "sedentary",
+    "poor_health",
+    "bmi"
+  )
+  variables_present <- colnames(ds) %in% get_these_variables # variables on the list
+  dmls[[s]] <- ds[, variables_present] # keep only them
 }
 lapply(dmls, names) # view the contents of the list object
 
@@ -87,17 +89,18 @@ head(ds)
 
 
 # ---- basic-info -------------------------
-
 # age summary across studies
 ds %>%  
   dplyr::group_by(study_name) %>%
   na.omit() %>% 
-  dplyr::summarize(mean_age = round(mean(age_in_years),1),
-                   sd_age = round(sd(age_in_years),2),
-                   observed = n(),
-                   min_born = min(year_born),
-                   med_born = median(year_born),
-                   max_born = max(year_born)) %>% 
+  dplyr::summarize(
+    mean_age     = round(mean(age_in_years),1),
+    sd_age       = round(sd(age_in_years),2),
+    observed     = n(),
+    min_born     = min(year_born),
+    med_born     = median(year_born),
+    max_born     = max(year_born)
+  ) %>% 
   dplyr::ungroup()
                    
 # see counts across age groups and studies 
@@ -108,54 +111,41 @@ t <- table(
 ); t[t==0] <- "."; t
 
 # basic counts
-table(ds$study_name, ds$smoke_now, useNA = "always")
-table(ds$study_name, ds$smoked_ever, useNA = "always")
-table(ds$study_name, ds$female, useNA = "always")
-table(ds$study_name, ds$marital, useNA = "always")
-table(ds$study_name, ds$educ3, useNA = "always")
-
+table(ds$study_name, ds$smoke_now,     useNA = "always")
+table(ds$study_name, ds$smoked_ever,   useNA = "always")
+table(ds$study_name, ds$female,        useNA = "always")
+table(ds$study_name, ds$marital,       useNA = "always")
+table(ds$study_name, ds$educ3,         useNA = "always")
 
 # ----- basic-model ------------------
 
 
-
-
-
 # ---- fit-model-with-study-as-factor ----------------------------------------
 ds2 <- ds %>% 
-  dplyr::select_("id", "study_name", "smoke_now", 
-                 "age_in_years", "female", "marital", "educ3","poor_health") %>% 
+  dplyr::select_("id", "study_name", "smoke_now", "age_in_years", "female", "marital", "educ3","poor_health") %>% 
   na.omit() %>% 
   dplyr::mutate(
     marital_f         = as.factor(marital),
     educ3_f           = as.factor(educ3)
   )
 
-#eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
 eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
-# eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
-model_global <- glm(
- eq,
- data = ds2, 
- family = binomial(link="logit")
-) 
+model_global <- glm(eq, data = ds2, family = binomial(link="logit")) 
 summary(model_global)
 ds2$smoke_now_p <- predict(model_global)
 
 ds_predicted_global <- expand.grid(
-  study_name      = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
-  age_in_years    = seq.int(40, 100, 10),
-  female        = sort(unique(ds2$female)),
-  educ3_f       = sort(unique(ds2$educ3_f)),
-  marital_f     = sort(unique(ds2$marital_f)),
-  poor_health   = sort(unique(ds2$poor_health)),
+  study_name       = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
+  age_in_years     = seq.int(40, 100, 10),
+  female           = sort(unique(ds2$female)),
+  educ3_f          = sort(unique(ds2$educ3_f)),
+  marital_f        = sort(unique(ds2$marital_f)),
+  poor_health      = sort(unique(ds2$poor_health)),
   stringsAsFactors = FALSE
 ) 
 
 ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
 ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
-
-
 
 ds_predicted_study_list <- list()
 model_study_list <- list()
@@ -165,49 +155,39 @@ for( study_name_ in dto[["studyName"]] ) {
   model_study_list[[study_name_]] <- model_study
   
   d_predicted <- expand.grid(
-    age_in_years  = seq.int(40, 100, 10),
-    female        = sort(unique(ds2$female)),
-    educ3_f       = sort(unique(ds2$educ3_f)),
-    marital_f     = sort(unique(ds2$marital_f)),
-    poor_health   = sort(unique(ds2$poor_health)),
+    age_in_years     = seq.int(40, 100, 10),
+    female           = sort(unique(ds2$female)),
+    educ3_f          = sort(unique(ds2$educ3_f)),
+    marital_f        = sort(unique(ds2$marital_f)),
+    poor_health      = sort(unique(ds2$poor_health)),
     stringsAsFactors = FALSE
   ) 
   
   d_predicted$smoke_now_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                         #probability (ie, s-curve)
+  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                     #probability (ie, s-curve)
   ds_predicted_study_list[[study_name_]] <- d_predicted
-  # ggplot(d_predicted, aes(x=age_in_years, y=smoke_now_p))  +
-  #   geom_line()
 }
 
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
-# ggplot(ds_predicted_study, aes(x=age_in_years, y=smoke_now_hat_p, color=female)) +
-#   geom_line() +
-#   geom_line(data=ds_predicted_global, size=.5, linetype="CC") +
-#   geom_point(data=ds, aes(x=age_in_years, y=as.integer(smoke_now)), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
-#   facet_grid(. ~ study_name) +
-#   theme_light()
-
-
 ds_replicated_list <- list( #rename ds_replicated_observed_list
-  female  = ds2,
-  educ3_f   = ds2,
-  marital_f   = ds2,
-  poor_health = ds2
+  female        = ds2,
+  educ3_f       = ds2,
+  marital_f     = ds2,
+  poor_health   = ds2
 )
 ds_replicated_predicted_list <- list(  #rename ds_replicated_predicted_study_list
-  female  = ds_predicted_study,
-  educ3_f   = ds_predicted_study,
-  marital_f   = ds_predicted_study,
-  poor_health = ds_predicted_study
+  female        = ds_predicted_study,
+  educ3_f       = ds_predicted_study,
+  marital_f     = ds_predicted_study,
+  poor_health   = ds_predicted_study
 )
 ds_replicated_predicted_global_list <- list( 
-  female  = ds_predicted_global,
-  educ3_f   = ds_predicted_global, 
-  marital_f   = ds_predicted_global, 
-  poor_health = ds_predicted_global
+  female        = ds_predicted_global,
+  educ3_f       = ds_predicted_global, 
+  marital_f     = ds_predicted_global, 
+  poor_health   = ds_predicted_global
 )
 
 assign_color <- function( d2, facet_line ) {
@@ -238,7 +218,6 @@ assign_prediction <- function( d2, study_name ) {
   study_name <- study_name[1]
   
   m <- model_study_list[[study_name]]
-  
   d2$smoke_now_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
   d2$smoke_now_hat[d2$study_name==study_name]
 }
@@ -281,10 +260,10 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
   )
 
 reference_group <- c(
-  "female"    = TRUE,
-  "educ3_f"   = "high school",
-  "marital_f"   = "mar_cohab",
-  "poor_health" = FALSE
+  "female"        = TRUE,
+  "educ3_f"       = "high school",
+  "marital_f"     = "mar_cohab",
+  "poor_health"   = FALSE
 )
 
 ds_replicated_predicted <- ds_replicated_predicted %>% 
@@ -298,31 +277,33 @@ testit::assert("The two replicated predicted datasets should have the same numbe
 
 for( i in seq_len(nrow(ds_replicated_predicted)) ) {
   if( ds_replicated_predicted$facet_line[i] == "female" ) {
-    keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) & #Add more conditions/predictors here
-      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
-      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_study  <- #Add more conditions/predictors here
+      (ds_replicated_predicted$educ3_f[i]      == reference_group["educ3_f"]) & 
+      (ds_replicated_predicted$marital_f[i]    == reference_group["marital_f"]) & 
+      (ds_replicated_predicted$poor_health[i]  == reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$female[i]==reference_group["female"])
-    # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     
   } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
-    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
-      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
-      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_study <- #Add more conditions/predictors here
+      (ds_replicated_predicted$female[i]       == reference_group["female"]) & 
+      (ds_replicated_predicted$marital_f[i]    == reference_group["marital_f"]) & 
+      (ds_replicated_predicted$poor_health[i]  == reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
-    # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
       
   } else if( ds_replicated_predicted$facet_line[i] == "marital_f" ) {
-    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & 
-      (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) & 
-      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_study <- #Add more conditions/predictors here
+      (ds_replicated_predicted$female[i]       == reference_group["female"]) & 
+      (ds_replicated_predicted$educ3_f[i]      == reference_group["educ3_f"]) & 
+      (ds_replicated_predicted$poor_health[i]  == reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"])
   
   } else if( ds_replicated_predicted$facet_line[i] == "poor_health" ) {
-    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
-      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
-      (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
+    keep_study <- #Add more conditions/predictors here
+      (ds_replicated_predicted$female[i]       == reference_group["female"]) & 
+      (ds_replicated_predicted$marital_f[i]    == reference_group["marital_f"]) & 
+      (ds_replicated_predicted$educ3_f[i]      == reference_group["educ3_f"])
     keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
-    # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    
   } else {
     stop("The facet_line value is not supported (yet).")
   }
