@@ -87,6 +87,10 @@ head(ds)
 
 
 # ---- assemble -------------------------
+dv_name <- "smoke_now"
+dv_label_prob <- "P(Smoke Now)"
+dv_label_odds <- "Odds(Smoke Now)"
+covar_order_values <- c("female","marital_f","educ3_f","poor_health")
 
 # age summary across studies
 ds %>%  
@@ -122,21 +126,24 @@ ds2 <- ds %>%
   dplyr::mutate(
     marital_f         = as.factor(marital),
     educ3_f           = as.factor(educ3)
-  )
-
+  ) %>% 
+  dplyr::rename_(
+    "dv" = dv_name
+  ) 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health"))
-eq_global <- as.formula(paste0(
+eq_global_string <- paste0(
   # "smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health + female:marital_f + female:educ3_f + female:poor_health + marital_f:educ3_f + marital_f:poor_health"
-  "smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"
-  )
+  "dv ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"
+)
+eq_global <- as.formula(eq_global_string)
+
+eq_local_string <- paste0(
+  # "smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health + female:marital_f + female:educ3_f + female:poor_health + marital_f:educ3_f + marital_f:poor_health"
+  "dv ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health"
 )
 
-eq_study <- as.formula(paste0(
-  # "smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health + female:marital_f + female:educ3_f + female:poor_health + marital_f:educ3_f + marital_f:poor_health"
-  "smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health"
-  )
-)
+eq_local <- as.formula(eq_local_string)
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
   eq_global,
@@ -145,7 +152,7 @@ model_global <- glm(
 ) 
 summary(model_global)
 coefficients(model_global)
-ds2$smoke_now_p <- predict(model_global)
+ds2$dv_p <- predict(model_global)
 
 # ds_predicted_global <- expand.grid(
 #   study_name      = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
@@ -167,8 +174,8 @@ ds_predicted_global <- ds2 %>%
     "poor_health"  
   ) 
 
-ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
-ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
+ds_predicted_global$dv_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
+ds_predicted_global$dv_hat_p  <- plogis(ds_predicted_global$dv_hat) 
 
 
 
@@ -176,7 +183,7 @@ ds_predicted_study_list <- list()
 model_study_list <- list()
 for( study_name_ in dto[["studyName"]] ) {
   d_study <- ds2[ds2$study_name==study_name_, ]
-  model_study <- glm(eq_study, data=d_study,  family=binomial(link="logit")) 
+  model_study <- glm(eq_local, data=d_study,  family=binomial(link="logit")) 
   model_study_list[[study_name_]] <- model_study
   
   # d_predicted <- expand.grid(
@@ -197,10 +204,10 @@ for( study_name_ in dto[["studyName"]] ) {
     "poor_health"  
   ) 
   
-  d_predicted$smoke_now_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                         #probability (ie, s-curve)
+  d_predicted$dv_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                         #probability (ie, s-curve)
   ds_predicted_study_list[[study_name_]] <- d_predicted
-  # ggplot(d_predicted, aes(x=age_in_years, y=smoke_now_p))  +
+  # ggplot(d_predicted, aes(x=age_in_years, y=dv_p))  +
   #   geom_line()
 }
 
@@ -213,43 +220,85 @@ sapply(model_study_list, coefficients)
 # graph_logistic_point_complex_4(
 #   ds = ds_predicted_global,
 #   x_name = "age_in_years",
-#   y_name = "smoke_now_hat_p",
+#   y_name = "dv_hat_p",
 #   covar_order = c("female","marital_f","educ3_f","poor_health"),
 #   alpha_level = .3)
 
-# ---- global-probability ----------------------
+assign_color <- function(color_group){
+  if( color_group == "female") {
+    # http://colrd.com/image-dna/25114/
+    palette_color <- c("TRUE"=reference_color, "FALSE"=increased_risk_1) # 98aab9
+  } else if( color_group %in% c("educ3", "educ3_f") ) { 
+    # http://colrd.com/image-dna/24382/
+    palette_color <- c("high school"=reference_color, "less than high school"=increased_risk_1, "more than high school"=descreased_risk_1) # 54a992, e8c571
+  } else if( color_group %in% c("marital_f") ) {
+    # http://colrd.com/image-dna/23318/
+    palette_color <- c("mar_cohab"=descreased_risk_1, "sep_divorced"= increased_risk_2, "single"=reference_color, "widowed"=increased_risk_1)
+  } else if( color_group %in% c("poor_health") ) {
+    # http://colrd.com/palette/18841/
+    palette_color <- c("FALSE"=reference_color, "TRUE"=descreased_risk_2)
+  } else {
+    stop("The palette for this variable is not defined.")
+  }
+  
+}
+
+# ---- palette-color-1 ---------------------------
+# color logic:
+increased_risk_2 <- "#e41a1c"  # red - further increased risk factor
+increased_risk_1 <- "#ff7f00"  # organge - increased risk factor
+reference_color <- "#4daf4a"   # green  - REFERENCE  category
+descreased_risk_1 <-"#377eb8"  # blue - descreased risk factor
+descreased_risk_2 <- "#984ea3" # purple - further descrease in risk factor
+
+# increased_risk_2 <- "#bdbdbd"  # red - further increased risk factor
+# increased_risk_1 <- "#bdbdbd"  # organge - increased risk factor
+# reference_color <- "#bdbdbd"   # green  - REFERENCE  category
+# descreased_risk_1 <-"#bdbdbd"  # blue - descreased risk factor
+# descreased_risk_2 <- "#bdbdbd" # purple - further descrease in risk factor
+
+
+# ---- 1-global-probability ----------------------
 
 graph_logistic_point_complex_4(
   ds = ds_predicted_global,
   x_name = "age_in_years",
-  y_name = "smoke_now_hat_p",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
+  y_name = "dv_hat_p",
+  covar_order = covar_order_values,
+  alpha_level = .4,
+  y_title = dv_label_prob,
+  y_range = c(0, .8)) 
+summary(ds_predicted_study_list)
 
-# ---- global-odds ----------------------
-graph_logistic_point_complex_4(
-  ds = ds_predicted_global,
-  x_name = "age_in_years",
-  y_name = "smoke_now_hat",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
-
-# ---- local-probability ----------------------
+# ---- 2-local-probability ----------------------
 graph_logistic_point_complex_4(
   ds = ds_predicted_study,
   x_name = "age_in_years",
-  y_name = "smoke_now_hat_p",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
+  y_name = "dv_hat_p",
+  covar_order = covar_order_values,
+  alpha_level = .3,
+  y_title = dv_label_prob,
+  y_range = c(0, .8)) 
 
-# ---- local-odds ----------------------
+# ---- 3-global-odds ----------------------
 graph_logistic_point_complex_4(
   ds = ds_predicted_global,
   x_name = "age_in_years",
-  y_name = "smoke_now_hat",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
+  y_name = "dv_hat",
+  covar_order = covar_order_values,
+  alpha_level = .3,
+  y_title = dv_label_odds,
+  y_range = c(-3.5, 1))
 
+# ---- 4-local-odds ----------------------
+graph_logistic_point_complex_4(
+  ds = ds_predicted_study,
+  x_name = "age_in_years",
+  y_name = "dv_hat",
+  covar_order = covar_order_values,
+  alpha_level = .3,
+  y_title = dv_label_odds,
+  y_range = c(-3.5, 1))
 
 # ---- reproduce ---------------------------------------
 rmarkdown::render(

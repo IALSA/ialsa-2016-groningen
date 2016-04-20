@@ -34,7 +34,7 @@ opts_chunk$set(
   out.width = "700px",
   fig.path = 'figure_rmd_easy/',     
   dev = "png",
-  dpi = 400
+  dpi = 100
   # fig.path = 'figure_pdf/',     
   # dev = "pdf"#,
   # dev.args=list(pdf = list(colormodel = 'cmyk'))
@@ -120,17 +120,17 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ## Graphs
 
 ### Global prob
-```{r global-probability, echo=echoChunks}
+```{r 1-global-probability, echo=echoChunks}
 ```
 
 ### Global odds
-```{r global-odds, echo=echoChunks}
+```{r 3-global-odds, echo=echoChunks}
 ```
 
 ### Local prob
-```{r local-probability, echo=echoChunks}
+```{r 2-local-probability, echo=echoChunks}
 ```
 
 ### Global odds
-```{r local-odds, echo=echoChunks}
+```{r 4-local-odds, echo=echoChunks}
 ```
