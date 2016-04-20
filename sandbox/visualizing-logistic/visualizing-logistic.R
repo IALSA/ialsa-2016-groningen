@@ -387,7 +387,7 @@ ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_
 # ---- model-plot ------------------
 graph_logistic_main <- function(ds){
  ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
-    geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
+    # geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
     # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
     geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
     # geom_ribbon(data=ds_replicated_predicted2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
@@ -396,6 +396,7 @@ graph_logistic_main <- function(ds){
     # scale_y_continuous(label=scales::percent, limits = c(0, .50)) +
     scale_y_continuous(label=scales::percent) +
     scale_color_identity() +
+    coord_cartesian(ylim = c(0, .5)) + 
     facet_grid(facet_line ~ study_name) +
     theme_light() +
     theme(legend.position="none") +
