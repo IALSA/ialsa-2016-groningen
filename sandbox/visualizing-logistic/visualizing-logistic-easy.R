@@ -86,7 +86,7 @@ head(ds)
 # write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
 
-# ---- basic-info -------------------------
+# ---- assemble -------------------------
 
 # age summary across studies
 ds %>%  
@@ -114,9 +114,7 @@ table(ds$study_name, ds$marital, useNA = "always")
 table(ds$study_name, ds$educ3, useNA = "always")
 
 
-# ----- basic-model ------------------
-
-# ---- fit-model-with-study-as-factor ----------------------------------------
+# ---- fit-model ----------------------------------------
 ds2 <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", 
                  "age_in_years", "female", "marital", "educ3","poor_health") %>% 
@@ -219,15 +217,7 @@ sapply(model_study_list, coefficients)
 #   covar_order = c("female","marital_f","educ3_f","poor_health"),
 #   alpha_level = .3)
 
-# ---- graph-points-study-as-factor ----------------------
-
-graph_logistic_point_complex_4(
-  ds = ds_predicted_global,
-  x_name = "age_in_years",
-  y_name = "smoke_now_hat",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
-
+# ---- global-probability ----------------------
 
 graph_logistic_point_complex_4(
   ds = ds_predicted_global,
@@ -236,15 +226,23 @@ graph_logistic_point_complex_4(
   covar_order = c("female","marital_f","educ3_f","poor_health"),
   alpha_level = .3)
 
-
+# ---- global-odds ----------------------
 graph_logistic_point_complex_4(
-  ds = ds_predicted_study,
+  ds = ds_predicted_global,
   x_name = "age_in_years",
   y_name = "smoke_now_hat",
   covar_order = c("female","marital_f","educ3_f","poor_health"),
   alpha_level = .3)
 
+# ---- local-probability ----------------------
+graph_logistic_point_complex_4(
+  ds = ds_predicted_study,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat_p",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
+  alpha_level = .3)
 
+# ---- local-odds ----------------------
 graph_logistic_point_complex_4(
   ds = ds_predicted_global,
   x_name = "age_in_years",
