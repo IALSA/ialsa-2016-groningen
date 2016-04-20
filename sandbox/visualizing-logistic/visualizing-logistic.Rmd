@@ -104,6 +104,9 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r basic-table, echo=TRUE, results='show', message=FALSE}
 ```
 
+# (II) Development
+
+## (II.A) Pre-Assembly
 
 ### Combined data
 
@@ -113,7 +116,80 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ### Basic info
 ```{r basic-info, echo=TRUE}
 ```
+## (II.B) Frequencies
 
+### `age_in_years`
+```{r age-frequencies, echo=echoChunks}
+```
+### Criteria
+
+### `smoke_now`
+```{r basic-frequencies-criteria-1, echo=echoChunks}
+```
+
+### `smoked_ever`
+```{r basic-frequencies-criteria-2, echo=echoChunks}
+```
+
+### `female`
+```{r basic-frequencies-predictors-1, echo=echoChunks}
+```
+
+### `marital`
+```{r basic-frequencies-predictors-2, echo=echoChunks}
+```
+
+### `educ3`
+```{r basic-frequencies-predictors-3, echo=echoChunks}
+```
+
+## (II.C) Modeling
+
+### Declarations
+
+```{r declare-variables, echo=TRUE}
+```
+### Specification
+```{r model-specification, echo=TRUE}
+```
+
+### Computation
+
+#### Global 
+`study_name` is entered as a factor.  
+
+```{r compute-predicted-global, echo=TRUE}
+```
+
+#### Local 
+
+`study_name` defines clusters for separate estimation. 
+```{r compute-predicted-study, echo=TRUE}
+```
+
+```{r define-replication-structure, echo=echoChunks}
+```
+
+
+### Coloring
+```{r define-coloring-function, echo=echoChunks}
+```
+
+
+## (II.D) Assembly
+
+### Global
+```{r replicated-predicted-global, echo=echoChunks}
+```
+### Local 
+```{r replicated-predicted-local, echo=echoChunks}
+```
+
+
+### Combined Graph
+
+```{r model-plot, echo=echoChunks}
+```
 
 
 ### Study as factor

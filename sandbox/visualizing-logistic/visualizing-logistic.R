@@ -80,7 +80,7 @@ lapply(dmls, names) # view the contents of the list object
 
 ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-head(ds)
+ds %>% dplyr::glimpse()
 
 # ---- save-for-Mplus ---------------------------
 
@@ -102,7 +102,8 @@ ds %>%
     max_born     = max(year_born)
   ) %>% 
   dplyr::ungroup()
-                   
+
+# ---- age-frequencies ----------------                   
 # see counts across age groups and studies 
 t <- table(
   cut(ds$age_in_years,breaks = c(-Inf,seq(from=40,to=100,by=5), Inf)),
@@ -110,14 +111,17 @@ t <- table(
   useNA = "always"
 ); t[t==0] <- "."; t
 
-# basic counts
-table(ds$study_name, ds$smoke_now,     useNA = "always")
-table(ds$study_name, ds$smoked_ever,   useNA = "always")
-table(ds$study_name, ds$female,        useNA = "always")
-table(ds$study_name, ds$marital,       useNA = "always")
-table(ds$study_name, ds$educ3,         useNA = "always")
 
-# ----- basic-model ------------------
+# ----- basic-frequencies-criteria-1 -------------------
+t <- table(ds$study_name, ds$smoke_now,     useNA = "always"); t[t==0] <- "."; t
+# ----- basic-frequencies-criteria-2 -------------------
+t <- table(ds$study_name, ds$smoked_ever,   useNA = "always"); t[t==0] <- "."; t
+# ----- basic-frequencies-predictors-1 -------------------
+t <- table(ds$study_name, ds$female,        useNA = "always"); t[t==0] <- "."; t
+# ----- basic-frequencies-predictors-2 -------------------
+t <- table(ds$study_name, ds$marital,       useNA = "always"); t[t==0] <- "."; t
+# ----- basic-frequencies-predictors-3 -------------------
+t <- table(ds$study_name, ds$educ3,         useNA = "always"); t[t==0] <- "."; t
 
 
 # ---- declare-variables  ----------------------------------------
@@ -140,6 +144,14 @@ ds2 <- ds %>%
 time_scale <- "age_in_years"
 control_covar <- c("female + educ3_f + marital_f")
 focal_covar <- "poor_health"
+
+reference_group <- c(
+  "female"        = TRUE,
+  "educ3_f"       = "high school",
+  "marital_f"     = "single",
+  "poor_health"   = FALSE
+)
+
 
 # ---- model-specification -------------------------
 # eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
@@ -167,6 +179,9 @@ ds_predicted_global$dv_lower      <- predicted_global$fit - 1.96*predicted_globa
 ds_predicted_global$dv_hat_p      <- plogis(ds_predicted_global$dv_hat) 
 ds_predicted_global$dv_upper_p    <- plogis(ds_predicted_global$dv_upper) 
 ds_predicted_global$dv_lower_p    <- plogis(ds_predicted_global$dv_lower) 
+
+ds_predicted_global %>% dplyr::glimpse()
+head(ds_predicted_global)
 
 # ---- compute-predicted-study ------------------------
 ds_predicted_study_list <- list()
@@ -202,6 +217,11 @@ for( study_name_ in dto[["studyName"]] ) {
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
+ds_predicted_study %>% dplyr::glimpse()
+head(ds_predicted_study)
+
+# ---- define-replication-structure -----------------
+
 ds_replicated_observed_list <- list(
   female        = ds2,
   educ3_f       = ds2,
@@ -221,6 +241,8 @@ ds_replicated_predicted_global_list <- list(
   poor_health   = ds_predicted_global
 )
 
+
+
 # ---- define-coloring-function ----------------
 assign_color <- function( d, facet_line ) {
   reference_color <- "#4daf4a" ##7e1a02 # 91777e
@@ -228,19 +250,11 @@ assign_color <- function( d, facet_line ) {
   variable <- facet_line[1]
   
   # color logic:
-  
-  # e41a1c - red
-  # 377eb8 - blue
-  # 4daf4a - green
-  # 984ea3 - purplse
-  # ff7f00 - organge
-  
   increased_risk_2 <- "#e41a1c"  # red - further increased risk factor
   increased_risk_1 <- "#ff7f00"  # organge - increased risk factor
   reference_color <- "#4daf4a"   # green  - REFERENCE  category
   descreased_risk_1 <-"#377eb8"  # blue - descreased risk factor
   descreased_risk_2 <- "#984ea3" # purple - further descrease in risk factor
-  
   
   if( variable == "female") {
     # http://colrd.com/image-dna/25114/
@@ -273,7 +287,7 @@ assign_prediction <- function( d, study_name ) {
   d$dv_hat[d$study_name==study_name]
 }
 
-# - generated-replicated-dataset --------------------
+# ---- replicated-predicted-global --------------------
 ds_replicated <- ds_replicated_observed_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
   # dplyr::select(facet_line, female, educ3_f, poor_health) %>% # was turned off
@@ -314,14 +328,14 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
 rm(ds_replicated_predicted_global_list)
 
 # ---- declare-reference-groups ------------------
-reference_group <- c(
-  "female"        = TRUE,
-  "educ3_f"       = "high school",
-  "marital_f"     = "single",
-  "poor_health"   = FALSE
-)
+# reference_group <- c(
+#   "female"        = TRUE,
+#   "educ3_f"       = "high school",
+#   "marital_f"     = "single",
+#   "poor_health"   = FALSE
+# )
 
-# ---- replicate-predicted-datasets --------------------
+# ---- replicated-predicted-local --------------------
 ds_replicated_predicted <- ds_replicated_predicted %>% 
   dplyr::arrange(prediction_line)
 ds_replicated_predicted_global <- ds_replicated_predicted_global %>% 
@@ -370,21 +384,26 @@ for( i in seq_len(nrow(ds_replicated_predicted)) ) {
 ds_replicated_predicted2 <- ds_replicated_predicted[ds_replicated_predicted$keep, ]
 ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_predicted_global$keep, ]
 
-# table(ds_replicated_predicted$prediction_line)
 # ---- model-plot ------------------
-ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
-  # geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
-  # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
-  geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
-  # geom_ribbon(data=ds_replicated_predicted2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
-  geom_ribbon(data=ds_replicated_predicted_global2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
-  # geom_point(data=ds_replicated_predicted2) +
-  scale_y_continuous(label=scales::percent, limits = c(0, .50)) +
-  scale_color_identity() +
-  facet_grid(facet_line ~ study_name) +
-  theme_light() +
-  theme(legend.position="none") +
-  labs(x="Age", y=dv_label)
+graph_logistic_main <- function(ds){
+ ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
+    geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
+    # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
+    geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
+    # geom_ribbon(data=ds_replicated_predicted2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
+    geom_ribbon(data=ds_replicated_predicted_global2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
+    # geom_point(data=ds_replicated_predicted2) +
+    # scale_y_continuous(label=scales::percent, limits = c(0, .50)) +
+    scale_y_continuous(label=scales::percent) +
+    scale_color_identity() +
+    facet_grid(facet_line ~ study_name) +
+    theme_light() +
+    theme(legend.position="none") +
+    labs(x="Age", y=dv_label)
+  # return(g)
+}
+graph_logistic_main(ds_replicated)
+
 
 
 
