@@ -150,8 +150,14 @@ ds_predicted_global <- expand.grid(
   stringsAsFactors = FALSE
 ) 
 
-ds_predicted_global$dv_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
-ds_predicted_global$dv_hat_p  <- plogis(ds_predicted_global$dv_hat) 
+predicted_global                  <- predict(model_global, newdata=ds_predicted_global, se.fit=TRUE) 
+ds_predicted_global$dv_hat        <- predicted_global$fit #logged-odds of probability (ie, linear)
+ds_predicted_global$dv_upper      <- predicted_global$fit + 1.96*predicted_global$se.fit
+ds_predicted_global$dv_lower      <- predicted_global$fit - 1.96*predicted_global$se.fit 
+ds_predicted_global$dv_hat_p      <- plogis(ds_predicted_global$dv_hat) 
+ds_predicted_global$dv_upper_p    <- plogis(ds_predicted_global$dv_upper) 
+ds_predicted_global$dv_lower_p    <- plogis(ds_predicted_global$dv_lower) 
+
 
 ds_predicted_study_list <- list()
 model_study_list <- list()
@@ -170,7 +176,7 @@ for( study_name_ in dto[["studyName"]] ) {
   ) 
   
   d_predicted$dv_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                     #probability (ie, s-curve)
+  d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                            #probability (ie, s-curve)
   ds_predicted_study_list[[study_name_]] <- d_predicted
 }
 
@@ -263,10 +269,10 @@ rm(ds_replicated_predicted_list)
 
 ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This block should be almost identical to the one above.
   dplyr::bind_rows(.id="facet_line") %>%
-  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, marital_f, poor_health) %>%
+  # dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, marital_f, poor_health) %>%
   dplyr::mutate(
-    dv_hat           = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
-    dv_hat_p         = plogis(dv_hat),
+    # dv_hat           = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
+    # dv_hat_p         = plogis(dv_hat),
     prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
 rm(ds_replicated_predicted_global_list)
@@ -326,21 +332,21 @@ for( i in seq_len(nrow(ds_replicated_predicted)) ) {
 ds_replicated_predicted2 <- ds_replicated_predicted[ds_replicated_predicted$keep, ]
 ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_predicted_global$keep, ]
 
-table(ds_replicated_predicted$prediction_line)
+# table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
   geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
-  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
+  # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
   geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
+  geom_ribbon(data=ds_replicated_predicted_global2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
   # geom_point(data=ds_replicated_predicted2) +
   scale_y_continuous(label=scales::percent) +
   scale_color_identity() +
   facet_grid(facet_line ~ study_name) +
   theme_light() +
-  theme(legend.position="none")+
+  theme(legend.position="none") +
   labs(x="Age", y=dv_label)
 
-head(ds_predicted_global)
 
 # a<- predict(model)
 # aa<- predict(model)
