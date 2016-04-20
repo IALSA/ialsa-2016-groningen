@@ -78,7 +78,7 @@ for(s in dto[["studyName"]]){
 }
 lapply(dmls, names) # view the contents of the list object
 
-ds <- plyr::ldply(dmls,data.frame,.id = "study_name")
+ds <- plyr::ldply(dmls,data.frame, .id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 ds %>% dplyr::glimpse()
 
@@ -155,7 +155,8 @@ reference_group <- c(
 
 # ---- model-specification -------------------------
 # eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
-eq <- as.formula(paste0("dv ~ -1 + ",time_scale, " + ", control_covar, " + ", focal_covar))
+eq_string <- paste0("dv ~ -1 + ",time_scale, " + ", control_covar, " + ", focal_covar)
+eq <- as.formula(eq_string)
 model_global <- glm(eq, data = ds2, family = binomial(link="logit")) 
 summary(model_global)
 
@@ -293,9 +294,16 @@ ds_replicated <- ds_replicated_observed_list %>%
   # dplyr::select(facet_line, female, educ3_f, poor_health) %>% # was turned off
   dplyr::group_by(facet_line) %>% 
   dplyr::mutate(
-    color_stroke = assign_color(., facet_line)
+    color_stroke     = assign_color(., facet_line)
   ) %>% 
-  dplyr::ungroup()
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    facet_line       = ordered(
+      facet_line, 
+      levels=c("female", "educ3_f", "marital_f", "poor_health")#, 
+      # labels=c("female", "education", "marital", "poor health")
+    )
+  )
 rm(ds_replicated_observed_list)
 
 ds_replicated_predicted <- ds_replicated_predicted_list %>%
@@ -304,8 +312,15 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::group_by(facet_line) %>%
   dplyr::mutate(
     color_stroke     = assign_color(., facet_line)
-  ) %>%
-  dplyr::ungroup() %>%
+  ) %>% 
+  dplyr::ungroup() %>% 
+  dplyr::mutate(
+    facet_line       = ordered(
+      facet_line, 
+      levels=c("female", "educ3_f", "marital_f", "poor_health")#, 
+      # labels=c("female", "education", "marital", "poor health")
+    )
+  ) %>% 
   dplyr::group_by(study_name) %>%
   dplyr::mutate(
     dv_hat           = assign_prediction(., study_name)
@@ -400,12 +415,9 @@ graph_logistic_main <- function(ds){
     facet_grid(facet_line ~ study_name) +
     theme_light() +
     theme(legend.position="none") +
-    labs(x="Age", y=dv_label)
-  # return(g)
+    labs(x="Age", y=dv_label, title=eq_string)
 }
 graph_logistic_main(ds_replicated)
-
-
 
 
 # ---- glm-support --------------------------
