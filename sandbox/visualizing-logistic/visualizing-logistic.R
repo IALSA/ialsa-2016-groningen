@@ -175,8 +175,17 @@ for( study_name_ in dto[["studyName"]] ) {
     stringsAsFactors = FALSE
   ) 
   
-  d_predicted$dv_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                            #probability (ie, s-curve)
+  # d_predicted$dv_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  # d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                            #probability (ie, s-curve)
+  
+  predicted_study           <- predict(model_study, newdata=d_predicted, se.fit=TRUE) 
+  d_predicted$dv_hat        <- predicted_study$fit #logged-odds of probability (ie, linear)
+  d_predicted$dv_upper      <- predicted_study$fit + 1.96*predicted_study$se.fit
+  d_predicted$dv_lower      <- predicted_study$fit - 1.96*predicted_study$se.fit 
+  d_predicted$dv_hat_p      <- plogis(d_predicted$dv_hat) 
+  d_predicted$dv_upper_p    <- plogis(d_predicted$dv_upper) 
+  d_predicted$dv_lower_p    <- plogis(d_predicted$dv_lower) 
+  
   ds_predicted_study_list[[study_name_]] <- d_predicted
 }
 
@@ -338,6 +347,7 @@ ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, col
   geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
   # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
   geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
+  # geom_ribbon(data=ds_replicated_predicted2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
   geom_ribbon(data=ds_replicated_predicted_global2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
   # geom_point(data=ds_replicated_predicted2) +
   scale_y_continuous(label=scales::percent) +
