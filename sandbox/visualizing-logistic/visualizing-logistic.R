@@ -177,13 +177,13 @@ for( study_name_ in dto[["studyName"]] ) {
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
-ds_replicated_list <- list( #rename ds_replicated_observed_list
+ds_replicated_observed_list <- list(
   female        = ds2,
   educ3_f       = ds2,
   marital_f     = ds2,
   poor_health   = ds2
 )
-ds_replicated_predicted_list <- list(  #rename ds_replicated_predicted_study_list
+ds_replicated_predicted_list <- list(
   female        = ds_predicted_study,
   educ3_f       = ds_predicted_study,
   marital_f     = ds_predicted_study,
@@ -196,7 +196,7 @@ ds_replicated_predicted_global_list <- list(
   poor_health   = ds_predicted_global
 )
 
-assign_color <- function( d2, facet_line ) {
+assign_color <- function( d, facet_line ) {
   reference_color <- "#91777e" ##7e1a02
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
   variable <- facet_line[1]
@@ -217,22 +217,22 @@ assign_color <- function( d2, facet_line ) {
     stop("The palette for this variable is not defined.")
   }
   
-  d3 <- d2[d2$facet_line==facet_line, ] %>% 
+  d3 <- d[d$facet_line==facet_line, ] %>% 
     dplyr::rename_("iv" = variable)
   
   palette_row[as.character(d3$iv)]
 }
 
-assign_prediction <- function( d2, study_name ) {
+assign_prediction <- function( d, study_name ) {
   testit::assert("Only one `study_name` value should be passed.", dplyr::n_distinct(study_name)==1L)
   study_name <- study_name[1]
   
   m <- model_study_list[[study_name]]
-  d2$dv_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
-  d2$dv_hat[d2$study_name==study_name]
+  d$dv_hat <- as.numeric(predict(m, newdata=d)) #logged-odds of probability (ie, linear)
+  d$dv_hat[d$study_name==study_name]
 }
 
-ds_replicated <- ds_replicated_list %>% 
+ds_replicated <- ds_replicated_observed_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
   # dplyr::select(facet_line, female, educ3_f, poor_health) %>% # was turned off
   dplyr::group_by(facet_line) %>% 
@@ -240,6 +240,7 @@ ds_replicated <- ds_replicated_list %>%
     color_stroke = assign_color(., facet_line)
   ) %>% 
   dplyr::ungroup()
+rm(ds_replicated_observed_list)
 
 ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::bind_rows(.id="facet_line") %>%
@@ -258,6 +259,7 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
     dv_hat_p         = plogis(dv_hat),
     prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
+rm(ds_replicated_predicted_list)
 
 ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This block should be almost identical to the one above.
   dplyr::bind_rows(.id="facet_line") %>%
@@ -267,6 +269,7 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
     dv_hat_p         = plogis(dv_hat),
     prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
+rm(ds_replicated_predicted_global_list)
 
 reference_group <- c(
   "female"        = TRUE,
