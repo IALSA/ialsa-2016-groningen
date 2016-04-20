@@ -100,7 +100,7 @@ graph_logistic_point_simple <- function(
     facet_grid(. ~ study_name) + 
     main_theme +
     theme(
-      legend.position="none"
+      legend.position="right"
     )
   # return(g)
 }
@@ -115,13 +115,6 @@ graph_logistic_point_simple <- function(
 
 # ---- complex-point-plot-4 -----------------------
 # covar_order <- c("female","educ3_f","marital_f", "poor_health")
-library(gridExtra)
-g_legend<-function(a.plot){
-  tmp <- ggplot_gtable(ggplot_build(a.plot))
-  leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
-  legend <- tmp$grobs[[leg]]
-  legend
-}
 
 graph_logistic_point_complex_4 <- function(
   ds, 
@@ -130,48 +123,45 @@ graph_logistic_point_complex_4 <- function(
   covar_order,
   alpha_level
 ){
-
-  g_1 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[1], alpha_level)
-  g_2 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[2], alpha_level)
-  g_3 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[3], alpha_level)
-  g_4 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[4], alpha_level)
+  # function for stripping legends from plots
+  g_legend<-function(a.gplot){
+    tmp <- ggplot_gtable(ggplot_build(a.gplot))
+    leg <- which(sapply(tmp$grobs, function(x) x$name) == "guide-box")
+    legend <- tmp$grobs[[leg]]
+    legend
+  }
   
-  leg1 <- g_legend(g_1); grid.draw(leg1) 
-  leg2 <- g_legend(g_2)
-  leg3 <- g_legend(g_3)
-  leg4 <- g_legend(g_4)
+  plot1 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[1], alpha_level)
+  legend1 <- g_legend(plot1)
+  plot1 <- plot1 + theme(legend.position="none")
+  
+  plot2 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[2], alpha_level)
+  legend2 <- g_legend(plot2)
+  plot2 <- plot2 + theme(legend.position="none")
   
   
+  plot3 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[3], alpha_level)
+  legend3 <- g_legend(plot3)
+  plot3 <- plot3 + theme(legend.position="none")
   
   
-  grid::grid.newpage()    
-  #Defnie the relative proportions among the panels in the mosaic.
-  layout <- grid::grid.layout(nrow=4, ncol=2,
-                              widths=grid::unit(c(.9,.1), c("null","null")),
-                              heights=grid::unit(c(.2, .2, .2,.2,.2) ,c("null","null","null","null","null"))
+  plot4 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[4], alpha_level)
+  legend4 <- g_legend(plot4)
+  plot4 <- plot4 + theme(legend.position="none")
+  
+  
+  gridExtra::grid.arrange( plot1, legend1, plot2, legend2, plot3, legend3, plot4, legend4,
+                           ncol=2,  nrow=4,
+                           widths=c(9,1.5)
+                           # hieghts=c(1)
   )
-  grid::pushViewport(grid::viewport(layout=layout))
-  print(g_1,    vp=grid::viewport(layout.pos.row=1, layout.pos.col=1 ))
-  print(g_2,    vp=grid::viewport(layout.pos.row=2, layout.pos.col=1 ))
-  print(g_3,    vp=grid::viewport(layout.pos.row=3, layout.pos.col=1 ))
-  print(g_4,    vp=grid::viewport(layout.pos.row=4, layout.pos.col=1 ))
-  print(leg1,   vp=grid::viewport(layout.pos.row=1, layout.pos.col=2 ))
-  print(leg2,   vp=grid::viewport(layout.pos.row=2, layout.pos.col=2 ))
-  print(leg3,   vp=grid::viewport(layout.pos.row=3, layout.pos.col=2 ))
-  print(leg4,   vp=grid::viewport(layout.pos.row=4, layout.pos.col=2 ))
-  
-  
-  
-  grid::popViewport(0)
-  
-} 
-graph_logistic_point_complex_4(
-  ds = ds_predicted_global,
-  x_name = "age_in_years",
-  y_name = "smoke_now_hat_p",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3)
-# 
+} # close function
+# graph_logistic_point_complex_4(
+#   ds = ds_predicted_global,
+#   x_name = "age_in_years",
+#   y_name = "smoke_now_hat_p",
+#   covar_order = c("female","marital_f","educ3_f","poor_health"),
+#   alpha_level = .3)
 
 
 

@@ -128,14 +128,25 @@ ds2 <- ds %>%
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health"))
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health"))
+eq_global <- as.formula(paste0(
+  # "smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health + female:marital_f + female:educ3_f + female:poor_health + marital_f:educ3_f + marital_f:poor_health"
+  "smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"
+  )
+)
+
+eq_study <- as.formula(paste0(
+  # "smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health + female:marital_f + female:educ3_f + female:poor_health + marital_f:educ3_f + marital_f:poor_health"
+  "smoke_now ~ -1 + age_in_years + female + marital_f + educ3_f + poor_health"
+  )
+)
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
-  eq,
+  eq_global,
   data = ds2, 
   family = binomial(link="logit")
 ) 
 summary(model_global)
+coefficients(model_global)
 ds2$smoke_now_p <- predict(model_global)
 
 # ds_predicted_global <- expand.grid(
@@ -166,7 +177,7 @@ ds_predicted_study_list <- list()
 model_study_list <- list()
 for( study_name_ in dto[["studyName"]] ) {
   d_study <- ds2[ds2$study_name==study_name_, ]
-  model_study <- glm(eq, data=d_study,  family=binomial(link="logit")) 
+  model_study <- glm(eq_study, data=d_study,  family=binomial(link="logit")) 
   model_study_list[[study_name_]] <- model_study
   
   # d_predicted <- expand.grid(
@@ -197,219 +208,48 @@ for( study_name_ in dto[["studyName"]] ) {
 ds_predicted_study <- ds_predicted_study_list %>% 
   dplyr::bind_rows(.id="study_name")
 
- 
-# ds = ds_predicted_global
-# x_name = "age_in_years"
-# y_name = "smoke_now_hat"
-# color_group = "female"
-# alpha_level=.5
-graph_logistic_point_simple <- function(
-  ds, 
-  x_name, 
-  y_name, 
-  color_group, 
-  alpha_level=.5
-){
-  g <- ggplot2::ggplot(ds, aes_string(x=x_name)) +
-    geom_point(aes_string(y=y_name, color=color_group), shape=16, alpha=alpha_level) +
-    facet_grid(. ~ study_name) + 
-    main_theme +
-    theme(
-      legend.position="right"
-    )
-  # return(g)
-}
-
-g <- graph_logistic_point_simple(
-  ds = ds_predicted_global,
-  x_name = "age_in_years",
-  y_name = "smoke_now_hat",
-  color_group = "marital_f",
-  alpha_level = .5
-)
-g
+# summary(model_study_list[["alsa"]])
+lapply(model_study_list, summary)
+sapply(model_study_list, coefficients)
+# graph_logistic_point_complex_4(
+#   ds = ds_predicted_global,
+#   x_name = "age_in_years",
+#   y_name = "smoke_now_hat_p",
+#   covar_order = c("female","marital_f","educ3_f","poor_health"),
+#   alpha_level = .3)
 
 # ---- graph-points-study-as-factor ----------------------
 
 graph_logistic_point_complex_4(
   ds = ds_predicted_global,
   x_name = "age_in_years",
-  y_name = "smoke_now_p",
-  covar_order = c("female","educ3_f","poor_health"),
+  y_name = "smoke_now_hat",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
   alpha_level = .3)
 
 
-# ---- graph-curves-study-as-factor ----------------------
-# graph_logitstic_curve_complex_4(
-#   ds = s, 
-#   x_name = "age_in_years", 
-#   y_name = "smoke_now", 
-#   covar_order = c("female","marital","educ3","poor_health"),
-#   alpha_level = .3) 
-
-# ---- fit-model-with-study-as-cluster ----------------------------------------
-
-model_outcome <- "smoke_now"
-model_predictors <- c("age_in_years", "female", "marital", "educ3","poor_health")
-
-ml <- list() # create a model list object to contain model estimation and modeled data
-for(s in dto[["studyName"]]){
-  d <- dto[['unitData']][[s]] %>% 
-    dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-    na.omit()
-  mdl <- stats::glm( # fit model
-    formula = smoke_now ~ age_in_years +female + marital + educ3 + poor_health ,
-    data = d, family="binomial"
-  ); summary(mdl); 
-  modeled_response_name <- paste0(model_outcome,"_p")
-  d[,modeled_response_name] <- predict(mdl)
-  ml[["data"]][[s]] <- d
-  ml[["model"]][[s]] <- mdl
-}
-# names(ml[["data"]])
-# names(ml[["model"]])
-
-d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-d$id <- 1:nrow(d) # some ids values might be identical, replace
-head(d)
-
-# ---- graph-points-study-as-cluster ----------------------
-
-# graph_logistic_point_complex_4(
-#   ds = d, 
-#   x_name = "age_in_years", 
-#   y_name = "smoke_now_p", 
-#   covar_order = c("female","marital","educ3","poor_health"),
-#   alpha_level = .3) 
-# 
-
-# ---- graph-curves-study-as-cluster ----------------------
+graph_logistic_point_complex_4(
+  ds = ds_predicted_global,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat_p",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
+  alpha_level = .3)
 
 
+graph_logistic_point_complex_4(
+  ds = ds_predicted_study,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
+  alpha_level = .3)
 
 
-# d <- ds %>% 
-#   dplyr::select_("id", "study_name", "smoke_now", 
-#                  "age_in_years", "female", "poor_health") %>% 
-#   na.omit()
-
-model_outcome <- "smoke_now"
-model_predictors <- c("age_in_years", "female", "poor_health")
-
-ml <- list() # create a model list object to contain model estimation and modeled data
-for(s in dto[["studyName"]]){
-  d <- dto[['unitData']][[s]] %>% 
-    dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-    na.omit()
-  model_formula <- as.formula(smoke_now ~ age_in_years + female + poor_health)
-  model <- glm(model_formula, data=d, family=binomial(link="logit"))
-  
-  #generate odds 
-  modeled_response_name <- paste0(model_outcome,"_p")
-  d[,modeled_response_name] <- predict(model)
-  head(d)
-  
-  # generate probabilities
-  # Create a temporary data frame of hypothetical values
-  ds_temp<- as.data.frame(
-    d %>% 
-      dplyr::select_("age_in_years", "female", "poor_health"))
-  head(ds_temp)
-  # Predict the fitted values given the model and hypothetical data
-  ds_predicted <- as.data.frame(predict(model, newdata = ds_temp, 
-                                        type="link", se=TRUE))
-  head(ds_predicted)
-  # Combine the hypothetical data and predicted values
-  ds_new <- cbind(ds_temp, ds_predicted)
-  head(ds_new)
-  # ymin= y_lower
-  # Calculate confidence intervals
-  std <- qnorm(0.95 / 2 + 0.5)
-  ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
-  ds_new$ymax <- model$family$linkinv(ds_new$fit + std * ds_new$se)
-  ds_new$fit <- model$family$linkinv(ds_new$fit)  # Rescale to 0-1
-  head(d); head(ds_new)
- 
-  ml[["data"]][[s]] <- ds_new
-  ml[["model"]][[s]] <- model
-}
-# names(ml[["data"]])
-# names(ml[["model"]])
-
-d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-d$id <- 1:nrow(d) # some ids values might be identical, replace
-head(d)
- 
-graph_logitstic_curve_simple <- function(
-  ds, 
-  x_name, 
-  y_name, 
-  color_group, 
-  alpha_level=.5
-){
-  
-  
-  ggplot(ds, aes(x=age_in_years, y=smoke_now)) +
-    geom_point(position=position_jitter(width=.3, height=.08), alpha=0.4,
-               shape=21, size=1.5) +
-    geom_line(data=d, colour="#1177FF", size=1)
-  
-  
-  # 
-  # p <- ggplot(d, aes_string(x=age_in_years, y=smoke_now)) 
-  # p + geom_point() + 
-  #   geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
-  #                                fill=as.factor(female)), alpha=.5) +
-  #   geom_line(aes(y=fit, colour=as.factor(female))) +
-  #   # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
-  #   #                                fill=as.factor(covar3)), alpha=0.5) + 
-  #   # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
-  #   facet_grid(study_name ~ .)+
-  #   labs(title="Logistic curve")
-}
-graph_logitstic_curve_simple(x_name = "age_in_years",
-                             y_name = "smoke_now",
-                             color_group = "female",
-                             alpha_level = .5)
-
-
-# Plot everything
-p <- ggplot(d, aes(x=age_in_years, y=as.numeric(smoke_now))) 
-p + geom_point() + 
-  geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax,
-                                 fill=as.factor(female)), alpha=0.5) +
-  geom_line(data=ds_new, aes(y=fit, colour=as.factor(female))) +
-  # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
-  #                                fill=as.factor(covar3)), alpha=0.5) + 
-  # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
-  facet_grid(study_name ~ .)+
-  labs(title="Logistic curve")
-
-
-
-
-# ----- dummy ---------------------------
-ld <- d %>%  dplyr::select(id, study_name, age_in_years,female, marital, educ3, smoke_now_p)
-
-
-# ---- glm-support --------------------------
-# useful functions working with GLM model objects
-summary(mdl) # model summary
-coefficients(mdl) # point estimates of model parameters (aka "model solution")
-knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
-knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
-confint(mdl, level=0.95) # confidence intervals for the estimated parameters
-
-# predict(mdl); fitted(mld) # generate prediction of the full model (all effects)
-# residuals(mdl) # difference b/w observed and modeled values
-anova(mdl) # put results into a familiary ANOVA table
-# influence(mdl) # regression diagnostics
-
-
-# create a model summary object to query 
-(summod <- summary(mdl))
-str(summod)
-
+graph_logistic_point_complex_4(
+  ds = ds_predicted_global,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
+  alpha_level = .3)
 
 
 # ---- reproduce ---------------------------------------
