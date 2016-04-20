@@ -159,14 +159,15 @@ ds2$smoke_now_p <- predict(model_global)
 #   stringsAsFactors = FALSE
 # ) 
 
-ds_predicted_global <- ds2 %>% dplyr::select_(
-  "study_name",
-  "age_in_years", 
-  "female",        
-  "educ3_f",       
-  "marital_f" ,
-  "poor_health"  
-) 
+ds_predicted_global <- ds2 %>% 
+  dplyr::select_(
+    "study_name",
+    "age_in_years", 
+    "female",        
+    "educ3_f",       
+    "marital_f" ,
+    "poor_health"  
+  ) 
 
 ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
 ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
