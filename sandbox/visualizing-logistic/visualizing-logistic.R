@@ -293,20 +293,20 @@ testit::assert("The two replicated predicted datasets should have the same numbe
 
 for( i in seq_len(nrow(ds_replicated_predicted)) ) {
   if( ds_replicated_predicted$facet_line[i] == "female" ) {
-    keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) #Add more conditions/predictors here
-    keep_study  <- (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$female[i]==reference_group["female"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     
   } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
-    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) #Add more conditions/predictors here
-    keep_study <- (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
   
   } else if( ds_replicated_predicted$facet_line[i] == "poor_health" ) {
-    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) #Add more conditions/predictors here
-    keep_study <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
+    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
     keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     
@@ -322,10 +322,10 @@ ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_
 table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
-  geom_line(data=ds_replicated_predicted2) +
-  geom_point(data=ds_replicated_predicted2) +
-  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=2, alpha=.4) + #linetype="CC"
   geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
+  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=2, alpha=.4) + #linetype="CC"
+  geom_line(data=ds_replicated_predicted2) +
+  # geom_point(data=ds_replicated_predicted2) +
   scale_y_continuous(label=scales::percent) +
   scale_color_identity() +
   facet_grid(facet_line ~ study_name) +
