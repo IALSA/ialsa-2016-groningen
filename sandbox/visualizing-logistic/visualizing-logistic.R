@@ -132,7 +132,7 @@ ds2 <- ds %>%
   )
 
 #eq <- as.formula(paste0("smoke_now ~ -1 + study_name + age_in_years + female + marital_f + educ3_f + poor_health"))
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health"))
+eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
 # eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years"))
 model_global <- glm(
  eq,
@@ -147,7 +147,7 @@ ds_predicted_global <- expand.grid(
   age_in_years    = seq.int(40, 100, 10),
   female        = sort(unique(ds2$female)),
   educ3_f       = sort(unique(ds2$educ3_f)),
-  # marital_f     = sort(unique(d$marital_f)),
+  marital_f     = sort(unique(ds2$marital_f)),
   poor_health   = sort(unique(ds2$poor_health)),
   stringsAsFactors = FALSE
 ) 
@@ -168,9 +168,8 @@ for( study_name_ in dto[["studyName"]] ) {
     age_in_years  = seq.int(40, 100, 10),
     female        = sort(unique(ds2$female)),
     educ3_f       = sort(unique(ds2$educ3_f)),
-    # marital_f     = sort(unique(ds2$marital_f)),
+    marital_f     = sort(unique(ds2$marital_f)),
     poor_health   = sort(unique(ds2$poor_health)),
-    #TODO: add more predictors -possibly as ranges (instead of fixed values)
     stringsAsFactors = FALSE
   ) 
   
@@ -195,16 +194,19 @@ ds_predicted_study <- ds_predicted_study_list %>%
 ds_replicated_list <- list( #rename ds_replicated_observed_list
   female  = ds2,
   educ3_f   = ds2,
+  marital_f   = ds2,
   poor_health = ds2
 )
 ds_replicated_predicted_list <- list(  #rename ds_replicated_predicted_study_list
   female  = ds_predicted_study,
   educ3_f   = ds_predicted_study,
+  marital_f   = ds_predicted_study,
   poor_health = ds_predicted_study
 )
 ds_replicated_predicted_global_list <- list( 
   female  = ds_predicted_global,
   educ3_f   = ds_predicted_global, 
+  marital_f   = ds_predicted_global, 
   poor_health = ds_predicted_global
 )
 
@@ -217,9 +219,11 @@ assign_color <- function( d2, facet_line ) {
     palette_row <- c("TRUE"=reference_color, "FALSE"="skyblue")
   } else if( variable %in% c("educ3", "educ3_f") ) {
     palette_row <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
+  } else if( variable %in% c("marital_f") ) {
+    palette_row <- c("mar_cohab"=reference_color, "sep_divorced"="slategray3", "single"="turquoise4", "widowed"="violetred4")
   } else if( variable %in% c("poor_health") ) {
     palette_row <- c("FALSE"=reference_color, "TRUE"="tomato")
-  }else {
+  } else {
     stop("The palette for this variable is not defined.")
   }
   
@@ -251,7 +255,7 @@ ds_replicated <- ds_replicated_list %>%
 
 ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::bind_rows(.id="facet_line") %>%
-  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, poor_health) %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, marital_f, poor_health) %>%
   dplyr::group_by(facet_line) %>%
   dplyr::mutate(
     color_stroke     = assign_color(., facet_line)
@@ -264,21 +268,22 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(
     smoke_now_hat_p  = plogis(smoke_now_hat),
-    prediction_line  = paste(female, educ3_f,poor_health, sep="-")
+    prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
 
 ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This block should be almost identical to the one above.
   dplyr::bind_rows(.id="facet_line") %>%
-  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, poor_health) %>%
+  dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, marital_f, poor_health) %>%
   dplyr::mutate(
     smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
     smoke_now_hat_p  = plogis(smoke_now_hat),
-    prediction_line  = paste(female, educ3_f, poor_health, sep="-")
+    prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
 
 reference_group <- c(
   "female"    = TRUE,
   "educ3_f"   = "high school",
+  "marital_f"   = "mar_cohab",
   "poor_health" = FALSE
 )
 
@@ -294,24 +299,33 @@ testit::assert("The two replicated predicted datasets should have the same numbe
 for( i in seq_len(nrow(ds_replicated_predicted)) ) {
   if( ds_replicated_predicted$facet_line[i] == "female" ) {
     keep_study  <- (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
       (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$female[i]==reference_group["female"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     
   } else if( ds_replicated_predicted$facet_line[i] == "educ3_f" ) {
     keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
       (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     keep_global <- keep_study & (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+      
+  } else if( ds_replicated_predicted$facet_line[i] == "marital_f" ) {
+    keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & 
+      (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"]) & 
+      (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
+    keep_global <- keep_study & (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"])
   
   } else if( ds_replicated_predicted$facet_line[i] == "poor_health" ) {
     keep_study <- (ds_replicated_predicted$female[i]==reference_group["female"]) & #Add more conditions/predictors here
+      (ds_replicated_predicted$marital_f[i]==reference_group["marital_f"]) & 
       (ds_replicated_predicted$educ3_f[i]==reference_group["educ3_f"])
     keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
     # keep_global <- keep_study & (ds_replicated_predicted$poor_health[i]==reference_group["poor_health"])
-    
-  } 
-  
+  } else {
+    stop("The facet_line value is not supported (yet).")
+  }
   
   ds_replicated_predicted$keep[i] <- keep_study
   ds_replicated_predicted_global$keep[i] <- keep_global
