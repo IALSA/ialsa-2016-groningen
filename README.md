@@ -3,7 +3,7 @@
 
 **Welcome** - [letter of invitation](./documentation/log/invite.pdf) - [list of participants](./documentation/log/participants.pdf) - [summary of the agenda](./documentation/log/agenda.pdf) - [directions and locations](./documentation/log/directions.pdf) 
 
-**Documentation** : - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) - [source data objects](./data/contents.md)  - [resources and references](./documentation/resources-references.md) - [reproducibility instructions](./utility/reproducibility-instructions.md) 
+**Documentation** : - [Maelstrom Obiba Wiki](http://wiki.obiba.org/display/MHSA2016/Common+datasets+to+be+analyzed) - [source data objects](./data/contents.md)  - [resources and references](./documentation/resources-references.md) - [reproducibility instructions](./utility/reproducibility-instructions.md) - [general instructions](./documentation/general-instructions.md) 
 
 ### Focus
 > Habits, prevalence of, and factors associated with smoking among older adults.  
@@ -30,4 +30,6 @@
 #### Harmonized data
 - review currenlty available harmonized variables in a [combined dataset](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonized-data.html)
 
+![](./materials/ppt/procedure-map/Slide1.PNG)
 
+![](./materials/ppt/procedure-map/2-local-probability-1.png)
