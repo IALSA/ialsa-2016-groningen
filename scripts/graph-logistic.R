@@ -93,7 +93,10 @@ graph_logistic_point_simple <- function(
   x_name, 
   y_name, 
   color_group, 
-  alpha_level=.5
+  alpha_level=.5,
+  x_title = x_name,
+  y_title = y_name,
+  color_title = color_group
 ){
   g <- ggplot2::ggplot(ds, aes_string(x=x_name)) +
     geom_point(aes_string(y=y_name, color=color_group), shape=16, alpha=alpha_level) +
@@ -101,7 +104,9 @@ graph_logistic_point_simple <- function(
     main_theme +
     theme(
       legend.position="right"
-    )
+    ) +
+    labs(x=x_title, y = y_title, color = color_title) +
+    guides(color = guide_legend(override.aes = list(alpha=1, size=6, shape=15)))
   # return(g)
 }
 
@@ -121,7 +126,9 @@ graph_logistic_point_complex_4 <- function(
   x_name, 
   y_name, 
   covar_order,
-  alpha_level
+  alpha_level,
+  y_title = y_name,
+  color_title = "predictor"
 ){
   # function for stripping legends from plots
   g_legend<-function(a.gplot){
@@ -131,41 +138,51 @@ graph_logistic_point_complex_4 <- function(
     legend
   }
   
-  plot1 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[1], alpha_level)
+  plot1 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[1], alpha_level, x_title ="", y_title = y_title, color_title = "Female") 
   legend1 <- g_legend(plot1)
-  plot1 <- plot1 + theme(legend.position="none")
+  plot1 <- plot1 + theme(legend.position="none") 
   
-  plot2 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[2], alpha_level)
+  plot2 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[2], alpha_level, x_title ="", y_title = y_title, color_title = "Education") 
   legend2 <- g_legend(plot2)
   plot2 <- plot2 + theme(legend.position="none")
   
   
-  plot3 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[3], alpha_level)
+  plot3 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[3], alpha_level, x_title ="", y_title = y_title, color_title = "Marital") 
   legend3 <- g_legend(plot3)
   plot3 <- plot3 + theme(legend.position="none")
   
   
-  plot4 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[4], alpha_level)
+  plot4 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[4], alpha_level, x_title = "Age", y_title = y_title, color_title = "Poor health") 
   legend4 <- g_legend(plot4)
   plot4 <- plot4 + theme(legend.position="none")
   
+  blankPlot <- ggplot()+geom_blank(aes(1,1)) +
+    	  cowplot::theme_nothing()
   
-  gridExtra::grid.arrange( plot1, legend1, plot2, legend2, plot3, legend3, plot4, legend4,
-                           ncol=2,  nrow=4,
-                           widths=c(9,1.5)
-                           # hieghts=c(1)
+  main_title <- cowplot::ggdraw() + cowplot::draw_label(eq_global_string, fontface='bold')
+  
+  # gridExtra::grid.arrange( plot1, legend1, plot2, legend2, plot3, legend3, plot4, legend4,
+  #                          ncol=2,  nrow=4,
+  #                          widths=c(9,1.5)
+  #                          # hieghts=c(1)
+  # )
+  cowplot::plot_grid( main_title,blankPlot, plot1, legend1, plot2, legend2, plot3, legend3, plot4, legend4,
+                           ncol=2,  nrow=5,
+                           rel_widths = c(9,1.5), align = "none", 
+                           rel_heights=c(.2, 1, 1, 1, 1)
   )
 } # close function
-# graph_logistic_point_complex_4(
-#   ds = ds_predicted_global,
-#   x_name = "age_in_years",
-#   y_name = "smoke_now_hat_p",
-#   covar_order = c("female","marital_f","educ3_f","poor_health"),
-#   alpha_level = .3)
+graph_logistic_point_complex_4(
+  ds = ds_predicted_global,
+  x_name = "age_in_years",
+  y_name = "smoke_now_hat_p",
+  covar_order = c("female","marital_f","educ3_f","poor_health"),
+  alpha_level = .3,
+  y_title = "P(smoke_now)")
 
-
-
-
+# 
+# x_title = "b"
+# y_title ="c"
 
 
 
