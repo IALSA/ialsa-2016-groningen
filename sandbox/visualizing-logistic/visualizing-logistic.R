@@ -41,14 +41,14 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-dto[["metaData"]] %>% 
-  dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
-  DT::datatable(
-    class   = 'cell-border stripe',
-    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-    filter  = "top",
-    options = list(pageLength = 6, autoWidth = TRUE)
-  )
+# dto[["metaData"]] %>% 
+#   dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+#   DT::datatable(
+#     class   = 'cell-border stripe',
+#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+#     filter  = "top",
+#     options = list(pageLength = 6, autoWidth = TRUE)
+#   )
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -123,9 +123,14 @@ table(ds$study_name, ds$educ3,         useNA = "always")
 # ---- fit-model-with-study-as-factor ----------------------------------------
 dv_name <- "smoke_now"
 dv_label <- "P(Smoke Now)"
+dv_label_odds <- "Odds(Smoke Now)"
+
+
+# selected_variables <- c("id", "study_name", dv_name, time_scale, control_covar, focal_covar)
 
 ds2 <- ds %>% 
-  dplyr::select_("id", "study_name", "smoke_now", "age_in_years", "female", "marital", "educ3","poor_health") %>% 
+  dplyr::select_("id", "study_name", "smoke_now", "age_in_years", "female", "marital", "educ3","poor_health") %>%
+  # dplyr::select_(.dots = selected_variables) %>%
   na.omit() %>% 
   dplyr::mutate(
     marital_f         = as.factor(marital),
@@ -133,9 +138,14 @@ ds2 <- ds %>%
   ) %>% 
   dplyr::rename_(
     "dv" = dv_name
-  )
+  ) 
+ 
+time_scale <- "age_in_years"
+control_covar <- c("female + educ3_f + marital_f")
+focal_covar <- "poor_health"
 
-eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
+# eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
+eq <- as.formula(paste0("dv ~ -1 + ",time_scale, " + ", control_covar, " + ", focal_covar))
 model_global <- glm(eq, data = ds2, family = binomial(link="logit")) 
 summary(model_global)
 ds2$dv_p <- predict(model_global)
@@ -212,22 +222,37 @@ ds_replicated_predicted_global_list <- list(
 )
 
 assign_color <- function( d, facet_line ) {
-  reference_color <- "#91777e" ##7e1a02
+  reference_color <- "#4daf4a" ##7e1a02 # 91777e
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
   variable <- facet_line[1]
   
+  # color logic:
+  
+  # e41a1c - red
+  # 377eb8 - blue
+  # 4daf4a - green
+  # 984ea3 - purplse
+  # ff7f00 - organge
+  
+  increased_risk_2 <- "#e41a1c"  # red - further increased risk factor
+  increased_risk_1 <- "#ff7f00"  # organge - increased risk factor
+  reference_color <- "#4daf4a"   # green  - REFERENCE  category
+  descreased_risk_1 <-"#377eb8"  # blue - descreased risk factor
+  descreased_risk_2 <- "#984ea3" # purple - further descrease in risk factor
+  
+  
   if( variable == "female") {
     # http://colrd.com/image-dna/25114/
-    palette_row <- c("TRUE"=reference_color, "FALSE"="#98aab9")
-  } else if( variable %in% c("educ3", "educ3_f") ) {
+    palette_row <- c("TRUE"=reference_color, "FALSE"=increased_risk_1) # 98aab9
+  } else if( variable %in% c("educ3", "educ3_f") ) { 
     # http://colrd.com/image-dna/24382/
-    palette_row <- c("high school"=reference_color, "less than high school"="#54a992", "more than high school"="#e8c571")
+    palette_row <- c("high school"=reference_color, "less than high school"=increased_risk_1, "more than high school"=descreased_risk_1) # 54a992, e8c571
   } else if( variable %in% c("marital_f") ) {
     # http://colrd.com/image-dna/23318/
-    palette_row <- c("mar_cohab"=reference_color, "sep_divorced"="#2a7185", "single"="#60824f", "widowed"="#725ca5")
+    palette_row <- c("mar_cohab"=descreased_risk_1, "sep_divorced"= increased_risk_2, "single"=reference_color, "widowed"=increased_risk_1)
   } else if( variable %in% c("poor_health") ) {
     # http://colrd.com/palette/18841/
-    palette_row <- c("FALSE"=reference_color, "TRUE"="#7fbc41")
+    palette_row <- c("FALSE"=reference_color, "TRUE"=descreased_risk_2)
   } else {
     stop("The palette for this variable is not defined.")
   }
@@ -289,7 +314,7 @@ rm(ds_replicated_predicted_global_list)
 reference_group <- c(
   "female"        = TRUE,
   "educ3_f"       = "high school",
-  "marital_f"     = "mar_cohab",
+  "marital_f"     = "single",
   "poor_health"   = FALSE
 )
 
@@ -344,183 +369,19 @@ ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_
 # table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
-  geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
+  # geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
   # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
   geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
   # geom_ribbon(data=ds_replicated_predicted2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
   geom_ribbon(data=ds_replicated_predicted_global2, aes(ymax=dv_upper_p, ymin=dv_lower_p, group=NULL), color="gray80", alpha=.1) +
   # geom_point(data=ds_replicated_predicted2) +
-  scale_y_continuous(label=scales::percent) +
+  scale_y_continuous(label=scales::percent, limits = c(0, .50)) +
   scale_color_identity() +
   facet_grid(facet_line ~ study_name) +
   theme_light() +
   theme(legend.position="none") +
   labs(x="Age", y=dv_label)
 
-
-# a<- predict(model)
-# aa<- predict(model)
-# ---- graph-points-study-as-factor ----------------------
-
-# graph_logistic_point_complex_4(
-#   ds = d, 
-#   x_name = "age_in_years", 
-#   y_name = "dv_p", 
-#   covar_order = c("female","marital","educ3","poor_health"),
-#   alpha_level = .3) 
-# 
-
-# ---- graph-curves-study-as-factor ----------------------
-# graph_logitstic_curve_complex_4(
-#   ds = d, 
-#   x_name = "age_in_years", 
-#   y_name = "dv", 
-#   covar_order = c("female","marital","educ3","poor_health"),
-#   alpha_level = .3) 
-
-# ---- fit-model-with-study-as-cluster ----------------------------------------
-
-# model_outcome <- "smoke_now"
-# model_predictors <- c("age_in_years", "female", "marital", "educ3","poor_health")
-# 
-# ml <- list() # create a model list object to contain model estimation and modeled data
-# for(s in dto[["studyName"]]){
-#   d <- dto[['unitData']][[s]] %>% 
-#     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-#     na.omit()
-#   mdl <- stats::glm( # fit model
-#     formula = smoke_now ~ age_in_years +female + marital + educ3 + poor_health ,
-#     data = d, family="binomial"
-#   ); summary(mdl); 
-#   modeled_response_name <- paste0(model_outcome,"_p")
-#   d[,modeled_response_name] <- predict(mdl)
-#   ml[["data"]][[s]] <- d
-#   ml[["model"]][[s]] <- mdl
-# }
-# names(ml[["data"]])
-# names(ml[["model"]])
-
-# d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-# d$id <- 1:nrow(d) # some ids values might be identical, replace
-# head(d)
-
-# ---- graph-points-study-as-cluster ----------------------
-
-# graph_logistic_point_complex_4(
-#   ds = d, 
-#   x_name = "age_in_years", 
-#   y_name = "dv_p", 
-#   covar_order = c("female","marital","educ3","poor_health"),
-#   alpha_level = .3) 
-# 
-
-# ---- graph-curves-study-as-cluster ----------------------
-
-
-
-
-# # d <- ds %>% 
-# #   dplyr::select_("id", "study_name", "dv", 
-# #                  "age_in_years", "female", "poor_health") %>% 
-# #   na.omit()
-# 
-# model_outcome <- "dv"
-# model_predictors <- c("age_in_years", "female", "poor_health")
-# 
-# ml <- list() # create a model list object to contain model estimation and modeled data
-# for(s in dto[["studyName"]]){
-#   d <- dto[['unitData']][[s]] %>% 
-#     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
-#     na.omit()
-#   model_formula <- as.formula(dv ~ age_in_years + female + poor_health)
-#   model <- glm(model_formula, data=d, family=binomial(link="logit"))
-#   
-#   #generate odds 
-#   modeled_response_name <- paste0(model_outcome,"_p")
-#   d[,modeled_response_name] <- predict(model)
-#   head(d)
-#   
-#   # generate probabilities
-#   # Create a temporary data frame of hypothetical values
-#   ds_temp<- as.data.frame(
-#     d %>% 
-#       dplyr::select_("age_in_years", "female", "poor_health"))
-#   head(ds_temp)
-#   # Predict the fitted values given the model and hypothetical data
-#   ds_predicted <- as.data.frame(predict(model, newdata = ds_temp, 
-#                                         type="link", se=TRUE))
-#   head(ds_predicted)
-#   # Combine the hypothetical data and predicted values
-#   ds_new <- cbind(ds_temp, ds_predicted)
-#   head(ds_new)
-#   # ymin= y_lower
-#   # Calculate confidence intervals
-#   std <- qnorm(0.95 / 2 + 0.5)
-#   ds_new$ymin <- model$family$linkinv(ds_new$fit - std * ds_new$se)
-#   ds_new$ymax <- model$family$linkinv(ds_new$fit + std * ds_new$se)
-#   ds_new$fit <- model$family$linkinv(ds_new$fit)  # Rescale to 0-1
-#   head(d); head(ds_new)
-#  
-#   ml[["data"]][[s]] <- ds_new
-#   ml[["model"]][[s]] <- model
-# }
-# # names(ml[["data"]])
-# # names(ml[["model"]])
-# 
-# d <- plyr::ldply(ml[["data"]],data.frame,.id = "study_name")
-# d$id <- 1:nrow(d) # some ids values might be identical, replace
-# head(d)
- 
-graph_logitstic_curve_simple <- function(
-  ds, 
-  x_name, 
-  y_name, 
-  color_group, 
-  alpha_level=.5
-){
-  
-  
-  ggplot(ds, aes(x=age_in_years, y=dv)) +
-    geom_point(position=position_jitter(width=.3, height=.08), alpha=0.4,
-               shape=21, size=1.5) +
-    geom_line(data=d, colour="#1177FF", size=1)
-  
-  
-  # 
-  # p <- ggplot(d, aes_string(x=age_in_years, y=dv)) 
-  # p + geom_point() + 
-  #   geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
-  #                                fill=as.factor(female)), alpha=.5) +
-  #   geom_line(aes(y=fit, colour=as.factor(female))) +
-  #   # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
-  #   #                                fill=as.factor(covar3)), alpha=0.5) + 
-  #   # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
-  #   facet_grid(study_name ~ .)+
-  #   labs(title="Logistic curve")
-}
-graph_logitstic_curve_simple(x_name = "age_in_years",
-                             y_name = "dv",
-                             color_group = "female",
-                             alpha_level = .5)
-
-
-# Plot everything
-p <- ggplot(d, aes(x=age_in_years, y=as.numeric(dv))) 
-p + geom_point() + 
-  geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax,
-                                 fill=as.factor(female)), alpha=0.5) +
-  geom_line(data=ds_new, aes(y=fit, colour=as.factor(female))) +
-  # geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax, 
-  #                                fill=as.factor(covar3)), alpha=0.5) + 
-  # geom_line(data=ds_new, aes(y=fit, colour=as.factor(covar3))) + 
-  facet_grid(study_name ~ .)+
-  labs(title="Logistic curve")
-
-
-
-
-# ----- dummy ---------------------------
-ld <- d %>%  dplyr::select(id, study_name, age_in_years,female, marital, educ3, dv_p)
 
 
 # ---- glm-support --------------------------
