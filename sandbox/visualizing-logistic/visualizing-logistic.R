@@ -120,13 +120,10 @@ table(ds$study_name, ds$educ3,         useNA = "always")
 # ----- basic-model ------------------
 
 
-# ---- fit-model-with-study-as-factor ----------------------------------------
+# ---- declare-variables  ----------------------------------------
 dv_name <- "smoke_now"
 dv_label <- "P(Smoke Now)"
 dv_label_odds <- "Odds(Smoke Now)"
-
-
-# selected_variables <- c("id", "study_name", dv_name, time_scale, control_covar, focal_covar)
 
 ds2 <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", "age_in_years", "female", "marital", "educ3","poor_health") %>%
@@ -144,10 +141,13 @@ time_scale <- "age_in_years"
 control_covar <- c("female + educ3_f + marital_f")
 focal_covar <- "poor_health"
 
+# ---- model-specification -------------------------
 # eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
 eq <- as.formula(paste0("dv ~ -1 + ",time_scale, " + ", control_covar, " + ", focal_covar))
 model_global <- glm(eq, data = ds2, family = binomial(link="logit")) 
 summary(model_global)
+
+# ---- compute-predicted-global ------------------------------
 ds2$dv_p <- predict(model_global)
 
 ds_predicted_global <- expand.grid(
@@ -168,7 +168,7 @@ ds_predicted_global$dv_hat_p      <- plogis(ds_predicted_global$dv_hat)
 ds_predicted_global$dv_upper_p    <- plogis(ds_predicted_global$dv_upper) 
 ds_predicted_global$dv_lower_p    <- plogis(ds_predicted_global$dv_lower) 
 
-
+# ---- compute-predicted-study ------------------------
 ds_predicted_study_list <- list()
 model_study_list <- list()
 for( study_name_ in dto[["studyName"]] ) {
@@ -221,6 +221,7 @@ ds_replicated_predicted_global_list <- list(
   poor_health   = ds_predicted_global
 )
 
+# ---- define-coloring-function ----------------
 assign_color <- function( d, facet_line ) {
   reference_color <- "#4daf4a" ##7e1a02 # 91777e
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
@@ -272,6 +273,7 @@ assign_prediction <- function( d, study_name ) {
   d$dv_hat[d$study_name==study_name]
 }
 
+# - generated-replicated-dataset --------------------
 ds_replicated <- ds_replicated_observed_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
   # dplyr::select(facet_line, female, educ3_f, poor_health) %>% # was turned off
@@ -311,6 +313,7 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
   )
 rm(ds_replicated_predicted_global_list)
 
+# ---- declare-reference-groups ------------------
 reference_group <- c(
   "female"        = TRUE,
   "educ3_f"       = "high school",
@@ -318,6 +321,7 @@ reference_group <- c(
   "poor_health"   = FALSE
 )
 
+# ---- replicate-predicted-datasets --------------------
 ds_replicated_predicted <- ds_replicated_predicted %>% 
   dplyr::arrange(prediction_line)
 ds_replicated_predicted_global <- ds_replicated_predicted_global %>% 
@@ -367,7 +371,7 @@ ds_replicated_predicted2 <- ds_replicated_predicted[ds_replicated_predicted$keep
 ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_predicted_global$keep, ]
 
 # table(ds_replicated_predicted$prediction_line)
-
+# ---- model-plot ------------------
 ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
   # geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
   # geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
