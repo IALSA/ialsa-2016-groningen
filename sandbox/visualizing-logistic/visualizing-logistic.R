@@ -121,18 +121,24 @@ table(ds$study_name, ds$educ3,         useNA = "always")
 
 
 # ---- fit-model-with-study-as-factor ----------------------------------------
+dv_name <- "smoke_now"
+dv_label <- "P(Smoke Now)"
+
 ds2 <- ds %>% 
   dplyr::select_("id", "study_name", "smoke_now", "age_in_years", "female", "marital", "educ3","poor_health") %>% 
   na.omit() %>% 
   dplyr::mutate(
     marital_f         = as.factor(marital),
     educ3_f           = as.factor(educ3)
+  ) %>% 
+  dplyr::rename_(
+    "dv" = dv_name
   )
 
-eq <- as.formula(paste0("smoke_now ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
+eq <- as.formula(paste0("dv ~ -1 + age_in_years + female + educ3_f + poor_health + marital_f"))
 model_global <- glm(eq, data = ds2, family = binomial(link="logit")) 
 summary(model_global)
-ds2$smoke_now_p <- predict(model_global)
+ds2$dv_p <- predict(model_global)
 
 ds_predicted_global <- expand.grid(
   study_name       = sort(unique(ds2$study_name)), #For the sake of repeating the same global line in all studies/panels in the facetted graphs
@@ -144,8 +150,8 @@ ds_predicted_global <- expand.grid(
   stringsAsFactors = FALSE
 ) 
 
-ds_predicted_global$smoke_now_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
-ds_predicted_global$smoke_now_hat_p  <- plogis(ds_predicted_global$smoke_now_hat) 
+ds_predicted_global$dv_hat    <- as.numeric(predict(model_global, newdata=ds_predicted_global)) #logged-odds of probability (ie, linear)
+ds_predicted_global$dv_hat_p  <- plogis(ds_predicted_global$dv_hat) 
 
 ds_predicted_study_list <- list()
 model_study_list <- list()
@@ -163,8 +169,8 @@ for( study_name_ in dto[["studyName"]] ) {
     stringsAsFactors = FALSE
   ) 
   
-  d_predicted$smoke_now_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
-  d_predicted$smoke_now_hat_p    <- plogis(d_predicted$smoke_now_hat)                     #probability (ie, s-curve)
+  d_predicted$dv_hat      <- as.numeric(predict(model_study, newdata=d_predicted)) #logged-odds of probability (ie, linear)
+  d_predicted$dv_hat_p    <- plogis(d_predicted$dv_hat)                     #probability (ie, s-curve)
   ds_predicted_study_list[[study_name_]] <- d_predicted
 }
 
@@ -212,9 +218,9 @@ assign_color <- function( d2, facet_line ) {
   }
   
   d3 <- d2[d2$facet_line==facet_line, ] %>% 
-    dplyr::rename_("dv" = variable)
+    dplyr::rename_("iv" = variable)
   
-  palette_row[as.character(d3$dv)]
+  palette_row[as.character(d3$iv)]
 }
 
 assign_prediction <- function( d2, study_name ) {
@@ -222,10 +228,9 @@ assign_prediction <- function( d2, study_name ) {
   study_name <- study_name[1]
   
   m <- model_study_list[[study_name]]
-  d2$smoke_now_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
-  d2$smoke_now_hat[d2$study_name==study_name]
+  d2$dv_hat <- as.numeric(predict(m, newdata=d2)) #logged-odds of probability (ie, linear)
+  d2$dv_hat[d2$study_name==study_name]
 }
-
 
 ds_replicated <- ds_replicated_list %>% 
   dplyr::bind_rows(.id="facet_line") %>%
@@ -246,11 +251,11 @@ ds_replicated_predicted <- ds_replicated_predicted_list %>%
   dplyr::ungroup() %>%
   dplyr::group_by(study_name) %>%
   dplyr::mutate(
-    smoke_now_hat    = assign_prediction(., study_name)
+    dv_hat           = assign_prediction(., study_name)
   ) %>%
   dplyr::ungroup() %>% 
   dplyr::mutate(
-    smoke_now_hat_p  = plogis(smoke_now_hat),
+    dv_hat_p         = plogis(dv_hat),
     prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
 
@@ -258,8 +263,8 @@ ds_replicated_predicted_global <- ds_replicated_predicted_global_list %>% #This 
   dplyr::bind_rows(.id="facet_line") %>%
   dplyr::select(study_name, facet_line, age_in_years, female, educ3_f, marital_f, poor_health) %>%
   dplyr::mutate(
-    smoke_now_hat    = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
-    smoke_now_hat_p  = plogis(smoke_now_hat),
+    dv_hat           = as.numeric(predict(model_global, newdata=.)), #logged-odds of probability (ie, linear)
+    dv_hat_p         = plogis(dv_hat),
     prediction_line  = paste(female, educ3_f, marital_f, poor_health, sep="-")
   )
 
@@ -320,8 +325,8 @@ ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_
 
 table(ds_replicated_predicted$prediction_line)
 
-ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
-  geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
+ggplot(ds_replicated, aes(x=age_in_years, y=dv_hat_p, group=prediction_line, color=color_stroke)) +
+  geom_point(aes(y=as.integer(dv), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
   geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
   geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
   # geom_point(data=ds_replicated_predicted2) +
@@ -330,7 +335,7 @@ ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_li
   facet_grid(facet_line ~ study_name) +
   theme_light() +
   theme(legend.position="none")+
-  labs(x="Age", y="P(Smoke Now)")
+  labs(x="Age", y=dv_label)
 
 head(ds_predicted_global)
 
@@ -341,7 +346,7 @@ head(ds_predicted_global)
 # graph_logistic_point_complex_4(
 #   ds = d, 
 #   x_name = "age_in_years", 
-#   y_name = "smoke_now_p", 
+#   y_name = "dv_p", 
 #   covar_order = c("female","marital","educ3","poor_health"),
 #   alpha_level = .3) 
 # 
@@ -350,7 +355,7 @@ head(ds_predicted_global)
 # graph_logitstic_curve_complex_4(
 #   ds = d, 
 #   x_name = "age_in_years", 
-#   y_name = "smoke_now", 
+#   y_name = "dv", 
 #   covar_order = c("female","marital","educ3","poor_health"),
 #   alpha_level = .3) 
 
@@ -385,7 +390,7 @@ head(ds_predicted_global)
 # graph_logistic_point_complex_4(
 #   ds = d, 
 #   x_name = "age_in_years", 
-#   y_name = "smoke_now_p", 
+#   y_name = "dv_p", 
 #   covar_order = c("female","marital","educ3","poor_health"),
 #   alpha_level = .3) 
 # 
@@ -396,11 +401,11 @@ head(ds_predicted_global)
 
 
 # # d <- ds %>% 
-# #   dplyr::select_("id", "study_name", "smoke_now", 
+# #   dplyr::select_("id", "study_name", "dv", 
 # #                  "age_in_years", "female", "poor_health") %>% 
 # #   na.omit()
 # 
-# model_outcome <- "smoke_now"
+# model_outcome <- "dv"
 # model_predictors <- c("age_in_years", "female", "poor_health")
 # 
 # ml <- list() # create a model list object to contain model estimation and modeled data
@@ -408,7 +413,7 @@ head(ds_predicted_global)
 #   d <- dto[['unitData']][[s]] %>% 
 #     dplyr::select_(.dots=c("id",model_outcome, model_predictors)) %>% 
 #     na.omit()
-#   model_formula <- as.formula(smoke_now ~ age_in_years + female + poor_health)
+#   model_formula <- as.formula(dv ~ age_in_years + female + poor_health)
 #   model <- glm(model_formula, data=d, family=binomial(link="logit"))
 #   
 #   #generate odds 
@@ -456,14 +461,14 @@ graph_logitstic_curve_simple <- function(
 ){
   
   
-  ggplot(ds, aes(x=age_in_years, y=smoke_now)) +
+  ggplot(ds, aes(x=age_in_years, y=dv)) +
     geom_point(position=position_jitter(width=.3, height=.08), alpha=0.4,
                shape=21, size=1.5) +
     geom_line(data=d, colour="#1177FF", size=1)
   
   
   # 
-  # p <- ggplot(d, aes_string(x=age_in_years, y=smoke_now)) 
+  # p <- ggplot(d, aes_string(x=age_in_years, y=dv)) 
   # p + geom_point() + 
   #   geom_ribbon(aes(y=fit, ymin=ymin, ymax=ymax,
   #                                fill=as.factor(female)), alpha=.5) +
@@ -475,13 +480,13 @@ graph_logitstic_curve_simple <- function(
   #   labs(title="Logistic curve")
 }
 graph_logitstic_curve_simple(x_name = "age_in_years",
-                             y_name = "smoke_now",
+                             y_name = "dv",
                              color_group = "female",
                              alpha_level = .5)
 
 
 # Plot everything
-p <- ggplot(d, aes(x=age_in_years, y=as.numeric(smoke_now))) 
+p <- ggplot(d, aes(x=age_in_years, y=as.numeric(dv))) 
 p + geom_point() + 
   geom_ribbon(data=ds_new, aes(y=fit, ymin=ymin, ymax=ymax,
                                  fill=as.factor(female)), alpha=0.5) +
@@ -496,7 +501,7 @@ p + geom_point() +
 
 
 # ----- dummy ---------------------------
-ld <- d %>%  dplyr::select(id, study_name, age_in_years,female, marital, educ3, smoke_now_p)
+ld <- d %>%  dplyr::select(id, study_name, age_in_years,female, marital, educ3, dv_p)
 
 
 # ---- glm-support --------------------------
