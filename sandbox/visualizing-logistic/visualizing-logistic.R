@@ -191,18 +191,22 @@ ds_replicated_predicted_global_list <- list(
 )
 
 assign_color <- function( d2, facet_line ) {
-  reference_color <- "black"
+  reference_color <- "#91777e" ##7e1a02
   testit::assert("Only one `facet_line` value should be passed.", dplyr::n_distinct(facet_line)==1L)
   variable <- facet_line[1]
   
   if( variable == "female") {
-    palette_row <- c("TRUE"=reference_color, "FALSE"="skyblue")
+    # http://colrd.com/image-dna/25114/
+    palette_row <- c("TRUE"=reference_color, "FALSE"="#98aab9")
   } else if( variable %in% c("educ3", "educ3_f") ) {
-    palette_row <- c("high school"=reference_color, "less than high school"="green", "more than high school"="tomato")
+    # http://colrd.com/image-dna/24382/
+    palette_row <- c("high school"=reference_color, "less than high school"="#54a992", "more than high school"="#e8c571")
   } else if( variable %in% c("marital_f") ) {
-    palette_row <- c("mar_cohab"=reference_color, "sep_divorced"="slategray3", "single"="turquoise4", "widowed"="violetred4")
+    # http://colrd.com/image-dna/23318/
+    palette_row <- c("mar_cohab"=reference_color, "sep_divorced"="#2a7185", "single"="#60824f", "widowed"="#725ca5")
   } else if( variable %in% c("poor_health") ) {
-    palette_row <- c("FALSE"=reference_color, "TRUE"="tomato")
+    # http://colrd.com/palette/18841/
+    palette_row <- c("FALSE"=reference_color, "TRUE"="#7fbc41")
   } else {
     stop("The palette for this variable is not defined.")
   }
@@ -317,9 +321,9 @@ ds_replicated_predicted_global2 <- ds_replicated_predicted_global[ds_replicated_
 table(ds_replicated_predicted$prediction_line)
 
 ggplot(ds_replicated, aes(x=age_in_years, y=smoke_now_hat_p, group=prediction_line, color=color_stroke)) +
-  geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), alpha=0.4, na.rm=T) +
-  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray20", size=2, alpha=.4) + #linetype="CC"
-  geom_line(data=ds_replicated_predicted2) +
+  geom_point(aes(y=as.integer(smoke_now), group=NULL), shape=21, position=position_jitter(width=.3, height=.08), size=2, alpha=0.2, na.rm=T) +
+  geom_line(data=ds_replicated_predicted_global2, aes(group=NULL), color="gray60", size=4, alpha=.2, lineend="round") + #linetype="CC"
+  geom_line(data=ds_replicated_predicted2, size=1.5, alpha=0.6) +
   # geom_point(data=ds_replicated_predicted2) +
   scale_y_continuous(label=scales::percent) +
   scale_color_identity() +
