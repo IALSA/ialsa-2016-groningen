@@ -30,6 +30,6 @@
 #### Harmonized data
 - review currenlty available harmonized variables in a [combined dataset](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonized-data.html)
 
-![](./materials/ppt/procedure-map/Slide1.PNG)
+![](./libs/materials/ppt/procedure-map/Slide1.PNG)
 
-![](./materials/ppt/procedure-map/2-local-probability-1.png)
+![](./libs/materials/ppt/procedure-map/2-local-probability-1.png)
