@@ -35,5 +35,5 @@
 
 
 #### Presentations
-- [2016-04-21 Groningen](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise-brief.pdf) ( [take it slow](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise.pdf))
+- [2016-04-21 Groningen](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise-brief.pdf) ( [detailed transitions](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise.pdf))
 
