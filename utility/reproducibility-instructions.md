@@ -12,4 +12,5 @@ This document describes the functions of the active scripts in this project
 
 ### Scripts
 
-* - [`0-ellis-island.r](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md)`   
+* [`./manipulation/0-ellis-island.r`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/manipulation/stitched-output/0-ellis-island.md) produces the data transfer object (dto), used as the kernel of each report. 
+* Report production is managed by the [`./reports/report-governer`](https://github.com/IALSA/ialsa-2016-groningen/blob/master/reports/report-governer.R)
