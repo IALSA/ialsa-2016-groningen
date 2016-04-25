@@ -98,8 +98,10 @@ graph_logistic_point_simple <- function(
   y_title = y_name,
   color_title = color_group
 ){
+  palette_color <- assign_color(color_group)
   g <- ggplot2::ggplot(ds, aes_string(x=x_name)) +
     geom_point(aes_string(y=y_name, color=color_group), shape=16, alpha=alpha_level) +
+    scale_color_manual(values = palette_color) +
     facet_grid(. ~ study_name) + 
     main_theme +
     theme(
@@ -128,7 +130,8 @@ graph_logistic_point_complex_4 <- function(
   covar_order,
   alpha_level,
   y_title = y_name,
-  color_title = "predictor"
+  color_title = "predictor",
+  y_range =NULL
 ){
   # function for stripping legends from plots
   g_legend<-function(a.gplot){
@@ -140,21 +143,21 @@ graph_logistic_point_complex_4 <- function(
   
   plot1 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[1], alpha_level, x_title ="", y_title = y_title, color_title = "Female") 
   legend1 <- g_legend(plot1)
-  plot1 <- plot1 + theme(legend.position="none") 
+  plot1 <- plot1 + theme(legend.position="none") + coord_cartesian(ylim = y_range) 
   
   plot2 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[2], alpha_level, x_title ="", y_title = y_title, color_title = "Education") 
   legend2 <- g_legend(plot2)
-  plot2 <- plot2 + theme(legend.position="none")
+  plot2 <- plot2 + theme(legend.position="none")+ coord_cartesian(ylim = y_range) 
   
   
   plot3 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[3], alpha_level, x_title ="", y_title = y_title, color_title = "Marital") 
   legend3 <- g_legend(plot3)
-  plot3 <- plot3 + theme(legend.position="none")
+  plot3 <- plot3 + theme(legend.position="none")+ coord_cartesian(ylim =y_range) 
   
   
   plot4 <- graph_logistic_point_simple(ds,x_name, y_name, covar_order[4], alpha_level, x_title = "Age", y_title = y_title, color_title = "Poor health") 
   legend4 <- g_legend(plot4)
-  plot4 <- plot4 + theme(legend.position="none")
+  plot4 <- plot4 + theme(legend.position="none")+ coord_cartesian(ylim = y_range) 
   
   blankPlot <- ggplot()+geom_blank(aes(1,1)) +
     	  cowplot::theme_nothing()
@@ -172,13 +175,15 @@ graph_logistic_point_complex_4 <- function(
                            rel_heights=c(.2, 1, 1, 1, 1)
   )
 } # close function
-graph_logistic_point_complex_4(
-  ds = ds_predicted_global,
-  x_name = "age_in_years",
-  y_name = "smoke_now_hat_p",
-  covar_order = c("female","marital_f","educ3_f","poor_health"),
-  alpha_level = .3,
-  y_title = "P(smoke_now)")
+# graph_logistic_point_complex_4(
+#   ds = ds_predicted_global,
+#   x_name = "age_in_years",
+#   y_name = "smoke_now_hat_p",
+#   covar_order = c("female","marital_f","educ3_f","poor_health"),
+#   alpha_level = .3,
+#   y_title = "P(smoke_now)",
+#   y_low = 0,
+#   y_hi = 1)
 
 # 
 # x_title = "b"

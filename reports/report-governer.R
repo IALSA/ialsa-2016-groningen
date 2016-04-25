@@ -53,9 +53,27 @@ for( pathRmd in pathsHarmonize ) {
 } 
 
 
+pathModels <- c(
+  # "starter"   = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd"
+  # "easy"   = "./sandbox/visualizing-logistic/visualizing-logistic-easy.Rmd",
+
+  # "poor_health_smoke_now_points" = "./models/poor_health/smoke_now-points.Rmd",
+  # "poor_health_smoke_now_curves" = "./models/poor_health/smoke_now-curves.Rmd",
+  # "poor_health_smoked_ever_points" = "./models/poor_health/smoked_ever-points.Rmd",
+  # "poor_health_smoked_ever_curves" = "./models/poor_health/smoked_ever-curves.Rmd"
+  # 
+  # "poor_health_smoke_now_points-cb" = "./models/poor_health/smoke_now-points-coloring-book.Rmd"
+  "modeloverivew" = "./models/summaries/model-summaries.Rmd"
+)
 
 
-
+# Build the reports -------------------------------------------------------
+for( pathRmd in pathModels ) { 
+  rmarkdown::render( 
+    input = pathRmd,
+    output_format = "html_document",
+    clean = TRUE) 
+} 
 
 
 
