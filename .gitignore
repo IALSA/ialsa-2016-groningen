@@ -40,6 +40,53 @@ cache/
 */*/cache/
 
 ##############
+# Excluse large report files
+models/*/*
+reports/*/*
+sandbox/*/*
+
+!models/*/*.R
+!models/*/*.Rmd
+!models/*/*/*.R
+!models/*/*/*.Rmd
+!models/*/*/*/*.R
+!models/*/*/*/*.Rmd
+
+
+!reports/*/*.R
+!reports/*/*.Rmd
+!reports/*/*/*.R
+!reports/*/*/*.Rmd
+!reports/*/*/*/*.R
+!reports/*/*/*/*.Rmd
+
+!sandbox/*/*.R
+!sandbox/*/*.Rmd
+!sandbox/*/*/*.R
+!sandbox/*/*/*.Rmd
+!sandbox/*/*/*/*.R
+!sandbox/*/*/*/*.Rmd
+
+
+!models/README.md
+!models/*/README.md
+!models/*/*/README.md
+!models/*/*/*/README.md
+
+!reports/README.md
+!reports/*/README.md
+!reports/*/*/README.md
+!reports/*/*/*/README.md
+
+!sandbox/README.md
+!sandbox/*/README.md
+!sandbox/*/*/README.md
+!sandbox/*/*/*/README.md
+
+
+
+
+##############
 # Windows
 # Cached small image files
 Thumbs.db
