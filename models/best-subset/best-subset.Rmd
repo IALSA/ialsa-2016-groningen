@@ -67,13 +67,11 @@ This report explores possible visualization solution for logistic regression mod
 ```{r, echo=echoChunks, message=FALSE}
 #Put code in here.  It doesn't call a chunk in the codebehind file.
 ```
-# (I) Exposition
-
 > This report is a record of interaction with a data transfer object (dto) produced by `./manipulation/0-ellis-island.R`. 
 
 The next section recaps this script, exposes the architecture of the DTO, and demonstrates the language of interacting with it.   
 
-## (I.A) Ellis Island
+# Ellis Island
 
 > All data land on Ellis Island.
 
@@ -93,7 +91,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-###  Meta
+# Meta
 ```{r meta-table, echo=TRUE, results='show', message=FALSE}
 ```
 
@@ -105,16 +103,15 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r basic-table, echo=TRUE, results='show', message=FALSE}
 ```
 
-# (II) Development
 
-## (II.A) Assembly
+# Assembly
  The dto containing harmonized operationalizations is queried to assemble analysis-ready dataset.
 
 ```{r assemble, echo=TRUE, results='show', message=FALSE}
 ```
 
 
-# (II.C) Declarations
+# Declarations
 
 ```{r declare-variables, echo=TRUE}
 ```
@@ -127,6 +124,13 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r define-modeling-functions, echo=FALSE}
 ```
 
+# Guide to Models
+
+| a | b |  c| d |
+|---|---|---|---|
+| x | y | z |   |
+|   |   |   |   |
+
 
 # model A
 
@@ -137,6 +141,8 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 ```{r model-A-global-2, echo=FALSE, eval=TRUE, result = "asis", message=FALSE}
 ```
+
+#### best 
 
 Find the best subset using the same covariates
 ```{r model-A-global-3, echo=TRUE, eval=TRUE, result = "show"}

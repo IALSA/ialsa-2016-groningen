@@ -196,13 +196,13 @@ estimate_pooled_model <- function(data, predictors){
   return(models)
 }
 
-estimate_pooled_model_best_subset <- function(data, predictors){
+estimate_pooled_model_best_subset <- function(data, predictors, level=1){
   eq_formula <- as.formula(paste0(pooled_stem, predictors))
   print(eq_formula)
   models <- glmulti::glmulti(
     eq_formula,
     data = data,
-    level = 1,               # No interaction considered
+    level = level,           # 1 = No interaction considered
     method = "h",            # Exhaustive approach
     crit = "aic",            # AIC as criteria
     confsetsize = 5,         # Keep 5 best models
@@ -224,7 +224,7 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
-estimate_local_models_best_subset <- function(data, d_study, predictors){
+estimate_local_models_best_subset <- function(data, predictors, level=1){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   model_study_list <- list()
   # study_name_ = "alsa"
@@ -235,8 +235,8 @@ estimate_local_models_best_subset <- function(data, d_study, predictors){
     d_study <- data[data$study_name==study_name_, ]
     models_study <- glmulti::glmulti(
       eq_formula,
-      data = data,
-      level = 1,               # No interaction considered
+      data = d_study,
+      level = level,           # 1 = No interaction considered
       method = "h",            # Exhaustive approach
       crit = "aic",            # AIC as criteria
       confsetsize = 5,         # Keep 5 best models
@@ -260,15 +260,7 @@ make_result_table <- function(model_object){
   (cf <- summary(model_object)$coefficients)
   (ci <- exp(cbind(coef(model_object), confint(model_object))))
   ds_table <- cbind.data.frame(coef_name = rownames(cf), cf,ci) 
-    # ds_table <- dplyr::mutate_(
-  #   estimate = "Estimate",
-  #   se = "Std. Error",
-  #   zvalue = "z value",
-  #   pvalue = "Pr(>|z|)",
-  #   odds = "V1",
-  #   ci95_low = "2.5 %",
-  #   ci95_high = "97.5 %"
-  # )
+  row.names(ds_table) <- NULL
   ds_table <- plyr::rename(ds_table, replace = c(
   "Estimate" = "estimate",
   "Std. Error"="se",
@@ -278,21 +270,48 @@ make_result_table <- function(model_object){
   "2.5 %"  = "ci95_low",
   "97.5 %"  ="ci95_high"
   ))
-  ds_table <- ds_table %>% 
-    dplyr::mutate(pvalue = round(pvalue,5))
-  ds_table$sign <- cut(
+  # ds_table <- ds_table %>% 
+  #   dplyr::mutate(
+  #     estimate = gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(estimate, 2))
+  #     pvalue = round(pvalue,3)
+  #     )
+  # prepare for display
+  ds_table$est <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$estimate, 2))
+  ds_table$se <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$se, 2))
+  ds_table$z <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$zvalue, 3))
+  # ds_table$p <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$pvalue, 4))
+  ds_table$p <- as.numeric(round(ds_table$pvalue, 4))
+  ds_table$odds <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$odds, 2))
+  ds_table$odds_ci <- paste0("(",
+                               gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_low,2)), ",",
+                               gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_high,2)), ")"
+  )
+  ds_table$odds_center <- paste0(ds_table$odds, "\n",  ds_table$odds_ci)
+  
+  ds_table$sign_ <- cut(
     x = ds_table$pvalue,
     breaks = c(-Inf, .001, .01, .05, .10, Inf),
     labels = c("<=.001", "<=.01", "<=.05", "<=.10", "> .10"), #These need to coordinate with the color specs.
     right = TRUE, ordered_result = TRUE
   )
-  
-  ds_table$sign_ <- cut(
+  ds_table$sign <- cut(
     x = ds_table$pvalue,
     breaks = c(-Inf, .001, .01, .05, .10, Inf),
     labels = c("***", "**", "*", ".", " "), #These need to coordinate with the color specs.
     right = TRUE, ordered_result = TRUE
   )
+  ds_table <- ds_table %>% 
+    dplyr::select_(
+       "sign",
+       "coef_name",
+       "odds",
+       "odds_ci",
+       "est",
+       "se",
+       "p",
+       "sign_"
+    )
+  
   return(ds_table)
 }
 result_table <- make_result_table(model_object=pooled_A)
@@ -315,17 +334,48 @@ local_A_best_subset <- estimate_local_models_best_subset(data=ds2, predictors=pr
 # ---- model-A-local-2 ------------------------------
 
 for(study_name_ in dto[["studyName"]]){
-  cat("\n\n### `", study_name_, "` \n\n", sep="")
-
+  cat("\n\n### `", study_name_, "` \n", sep="")
   local_fixed <- local_A[[study_name_]]
+  cat("Fitting model with fixed order of covariates  ||  ")
+  cat("\n")
   print(local_fixed$formula, showEnv=FALSE)
+  (logLik<-logLik(local_fixed))
+  (dev<-deviance(local_fixed))
+  (AIC <- AIC(local_fixed)) 
+  (BIC <- BIC(local_fixed))
+  (dfF <- round(local_fixed$df.residual,0))
+  (dfR <- round(local_fixed$df.null,0))
+  (dfD <-dfR - dfF) 
+  cat("\n\n")
+  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
+  model_Info <- as.data.frame(model_Info)
+  print(knitr::kable(model_Info))
   result_table_fixed <- make_result_table(model_object = local_fixed)
   print(knitr::kable(result_table_fixed))
   
+  cat("\n\n#### `", "best", "` \n", sep="")
   local_best_subset <- local_A_best_subset[[study_name_]]
-  print(local_best_subset@formulas, showEnv=FALSE)
+  # cat("\n\n")
+  # print("Fit the best subset model using the same group of covariates. Top 5 models by AIC: ")
+  # print(local_best_subset@formulas, showEnv=FALSE)
   best_local_A <- local_best_subset@objects[[1]]
   result_table_best <- make_result_table(model_object = best_local_A)
+  cat("\n\n")
+  cat("Display the solution for the best (first) model from the subset  ||  ")
+  cat("\n")
+  print(best_local_A$formula, showEnv=FALSE)
+  (logLik<-logLik(best_local_A))
+  (dev<-deviance(best_local_A))
+  (AIC <- AIC(best_local_A)) 
+  (BIC <- BIC(best_local_A))
+  (dfF <- round(best_local_A$df.residual,0))
+  (dfR <- round(best_local_A$df.null,0))
+  (dfD <-dfR - dfF) 
+  cat("\n\n")
+  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
+  model_Info <- as.data.frame(model_Info)
+  print(knitr::kable(model_Info))
+  cat("\n\n")
   print(knitr::kable(result_table_best))
 }
 
