@@ -119,11 +119,11 @@ View [descriptives : education](https://rawgit.com/IALSA/ialsa-2016-groningen-pu
 
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `education` have been adopted:
 
-#### Target (1) : `educ4`   
-  - `1` - `less then high-school` 
-  - `2` - `high-school most` 
-  - `3` - `college`
-  - `4` - `college plus`
+#### Target : `educ3`   
+  - `-1` - `less then high school` 
+  - `0` - `high school` -  REFERENCE group 
+  - `1` - `more than high school`
+
   
 
 These variables will be generated next, in the Development section. 

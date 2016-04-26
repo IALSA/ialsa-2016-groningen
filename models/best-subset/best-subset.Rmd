@@ -1,0 +1,298 @@
+---
+title: "Best Subset Selection" 
+output:
+  html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
+    keep_md: yes
+    theme: flatly
+    toc: yes
+    toc_depth: 4
+---
+
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 9, 
+  fig.width = 13, 
+  out.width = "700px",
+  fig.path = 'smoke_now/',     
+  dev = "png",
+  dpi = 400
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- FALSE
+options(width=120) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./models/best-subset/best-subset.R") 
+```
+
+This report explores possible visualization solution for logistic regression modeling.  
+
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks, message=FALSE}
+#Put code in here.  It doesn't call a chunk in the codebehind file.
+```
+# (I) Exposition
+
+> This report is a record of interaction with a data transfer object (dto) produced by `./manipulation/0-ellis-island.R`. 
+
+The next section recaps this script, exposes the architecture of the DTO, and demonstrates the language of interacting with it.   
+
+## (I.A) Ellis Island
+
+> All data land on Ellis Island.
+
+The script `0-ellis-island.R` is the first script in the analytic workflow. It accomplished the following: 
+
+- (1) Reads in raw data files from the candidate studies   
+- (2) Extract, combines, and exports their metadata (specifically, variable names and labels, if provided) into `./data/shared/derived/meta-data-live.csv`, which is updated every time Ellis Island script is executed.   
+- (3) Augments raw metadata with instructions for renaming and classifying variables. The instructions are provided as manually entered values in `./data/shared/meta-data-map.csv`. They are used by automatic scripts in later harmonization and analysis.  
+- (4) Combines unit and metadata into a single DTO to serve as a starting point to all subsequent analyses.   
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=T, results='asis', message=FALSE}
+```
+
+<!-- Inspect the datasets.   -->
+```{r inspect-data, echo=T, results='show', message=FALSE}
+```
+
+
+###  Meta
+```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Basic table view.   -->
+```{r basic-table, echo=TRUE, results='show', message=FALSE}
+```
+
+# (II) Development
+
+## (II.A) Assembly
+ The dto containing harmonized operationalizations is queried to assemble analysis-ready dataset.
+
+```{r assemble, echo=TRUE, results='show', message=FALSE}
+```
+
+## (II.B) H-rules
+
+This section narrates the harmonization rules applied to candidate variables from each study and provides the descriptives of harmonized variables
+
+### `age`
+
+View [descriptives : age](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html) for closer examination of raw variables. For each study, three variables have been formulated and computed:  
+
+* `year_of_wave` - Calendar year in which the measurement wave occured. These data values are added manually, after consulting respective study's documentation.     
+* `year_born` - Calendar year in which the respondent was born    
+* `age_in_years` - Age of respondent in years    
+
+```{r age-frequencies, echo=TRUE}
+```
+
+
+### `smoke_now`
+View [descriptives : smoking](/https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Are you a smoker presently?***  
+
+  - `0` - `FALSE` - *healthy choice* - REFERENCE group  
+  - `1` - `TRUE` - *unhealthy choice* 
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
+  
+  
+```{r basic-frequencies-criteria-1, echo=echoChunks}
+```
+
+### `smoked_ever`
+View [descriptives : smoking](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Have you ever smoked?***  
+
+  - `0` - `FALSE` - *healthy choice* - REFERENCE group
+  - `1` - `TRUE` - *unhealthy choice* 
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.  
+
+  
+```{r basic-frequencies-criteria-2, echo=echoChunks}
+```
+
+### `female`
+View [descriptives : sex](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html) for closer examination of each variable that contributed to the computation of the harmonized variable. f unique response vectors.  
+
+***Is respondent female?***  
+
+  - `0` - `FALSE` - male - REFERENCE group
+  - `1` - `TRUE`female
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) o
+
+```{r basic-frequencies-predictors-1, echo=echoChunks}
+```
+
+### `marital`
+View [descriptives : marital](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+The responses to variables loading on the construct `marital` are as such:
+![marital raw](../../libs/images/harmonize/harmonize-marital-raw.PNG )
+
+After reorganizing the possible repsonses, the following clustering has emerged
+
+![marital harmonized](../../libs/images/harmonize/harmonize-marital-harmonized.PNG )
+
+After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `marital` have been adopted:
+
+***Current marital status***  
+
+  - `-1` - `mar_cohab` - married or cohabiting
+  - `0` - `single`- not married - REFERENCE group
+  - `1` - `sep_divorced` - separated or divorced
+  - `2` - `widowed` - widowed
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.   
+  
+```{r basic-frequencies-predictors-2, echo=echoChunks}
+```
+
+### `educ3`
+View [descriptives : education](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Highest level of education achieved***  
+  - `-1` - `less then high school` 
+  - `0` - `high school` -  REFERENCE group 
+  - `1` - `more than high school`
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.     
+  
+```{r basic-frequencies-predictors-3, echo=echoChunks}
+```
+
+### `current_work_2`
+View [descriptives : work](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Is respondent currently in the work force?***  
+- `0` - `FALSE` - REFERENCE group
+- `1` - `TRUE` - RISK factor
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.  
+
+The operationalization of this variable ***does not*** distinguish between retired and unemployed statuses. 
+
+```{r basic-frequencies-predictors-4, echo=echoChunks}
+```
+
+### `current_drink`
+View [descriptives : alcohol](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Does respondent currently consume alcohol?***  
+  - `0` - `FALSE`-   REFERENCE group
+  - `1` - `TRUE`- RISK factor 
+
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
+
+The operationalization of this variable ***is not*** sensitive to the intensity of consumption: any indications of non-abstaining generated `TRUE` values on the harmonizaed variable. It also doesn't account for the history of consumption, reflecting only the present habits. 
+
+```{r basic-frequencies-predictors-5, echo=echoChunks}
+```
+
+### `sedentary`
+View [descriptives : physact](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
+
+***Does respondent lead a sendentary lifestyle?***  
+  - `0` - `FALSE` - REFERENCE group
+  - `1` - `TRUE` - RISK factor
+  
+The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
+
+The operationalization of this variable ***is not*** sensitive to the intensity of exercise. Any reponses indicating an activity at least as vigorous as ***walking*** generated values `TRUE` on the harmonized variable. 
+
+
+```{r basic-frequencies-predictors-6, echo=echoChunks}
+```
+
+
+
+## (II.C) Declarations
+
+```{r declare-variables, echo=TRUE}
+```
+
+### Specification
+
+```{r model-specification, echo=TRUE}
+```
+
+```{r define-modeling-functions, echo=FALSE}
+```
+
+
+## model A
+
+### Pooled 
+`study_name` is entered as a factor.  The data are pooled into the same dataset
+```{r model-A-global-1, echo=TRUE, eval=TRUE}
+```
+
+Compute odds-ratio 
+```{r model-A-global-2, echo=TRUE, eval=TRUE}
+```
+
+Find the best subset
+```{r model-A-global-3, echo=TRUE, eval=TRUE}
+```
+
+Compute odds-ratio 
+```{r model-A-global-4, echo=TRUE, eval=TRUE}
+```
+
+### Separate 
+`study_name` defines clusters for separate estimation. 
+```{r model-A-local-1, echo=TRUE, eval=TRUE}
+```
+
+
+```{r model-A-local-2, echo=FALSE, eval=TRUE, results='markup'}
+```
+
+
+

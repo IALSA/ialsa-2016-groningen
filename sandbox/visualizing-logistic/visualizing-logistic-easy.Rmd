@@ -120,17 +120,17 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ## Graphs
 
 ### Global prob
-```{r 1-global-probability, echo=echoChunks}
+```{r 1-global-probability, echo=echoChunks, eval=FALSE}
 ```
 
 ### Global odds
-```{r 3-global-odds, echo=echoChunks}
+```{r 3-global-odds, echo=echoChunks, eval=FALSE}
 ```
 
 ### Local prob
-```{r 2-local-probability, echo=echoChunks}
+```{r 2-local-probability, echo=echoChunks, eval=FALSE}
 ```
 
 ### Global odds
-```{r 4-local-odds, echo=echoChunks}
+```{r 4-local-odds, echo=echoChunks, eval=FALSE}
 ```

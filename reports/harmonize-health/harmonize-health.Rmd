@@ -120,7 +120,7 @@ View [descriptives : health](https://rawgit.com/IALSA/ialsa-2016-groningen-publi
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for construct `self-reported health` have been adopted:
 
 #### Target : `poor_health`   
-  - `0` - `FALSE` - reference group
+  - `0` - `FALSE` - REFERENCE group
   - `1` - `TRUE` - risk factor
   
   

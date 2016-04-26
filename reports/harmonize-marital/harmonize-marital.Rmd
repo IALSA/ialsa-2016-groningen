@@ -127,10 +127,10 @@ After reorganizing the possible repsonses, the following clustering has emerged
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `marital` have been adopted:
 
 #### Target : `marital`   
-  - `1` - `mar_cohab` - married or cohabiting
-  - `2` - `sep_divorced` - separated or divorced
-  - `3` - `single`- not married
-  - `4` - `widowed` - widowed
+  - `-1` - `mar_cohab` - married or cohabiting
+  - `0` - `single`- not married - REFERENCE
+  - `1` - `sep_divorced` - separated or divorced
+  - `2` - `widowed` - widowed
   
   
 These variables will be generated next, in the Development section. 

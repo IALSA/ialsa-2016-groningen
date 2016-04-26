@@ -30,7 +30,8 @@ pathsDescribe <- c(
 
 
 pathsHarmonize <- c(
-    "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
+    "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
+  , "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
   , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
   , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
   , "marital"   = "./reports/harmonize-marital/harmonize-marital.Rmd"
@@ -40,7 +41,7 @@ pathsHarmonize <- c(
   , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
   , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
   , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
-  , "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
+ 
 )
   
 
@@ -63,7 +64,8 @@ pathModels <- c(
   # "poor_health_smoked_ever_curves" = "./models/poor_health/smoked_ever-curves.Rmd"
   # 
   # "poor_health_smoke_now_points-cb" = "./models/poor_health/smoke_now-points-coloring-book.Rmd"
-  "modeloverivew" = "./models/summaries/model-summaries.Rmd"
+  # "model overivew" = "./models/summaries/model-summaries.Rmd"
+  "exercise report" = "./models/exercise-report/exercise-report.Rmd"
 )
 
 

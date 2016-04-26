@@ -118,12 +118,12 @@ We query metadata set to retrieve all variables potentially tapping the construc
 View [descriptives : smoking](/reports/harmonization-smoking/harmonization-smoking-basic-graphs.md) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `smoking` have been adopted:
 
 #### (1) `smoke_now` :  **Are you a smoker presently?**  
-  - `0` - NO - *healthy choice*  
-  - `1` - YES - *unhealthy choice*     
+  - `0` - `FALSE` - *healthy choice*  
+  - `1` - `TRUE` - *unhealthy choice*   
   
 #### (2) `smoked_ever` **Have you ever smoked?**  
-  - `0` - NO - *healthy choice*  
-  - `1` - YES - *unhealthy choice*  
+  - `0` - `FALSE` - *healthy choice*  
+  - `1` - `TRUE` - *unhealthy choice* 
 
 These two variables will be manufactured by qualitative harmonization in the Development section. 
  
@@ -162,10 +162,10 @@ You can examine them in [`./data/meta/response-profiles-live/](https://github.co
 
 ## (II.B) `smoke_now`
 
+> Are you a smoker presently?
 
-####  **Are you a smoker presently?**  
-  - `0` - NO - *healthy choice*  
-  - `1` - YES - *unhealthy choice   
+- `0` - `FALSE` - *healthy choice*  
+- `1` - `TRUE` - *unhealthy choice* 
 
 ### ALSA
 
@@ -219,6 +219,9 @@ We encode the harmonization rule by manually editing the values in a correspondi
 
 > Have you ever smoked?
 
+  - `0` - `FALSE` - *healthy choice*  
+  - `1` - `TRUE` - *unhealthy choice* 
+  
 ### ALSA
 Items that can contribute to generating values for the harmonized variable `smoked_ever`  are:
 ```{r II-C-smoked_ever-alsa-1, echo=TRUE}

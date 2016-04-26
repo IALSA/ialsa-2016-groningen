@@ -120,10 +120,11 @@ View [descriptives : work](https://rawgit.com/IALSA/ialsa-2016-groningen-public/
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `work status` have been adopted:
 
 
-#### Target (1) : `current_work_2`   
-- `0` - `FALSE` 
+#### Target : `current_work_2`   
+- `0` - `FALSE` - REFERENCE group
 - `1` - `TRUE`
   
+The operationalization of this variable ***does not*** destinguish between retired and unemployed statuses. 
 
 These variables will be generated next, in the Development section. 
 

@@ -120,8 +120,8 @@ View [descriptives : alcohol](https://rawgit.com/IALSA/ialsa-2016-groningen-publ
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `alcohol` have been adopted:
 
 
-#### Target (1) : `current_drink`   
-  - `0` - `FALSE` *healthy choice* 
+#### Target: `current_drink`   
+  - `0` - `FALSE` *healthy choice* - REFERENCE group
   - `1` - `TRUE` *risk factor*  
 
   

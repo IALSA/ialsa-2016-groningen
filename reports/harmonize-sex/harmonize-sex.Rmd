@@ -115,11 +115,11 @@ We query metadata set to retrieve all variables potentially tapping the construc
 ```{r view-metadata-1, echo=TRUE, results='show', message=FALSE}
 ```
 
-View [descriptives : sex](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `sex` have been adopted:
+View [descriptives : sex](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html) for closer examination of each candidate.  After reviewing  these descriptives and relevant codebooks, the following operationalization of the harmonized variables for `female` have been adopted:
 
-#### Target : `sex`   
-  - `1` - male 
-  - `2` - female
+#### Target : `female`   
+  - `0` - `FALSE` - male - reference group
+  - `1` - `TRUE`female
   
   
   

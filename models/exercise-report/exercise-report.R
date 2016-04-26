@@ -14,6 +14,11 @@ source("./scripts/graph-logistic.R")
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) # enables piping : %>% 
 library(ggplot2)
+library(glmulti)
+library(rJava)
+
+require(MASS)
+
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2") # graphing
 requireNamespace("tidyr") # data manipulation
@@ -25,7 +30,7 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 
 # ---- load-data ---------------------------------------------------------------
 # load the product of 0-ellis-island.R,  a list object containing data and metadata
-dto <- readRDS("./data/unshared/derived/dto.rds")
+dto <- readRDS("./data/unshared/derived/dto_h.rds")
 
 # ---- inspect-data -------------------------------------------------------------
 # the list is composed of the following elements
@@ -57,9 +62,18 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 # ---- basic-graph --------------------------------------------------------------
 
 # ---- assemble ------------------
-dmls <- list() # dummy list
-for(s in dto[["studyName"]]){
-  ds <- dto[["unitData"]][[s]] # get study data from dto
+assemble_dto <- function(dto, get_these_variables){
+  
+  lsh <- list() #  list object with harmonized data
+  for(s in dto[["studyName"]]){
+    ds <- dto[["unitData"]][[s]] # get study data from dto
+    variables_present <- colnames(ds) %in% get_these_variables # variables on the list
+    lsh[[s]] <- ds[, variables_present] # keep only them
+  }
+  return(lsh)
+}
+lsh <- assemble_dto(
+  dto=dto,
   get_these_variables <- c(
     "id",
     "year_of_wave","age_in_years","year_born",
@@ -72,15 +86,12 @@ for(s in dto[["studyName"]]){
     "sedentary",
     "poor_health"
   )
-  variables_present <- colnames(ds) %in% get_these_variables # variables on the list
-  dmls[[s]] <- ds[, variables_present] # keep only them
-}
-lapply(dmls, names) # view the contents of the list object
-
-ds <- plyr::ldply(dmls,data.frame, .id = "study_name")
+)
+lapply(lsh, names) # view the contents of the list object
+ds <- plyr::ldply(lsh,data.frame, .id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
-# ds %>% dplyr::glimpse()
-head(ds)
+ds %>% names()
+
 
 # ---- save-for-Mplus ---------------------------
 
@@ -89,6 +100,12 @@ head(ds)
 
 
 # ---- basic-info -------------------------
+
+# ---- age-frequencies ----------------    
+lsh_age <- assemble_dto(dto, c("id","year_of_wave","age_in_years","year_born"))
+lapply(lsh_age, head) # view the contents of the list object
+rm(lsh_age)
+
 # age summary across studies
 ds %>%  
   dplyr::group_by(study_name) %>%
@@ -103,7 +120,6 @@ ds %>%
   ) %>% 
   dplyr::ungroup()
 
-# ---- age-frequencies ----------------                   
 # see counts across age groups and studies 
 t <- table(
   cut(ds$age_in_years,breaks = c(-Inf,seq(from=40,to=100,by=5), Inf)),
@@ -156,19 +172,10 @@ ds2 <- ds %>%
  
 
 # ---- model-specification -------------------------
-local_stem <- "dv ~ -1 + "
-pooled_stem <- paste0(local_stem, " + study_name + ") 
-predictors_A <-  "
- age_in_years + female + educ3_f + marital_f +
- poor_health + sedentary + current_work_2 + current_drink
-" 
-
-predictors_B <-  "
-  age_in_years + female + educ3_f + marital_f +
-  poor_health + sedentary + current_work_2 + current_drink +
-  age_in_years:female + age_in_years:educ3_f + age_in_years:marital_f +
-  age_in_years:poor_health + age_in_years:sedentary + age_in_years:current_work_2 + age_in_years:current_drink
-"
+local_stem <- "dv ~ 1 + "
+pooled_stem <- paste0(local_stem, "study_name + ") 
+predictors_A <- "age_in_years + female + educ3_f + marital_f" 
+predictors_B <- "age_in_years + female + educ3_f + marital_f + poor_health + sedentary + current_work_2 + current_drink"
 
 
 # ---- define-modeling-functions ---------------------
@@ -214,7 +221,7 @@ estimate_local_models <- function(ds, predictors){
     model_study_list[[study_name_]] <- model_study
     
     d_predicted <- expand.grid(
-      age_in_years     = seq.int(40, 100, 10),
+      age_in_years     = seq.int(40, 100, 1),
       female           = sort(unique(ds2$female)),
       educ3_f          = sort(unique(ds2$educ3_f)),
       marital_f        = sort(unique(ds2$marital_f)),
@@ -250,15 +257,50 @@ estimate_local_models <- function(ds, predictors){
 pooled_A <- estimate_pooled_model(ds2, predictors_A)
 summary(pooled_A)
 
-coef <- coefficients(pooled_A)
-exp(coef(pooled_A))
+multi_pooled_A <- glmulti::glmulti(
+  pooled_A, 
+  level = 1,               # No interaction considered
+  method = "h",            # Exhaustive approach
+  crit = "aic",            # AIC as criteria
+  confsetsize = 5,         # Keep 5 best models
+  plotty = F, report = F  # No plot or interim reports
+)
 
-a <- invlogit(coef(pooled_A)[1] - coef(pooled_A)[2])
+multi_pooled_A@formulas
+best_pooled_A <- multi_pooled_A@objects[[1]]
+summary(best_pooled_A)
+best_pooled_A$formula
+
+(exp(cbind(coef(best_pooled_A), confint(best_pooled_A))))  
+# knitr::kable(exp(cbind(coef(pooled_A), confint(pooled_A))))
+# 
+
 
 # ---- model-A-local ------------------------------
 local_A <- estimate_local_models(ds2, predictors_A)
 sapply(local_A, summary)
 lapply(local_A, summary)
+
+for(s in dto[["studyName"]]){
+  cat("\n\n")
+  cat(paste0("#### ", s))
+  cat("\n\n")
+  
+  model_study <- local_A[[s]]
+  print(summary(model_study))
+  multi_local <- glmulti::glmulti(
+    model_study, 
+    level = 1,               # No interaction considered
+    method = "h",            # Exhaustive approach
+    crit = "aic",            # AIC as criteria
+    confsetsize = 5,         # Keep 5 best models
+    plotty = F, report = F  # No plot or interim reports
+  )
+  multi_best <- multi_local@objects[[1]]
+  print(multi_best$formula)
+  print(summary(multi_best))
+  print(exp(cbind(coef(multi_best), confint(multi_best))))  
+}
 
 
 # ---- glm-support --------------------------
