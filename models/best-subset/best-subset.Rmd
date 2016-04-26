@@ -113,151 +113,13 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r assemble, echo=TRUE, results='show', message=FALSE}
 ```
 
-## (II.B) H-rules
 
-This section narrates the harmonization rules applied to candidate variables from each study and provides the descriptives of harmonized variables
-
-### `age`
-
-View [descriptives : age](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html) for closer examination of raw variables. For each study, three variables have been formulated and computed:  
-
-* `year_of_wave` - Calendar year in which the measurement wave occured. These data values are added manually, after consulting respective study's documentation.     
-* `year_born` - Calendar year in which the respondent was born    
-* `age_in_years` - Age of respondent in years    
-
-```{r age-frequencies, echo=TRUE}
-```
-
-
-### `smoke_now`
-View [descriptives : smoking](/https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Are you a smoker presently?***  
-
-  - `0` - `FALSE` - *healthy choice* - REFERENCE group  
-  - `1` - `TRUE` - *unhealthy choice* 
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
-  
-  
-```{r basic-frequencies-criteria-1, echo=echoChunks}
-```
-
-### `smoked_ever`
-View [descriptives : smoking](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Have you ever smoked?***  
-
-  - `0` - `FALSE` - *healthy choice* - REFERENCE group
-  - `1` - `TRUE` - *unhealthy choice* 
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.  
-
-  
-```{r basic-frequencies-criteria-2, echo=echoChunks}
-```
-
-### `female`
-View [descriptives : sex](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html) for closer examination of each variable that contributed to the computation of the harmonized variable. f unique response vectors.  
-
-***Is respondent female?***  
-
-  - `0` - `FALSE` - male - REFERENCE group
-  - `1` - `TRUE`female
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) o
-
-```{r basic-frequencies-predictors-1, echo=echoChunks}
-```
-
-### `marital`
-View [descriptives : marital](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-The responses to variables loading on the construct `marital` are as such:
-![marital raw](../../libs/images/harmonize/harmonize-marital-raw.PNG )
-
-After reorganizing the possible repsonses, the following clustering has emerged
-
-![marital harmonized](../../libs/images/harmonize/harmonize-marital-harmonized.PNG )
-
-After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `marital` have been adopted:
-
-***Current marital status***  
-
-  - `-1` - `mar_cohab` - married or cohabiting
-  - `0` - `single`- not married - REFERENCE group
-  - `1` - `sep_divorced` - separated or divorced
-  - `2` - `widowed` - widowed
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.   
-  
-```{r basic-frequencies-predictors-2, echo=echoChunks}
-```
-
-### `educ3`
-View [descriptives : education](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Highest level of education achieved***  
-  - `-1` - `less then high school` 
-  - `0` - `high school` -  REFERENCE group 
-  - `1` - `more than high school`
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.     
-  
-```{r basic-frequencies-predictors-3, echo=echoChunks}
-```
-
-### `current_work_2`
-View [descriptives : work](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Is respondent currently in the work force?***  
-- `0` - `FALSE` - REFERENCE group
-- `1` - `TRUE` - RISK factor
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.  
-
-The operationalization of this variable ***does not*** distinguish between retired and unemployed statuses. 
-
-```{r basic-frequencies-predictors-4, echo=echoChunks}
-```
-
-### `current_drink`
-View [descriptives : alcohol](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Does respondent currently consume alcohol?***  
-  - `0` - `FALSE`-   REFERENCE group
-  - `1` - `TRUE`- RISK factor 
-
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
-
-The operationalization of this variable ***is not*** sensitive to the intensity of consumption: any indications of non-abstaining generated `TRUE` values on the harmonizaed variable. It also doesn't account for the history of consumption, reflecting only the present habits. 
-
-```{r basic-frequencies-predictors-5, echo=echoChunks}
-```
-
-### `sedentary`
-View [descriptives : physact](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
-
-***Does respondent lead a sendentary lifestyle?***  
-  - `0` - `FALSE` - REFERENCE group
-  - `1` - `TRUE` - RISK factor
-  
-The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors. 
-
-The operationalization of this variable ***is not*** sensitive to the intensity of exercise. Any reponses indicating an activity at least as vigorous as ***walking*** generated values `TRUE` on the harmonized variable. 
-
-
-```{r basic-frequencies-predictors-6, echo=echoChunks}
-```
-
-
-
-## (II.C) Declarations
+# (II.C) Declarations
 
 ```{r declare-variables, echo=TRUE}
 ```
 
-### Specification
+# Specification
 
 ```{r model-specification, echo=TRUE}
 ```
@@ -266,32 +128,29 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 ```
 
 
-## model A
+# model A
 
-### Pooled 
+## Pooled 
 `study_name` is entered as a factor.  The data are pooled into the same dataset
-```{r model-A-global-1, echo=TRUE, eval=TRUE}
+```{r model-A-global-1, echo=TRUE, eval=TRUE, result = "show"}
 ```
 
-Compute odds-ratio 
-```{r model-A-global-2, echo=TRUE, eval=TRUE}
+```{r model-A-global-2, echo=FALSE, eval=TRUE, result = "asis", message=FALSE}
 ```
 
-Find the best subset
-```{r model-A-global-3, echo=TRUE, eval=TRUE}
+Find the best subset using the same covariates
+```{r model-A-global-3, echo=TRUE, eval=TRUE, result = "show"}
 ```
 
-Compute odds-ratio 
-```{r model-A-global-4, echo=TRUE, eval=TRUE}
+```{r model-A-global-4, echo=FALSE, eval=TRUE, result = "asis", message="FALSE"}
 ```
 
-### Separate 
+## Separate 
 `study_name` defines clusters for separate estimation. 
-```{r model-A-local-1, echo=TRUE, eval=TRUE}
+```{r model-A-local-1, echo=TRUE, eval=TRUE, result = "show"}
 ```
 
-
-```{r model-A-local-2, echo=FALSE, eval=TRUE, results='markup'}
+```{r model-A-local-2, echo=FALSE, eval=TRUE, results='asis', message="FALSE"}
 ```
 
 

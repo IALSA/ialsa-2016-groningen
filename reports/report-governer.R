@@ -65,7 +65,8 @@ pathModels <- c(
   # 
   # "poor_health_smoke_now_points-cb" = "./models/poor_health/smoke_now-points-coloring-book.Rmd"
   # "model overivew" = "./models/summaries/model-summaries.Rmd"
-  "exercise report" = "./models/exercise-report/exercise-report.Rmd"
+  # "exercise report" = "./models/exercise-report/exercise-report.Rmd"
+  "best subset" = "./models/best-subset/best-subset.Rmd"
 )
 
 

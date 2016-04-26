@@ -176,6 +176,17 @@ local_stem <- "dv ~ 1 + "
 pooled_stem <- paste0(local_stem, "study_name + ") 
 predictors_A <- "age_in_years + female + educ3_f + marital_f" 
 predictors_B <- "age_in_years + female + educ3_f + marital_f + poor_health + sedentary + current_work_2 + current_drink"
+predictors_AA <-  "age_in_years + female + educ3_f + marital_f + age_in_years*female + age_in_years*educ3_f + age_in_years*marital_f + female*educ3_f + female*marital_f + educ3_f*marital_f"
+predictors_BB <-  "
+age_in_years + female + educ3_f + marital_f + poor_health + sedentary + current_work_2 + current_drink +
+age_in_years*female + age_in_years*educ3_f + age_in_years*marital_f + age_in_years*poor_health + age_in_years*sedentary + age_in_years*current_work_2 + age_in_years*current_drink +
+female*educ3_f + female*marital_f + female*poor_health + female*sedentary + female*current_work_2 + female*current_drink +
+educ3_f*marital_f + educ3_f*poor_health + educ3_f*sedentary + educ3_f*current_work_2 + educ3_f*current_drink
+marital_f*poor_health + marital_f*sedentary + marital_f*current_work_2 + marital_f*current_drink +
+poor_health*sedentary + poor_health*current_work_2 + poor_health*current_drink + 
+sedentary*current_work_2 + sedentary*current_drink +
+current_work_2*current_drink
+"
 
 # ---- define-modeling-functions -------------------------
 
@@ -202,7 +213,6 @@ estimate_pooled_model_best_subset <- function(data, predictors){
   
 }
 
-
 estimate_local_models <- function(data, predictors){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   model_study_list <- list()
@@ -214,14 +224,18 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
-estimate_local_models_best_subset <- function(data, predictors){
+estimate_local_models_best_subset <- function(data, d_study, predictors){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   model_study_list <- list()
+  # study_name_ = "alsa"
+  # d_study <- data[data$study_name==study_name_, ]
   for(study_name_ in dto[["studyName"]]){
+  # for(study_name_ in c("alsa")){
+    # browser()
     d_study <- data[data$study_name==study_name_, ]
     models_study <- glmulti::glmulti(
       eq_formula,
-      data = d_study,
+      data = data,
       level = 1,               # No interaction considered
       method = "h",            # Exhaustive approach
       crit = "aic",            # AIC as criteria
@@ -230,16 +244,59 @@ estimate_local_models_best_subset <- function(data, predictors){
       fitfunction = "glm",     # glm function
       family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
     model_study_list[[study_name_]] <- models_study
+    # model_study_list[[study_name_]] <- d_study
   }
+  # return(model_study_list)
   return(model_study_list)
 }
 
 # ---- model-A-global-1 ------------------------------
 pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
+print(pooled_A$formula, showEnv = FALSE)
 summary(pooled_A)
 # ---- model-A-global-2 ------------------------------
-exp(cbind(coef(pooled_A), confint(pooled_A)))
-
+# model_object = pooled_A
+make_result_table <- function(model_object){ 
+  (cf <- summary(model_object)$coefficients)
+  (ci <- exp(cbind(coef(model_object), confint(model_object))))
+  ds_table <- cbind.data.frame(coef_name = rownames(cf), cf,ci) 
+    # ds_table <- dplyr::mutate_(
+  #   estimate = "Estimate",
+  #   se = "Std. Error",
+  #   zvalue = "z value",
+  #   pvalue = "Pr(>|z|)",
+  #   odds = "V1",
+  #   ci95_low = "2.5 %",
+  #   ci95_high = "97.5 %"
+  # )
+  ds_table <- plyr::rename(ds_table, replace = c(
+  "Estimate" = "estimate",
+  "Std. Error"="se",
+  "z value" ="zvalue",
+  "Pr(>|z|)"="pvalue",
+  "V1"="odds",
+  "2.5 %"  = "ci95_low",
+  "97.5 %"  ="ci95_high"
+  ))
+  ds_table <- ds_table %>% 
+    dplyr::mutate(pvalue = round(pvalue,5))
+  ds_table$sign <- cut(
+    x = ds_table$pvalue,
+    breaks = c(-Inf, .001, .01, .05, .10, Inf),
+    labels = c("<=.001", "<=.01", "<=.05", "<=.10", "> .10"), #These need to coordinate with the color specs.
+    right = TRUE, ordered_result = TRUE
+  )
+  
+  ds_table$sign_ <- cut(
+    x = ds_table$pvalue,
+    breaks = c(-Inf, .001, .01, .05, .10, Inf),
+    labels = c("***", "**", "*", ".", " "), #These need to coordinate with the color specs.
+    right = TRUE, ordered_result = TRUE
+  )
+  return(ds_table)
+}
+result_table <- make_result_table(model_object=pooled_A)
+knitr::kable(result_table)
 # ---- model-A-global-3 ------------------------------
 best_subset <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A)
 best_subset@formulas
@@ -247,8 +304,8 @@ best_pooled_A <- best_subset@objects[[1]]
 # best_pooled_A$formula
 summary(best_pooled_A)
 # ---- model-A-global-4 ------------------------------
-exp(cbind(coef(best_pooled_A), confint(best_pooled_A)))  
-
+result_table <- make_result_table(model_object=best_pooled_A)
+knitr::kable(result_table)
 
 
 # ---- model-A-local-1 ------------------------------
@@ -256,27 +313,20 @@ local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
 local_A_best_subset <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A)
 
 # ---- model-A-local-2 ------------------------------
-library(MASS)
-for(s in dto[["studyName"]]){
-  # s <- "lbsl"
-  cat("\n")
-  cat("#############################  ")
-  cat(paste0("STUDY: ",s))
-  cat("  #############################")
-  cat("\n\n")
-  fixed_model <- local_A[[s]]
-  print("Model as specified by the formula")
-  print(summary(fixed_model))
-  print("Odds-ratios")
-  print(exp(cbind(stats::coef(fixed_model), confint(fixed_model))) )
-  print("Find the best subset")
-  best_models <- local_A_best_subset[[s]]
-  best_model <- best_models@objects[[1]]
-  print("Best model solution")
-  print(best_model$formula)
-  print(summary(best_model))
-  print("Odds-ratios of the best model")
-  print(exp(cbind(coef(best_model), confint(best_model)))) 
+
+for(study_name_ in dto[["studyName"]]){
+  cat("\n\n### `", study_name_, "` \n\n", sep="")
+
+  local_fixed <- local_A[[study_name_]]
+  print(local_fixed$formula, showEnv=FALSE)
+  result_table_fixed <- make_result_table(model_object = local_fixed)
+  print(knitr::kable(result_table_fixed))
+  
+  local_best_subset <- local_A_best_subset[[study_name_]]
+  print(local_best_subset@formulas, showEnv=FALSE)
+  best_local_A <- local_best_subset@objects[[1]]
+  result_table_best <- make_result_table(model_object = best_local_A)
+  print(knitr::kable(result_table_best))
 }
 
 
