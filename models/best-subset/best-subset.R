@@ -169,7 +169,7 @@ ds2 <- ds %>%
   dplyr::rename_(
     "dv" = dv_name
   ) 
- 
+# ds2$marital_f <- car::Recode(ds2) 
 
 # ---- model-specification -------------------------
 local_stem <- "dv ~ 1 + "
@@ -224,57 +224,81 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
+# estimate_local_models_best_subset <- function(data, predictors, level=1){
+#   eq_formula <- as.formula(paste0(local_stem, predictors))
+#   model_study_list <- list()
+#   # study_name_ = "alsa"
+#   # d_study <- data[data$study_name==study_name_, ]
+#   for(study_name_ in sort(unique(data$study_name))){
+#   # for(study_name_ in c("alsa")){
+#     # browser()
+#     testit::assert("temp ds must have more than zero row", sum(data$study_name==study_name_)>0)
+#     d_study <- data[data$study_name==study_name_, ]
+#     browser()
+#     models_study <- glmulti::glmulti(
+#       eq_formula,
+#       data = d_study,
+#       level = level,           # 1 = No interaction considered
+#       method = "h",            # Exhaustive approach
+#       crit = "aic",            # AIC as criteria
+#       confsetsize = 5,         # Keep 5 best models
+#       plotty = F, report = F,  # No plot or interim reports
+#       fitfunction = "glm",     # glm function
+#       family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
+#     model_study_list[[study_name_]] <- models_study
+#     # model_study_list[[study_name_]] <- d_study
+#   }
+#   # return(model_study_list)
+#   return(model_study_list)
+# }
+
+best_local_study <- function(data, predictors, eq_formula, level=1){
+  # eq_formula <- as.formula(paste0(local_stem, predictors))
+  models_study <- glmulti::glmulti(
+    eq_formula,
+    data = data,
+    level = level,           # 1 = No interaction considered
+    method = "h",            # Exhaustive approach
+    crit = "aic",            # AIC as criteria
+    confsetsize = 5,         # Keep 5 best models
+    plotty = F, report = F,  # No plot or interim reports
+    fitfunction = "glm",     # glm function
+    family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
+  
+}
+
 estimate_local_models_best_subset <- function(data, predictors, level=1){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   model_study_list <- list()
-  # study_name_ = "alsa"
-  # d_study <- data[data$study_name==study_name_, ]
-  for(study_name_ in dto[["studyName"]]){
-  # for(study_name_ in c("alsa")){
-    # browser()
+  for(study_name_ in as.character(sort(unique(data$study_name)))){
     d_study <- data[data$study_name==study_name_, ]
-    models_study <- glmulti::glmulti(
-      eq_formula,
-      data = d_study,
-      level = level,           # 1 = No interaction considered
-      method = "h",            # Exhaustive approach
-      crit = "aic",            # AIC as criteria
-      confsetsize = 5,         # Keep 5 best models
-      plotty = F, report = F,  # No plot or interim reports
-      fitfunction = "glm",     # glm function
-      family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
+    # browser()
+    models_study <- best_local_study(data=d_study,predictors,eq_formula, level)
     model_study_list[[study_name_]] <- models_study
-    # model_study_list[[study_name_]] <- d_study
   }
-  # return(model_study_list)
   return(model_study_list)
 }
 
-# ---- model-A-global-1 ------------------------------
-pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
-print(pooled_A$formula, showEnv = FALSE)
-summary(pooled_A)
-# ---- model-A-global-2 ------------------------------
-# model_object = pooled_A
+# model_object = best_local_A
 make_result_table <- function(model_object){ 
   (cf <- summary(model_object)$coefficients)
   (ci <- exp(cbind(coef(model_object), confint(model_object))))
-  ds_table <- cbind.data.frame(coef_name = rownames(cf), cf,ci) 
+  if(ncol(ci)==2L){
+    (ci <- t(ci)[1,])
+    ds_table <- cbind.data.frame("coef_name" = rownames(cf), cf,"V1"=NA,"2.5 %" = ci[1], "97.5 %"=ci[2])
+  }else{
+    ds_table <- cbind.data.frame("coef_name" = rownames(cf), cf,ci)   
+  }
   row.names(ds_table) <- NULL
   ds_table <- plyr::rename(ds_table, replace = c(
-  "Estimate" = "estimate",
-  "Std. Error"="se",
-  "z value" ="zvalue",
-  "Pr(>|z|)"="pvalue",
-  "V1"="odds",
-  "2.5 %"  = "ci95_low",
-  "97.5 %"  ="ci95_high"
+    "Estimate" = "estimate",
+    "Std. Error"="se",
+    "z value" ="zvalue",
+    "Pr(>|z|)"="pvalue",
+    "V1"="odds",
+    "2.5 %"  = "ci95_low",
+    "97.5 %"  ="ci95_high"
   ))
-  # ds_table <- ds_table %>% 
-  #   dplyr::mutate(
-  #     estimate = gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(estimate, 2))
-  #     pvalue = round(pvalue,3)
-  #     )
   # prepare for display
   ds_table$est <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$estimate, 2))
   ds_table$se <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$se, 2))
@@ -283,8 +307,8 @@ make_result_table <- function(model_object){
   ds_table$p <- as.numeric(round(ds_table$pvalue, 4))
   ds_table$odds <- gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$odds, 2))
   ds_table$odds_ci <- paste0("(",
-                               gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_low,2)), ",",
-                               gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_high,2)), ")"
+                             gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_low,2)), ",",
+                             gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_high,2)), ")"
   )
   ds_table$odds_center <- paste0(ds_table$odds, "\n",  ds_table$odds_ci)
   
@@ -302,22 +326,32 @@ make_result_table <- function(model_object){
   )
   ds_table <- ds_table %>% 
     dplyr::select_(
-       "sign",
-       "coef_name",
-       "odds",
-       "odds_ci",
-       "est",
-       "se",
-       "p",
-       "sign_"
+      "sign",
+      "coef_name",
+      "odds",
+      "odds_ci",
+      "est",
+      "se",
+      "p",
+      "sign_"
     )
   
   return(ds_table)
 }
+
+
+
+# ---- model-A-global-1 ------------------------------
+pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
+print(pooled_A$formula, showEnv = FALSE)
+summary(pooled_A)
+# ---- model-A-global-2 ------------------------------
+# model_object = pooled_A
+
 result_table <- make_result_table(model_object=pooled_A)
 knitr::kable(result_table)
 # ---- model-A-global-3 ------------------------------
-best_subset <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A)
+best_subset <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1)
 best_subset@formulas
 best_pooled_A <- best_subset@objects[[1]]
 # best_pooled_A$formula
@@ -329,15 +363,14 @@ knitr::kable(result_table)
 
 # ---- model-A-local-1 ------------------------------
 local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
-local_A_best_subset <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A)
+local_A_best_subset <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=1)
 
 # ---- model-A-local-2 ------------------------------
-
 for(study_name_ in dto[["studyName"]]){
   cat("\n\n### `", study_name_, "` \n", sep="")
   local_fixed <- local_A[[study_name_]]
   cat("Fitting model with fixed order of covariates  ||  ")
-  cat("\n")
+  # cat("\n")
   print(local_fixed$formula, showEnv=FALSE)
   (logLik<-logLik(local_fixed))
   (dev<-deviance(local_fixed))
@@ -358,18 +391,18 @@ for(study_name_ in dto[["studyName"]]){
   # cat("\n\n")
   # print("Fit the best subset model using the same group of covariates. Top 5 models by AIC: ")
   # print(local_best_subset@formulas, showEnv=FALSE)
-  best_local_A <- local_best_subset@objects[[1]]
-  result_table_best <- make_result_table(model_object = best_local_A)
+  best_local <- local_best_subset@objects[[1]]
+  result_table_best <- make_result_table(model_object = best_local)
   cat("\n\n")
   cat("Display the solution for the best (first) model from the subset  ||  ")
-  cat("\n")
-  print(best_local_A$formula, showEnv=FALSE)
-  (logLik<-logLik(best_local_A))
-  (dev<-deviance(best_local_A))
-  (AIC <- AIC(best_local_A)) 
-  (BIC <- BIC(best_local_A))
-  (dfF <- round(best_local_A$df.residual,0))
-  (dfR <- round(best_local_A$df.null,0))
+  # cat("\n")
+  print(best_local$formula, showEnv=FALSE)
+  (logLik<-logLik(best_local))
+  (dev<-deviance(best_local))
+  (AIC <- AIC(best_local)) 
+  (BIC <- BIC(best_local))
+  (dfF <- round(best_local$df.residual,0))
+  (dfR <- round(best_local$df.null,0))
   (dfD <-dfR - dfF) 
   cat("\n\n")
   (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
@@ -377,7 +410,86 @@ for(study_name_ in dto[["studyName"]]){
   print(knitr::kable(model_Info))
   cat("\n\n")
   print(knitr::kable(result_table_best))
+  print(local_best_subset@formulas, showEnv=FALSE)
 }
+
+
+
+
+
+# ---- model-AA-global-1 ------------------------------
+pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
+print(pooled_AA$formula, showEnv = FALSE)
+summary(pooled_AA)
+# ---- model-AA-global-2 ------------------------------
+# model_object = pooled_A
+
+result_table <- make_result_table(model_object=pooled_AA)
+knitr::kable(result_table)
+# ---- model-AA-global-3 ------------------------------
+best_subset <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=2)
+best_subset@formulas
+best_pooled_AA <- best_subset@objects[[1]]
+# best_pooled_A$formula
+summary(best_pooled_AA)
+# ---- model-A-global-4 ------------------------------
+result_table <- make_result_table(model_object=best_pooled_A)
+knitr::kable(result_table)
+
+
+# ---- model-AA-local-1 ------------------------------
+local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
+local_AA_best_subset <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=2)
+
+# ---- model-AA-local-2 ------------------------------
+for(study_name_ in dto[["studyName"]]){
+  cat("\n\n### `", study_name_, "` \n", sep="")
+  local_fixed <- local_AA[[study_name_]]
+  cat("Fitting model with fixed order of covariates  ||  ")
+  # cat("\n")
+  print(local_fixed$formula, showEnv=FALSE)
+  (logLik<-logLik(local_fixed))
+  (dev<-deviance(local_fixed))
+  (AIC <- AIC(local_fixed)) 
+  (BIC <- BIC(local_fixed))
+  (dfF <- round(local_fixed$df.residual,0))
+  (dfR <- round(local_fixed$df.null,0))
+  (dfD <-dfR - dfF) 
+  cat("\n\n")
+  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
+  model_Info <- as.data.frame(model_Info)
+  print(knitr::kable(model_Info))
+  result_table_fixed <- make_result_table(model_object = local_fixed)
+  print(knitr::kable(result_table_fixed))
+  
+  cat("\n\n#### `", "best", "` \n", sep="")
+  local_best_subset <- local_AA_best_subset[[study_name_]]
+  # cat("\n\n")
+  # print("Fit the best subset model using the same group of covariates. Top 5 models by AIC: ")
+  # print(local_best_subset@formulas, showEnv=FALSE)
+  best_local <- local_best_subset@objects[[1]]
+  result_table_best <- make_result_table(model_object = best_local)
+  cat("\n\n")
+  cat("Display the solution for the best (first) model from the subset  ||  ")
+  # cat("\n")
+  print(best_local$formula, showEnv=FALSE)
+  (logLik<-logLik(best_local))
+  (dev<-deviance(best_local))
+  (AIC <- AIC(best_local)) 
+  (BIC <- BIC(best_local))
+  (dfF <- round(best_local$df.residual,0))
+  (dfR <- round(best_local$df.null,0))
+  (dfD <-dfR - dfF) 
+  cat("\n\n")
+  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
+  model_Info <- as.data.frame(model_Info)
+  print(knitr::kable(model_Info))
+  cat("\n\n")
+  print(knitr::kable(result_table_best))
+  print(local_best_subset@formulas, showEnv=FALSE)
+}
+
+
 
 
 

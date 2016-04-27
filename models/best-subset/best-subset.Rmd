@@ -160,4 +160,32 @@ Find the best subset using the same covariates
 ```
 
 
+# model AA
+
+## Pooled 
+`study_name` is entered as a factor.  The data are pooled into the same dataset
+```{r model-AA-global-1, echo=TRUE, eval=TRUE, result = "show"}
+```
+
+```{r model-AA-global-2, echo=FALSE, eval=TRUE, result = "asis", message=FALSE}
+```
+
+#### best 
+
+Find the best subset using the same covariates
+```{r model-AA-global-3, echo=TRUE, eval=TRUE, result = "show"}
+```
+
+```{r model-AA-global-4, echo=FALSE, eval=TRUE, result = "asis", message="FALSE"}
+```
+
+## Separate 
+`study_name` defines clusters for separate estimation. 
+```{r model-AA-local-1, echo=TRUE, eval=TRUE, result = "show"}
+```
+
+```{r model-AA-local-2, echo=FALSE, eval=TRUE, results='asis', message="FALSE"}
+```
+
+
 
