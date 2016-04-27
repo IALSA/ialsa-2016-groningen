@@ -1,8 +1,8 @@
 # This report conducts harmonization procedure 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
-rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
-cat("\f") # clear console 
+# rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+# cat("\f") # clear console 
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -72,21 +72,21 @@ assemble_dto <- function(dto, get_these_variables){
   }
   return(lsh)
 }
-lsh <- assemble_dto(
-  dto=dto,
-  get_these_variables <- c(
-    "id",
-    "year_of_wave","age_in_years","year_born",
-    "female",
-    "marital",
-    "educ3",
-    "smoke_now","smoked_ever",
-    "current_work_2",
-    "current_drink",
-    "sedentary",
-    "poor_health"
-  )
-)
+  # lsh <- assemble_dto(
+  #   dto=dto,
+  #   get_these_variables <- c(
+  #     "id",
+  #     "year_of_wave","age_in_years","year_born",
+  #     "female",
+  #     "marital",
+  #     "educ3",
+  #     "smoke_now","smoked_ever",
+  #     "current_work_2",
+  #     "current_drink",
+  #     "sedentary",
+  #     "poor_health"
+  # )
+# )
 lapply(lsh, names) # view the contents of the list object
 ds <- plyr::ldply(lsh,data.frame, .id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
@@ -167,16 +167,16 @@ ds2 <- ds %>%
   ) 
 # Recode
 ds2$marital <- car::recode(ds2$marital, "
-                           'mar_cohab' = -1;
-                           'single' = 0;
-                           'widowed' = 1;
-                           'sep_divorced' = 2;
-                           ")
+'mar_cohab' = -1;
+'single' = 0;
+'widowed' = 1;
+'sep_divorced' = 2;
+")
 ds2$educ3 <- car::recode(ds2$educ3, "
-                         'less than high school' = -1;
-                         'high school' = 0;
-                         'more than high school' = 1;
-                         ")
+'less than high school' = -1;
+'high school' = 0;
+'more than high school' = 1;
+")
 # Label factors
 ds2 <- ds2 %>% 
   dplyr::mutate(
@@ -185,7 +185,19 @@ ds2 <- ds2 %>%
     study_name_f      = factor(study_name,
                                levels = c("alsa", "lbsl", "satsa", "share","tilda"),
                                labels = c("(ALSA)","(LBLS)", "(SATSA)", "(SHARE)", "(TILDA)"))
-  ) 
+) 
+
+# ds2$marital_f <- ordered(
+#   ds2$marital, 
+#   levels = c(-1,0,1,2),
+#   labels = c("Married/Cohab","Single", "Widowed", "Sep/Divorced")
+# )
+# 
+# ds2$educ3_f <- ordered(
+#   ds2$educ3, 
+#   levels = c(-1,0,1),
+#   labels = c("less than high school","high school", "more than high school")
+# )
 
 
 # ---- model-specification -------------------------
@@ -216,12 +228,18 @@ poor_health*sedentary + poor_health*current_work_2 + poor_health*current_drink +
 sedentary*current_work_2 + sedentary*current_drink +
 current_work_2*current_drink
 "
-
-
-# ---- define-modeling-functions ---------------------
+# ---- define-modeling-functions -------------------------
 source("./scripts/modeling-functions.R")
 
-# ---- available-fitted-models ----------------------
+# Available functions
+# model_object= pooled_A # object containing one model
+# best_subset = pooled_B_bs # object contianing subset of models from the search
+# basic_model_info(model_object)   #  basic model information
+# make_result_table(model_object)  #  solution table
+# show_best_subset(best_subset)    #  top models from subset search
+# model_report(model_object= model_object, best_subset = best_subset) # custom vs subset
+
+# ---- models-on-pooled-data ------------------------------
 # pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
 # pooled_A_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1)
 
@@ -235,7 +253,75 @@ pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
 pooled_BB_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=2)
 
 
-# ---- model-A-local ---------
+
+model_object= pooled_B
+best_subset = pooled_B_bs
+
+# basic_model_info(model_object)
+# make_result_table(model_object)
+# show_best_subset(best_subset)
+cat("\014")
+model_report(model_object= model_object, best_subset = best_subset)
+
+# ---- models-on-separate-studies -------------------------
+local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
+local_A_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=1)
+
+# local_AA <- estimate_local_model(data=ds2, predictors=predictors_AA)
+# local_AA_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_A, level=2)
+# 
+# local_B <- estimate_local_model(data=ds2, predictors=predictors_B)
+# local_B_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_B, level=1)
+# 
+# local_BB <- estimate_local_model(data=ds2, predictors=predictors_BB)
+# local_BB_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_B, level=2)
+
+model_object = local_A[["alsa"]]
+best_subset  = local_A_bs[["alsa"]]
+model_object = local_A_bs[["alsa"]]@objects[[1]]
+# produces the tables of estimates and odds
+make_result_table(model_object)
+# produces the table of basic model information 
+basic_model_info(model_object)
+# show best five solutions
+show_best_subset(best_subset)
+a <- show_best_subset(best_subset)
+
+
+
+pooled <- list(
+  "A"  = pooled_A,   "A_best" = pooled_A_bs@objects[[1]], 
+  "AA" = pooled_AA, "AA_best" = pooled_AA_bs@objects[[1]],
+  "B"  = pooled_B,   "B_best" = pooled_B_bs@objects[[1]], 
+  "BB" = pooled_AA, "BB_best" = pooled_BB_bs@objects[[1]]
+)
+saveRDS(pooled, "./data/unshared/derived/pooled_results.rds")
+
+# local <- list(
+#   "A"  = local_A,   "A_best" = local_A_bs@objects[[1]], 
+#   "AA" = local_AA, "AA_best" = local_AA_bs@objects[[1]],
+#   "B"  = local_B,   "B_best" = local_B_bs@objects[[1]], 
+#   "BB" = local_AA, "BB_best" = local_BB_bs@objects[[1]]
+# )
+# saveRDS(local, "./data/unshared/derived/local_results.rds")
+
+
+model_results <- list("pooled" = pooled, "local" = local)
+
+
+model_object = 
+# produces the tables of estimates and odds
+make_result_table(model_object)
+# produces the table of basic model information 
+basic_model_info(model_object)
+# show best five solutions
+show_best_subset(best_subset)
+
+
+
+
+
+# ---- model-A-local-2 ------------------------------
 for(study_name_ in dto[["studyName"]]){
   cat("\n\n### `", study_name_, "` \n", sep="")
   local_fixed <- local_A[[study_name_]]
@@ -282,6 +368,10 @@ for(study_name_ in dto[["studyName"]]){
   print(knitr::kable(result_table_best))
   print(local_best_subset@formulas, showEnv=FALSE)
 }
+
+
+
+
 
 
 # ---- glm-support --------------------------
