@@ -32,7 +32,6 @@ make_result_table <- function(model_object){
                              gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_low,2)), ",",
                              gsub("^([+-])?(0)?(\\.\\d+)$", "\\1\\3", round(ds_table$ci95_high,2)), ")"
   )
-  ds_table$odds_center <- paste0(ds_table$odds, "\n",  ds_table$odds_ci)
   
   ds_table$sign_ <- cut(
     x = ds_table$pvalue,
@@ -46,6 +45,8 @@ make_result_table <- function(model_object){
     labels = c("***", "**", "*", ".", " "), #These need to coordinate with the color specs.
     right = TRUE, ordered_result = TRUE
   )
+  ds_table$display_odds <- paste0(ds_table$odds," ",ds_table$sign , "\n",  ds_table$odds_ci)
+  
   ds_table <- ds_table %>% 
     dplyr::select_(
       "sign",
@@ -99,14 +100,7 @@ show_best_subset <- function(best_subset){
 }
 
 
-model_report <- function(model_object, best_subset){ 
-  # cat("Fitted model || ")
-  print(model_object$formula, showEnv = F)
-  # cat("Model Information \n")
-  print(knitr::kable(basic_model_info(model_object)))
-  cat("\n Best subset selection using the same predictors : \n\n")
-  print(knitr::kable(show_best_subset(best_subset)))  
-} 
+
 
 estimate_pooled_model <- function(data, predictors){
   eq_formula <- as.formula(paste0(pooled_stem, predictors))
@@ -116,17 +110,17 @@ estimate_pooled_model <- function(data, predictors){
   return(models)
 }
 
-estimate_pooled_model_best_subset <- function(data, predictors, level=1){
+estimate_pooled_model_best_subset <- function(data, predictors, level=1, method="h"){
   eq_formula <- as.formula(paste0(pooled_stem, predictors))
   print(eq_formula, showEnv = FALSE)
   best_subset <- glmulti::glmulti(
     eq_formula,
     data = data,
     level = level,           # 1 = No interaction considered
-    method = "h",            # Exhaustive approach
+    method = method,            # Exhaustive approach
     crit = "aic",            # AIC as criteria
     confsetsize = 5,         # Keep 5 best models
-    plotty = F, report = F,  # No plot or interim reports
+    plotty = F, report = T,  # No plot or interim reports
     fitfunction = "glm",     # glm function
     family = binomial(link="logit"))       # binomial family for logistic regression family=binomial(link="logit")
   show_best_subset(best_subset)
@@ -152,16 +146,16 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
-best_local_study <- function(data, predictors, eq_formula, level=1){
+best_local_study <- function(data, predictors, eq_formula, level=1, method="h"){
   # eq_formula <- as.formula(paste0(local_stem, predictors))
   best_subset_local <- glmulti::glmulti(
     eq_formula,
     data = data,
     level = level,           # 1 = No interaction considered
-    method = "h",            # Exhaustive approach
+    method = method,            # Exhaustive approach
     crit = "aic",            # AIC as criteria
     confsetsize = 5,         # Keep 5 best models
-    plotty = F, report = F,  # No plot or interim reports
+    plotty = F, report = T,  # No plot or interim reports
     fitfunction = "glm",     # glm function
     family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
   
@@ -180,3 +174,26 @@ estimate_local_models_best_subset <- function(data, predictors, level=1){
   return(model_study_list)
 }
 
+
+
+
+
+model_report <- function(model_object, best_subset){ 
+  # cat("Fitted model || ")
+  print(model_object$formula, showEnv = F)
+  # cat("Model Information \n")
+  print(knitr::kable(basic_model_info(model_object)))
+  cat("\n Best subset selection using the same predictors : \n\n")
+  print(knitr::kable(show_best_subset(best_subset)))  
+} 
+
+
+local_model_report <- function(data, model_object, best_subset){
+  for(study_name_ in as.character(sort(unique(data$study_name))) ){
+    cat("Study : ", study_name_, "\n",sep="")
+    # model_object = local_A[[study_name_]]
+    # best_subset  = local_A_bs[[study_name_]]
+    model_report(model_object= model_object, best_subset = best_subset)
+    cat("\n\n")
+  }
+}

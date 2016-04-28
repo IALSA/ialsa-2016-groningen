@@ -46,14 +46,14 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-# dto[["metaData"]] %>% 
-#   dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
-#   DT::datatable(
-#     class   = 'cell-border stripe',
-#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-#     filter  = "top",
-#     options = list(pageLength = 6, autoWidth = TRUE)
-#   )
+dto[["metaData"]] %>%
+  dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
 
 # ---- tweak-data --------------------------------------------------------------
 
@@ -147,143 +147,100 @@ t <- table( ds$current_drink,ds$study_name, useNA = "always"); t[t==0] <- "."; t
 t <- table( ds$sedentary,  ds$study_name,   useNA = "always"); t[t==0] <- "."; t
 
 
-# ---- declare-variables  ----------------------------------------
-dv_name <- "smoke_now"
-dv_label <- "P(Smoke Now)"
-dv_label_odds <- "Odds(Smoke Now)"
 
 
-ds2 <- ds %>% 
-  dplyr::select_("id", "study_name", "smoke_now", "age_in_years", 
-                 "female", "marital", "educ3",
-                 "current_work_2",
-                 "current_drink",
-                 "sedentary",
-                 "poor_health") %>%
-  # dplyr::select_(.dots = selected_variables) %>%
-  na.omit() %>% 
-  dplyr::rename_(
-    "dv" = dv_name
-  ) 
-# Recode
-ds2$marital <- car::recode(ds2$marital, "
-                           'mar_cohab' = -1;
-                           'single' = 0;
-                           'widowed' = 1;
-                           'sep_divorced' = 2;
-                           ")
-ds2$educ3 <- car::recode(ds2$educ3, "
-                         'less than high school' = -1;
-                         'high school' = 0;
-                         'more than high school' = 1;
-                         ")
-# Label factors
-ds2 <- ds2 %>% 
-  dplyr::mutate(
-    marital_f         = factor(marital, labels =  c("(Married/Cohab)","(Single)", "(Widowed)", "(Sep/Divorced)")),
-    educ3_f           = factor(educ3, labels = c("(Less than HS)","(HS)", "(More than HS)")),
-    study_name_f      = factor(study_name,
-                               levels = c("alsa", "lbsl", "satsa", "share","tilda"),
-                               labels = c("(ALSA)","(LBLS)", "(SATSA)", "(SHARE)", "(TILDA)"))
-  ) 
-
-
-# ---- model-specification -------------------------
-local_stem <- "dv ~ 1 + "
-pooled_stem <- paste0(local_stem, "study_name_f + ") 
-predictors_A <- "
-age_in_years + female + educ3_f + marital_f
-" 
-predictors_AA <-  "
-age_in_years + female + educ3_f + marital_f + 
-age_in_years*female + age_in_years*educ3_f + age_in_years*marital_f + 
-female*educ3_f + female*marital_f + 
-educ3_f*marital_f
-"
-
-predictors_B <- "
-age_in_years + female + educ3_f + marital_f + 
-poor_health + sedentary + current_work_2 + current_drink
-"
-
-predictors_BB <-  "
-age_in_years + female + educ3_f + marital_f + poor_health + sedentary + current_work_2 + current_drink +
-age_in_years*female + age_in_years*educ3_f + age_in_years*marital_f + age_in_years*poor_health + age_in_years*sedentary + age_in_years*current_work_2 + age_in_years*current_drink +
-female*educ3_f + female*marital_f + female*poor_health + female*sedentary + female*current_work_2 + female*current_drink +
-educ3_f*marital_f + educ3_f*poor_health + educ3_f*sedentary + educ3_f*current_work_2 + educ3_f*current_drink
-marital_f*poor_health + marital_f*sedentary + marital_f*current_work_2 + marital_f*current_drink +
-poor_health*sedentary + poor_health*current_work_2 + poor_health*current_drink + 
-sedentary*current_work_2 + sedentary*current_drink +
-current_work_2*current_drink
-"
 
 
 # ---- define-modeling-functions ---------------------
 source("./scripts/modeling-functions.R")
 
-# ---- available-fitted-models ----------------------
-# pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
-# pooled_A_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1)
+# ---- load-estimated-models ----------------------
+pooled_custom <- readRDS("./data/shared/derived/pooled_custom.rds") 
+local_custom <- readRDS("./data/shared/derived/local_custom.rds") 
 
-# pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
-# pooled_AA_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=2)
-
-# pooled_B <- estimate_pooled_model(data=ds2, predictors=predictors_B)
-# pooled_B_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=1)
-
-pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
-pooled_BB_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=2)
-
-
-# ---- model-A-local ---------
-for(study_name_ in dto[["studyName"]]){
-  cat("\n\n### `", study_name_, "` \n", sep="")
-  local_fixed <- local_A[[study_name_]]
-  cat("Fitting model with fixed order of covariates  ||  ")
-  # cat("\n")
-  print(local_fixed$formula, showEnv=FALSE)
-  (logLik<-logLik(local_fixed))
-  (dev<-deviance(local_fixed))
-  (AIC <- AIC(local_fixed)) 
-  (BIC <- BIC(local_fixed))
-  (dfF <- round(local_fixed$df.residual,0))
-  (dfR <- round(local_fixed$df.null,0))
-  (dfD <-dfR - dfF) 
-  cat("\n\n")
-  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
-  model_Info <- as.data.frame(model_Info)
-  print(knitr::kable(model_Info))
-  result_table_fixed <- make_result_table(model_object = local_fixed)
-  print(knitr::kable(result_table_fixed))
-  
-  cat("\n\n#### `", "best", "` \n", sep="")
-  local_best_subset <- local_A_best_subset[[study_name_]]
-  # cat("\n\n")
-  # print("Fit the best subset model using the same group of covariates. Top 5 models by AIC: ")
-  # print(local_best_subset@formulas, showEnv=FALSE)
-  best_local <- local_best_subset@objects[[1]]
-  result_table_best <- make_result_table(model_object = best_local)
-  cat("\n\n")
-  cat("Display the solution for the best (first) model from the subset  ||  ")
-  # cat("\n")
-  print(best_local$formula, showEnv=FALSE)
-  (logLik<-logLik(best_local))
-  (dev<-deviance(best_local))
-  (AIC <- AIC(best_local)) 
-  (BIC <- BIC(best_local))
-  (dfF <- round(best_local$df.residual,0))
-  (dfR <- round(best_local$df.null,0))
-  (dfD <-dfR - dfF) 
-  cat("\n\n")
-  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
-  model_Info <- as.data.frame(model_Info)
-  print(knitr::kable(model_Info))
-  cat("\n\n")
-  print(knitr::kable(result_table_best))
-  print(local_best_subset@formulas, showEnv=FALSE)
+# ---- functions-to-make-results-table ------------------
+display_odds_prepare <- function(model_object, model_label){
+  x <- make_result_table(model_object)
+  x$display_odds <- paste0(x$odds,x$odds_ci,x$sign)
+  # x$display_odds <- paste0(x$sign,x$odds,x$odds_ci)
+  # x$display_odds <- paste0(x$odds,x$sign ,x$odds_ci)
+  # x$display_odds <- paste0(x$odds," ",x$sign)  
+  x <- x[, c("coef_name", "display_odds")]
+  x <- plyr::rename(x, replace = c("display_odds" = model_label))
+  return(x)
 }
 
+# list_object = pooled_custom # each element is a model summary
+make_display_table <- function(list_object, model_type, model_label){
+  (a <- display_odds_prepare(list_object[["A"]], "A"))
+  (aa <- display_odds_prepare(list_object[["AA"]], "AA"))
+  (b <- display_odds_prepare(list_object[["B"]], "B"))
+  (bb <- display_odds_prepare(list_object[["BB"]],"BB"))
+  
+  d1 <- bb %>% dplyr::left_join(aa, by = "coef_name")
+  d2 <- d1 %>% dplyr::left_join(b, by = "coef_name")
+  d3 <- d2 %>% dplyr::left_join(a)
+  d_results <- d3 %>% dplyr::select_("coef_name","A","B","AA", "BB")
+  d_results[is.na(d_results)] <- ""
+  return(d_results)
+}
 
+# list_object = pooled_custom # each element is a model summary
+list_object_study <- function(list_object, study_name_){
+  a <- local_custom[["A"]][[study_name_]]
+  aa <- local_custom[["AA"]][[study_name_]]
+  b <- local_custom[["B"]][[study_name_]]
+  bb <- local_custom[["BB"]][[study_name_]]
+  list_object <- list ("A" = a,"AA" = aa,"B" = b, "BB" = bb)
+  results_table <- make_display_table(list_object)
+  return(results_table)
+}
+# make_display_table(list_object, "alsa")
+
+
+
+# ---- pooled-results-table-1 ------------------------------
+# results_table <- make_display_table(pooled_custom)
+# saveRDS(results_table, "./data/shared/derived/pooled_results_table.rds")
+results_table <- readRDS("./data/shared/derived/pooled_results_table.rds")
+# ---- pooled-results-table-2 ------------------------------
+knitr::kable(results_table)
+
+
+# ---- local-results ------------------------------------
+# alsa_table <- list_object_study(list_object, "alsa")
+# lbsl_table <- list_object_study(list_object, "lbsl")
+# satsa_table <- list_object_study(list_object, "satsa")
+# share_table <- list_object_study(list_object, "share")
+# tilda_table <- list_object_study(list_object, "tilda")
+# local_tables <- list("alsa"= alsa_table,"lbsl"= lbsl_table,"satsa" = satsa_table,"share"= share_table,"tilda"= tilda_table)
+# saveRDS(local_tables, "./data/shared/derived/local_tables.rds")
+local_tables <- readRDS("./data/shared/derived/local_tables.rds")
+alsa_table <- local_tables[["alsa"]]
+lbsl_table <- local_tables[["lbsl"]]
+satsa_table <- local_tables[["satsa"]]
+share_table <- local_tables[["share"]]
+tilda_table <- local_tables[["tilda"]]
+# ---- local-results-alsa ------------------------------------
+knitr::kable(alsa_table)
+
+# ---- local-results-lbsl ------------------------------------
+knitr::kable(lbsl_table)
+
+# ---- local-results-satsa ------------------------------------
+knitr::kable(satsa_table)
+
+# ---- local-results-share ------------------------------------
+knitr::kable(share_table)
+
+# ---- local-results-tilda ------------------------------------
+knitr::kable(tilda_table)
+
+
+
+
+
+  
 # ---- glm-support --------------------------
 # useful functions working with GLM model objects
 summary(mdl) # model summary

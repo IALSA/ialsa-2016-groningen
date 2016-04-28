@@ -66,13 +66,13 @@ This report explores possible visualization solution for logistic regression mod
 ```{r, echo=echoChunks, message=FALSE}
 #Put code in here.  It doesn't call a chunk in the codebehind file.
 ```
-# (I) Exposition
-
 > This report is a record of interaction with a data transfer object (dto) produced by `./manipulation/0-ellis-island.R`. 
 
 The next section recaps this script, exposes the architecture of the DTO, and demonstrates the language of interacting with it.   
 
-## (I.A) Ellis Island
+# Exposition
+
+## Ellis Island
 
 > All data land on Ellis Island.
 
@@ -92,7 +92,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```
 
 
-###  Meta
+## Meta
 ```{r meta-table, echo=TRUE, results='show', message=FALSE}
 ```
 
@@ -104,19 +104,20 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 ```{r basic-table, echo=TRUE, results='show', message=FALSE}
 ```
 
-# (II) Development
 
-## (II.A) Assembly
+## Assembly
  The dto containing harmonized operationalizations is queried to assemble analysis-ready dataset.
 
 ```{r assemble, echo=TRUE, results='show', message=FALSE}
 ```
 
-## (II.B) H-rules
+This dataset, which includes harmonized variables, will be used to fit the models. 
+
+# Harmonization rules
 
 This section narrates the harmonization rules applied to candidate variables from each study and provides the descriptives of harmonized variables
 
-### `age`
+## `age`
 
 View [descriptives : age](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-age.html) for closer examination of raw variables. For each study, three variables have been formulated and computed:  
 
@@ -128,7 +129,7 @@ View [descriptives : age](https://rawgit.com/IALSA/ialsa-2016-groningen-public/m
 ```
 
 
-### `smoke_now`
+## `smoke_now`
 View [descriptives : smoking](/https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Are you a smoker presently?**  
@@ -142,7 +143,7 @@ The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen
 ```{r basic-frequencies-criteria-1, echo=echoChunks}
 ```
 
-### `smoked_ever`
+## `smoked_ever`
 View [descriptives : smoking](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Have you ever smoked?**  
@@ -156,7 +157,7 @@ The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen
 ```{r basic-frequencies-criteria-2, echo=echoChunks}
 ```
 
-### `female`
+## `female`
 View [descriptives : sex](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-sex.html) for closer examination of each variable that contributed to the computation of the harmonized variable. f unique response vectors.  
 
 #### **Is respondent female?**  
@@ -169,7 +170,7 @@ The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen
 ```{r basic-frequencies-predictors-1, echo=echoChunks}
 ```
 
-### `marital`
+## `marital`
 View [descriptives : marital](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-marital.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 The responses to variables loading on the construct `marital` are as such:
@@ -183,17 +184,17 @@ After reviewing descriptives and relevant codebooks, the following operationaliz
 
 #### **Current marital status**  
 
-  - `-1` - `mar_cohab` - married or cohabiting
-  - `0` - `single`- not married - REFERENCE group
-  - `1` - `sep_divorced` - separated or divorced
-  - `2` - `widowed` - widowed
-
+  - `-1` - `mar_cohab` - married or cohabiting  
+  - `0` - `single`- not married - REFERENCE group  
+  - `1` - `widowed` - widowed  
+  - `2` - `sep_divorced` - separated or divorced  
+  
 The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/h-rules) have been encoded over the [observed frequencies](https://github.com/IALSA/ialsa-2016-groningen/tree/master/data/meta/response-profiles-live) of unique response vectors.   
   
 ```{r basic-frequencies-predictors-2, echo=echoChunks}
 ```
 
-### `educ3`
+## `educ3`
 View [descriptives : education](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-education.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Highest level of education achieved**  
@@ -206,7 +207,7 @@ The specific [harmonization rules](https://github.com/IALSA/ialsa-2016-groningen
 ```{r basic-frequencies-predictors-3, echo=echoChunks}
 ```
 
-### `current_work_2`
+## `current_work_2`
 View [descriptives : work](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-work.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Is respondent currently in the work force?**  
@@ -220,7 +221,7 @@ The operationalization of this variable ***does not*** distinguish between retir
 ```{r basic-frequencies-predictors-4, echo=echoChunks}
 ```
 
-### `current_drink`
+## `current_drink`
 View [descriptives : alcohol](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-alcohol.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Does respondent currently consume alcohol?**  
@@ -234,7 +235,7 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 ```{r basic-frequencies-predictors-5, echo=echoChunks}
 ```
 
-### `sedentary`
+## `sedentary`
 View [descriptives : physact](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-physact.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
 
 #### **Does respondent lead a sendentary lifestyle?**  
@@ -251,30 +252,69 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 
 
 
-## (II.C) Declarations
-
-```{r declare-variables, echo=TRUE}
+```{r load-estimated-models, echo=FALSE}
 ```
 
-### Specification
-```{r model-specification, echo=TRUE}
+```{r functions-to-make-results-table, echo=FALSE}
 ```
 
-```{r define-modeling-functions, echo=FALSE}
+# Guide to Models
+
+Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data from each study separately. When fitted to the pooled data, an aditional predictor, `study_name` is added after the intercept. 
+
+
+|predictors/model   | A | B |AA |BB |
+|---|---|---|---|---|
+|age              |age_in_years |age_in_years   |age_in_years   |age_in_years   |
+|sex              |female       |female         |female         |female         |
+|education        |educ3        |educ3          |educ3          |educ3          |
+|marital status   |marital      |marital        |marital        |marital        |
+|health           |             |poor_health    |               |poor_health    |
+|physical activity|             |sedentary      |               |sedentary      |
+|employment status|             |current_work   |               |current_work   |
+|alcohol use      |             |current_drink_2|               |current_drink_2|
+|interactions     |  --         | --            |all pairwise   |all pairwise   |
+
+
+Odds-ratios with 95% confidence intervals are reported. 
+
+# Separate
+```{r local-results, echo=FALSE, results='hold'}
+```
+
+## ALSA 
+```{r local-results-alsa, echo=FALSE,  results='asis'}
+```
+
+## LBLS 
+```{r local-results-lbsl, echo=FALSE,  results='asis'}
+```
+
+## SATSA 
+```{r local-results-satsa, echo=FALSE, results='asis'}
+```
+
+## SHARE 
+```{r local-results-share, echo=FALSE,  results='asis'}
+```
+
+## TILDA 
+```{r local-results-tilda, echo=FALSE, results='asis'}
 ```
 
 
-## model A
-
-### Pooled 
+# Pooled 
 `study_name` is entered as a factor.  The data are pooled into the same dataset
-```{r model-A-global, echo=TRUE, eval=TRUE}
+
+```{r pooled-results-table-1, echo=F, eval=TRUE, results='asis'}
 ```
 
-### Separate 
-`study_name` defines clusters for separate estimation. 
-```{r model-A-local, echo=TRUE, eval=TRUE}
+```{r pooled-results-table-2, echo=F, eval=TRUE, results='asis'}
 ```
+
+
+
+
 
 
 

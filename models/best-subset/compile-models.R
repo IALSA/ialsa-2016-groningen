@@ -1,8 +1,8 @@
 # This report conducts harmonization procedure 
 # knitr::stitch_rmd(script="./___/___.R", output="./___/___/___.md")
 #These first few lines run only when the file is run in RStudio, !!NOT when an Rmd/Rnw file calls it!!
-# rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
-# cat("\f") # clear console 
+rm(list=ls(all=TRUE))  #Clear the variables from previous runs.
+cat("\f") # clear console
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
@@ -72,21 +72,21 @@ assemble_dto <- function(dto, get_these_variables){
   }
   return(lsh)
 }
-  # lsh <- assemble_dto(
-  #   dto=dto,
-  #   get_these_variables <- c(
-  #     "id",
-  #     "year_of_wave","age_in_years","year_born",
-  #     "female",
-  #     "marital",
-  #     "educ3",
-  #     "smoke_now","smoked_ever",
-  #     "current_work_2",
-  #     "current_drink",
-  #     "sedentary",
-  #     "poor_health"
-  # )
-# )
+lsh <- assemble_dto(
+  dto=dto,
+  get_these_variables <- c(
+    "id",
+    "year_of_wave","age_in_years","year_born",
+    "female",
+    "marital",
+    "educ3",
+    "smoke_now","smoked_ever",
+    "current_work_2",
+    "current_drink",
+    "sedentary",
+    "poor_health"
+  )
+)
 lapply(lsh, names) # view the contents of the list object
 ds <- plyr::ldply(lsh,data.frame, .id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
@@ -240,52 +240,142 @@ source("./scripts/modeling-functions.R")
 # model_report(model_object= model_object, best_subset = best_subset) # custom vs subset
 
 # ---- models-on-pooled-data ------------------------------
-# pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
-# pooled_A_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1)
+pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
+# pooled_A_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1, method="g")
 
-# pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
-# pooled_AA_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=2)
+pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
+# pooled_AA_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=2, method="g")
 
-# pooled_B <- estimate_pooled_model(data=ds2, predictors=predictors_B)
-# pooled_B_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=1)
+pooled_B <- estimate_pooled_model(data=ds2, predictors=predictors_B)
+# pooled_B_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=1, method="g")
 
 pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
-pooled_BB_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=2)
+# pooled_BB_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=2, method="g")
 
-
-
-model_object= pooled_B
-best_subset = pooled_B_bs
+# Review models
+# model_object= pooled_B
+# best_subset = pooled_B_bs
 
 # basic_model_info(model_object)
 # make_result_table(model_object)
 # show_best_subset(best_subset)
-cat("\014")
-model_report(model_object= model_object, best_subset = best_subset)
+# cat("\014")
+# model_report(model_object= model_object, best_subset = best_subset)
+
+
+pooled_custom <- list(
+  "A"  = pooled_A  ,
+  "AA" = pooled_AA ,
+  "B"  = pooled_B  ,
+  "BB" = pooled_AA 
+)
+saveRDS(pooled_custom, "./data/shared/derived/pooled_custom.rds")
+
+# pooled_best <- list(
+#  "A_best" = pooled_A_bs@objects[[1]], 
+# "AA_best" = pooled_AA_bs@objects[[1]],
+#  "B_best" = pooled_B_bs@objects[[1]]#, 
+# "BB_best" = pooled_BB_bs@objects[[1]]
+# ) 
+
+# pooled <- list("custom"=pooled_custom, "best"=pooled_best)
+# saveRDS(pooled, "./data/shared/derived/pooled_results.rds")
+
 
 # ---- models-on-separate-studies -------------------------
 local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
-local_A_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=1)
+# local_A_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=1, method="g")
 
-# local_AA <- estimate_local_model(data=ds2, predictors=predictors_AA)
-# local_AA_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_A, level=2)
-# 
-# local_B <- estimate_local_model(data=ds2, predictors=predictors_B)
-# local_B_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_B, level=1)
-# 
-# local_BB <- estimate_local_model(data=ds2, predictors=predictors_BB)
-# local_BB_bs <- estimate_local_model_best_subset(data=ds2, predictors=predictors_B, level=2)
+local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
+# local_AA_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=2, method="g")
 
+local_B <- estimate_local_models(data=ds2, predictors=predictors_B)
+# local_B_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_B, level=1, method="g")
+
+local_BB <- estimate_local_models(data=ds2, predictors=predictors_BB)
+# local_BB_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_B, level=2, method="g")
+
+local_custom <- list(
+  "A"  = pooled_A  ,
+  "AA" = pooled_AA ,
+  "B"  = pooled_B  ,
+  "BB" = pooled_AA 
+)
+saveRDS(local_custom, "./data/shared/derived/local_custom.rds")
+
+
+# local_best <- list(
+#   "A_best" = pooled_A_bs@objects[[1]], 
+#   "AA_best" = pooled_AA_bs@objects[[1]],
+#   "B_best" = pooled_B_bs@objects[[1]]#, 
+  # "BB_best" = pooled_BB_bs@objects[[1]]
+#)
+
+# local <- list("custom"=local_custom, "best"=local_best)
+
+
+
+# ---- make-big-table ------------------
+dum <- list()
+dum[["A"]] <- make_result_table(pooled_A)
+dum[["AA"]] <- make_result_table(pooled_AA)
+dum[["B"]] <- make_result_table(pooled_B)
+dum[["BB"]] <- make_result_table(pooled_BB)
+a <- make_result_table(pooled_A)
+aa <- make_result_table(pooled_AA)
+b <- make_result_table(pooled_B)
+bb <- make_result_table(pooled_BB)
+
+d <- plyr::ldply(dum, data.frame, .id = "model_type")
+
+model_object = pooled_A
+
+display_odds_prepare <- function(model_object, model_label){
+  x <- make_result_table(model_object)
+  x$display_odds <- paste0(x$odds," ",x$sign , "\n",  x$odds_ci)  
+  x <- x[, c("coef_name", "display_odds")]
+  x <- plyr::rename(x, replace = c("display_odds" = model_label))
+  return(x)
+}
+(a <- display_odds_prepare(pooled_A, "A"))
+(aa <- display_odds_prepare(pooled_AA, "AA"))
+(b <- display_odds_prepare(pooled_B, "B"))
+(bb <- display_odds_prepare(pooled_BB,"BB"))
+
+d1 <- bb %>% dplyr::left_join(aa, by = "coef_name")
+d2 <- d1 %>% dplyr::left_join(b, by = "coef_name")
+d3 <- d2 %>% dplyr::left_join(a)
+d_results <- d3 %>% dplyr::select_("coef_name","A","B","AA", "BB")
+knitr::kable(d_results)
+
+# list_object <- list(a,aa, b, bb)
+# merge_files <- function(list){
+#   Reduce(function( d_1, d_2 ) merge(d_1, d_2, by="coef_name"), list)
+# }
+# 
+# dd <- merge_files(list_object)
+
+
+for(study_name_ in as.character(sort(unique(ds2$study_name))) ){
+  cat("Study : ", study_name_, "\n",sep="")
+  model_object = local_AA[[study_name_]]
+  # best_subset  = local_A_bs[[study_name_]]
+  # model_report(model_object= model_object, best_subset = best_subset)
+  print(model_object$formula, showEnv = F)
+  print(knitr::kable(make_result_table(model_object)))
+  cat("\n\n")
+}
+
+# Review models
 model_object = local_A[["alsa"]]
 best_subset  = local_A_bs[["alsa"]]
-model_object = local_A_bs[["alsa"]]@objects[[1]]
-# produces the tables of estimates and odds
-make_result_table(model_object)
-# produces the table of basic model information 
+# model_object = local_A_bs[["alsa"]]@objects[[1]]
+
 basic_model_info(model_object)
-# show best five solutions
+make_result_table(model_object)
 show_best_subset(best_subset)
-a <- show_best_subset(best_subset)
+cat("\014")
+model_report(model_object= model_object, best_subset = best_subset)
 
 
 
@@ -295,7 +385,6 @@ pooled <- list(
   "B"  = pooled_B,   "B_best" = pooled_B_bs@objects[[1]], 
   "BB" = pooled_AA, "BB_best" = pooled_BB_bs@objects[[1]]
 )
-saveRDS(pooled, "./data/unshared/derived/pooled_results.rds")
 
 # local <- list(
 #   "A"  = local_A,   "A_best" = local_A_bs@objects[[1]], 
@@ -318,56 +407,6 @@ basic_model_info(model_object)
 show_best_subset(best_subset)
 
 
-
-
-
-# ---- model-A-local-2 ------------------------------
-for(study_name_ in dto[["studyName"]]){
-  cat("\n\n### `", study_name_, "` \n", sep="")
-  local_fixed <- local_A[[study_name_]]
-  cat("Fitting model with fixed order of covariates  ||  ")
-  # cat("\n")
-  print(local_fixed$formula, showEnv=FALSE)
-  (logLik<-logLik(local_fixed))
-  (dev<-deviance(local_fixed))
-  (AIC <- AIC(local_fixed)) 
-  (BIC <- BIC(local_fixed))
-  (dfF <- round(local_fixed$df.residual,0))
-  (dfR <- round(local_fixed$df.null,0))
-  (dfD <-dfR - dfF) 
-  cat("\n\n")
-  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
-  model_Info <- as.data.frame(model_Info)
-  print(knitr::kable(model_Info))
-  result_table_fixed <- make_result_table(model_object = local_fixed)
-  print(knitr::kable(result_table_fixed))
-  
-  cat("\n\n#### `", "best", "` \n", sep="")
-  local_best_subset <- local_A_best_subset[[study_name_]]
-  # cat("\n\n")
-  # print("Fit the best subset model using the same group of covariates. Top 5 models by AIC: ")
-  # print(local_best_subset@formulas, showEnv=FALSE)
-  best_local <- local_best_subset@objects[[1]]
-  result_table_best <- make_result_table(model_object = best_local)
-  cat("\n\n")
-  cat("Display the solution for the best (first) model from the subset  ||  ")
-  # cat("\n")
-  print(best_local$formula, showEnv=FALSE)
-  (logLik<-logLik(best_local))
-  (dev<-deviance(best_local))
-  (AIC <- AIC(best_local)) 
-  (BIC <- BIC(best_local))
-  (dfF <- round(best_local$df.residual,0))
-  (dfR <- round(best_local$df.null,0))
-  (dfD <-dfR - dfF) 
-  cat("\n\n")
-  (model_Info <-t(c("logLik"=logLik,"dev"=dev,"AIC"=AIC,"BIC"=BIC, "df_Full"=dfF,"df_Reduced"=dfR, "df_drop"=dfD)))
-  model_Info <- as.data.frame(model_Info)
-  print(knitr::kable(model_Info))
-  cat("\n\n")
-  print(knitr::kable(result_table_best))
-  print(local_best_subset@formulas, showEnv=FALSE)
-}
 
 
 
