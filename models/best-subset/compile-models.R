@@ -165,28 +165,33 @@ ds2 <- ds %>%
   dplyr::rename_(
     "dv" = dv_name
   ) 
-# Recode
-ds2$marital <- car::recode(ds2$marital, "
-'mar_cohab' = -1;
-'single' = 0;
-'widowed' = 1;
-'sep_divorced' = 2;
-")
-ds2$educ3 <- car::recode(ds2$educ3, "
-'less than high school' = -1;
-'high school' = 0;
-'more than high school' = 1;
-")
+
 # Label factors
 ds2 <- ds2 %>% 
   dplyr::mutate(
-    marital_f         = factor(marital, labels =  c("(Married/Cohab)","(Single)", "(Widowed)", "(Sep/Divorced)")),
-    educ3_f           = factor(educ3, labels = c("(Less than HS)","(HS)", "(More than HS)")),
+    marital_f         = factor(marital, levels = c("single","mar_cohab","widowed","sep_divorced"), labels =  c("(Single)","(Married/Cohab)", "(Widowed)", "(Sep/Divorced)")),
+    educ3_f           = factor(educ3, levels = c("high school","less than high school", "more than high school"), labels = c("(HS)","(Less than HS)","(More than HS)")),
     study_name_f      = factor(study_name,
                                levels = c("alsa", "lbsl", "satsa", "share","tilda"),
                                labels = c("(ALSA)","(LBLS)", "(SATSA)", "(SHARE)", "(TILDA)"))
 ) 
 
+table(ds2$educ3)
+table(ds2$marital, ds2$marital_f)
+table(ds2$educ3, ds2$educ3_f)
+
+# # Recode
+# ds2$marital <- car::recode(ds2$marital, "
+# 'mar_cohab' = -1;
+# 'single' = 0;
+# 'widowed' = 1;
+# 'sep_divorced' = 2;
+# ")
+# ds2$educ3 <- car::recode(ds2$educ3, "
+# 'less than high school' = -1;
+# 'high school' = 0;
+# 'more than high school' = 1;
+# ")
 # ds2$marital_f <- ordered(
 #   ds2$marital, 
 #   levels = c(-1,0,1,2),
@@ -206,6 +211,10 @@ pooled_stem <- paste0(local_stem, "study_name_f + ")
 predictors_A <- "
 age_in_years + female + educ3_f + marital_f
 " 
+
+# age_in_years + female + relevel(educ3_f,'(HS)') + marital_f
+# " 
+
 predictors_AA <-  "
 age_in_years + female + educ3_f + marital_f + 
 age_in_years*female + age_in_years*educ3_f + age_in_years*marital_f + 
@@ -267,9 +276,9 @@ pooled_custom <- list(
   "A"  = pooled_A  ,
   "AA" = pooled_AA ,
   "B"  = pooled_B  ,
-  "BB" = pooled_AA 
+  "BB" = pooled_BB 
 )
-saveRDS(pooled_custom, "./data/shared/derived/pooled_custom.rds")
+saveRDS(pooled_custom, "./data/shared/derived/models_pooled_custom.rds")
 
 # pooled_best <- list(
 #  "A_best" = pooled_A_bs@objects[[1]], 
@@ -296,12 +305,15 @@ local_BB <- estimate_local_models(data=ds2, predictors=predictors_BB)
 # local_BB_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_B, level=2, method="g")
 
 local_custom <- list(
-  "A"  = pooled_A  ,
-  "AA" = pooled_AA ,
-  "B"  = pooled_B  ,
-  "BB" = pooled_AA 
+  "A"  = local_A  ,
+  "AA" = local_AA ,
+  "B"  = local_B  ,
+  "BB" = local_BB 
 )
-saveRDS(local_custom, "./data/shared/derived/local_custom.rds")
+saveRDS(local_custom, "./data/shared/derived/models_local_custom.rds")
+
+d <- ds2 %>% dplyr::filter(study_name == "share")
+table(d$marital_f, d$educ3_f)
 
 
 # local_best <- list(
@@ -321,14 +333,14 @@ dum[["A"]] <- make_result_table(pooled_A)
 dum[["AA"]] <- make_result_table(pooled_AA)
 dum[["B"]] <- make_result_table(pooled_B)
 dum[["BB"]] <- make_result_table(pooled_BB)
-a <- make_result_table(pooled_A)
-aa <- make_result_table(pooled_AA)
-b <- make_result_table(pooled_B)
-bb <- make_result_table(pooled_BB)
+# a <- make_result_table(pooled_A)
+# aa <- make_result_table(pooled_AA)
+# b <- make_result_table(pooled_B)
+# bb <- make_result_table(pooled_BB)
 
-d <- plyr::ldply(dum, data.frame, .id = "model_type")
+# d <- plyr::ldply(dum, data.frame, .id = "model_type")
 
-model_object = pooled_A
+# model_object = pooled_A
 
 display_odds_prepare <- function(model_object, model_label){
   x <- make_result_table(model_object)

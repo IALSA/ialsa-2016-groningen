@@ -155,8 +155,8 @@ t <- table( ds$sedentary,  ds$study_name,   useNA = "always"); t[t==0] <- "."; t
 source("./scripts/modeling-functions.R")
 
 # ---- load-estimated-models ----------------------
-pooled_custom <- readRDS("./data/shared/derived/pooled_custom.rds") 
-local_custom <- readRDS("./data/shared/derived/local_custom.rds") 
+pooled_custom <- readRDS("./data/shared/derived/models_pooled_custom.rds") 
+local_custom <- readRDS("./data/shared/derived/models_local_custom.rds") 
 
 # ---- functions-to-make-results-table ------------------
 display_odds_prepare <- function(model_object, model_label){
@@ -200,27 +200,32 @@ list_object_study <- function(list_object, study_name_){
 
 
 # ---- pooled-results-table-1 ------------------------------
-# results_table <- make_display_table(pooled_custom)
-# saveRDS(results_table, "./data/shared/derived/pooled_results_table.rds")
-results_table <- readRDS("./data/shared/derived/pooled_results_table.rds")
+# disable BELOW when computed one to speed up report production
+# results_table_pooled <- make_display_table(pooled_custom)
+# saveRDS(results_table_pooled, "./data/shared/derived/results_table_pooled.rds")
+# disable ABOVE when computed one to speed up report production
+results_table_pooled <- readRDS("./data/shared/derived/results_table_pooled.rds")
 # ---- pooled-results-table-2 ------------------------------
-knitr::kable(results_table)
+knitr::kable(results_table_pooled)
 
 
 # ---- local-results ------------------------------------
+# disable BELOW when computed one to speed up report production
 # alsa_table <- list_object_study(list_object, "alsa")
 # lbsl_table <- list_object_study(list_object, "lbsl")
 # satsa_table <- list_object_study(list_object, "satsa")
 # share_table <- list_object_study(list_object, "share")
 # tilda_table <- list_object_study(list_object, "tilda")
-# local_tables <- list("alsa"= alsa_table,"lbsl"= lbsl_table,"satsa" = satsa_table,"share"= share_table,"tilda"= tilda_table)
-# saveRDS(local_tables, "./data/shared/derived/local_tables.rds")
-local_tables <- readRDS("./data/shared/derived/local_tables.rds")
-alsa_table <- local_tables[["alsa"]]
-lbsl_table <- local_tables[["lbsl"]]
-satsa_table <- local_tables[["satsa"]]
-share_table <- local_tables[["share"]]
-tilda_table <- local_tables[["tilda"]]
+# results_table_local <- list("alsa"= alsa_table,"lbsl"= lbsl_table,"satsa" = satsa_table,"share"= share_table,"tilda"= tilda_table)
+# saveRDS(results_table_local, "./data/shared/derived/results_table_local.rds")
+# disable ABOVE when computed one to speed up report production
+
+results_table_local <- readRDS("./data/shared/derived/results_table_local.rds")
+alsa_table <- results_table_local[["alsa"]]
+lbsl_table <- results_table_local[["lbsl"]]
+satsa_table <- results_table_local[["satsa"]]
+share_table <- results_table_local[["share"]]
+tilda_table <- results_table_local[["tilda"]]
 # ---- local-results-alsa ------------------------------------
 knitr::kable(alsa_table)
 
