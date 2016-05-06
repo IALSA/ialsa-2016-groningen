@@ -1,7 +1,7 @@
-,SOCMARRIED,MAR_4,CS006,count,marital
-1,Married,Married,Married,5748,mar_cohab
-2,Married,Married,Living with a partner as if married,218,mar_cohab
-3,Not married,Never married,Single (never married),791,single
-4,Not married,Sep/divorced,Separated,352,sep_divorced
-5,Not married,Sep/divorced,Divorced,200,sep_divorced
-6,Not married,Widowed,Widowed,1195,widowed
+,SOCMARRIED,MAR_4,CS006,count,marital,single
+1,Married,Married,Married,5748,mar_cohab,FALSE
+2,Married,Married,Living with a partner as if married,218,mar_cohab,FALSE
+3,Not married,Never married,Single (never married),791,single,TRUE
+4,Not married,Sep/divorced,Separated,352,sep_divorced,TRUE
+5,Not married,Sep/divorced,Divorced,200,sep_divorced,TRUE
+6,Not married,Widowed,Widowed,1195,widowed,TRUE

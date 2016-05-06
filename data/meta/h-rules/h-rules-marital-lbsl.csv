@@ -1,7 +1,7 @@
-,MSTAT94,count,marital
-1,single,22,single
-2,divorced,73,sep_divorced
-3,separated,4,sep_divorced
-4,widowed,134,widowed
-5,married,326,mar_cohab
-6,NA,97,NA
+,MSTAT94,count,marital,single
+1,single,22,single,TRUE
+2,divorced,73,sep_divorced,TRUE
+3,separated,4,sep_divorced,TRUE
+4,widowed,134,widowed,TRUE
+5,married,326,mar_cohab,FALSE
+6,NA,97,NA,NA
