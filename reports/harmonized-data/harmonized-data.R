@@ -62,7 +62,7 @@ for(s in dto[["studyName"]]){
   (get_these_variables <- c("id",
                             "year_of_wave","age_in_years","year_born",
                             "female",
-                            "marital",
+                            "marital", "single",
                             "educ3",
                             "smoke_now","smoked_ever",
                             "current_work_2",
