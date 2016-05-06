@@ -204,17 +204,121 @@ dto[["unitData"]][["tilda"]] %>%
 
 
 
+# ---- II-C-marital-alsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name=="alsa", construct %in% c("marital")) %>%
+  dplyr::select(study_name, name, label,categories)
+# ---- II-C-marital-alsa-2 -------------------------------------------------
+study_name <- "alsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-marital-alsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("MARITST"), 
+  harmony_name = "single"
+)
+# verify
+dto[["unitData"]][["alsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "MARITST","single")
+
+
+
+# ---- II-C-marital-lbsl-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "lbsl", construct == "marital") %>%
+  # dplyr::filter(name %in% c("MSTAT94")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-marital-lbsl-2 -------------------------------------------------
+study_name <- "lbsl"
+path_to_hrule <- "./data/meta/h-rules/h-rules-marital-lbsl.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("MSTAT94"), 
+  harmony_name = "single"
+)
+# verify
+dto[["unitData"]][["lbsl"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "MSTAT94", "single")
+
+
+
+# ---- II-C-marital-satsa-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "satsa", construct == "marital") %>%
+  # dplyr::filter(name %in% c("GMARITAL")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-marital-satsa-2 -------------------------------------------------
+study_name <- "satsa"
+path_to_hrule <- "./data/meta/h-rules/h-rules-marital-satsa.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("GMARITAL"), 
+  harmony_name = "single"
+)
+# verify
+dto[["unitData"]][["satsa"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "GMARITAL", "single")
+
+
+
+# ---- II-C-marital-share-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "share", construct == "marital") %>%
+  # dplyr::filter(name %in% c("DN0140")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-marital-share-2 -------------------------------------------------
+study_name <- "share"
+path_to_hrule <- "./data/meta/h-rules/h-rules-marital-share.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("DN0140"), 
+  harmony_name = "single"
+)
+# verify
+dto[["unitData"]][["share"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "DN0140", "single")
+
+
+
+# ---- II-C-marital-tilda-1 -------------------------------------------------
+dto[["metaData"]] %>%
+  dplyr::filter(study_name == "tilda", construct == "marital") %>%
+  # dplyr::filter(name %in% c("SMK94", "SMOKE")) %>%
+  dplyr::select(study_name, name, label_short,categories)
+# ---- II-C-marital-tilda-2 -------------------------------------------------
+study_name <- "tilda"
+path_to_hrule <- "./data/meta/h-rules/h-rules-marital-tilda.csv"
+dto[["unitData"]][[study_name]] <- recode_with_hrule(
+  dto,
+  study_name = study_name, 
+  variable_names = c("SOCMARRIED", "MAR_4", "CS006"), 
+  harmony_name = "single"
+)
+# verify
+dto[["unitData"]][["tilda"]] %>%
+  dplyr::filter(id %in% sample(unique(id),10)) %>%
+  dplyr::select_("id", "SOCMARRIED", "MAR_4", "CS006", "single")
+
+
 
 # ---- III-A-assembly ---------------------------------------------
 dumlist <- list()
 for(s in dto[["studyName"]]){
   ds <- dto[["unitData"]][[s]]
-  dumlist[[s]] <- ds[,c("id","marital")]
+  dumlist[[s]] <- ds[,c("id","marital","single")]
 }
 ds <- plyr::ldply(dumlist,data.frame,.id = "study_name")
 head(ds)
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 table( ds$marital, ds$study_name, useNA = "always")
+table( ds$single, ds$study_name, useNA = "always")
 
 
 

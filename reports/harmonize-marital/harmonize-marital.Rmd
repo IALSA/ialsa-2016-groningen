@@ -126,12 +126,15 @@ After reorganizing the possible repsonses, the following clustering has emerged
 
 After reviewing descriptives and relevant codebooks, the following operationalization of the harmonized variables for `marital` have been adopted:
 
-#### Target : `marital`   
+#### Target (1) : `marital`   
   - `-1` - `mar_cohab` - married or cohabiting
   - `0` - `single`- not married - REFERENCE
   - `1` - `sep_divorced` - separated or divorced
   - `2` - `widowed` - widowed
   
+#### Target (2) : `single`
+  - `0` - `FALSE` - Reference group
+  - `1` - `TRUE` - Risk factor
   
 These variables will be generated next, in the Development section. 
 
@@ -215,6 +218,59 @@ We encode the harmonization rule by manually editing the values in a correspondi
 ```{r II-B-marital-tilda-2, echo=TRUE}
 ```
 
+## (II.B) `single`
+
+#### Target (2) : `single`
+  - `0` - `FALSE` - Reference group
+  - `1` - `TRUE` - Risk factor
+  
+
+### ALSA
+
+Items that can contribute to generating values for the harmonized variable `single`  are:
+```{r II-C-marital-alsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-marital-alsa-2, echo=TRUE}
+```
+
+
+### LBLS
+Items that can contribute to generating values for the harmonized variable `single`  are:
+```{r II-C-marital-lbsl-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-marital-lbsl-2, echo=TRUE}
+```
+
+
+### SATSA
+
+Items that can contribute to generating values for the harmonized variable `single`  are:
+```{r II-C-marital-satsa-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-marital-satsa-2, echo=TRUE}
+```
+
+### SHARE
+
+Items that can contribute to generating values for the harmonized variable `single`  are:
+```{r II-C-marital-share-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-marital-share-2, echo=TRUE}
+```
+
+
+### TILDA
+
+Items that can contribute to generating values for the harmonized variable `single`  are:
+```{r II-C-marital-tilda-1, echo=TRUE}
+```
+We encode the harmonization rule by manually editing the values in a corresponding `.csv` file located in  `./data/meta/h-rules/`. Then, we apply the recoding logic it contains and append the newly created, harmonized variable to the initial data set. 
+```{r II-C-marital-tilda-2, echo=TRUE}
+```
 
 
 # (III) Recapitulation 
