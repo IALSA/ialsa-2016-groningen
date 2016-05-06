@@ -45,7 +45,7 @@ options(width=120) #So the output is 50% wider than the default.
 read_chunk("./models/exercise-report/exercise-report.R") 
 ```
 
-This report explores possible visualization solution for logistic regression modeling.  
+This reports narrates the results of modeling in the Groningen Harmonization Exercise
 
 
 <!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
@@ -255,12 +255,15 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 ```{r load-estimated-models, echo=FALSE}
 ```
 
+```{r define-modeling-functions, echo=FALSE}
+```
+
 ```{r functions-to-make-results-table, echo=FALSE}
 ```
 
 # Guide to Models
 
-Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data from each study separately. When fitted to the pooled data, an aditional predictor, `study_name` is added after the intercept. 
+Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data from each study separately. When fitted to the pooled data, an additional predictor, `study_name` is added after the intercept. 
 
 
 |predictors/model   | A | B |AA |BB |
