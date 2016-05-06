@@ -118,8 +118,8 @@ estimate_pooled_model_best_subset <- function(data, predictors, level=1, method=
     data = data,
     level = level,           # 1 = No interaction considered
     method = method,            # Exhaustive approach
-    crit = "aic",            # AIC as criteria
-    confsetsize = 5,         # Keep 5 best models
+    crit = "aicc",            # AIC as criteria
+    confsetsize = 100,         # Keep 5 best models
     plotty = F, report = T,  # No plot or interim reports
     fitfunction = "glm",     # glm function
     family = binomial(link="logit"))       # binomial family for logistic regression family=binomial(link="logit")
@@ -146,29 +146,29 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
-best_local_study <- function(data, predictors, eq_formula, level=1, method="h"){
+best_local_study <- function(data, predictors, eq_formula, level=1, method="d"){
   # eq_formula <- as.formula(paste0(local_stem, predictors))
   best_subset_local <- glmulti::glmulti(
     eq_formula,
     data = data,
     level = level,           # 1 = No interaction considered
     method = method,            # Exhaustive approach
-    crit = "aic",            # AIC as criteria
-    confsetsize = 5,         # Keep 5 best models
+    crit = "aicc",            # AIC as criteria
+    confsetsize = 100,         # Keep 5 best models
     plotty = F, report = T,  # No plot or interim reports
     fitfunction = "glm",     # glm function
     family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
   
 }
 
-estimate_local_models_best_subset <- function(data, predictors, level=1){
+estimate_local_models_best_subset <- function(data, predictors, level=1, method){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   print(eq_formula, showEnv = FALSE)
   model_study_list <- list()
   for(study_name_ in as.character(sort(unique(data$study_name)))){
     d_study <- data[data$study_name==study_name_, ]
     # browser()
-    best_subset_local <- best_local_study(data=d_study,predictors,eq_formula, level)
+    best_subset_local <- best_local_study(data=d_study,predictors,eq_formula, level, method)
     model_study_list[[study_name_]] <- best_subset_local
   }
   return(model_study_list)
