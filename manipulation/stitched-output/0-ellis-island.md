@@ -356,7 +356,7 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.4 Revised (2016-03-16 r70336)
+## R version 3.2.5 (2016-04-14)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows >= 8 x64 (build 9200)
 ## 
@@ -371,10 +371,11 @@ sessionInfo()
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.12.3  ggplot2_2.1.0 magrittr_1.5 
+## [1] MASS_7.3-45   glmulti_1.0.7 rJava_0.9-8   knitr_1.12.3  ggplot2_2.1.0
+## [6] magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] splines_3.2.4       lattice_0.20-33     colorspace_1.2-6   
+##  [1] splines_3.2.5       lattice_0.20-33     colorspace_1.2-6   
 ##  [4] htmltools_0.3.5     yaml_2.1.13         mgcv_1.8-12        
 ##  [7] survival_2.38-3     nloptr_1.0.4        foreign_0.8-66     
 ## [10] DBI_0.3.1           RColorBrewer_1.1-2  plyr_1.8.3         
@@ -382,18 +383,18 @@ sessionInfo()
 ## [16] gtable_0.2.0        htmlwidgets_0.6     evaluate_0.8.3     
 ## [19] labeling_0.3        latticeExtra_0.6-28 SparseM_1.7        
 ## [22] extrafont_0.17      quantreg_5.21       pbkrtest_0.4-6     
-## [25] parallel_3.2.4      markdown_0.7.7      Rttf2pt1_1.3.3     
-## [28] highr_0.5.1         Rcpp_0.12.4         acepack_1.3-3.3    
-## [31] scales_0.4.0        DT_0.1.40           formatR_1.3        
-## [34] Hmisc_3.17-3        jsonlite_0.9.19     lme4_1.1-11        
+## [25] parallel_3.2.5      markdown_0.7.7      highr_0.5.1        
+## [28] Rttf2pt1_1.3.3      Rcpp_0.12.4         acepack_1.3-3.3    
+## [31] DT_0.1.40           scales_0.4.0        formatR_1.3        
+## [34] jsonlite_0.9.19     Hmisc_3.17-3        lme4_1.1-11        
 ## [37] gridExtra_2.2.1     testit_0.5          digest_0.6.9       
-## [40] stringi_1.0-1       dplyr_0.4.3         grid_3.2.4         
-## [43] tools_3.2.4         lazyeval_0.1.10     dichromat_2.0-0    
+## [40] stringi_1.0-1       dplyr_0.4.3         grid_3.2.5         
+## [43] tools_3.2.5         lazyeval_0.1.10     dichromat_2.0-0    
 ## [46] Formula_1.2-1       cluster_2.0.3       car_2.1-2          
-## [49] extrafontdb_1.0     tidyr_0.4.1         MASS_7.3-45        
-## [52] Matrix_1.2-4        rsconnect_0.4.2.1   assertthat_0.1     
-## [55] minqa_1.2.4         rmarkdown_0.9.5     rpart_4.1-10       
-## [58] R6_2.1.2            nnet_7.3-12         nlme_3.1-126
+## [49] extrafontdb_1.0     tidyr_0.4.1         Matrix_1.2-4       
+## [52] rsconnect_0.4.2.1   assertthat_0.1      minqa_1.2.4        
+## [55] rmarkdown_0.9.5     R6_2.1.2            rpart_4.1-10       
+## [58] nnet_7.3-12         nlme_3.1-126
 ```
 
 ```r
@@ -401,6 +402,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-04-18 02:59:03 PDT"
+## [1] "2016-05-03 17:38:50 PDT"
 ```
 
