@@ -92,3 +92,5 @@ sandbox/*/*
 Thumbs.db
 # Folder config file
 Desktop.ini
+*.RDataTmp
+*.back
