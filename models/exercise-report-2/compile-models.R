@@ -127,6 +127,27 @@ t <- table(
   useNA = "always"
 ); t[t==0] <- "."; t
 
+ds$age_in_years_70 <- ds$age_in_years - 70
+ds$age_in_years_75 <- ds$age_in_years - 75
+ds$age_in_years_80 <- ds$age_in_years - 80
+
+t <- table(
+  cut(ds$age_in_years_70,breaks = c(-Inf,seq(from=-40,to=30,by=5), Inf)),
+  ds$study_name, 
+  useNA = "always"
+); t[t==0] <- "."; t
+
+t <- table(
+  cut(ds$age_in_years_75,breaks = c(-Inf,seq(from=-45,to=25,by=5), Inf)),
+  ds$study_name, 
+  useNA = "always"
+); t[t==0] <- "."; t
+
+t <- table(
+  cut(ds$age_in_years_80,breaks = c(-Inf,seq(from=-50,to=20,by=5), Inf)),
+  ds$study_name, 
+  useNA = "always"
+); t[t==0] <- "."; t
 
 # ----- basic-frequencies-criteria-1 -------------------
 t <- table(ds$smoke_now, ds$study_name,    useNA = "always"); t[t==0] <- "."; t
@@ -157,7 +178,7 @@ dv_label_odds <- "Odds(Smoke Now)"
 
 
 ds2 <- ds %>% 
-  dplyr::select_("id", "study_name", "smoke_now", "age_in_years", 
+  dplyr::select_("id", "study_name", "smoke_now", "age_in_years_70", 
                  "female", "single", "educ3",
                  "current_work_2",
                  "current_drink",
@@ -207,24 +228,24 @@ table(ds2$educ3, ds2$educ3_f)
 local_stem <- "dv ~ 1 + "
 pooled_stem <- paste0(local_stem, "study_name_f + ") 
 predictors_A <- "
-age_in_years + female + educ3_f + single
+age_in_years_70 + female + educ3_f + single
 " 
 
 predictors_AA <-  "
-age_in_years + female + educ3_f + single + 
-age_in_years*female + age_in_years*educ3_f + age_in_years*single + 
+age_in_years_70 + female + educ3_f + single + 
+age_in_years_70*female + age_in_years_70*educ3_f + age_in_years_70*single + 
 female*educ3_f + female*single + 
 educ3_f*single
 "
 
 predictors_B <- "
-age_in_years + female + educ3_f + single + 
+age_in_years_70 + female + educ3_f + single + 
 poor_health + sedentary + current_work_2 + current_drink
 "
 
 predictors_BB <-  "
-age_in_years + female + educ3_f + single + poor_health + sedentary + current_work_2 + current_drink +
-age_in_years*female + age_in_years*educ3_f + age_in_years*single + age_in_years*poor_health + age_in_years*sedentary + age_in_years*current_work_2 + age_in_years*current_drink +
+age_in_years_70 + female + educ3_f + single + poor_health + sedentary + current_work_2 + current_drink +
+age_in_years_70*female + age_in_years_70*educ3_f + age_in_years_70*single + age_in_years_70*poor_health + age_in_years_70*sedentary + age_in_years_70*current_work_2 + age_in_years_70*current_drink +
 female*educ3_f + female*single + female*poor_health + female*sedentary + female*current_work_2 + female*current_drink +
 educ3_f*single + educ3_f*poor_health + educ3_f*sedentary + educ3_f*current_work_2 + educ3_f*current_drink
 single*poor_health + single*sedentary + single*current_work_2 + single*current_drink +
@@ -245,24 +266,44 @@ source("./scripts/modeling-functions.R")
 # model_report(model_object= model_object, best_subset = best_subset) # custom vs subset
 
 # ---- models-on-pooled-data ------------------------------
+
+# A
 pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
-pooled_A_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=1, method="h")
+# pooled_A_bs <- estimate_pooled_model_best_subset(
+#   data=ds2, predictors=predictors_A, level=1, method="h")
+# saveRDS(pooled_A_bs, "./data/shared/derived/models/pooled_A_bs.rds")
+# rm(pooled_A_bs)
 
+# AA
 pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
-pooled_AA_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_A, level=2, method="g")
+# pooled_AA_bs <- estimate_pooled_model_best_subset(
+  # data=ds2, predictors=predictors_A, level=2, method="g")
+# saveRDS(pooled_AA_bs, "./data/shared/derived/models/pooled_AA_bs.rds")
+# rm(pooled_AA_bs)
 
+# B
 pooled_B <- estimate_pooled_model(data=ds2, predictors=predictors_B)
-pooled_B_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=1, method="h")
+# pooled_B_bs <- estimate_pooled_model_best_subset(
+#   data=ds2, predictors=predictors_B, level=1, method="h")
+# saveRDS(pooled_B_bs, "./data/shared/derived/models/pooled_B_bs.rds")
+# rm(pooled_B_bs)
 
+# BB
 pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
-pooled_BB_bs <- estimate_pooled_model_best_subset(data=ds2, predictors=predictors_B, level=2, method="g")
+# pooled_BB_bs <- estimate_pooled_model_best_subset(
+#   data=ds2, predictors=predictors_B, level=2, method="d")
+# saveRDS(pooled_BB_bs, "./data/shared/derived/models/pooled_BB_bs.rds")
+# rm(pooled_BB_bs)
 
-# Review models
-# basic_model_info(model_object)
+
+# model_object <- pooled_A
+# best_subset <- pooled_A_bs
+# # Review models
+# basic_model_info(model_object) 
 # make_result_table(model_object)
 # show_best_subset(best_subset)
 # cat("\014")
-# model_report(model_object= model_object, best_subset = best_subset)
+# model_report(model_object, best_subset)
 # print(best_subset)
 # plot(best_subset)
 # tmp <- weightable(best_subset)
@@ -279,13 +320,9 @@ pooled_custom <- list(
 )
 saveRDS(pooled_custom, "./data/shared/derived/models/pooled_custom.rds")
 
-pooled_best_subset <- list(
- "A_best" = pooled_A_bs,
-"AA_best" = pooled_AA_bs,
- "B_best" = pooled_B_bs,
-"BB_best" = pooled_BB_bs
-)
-saveRDS(pooled_best_subset, "./data/shared/derived/models/pooled_best_subset.rds")
+# best subset object could be prohibitevely large, separate in managable chunks
+
+
 
 # pooled_best <- list(
 #  "A_best" = pooled_A_bs@objects[[1]],
@@ -300,20 +337,34 @@ saveRDS(pooled_best_subset, "./data/shared/derived/models/pooled_best_subset.rds
 
 # ---- models-on-separate-studies -------------------------
 local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
-local_A_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=1, method="h")
+# local_A_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_A, level=1, method="h")
+# saveRDS(local_A_bs, "./data/shared/derived/models/local_A_bs.rds")
+# rm(local_A_bs)
 
 local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
-local_AA_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_A, level=2, method="g")
+# local_AA_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_A, level=2, method="g")
+# saveRDS(local_AA_bs, "./data/shared/derived/models/local_AA_bs.rds")
+# rm(local_AA_bs)
 
 local_B <- estimate_local_models(data=ds2, predictors=predictors_B)
-local_B_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_B, level=1, method="h")
+# local_B_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_B, level=1, method="h")
+# saveRDS(local_B_bs, "./data/shared/derived/models/local_B_bs.rds")
+# rm(local_B_bs)
+
 
 local_BB <- estimate_local_models(data=ds2, predictors=predictors_BB)
-local_BB_bs <- estimate_local_models_best_subset(data=ds2, predictors=predictors_B, level=2, method="g")
+# local_BB_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_B, level=2, method="g")
+# saveRDS(local_BB_bs, "./data/shared/derived/models/local_BB_bs.rds")
+# rm(local_BB_bs)
+
 
 # Review models
-# model_object= local_A[["share"]]
-# best_subset = local_A_bs[["share"]]
+# model_object= local_A[["alsa"]]
+# best_subset = local_A_bs[["alsa"]]
 # basic_model_info(model_object)
 # make_result_table(model_object)
 # show_best_subset(best_subset)
@@ -336,14 +387,6 @@ local_custom <- list(
 )
 saveRDS(local_custom, "./data/shared/derived/models/local_custom.rds")
 # separate for each study, best subset selection
-local_best_subset <- list(
-  "A_best" = local_A_bs,
-  "AA_best" = local_AA_bs,
-  "B_best" = local_B_bs,
-  "BB_best" = local_BB_bs
-)
-saveRDS(local_best_subset, "./data/shared/derived/models/local_best_subset.rds")
-
 
 
 # ---- make-big-table ------------------
