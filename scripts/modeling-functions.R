@@ -2,6 +2,8 @@
 # model_object = best_local_A
 
 # ---- model-solution-table ---------------------------------------
+
+# Create table (with odds) for display in reports
 make_result_table <- function(model_object){ 
   (cf <- summary(model_object)$coefficients)
   (ci <- exp(cbind(coef(model_object), confint(model_object))))
@@ -63,7 +65,7 @@ make_result_table <- function(model_object){
 }
 
 
-# compute basic info table
+# Create table with model information indices
 # model_object = pooled_A_bs@objects[[1]]
 basic_model_info <- function(model_object){
   (logLik<-logLik(model_object))
@@ -81,7 +83,6 @@ basic_model_info <- function(model_object){
   
   # print(model_Info)
 }
-
 
 show_best_subset <- function(best_subset){
   (top_models <- basic_model_info(best_subset@objects[[1]]))
@@ -101,7 +102,7 @@ show_best_subset <- function(best_subset){
 
 
 
-
+# Custom model estimation
 estimate_pooled_model <- function(data, predictors){
   eq_formula <- as.formula(paste0(pooled_stem, predictors))
   print(eq_formula, showEnv = FALSE)
@@ -109,31 +110,6 @@ estimate_pooled_model <- function(data, predictors){
   basic_model_info(models)
   return(models)
 }
-
-estimate_pooled_model_best_subset <- function(data, predictors, level=1, method="h"){
-  eq_formula <- as.formula(paste0(pooled_stem, predictors))
-  print(eq_formula, showEnv = FALSE)
-  best_subset <- glmulti::glmulti(
-    eq_formula,
-    data = data,
-    level = level,           # 1 = No interaction considered
-    method = method,            # Exhaustive approach
-    crit = "aicc",            # AIC as criteria
-    confsetsize = 100,         # Keep 5 best models
-    plotty = F, report = T,  # No plot or interim reports
-    fitfunction = "glm",     # glm function
-    family = binomial(link="logit"))       # binomial family for logistic regression family=binomial(link="logit")
-  show_best_subset(best_subset)
-  # for(i in 1:5){  
-  #   cat("Model ",i," : ", sep="")
-  #   print(models@formulas[[i]], showEnv = F)  
-  # } 
-  # for(i in 1:5){  
-  #   basic_model_info(models@objects[[i]])
-  # } 
-  return(best_subset)
-}
-
 estimate_local_models <- function(data, predictors){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   print(eq_formula, showEnv = FALSE)
@@ -146,7 +122,12 @@ estimate_local_models <- function(data, predictors){
   return(model_study_list)
 }
 
-best_local_study <- function(data, predictors, eq_formula, level=1, method="d"){
+
+
+# Best Subset estimation
+
+# Define a general function
+estimate_best_subset <- function(data, predictors, eq_formula, level=1, method="h", plotty=F){
   # eq_formula <- as.formula(paste0(local_stem, predictors))
   best_subset_local <- glmulti::glmulti(
     eq_formula,
@@ -155,29 +136,44 @@ best_local_study <- function(data, predictors, eq_formula, level=1, method="d"){
     method = method,            # Exhaustive approach
     crit = "aicc",            # AIC as criteria
     confsetsize = 100,         # Keep 5 best models
-    plotty = F, report = T,  # No plot or interim reports
+    plotty = T, report = T,  # No plot or interim reports
     fitfunction = "glm",     # glm function
-    family = binomial)       # binomial family for logistic regression family=binomial(link="logit")
-  
+    family = binomial,       # binomial family for logistic regression family=binomial(link="logit")
+    includeobjects = TRUE
+  )
 }
-
-estimate_local_models_best_subset <- function(data, predictors, level=1, method){
+# Define specific function for (pooled)
+estimate_pooled_model_best_subset <- function(data, predictors, level, method, plotty){
+  eq_formula <- as.formula(paste0(pooled_stem, predictors))
+  print(eq_formula, showEnv = FALSE)
+  best_subset <- estimate_best_subset(data=data,predictors,eq_formula, level, method, plotty)
+  show_best_subset(best_subset)
+  return(best_subset)
+}
+# Define specific function for (study local)
+estimate_local_models_best_subset <- function(data, predictors, level, method, plotty){
   eq_formula <- as.formula(paste0(local_stem, predictors))
   print(eq_formula, showEnv = FALSE)
   model_study_list <- list()
   for(study_name_ in as.character(sort(unique(data$study_name)))){
     d_study <- data[data$study_name==study_name_, ]
     # browser()
-    best_subset_local <- best_local_study(data=d_study,predictors,eq_formula, level, method)
+    best_subset_local <- estimate_best_subset(data=d_study,predictors,eq_formula, level, method, plotty)
     model_study_list[[study_name_]] <- best_subset_local
   }
   return(model_study_list)
 }
 
+# for(i in 1:5){  
+#   cat("Model ",i," : ", sep="")
+#   print(models@formulas[[i]], showEnv = F)  
+# } 
+# for(i in 1:5){  
+#   basic_model_info(models@objects[[i]])
+# } 
 
 
-
-
+# Print model report
 model_report <- function(model_object, best_subset){ 
   # cat("Fitted model || ")
   print(model_object$formula, showEnv = F)
@@ -187,7 +183,7 @@ model_report <- function(model_object, best_subset){
   print(knitr::kable(show_best_subset(best_subset)))  
 } 
 
-
+# Print local model report
 local_model_report <- function(data, model_object, best_subset){
   for(study_name_ in as.character(sort(unique(data$study_name))) ){
     cat("Study : ", study_name_, "\n",sep="")
