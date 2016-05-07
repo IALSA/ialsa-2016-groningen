@@ -127,10 +127,11 @@ t <- table(
   useNA = "always"
 ); t[t==0] <- "."; t
 
-ds$age_in_years_70 <- ds$age_in_years - 70
+
 ds$age_in_years_75 <- ds$age_in_years - 75
 ds$age_in_years_80 <- ds$age_in_years - 80
 
+ds$age_in_years_70 <- ds$age_in_years - 70
 t <- table(
   cut(ds$age_in_years_70,breaks = c(-Inf,seq(from=-40,to=30,by=5), Inf)),
   ds$study_name, 
@@ -349,10 +350,10 @@ local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
 # rm(local_AA_bs)
 
 local_B <- estimate_local_models(data=ds2, predictors=predictors_B)
-# local_B_bs <- estimate_local_models_best_subset(
-#   data=ds2, predictors=predictors_B, level=1, method="h")
-# saveRDS(local_B_bs, "./data/shared/derived/models/local_B_bs.rds")
-# rm(local_B_bs)
+local_B_bs <- estimate_local_models_best_subset(
+  data=ds2, predictors=predictors_B, level=1, method="h")
+saveRDS(local_B_bs, "./data/shared/derived/models/local_B_bs.rds")
+rm(local_B_bs)
 
 
 local_BB <- estimate_local_models(data=ds2, predictors=predictors_BB)

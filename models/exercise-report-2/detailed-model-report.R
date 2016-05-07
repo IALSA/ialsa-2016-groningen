@@ -29,24 +29,29 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 # ---- load-data ----------------------
 dto <- readRDS("./data/unshared/derived/dto_h.rds")
 
-# pooled_custom      <- readRDS("./data/shared/derived/models/pooled_custom.rds")
-# pooled_best_subset <- readRDS("./data/shared/derived/models/pooled_best_subset.rds")
-# local_custom       <- readRDS("./data/shared/derived/models/local_custom.rds")
-# local_best_subset  <- readRDS("./data/shared/derived/models/local_best_subset.rds")
+pooled_custom      <- readRDS("./data/shared/derived/models/pooled_custom.rds")
+local_custom       <- readRDS("./data/shared/derived/models/local_custom.rds")
+
+# Load best subset solutions separately, due to large size
+# pooled_A_bs  <- readRDS("./data/shared/derived/models/pooled_A_bs.rds")
+# local_A_bs  <- readRDS("./data/shared/derived/models/local_A_bs.rds")
 
 
 # ---- make-results-table ----------------------------
 
+# turn of below once composite is produced -----------
 # pooled_custom_composite <- list()
 # pooled_custom_composite[["A"]] <- make_result_table(pooled_custom[["A"]])
 # pooled_custom_composite[["AA"]] <- make_result_table(pooled_custom[["AA"]])
 # pooled_custom_composite[["B"]] <- make_result_table(pooled_custom[["B"]])
 # pooled_custom_composite[["BB"]] <- make_result_table(pooled_custom[["BB"]])
-# d <- plyr::ldply(pooled_custom_composite, data.frame, .id = "model_type") # one long ds
 # saveRDS(pooled_custom_composite, "./data/shared/derived/models_pooled_detailed.rds")
+# # in case you need one long ds:
+# d <- plyr::ldply(pooled_custom_composite, data.frame, .id = "model_type")
+# turn of above once composite is produced -----------
 pooled_custom_composite <- readRDS("./data/shared/derived/pooled_custom_composite.rds")
 
-
+# turn of below once composite is produced -----------
 # local_custom_composite <- list()
 # for(s in dto[["studyName"]]){
 #   local_custom_composite[[s]][["A"]] <- make_result_table(local_custom[["A"]][[s]])
@@ -55,6 +60,7 @@ pooled_custom_composite <- readRDS("./data/shared/derived/pooled_custom_composit
 #   local_custom_composite[[s]][["BB"]] <- make_result_table(local_custom[["BB"]][[s]])
 # }
 # saveRDS(local_custom_composite, "./data/shared/derived/local_custom_composite.rds")
+# turn of above once composite is produced -----------
 local_custom_composite <- readRDS("./data/shared/derived/local_custom_composite.rds")
 
 
@@ -76,7 +82,7 @@ for(study_name_ in dto[["studyName"]]){
 
 # ---- print-custom-pooled-results ------------------------------
 # basic_model_info(pooled_custom[["A"]])
-# knitr::kable(models_pooled[["A"]])
+# knitr::kable(pooled_custom[["A"]])
 
 for(model_type in c("A","AA","B","BB")){
   cat("\n\n## `", model_type, "` \n\n", sep="")
@@ -84,17 +90,9 @@ for(model_type in c("A","AA","B","BB")){
   # print(model$formula, showEnv=FALSE)
   # cat("\n\n")
   print(knitr::kable(basic_model_info(pooled_custom[[model_type]])))
-  print(knitr::kable(models_pooled[[model_type]]))
+  print(knitr::kable(pooled_custom_composite[[model_type]]))
 }
 
 
-
-
-
-
-
-# ---- reproduce ---------------------------------------
-rmarkdown::render(
-  input = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd" , 
-  output_format="html_document", clean=TRUE
-)
+# ---- session ----------------------------
+sessionInfo()

@@ -305,8 +305,10 @@ Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data f
 
 Odds-ratios with 95% confidence intervals are reported. 
 
+
+
 # Separate
-```{r local-results, echo=FALSE, results='hold'}
+```{r local-results-tables, echo=FALSE, results='hold'}
 ```
 
 ## ALSA 

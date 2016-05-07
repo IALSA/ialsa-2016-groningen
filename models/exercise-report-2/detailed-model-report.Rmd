@@ -109,8 +109,9 @@ Odds-ratios with 95% confidence intervals are reported.
 ```{r print-custom-pooled-results, echo=F, eval=TRUE, results='asis'}
 ```
 
-
-
+# Session
+```{r session}
+```
 
 
 
