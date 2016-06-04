@@ -132,7 +132,7 @@ dmls[['satsa']] <- ds
 ds <- dmls[['share']]; head(ds)
 ds$DN0030 <- as.numeric(ds$DN0030)
 # http://wiki.obiba.org/display/MHSA2016/The+Survey+of+Health%2C+Ageing+and+Retirement+in+Europe+%28SHARE%29+-+Israel?preview=/32801017/32801020/22160-0001-Codebook.pdf
-ds$year_of_wave <- 2004
+ds$year_of_wave <- 2006
 ds <- ds %>% # transform into harmonization target
   dplyr::mutate(year_born = DN0030, # rename
                 age_in_years = year_of_wave - year_born # compute
