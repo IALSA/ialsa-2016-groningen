@@ -100,3 +100,7 @@ data/shared/derived/models/pooled_BB_bs.rds
 data/shared/derived/models/local_BB_bs.rds
 data/shared/derived/models/local_B_bs.rds
 data/shared/derived/models/pooled_B_bs.rds
+*.html
+*.html
+*.html
+reports/harmonize-age/harmonize-age.html
