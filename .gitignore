@@ -104,3 +104,4 @@ data/shared/derived/models/pooled_B_bs.rds
 *.html
 *.html
 reports/harmonize-age/harmonize-age.html
+*.rds
