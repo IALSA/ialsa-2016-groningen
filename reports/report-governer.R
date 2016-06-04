@@ -30,8 +30,7 @@ pathsDescribe <- c(
 
 
 pathsHarmonize <- c(
-    "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
-  , "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
+    "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
   , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
   , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
   , "marital"   = "./reports/harmonize-marital/harmonize-marital.Rmd"
@@ -41,9 +40,9 @@ pathsHarmonize <- c(
   , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
   , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
   , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
- 
+   # "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
 )
-  
+# once the file is created, it is manually renamed into dto_h.rds  
 
 # Build the reports -------------------------------------------------------
 for( pathRmd in pathsHarmonize ) { 
@@ -66,7 +65,10 @@ pathModels <- c(
   # "poor_health_smoke_now_points-cb" = "./models/poor_health/smoke_now-points-coloring-book.Rmd"
   # "model overivew" = "./models/summaries/model-summaries.Rmd"
   # "exercise report" = "./models/exercise-report/exercise-report.Rmd"
-  "best subset" = "./models/best-subset/best-subset.Rmd"
+  # "best subset" = "./models/best-subset/best-subset.Rmd"
+  # "detailed models" = "./models/exercise-report-2/detailed-model-report.Rmd"
+  # "exercise report" = "./models/exercise-report-2/exercise-report.Rmd"
+  "compare N" = "./sandbox/2016-05-12/compare-N-across-teams.Rmd"
 )
 
 
@@ -77,6 +79,12 @@ for( pathRmd in pathModels ) {
     output_format = "html_document",
     clean = TRUE) 
 } 
+
+# Compile Models
+knitr::stitch_rmd(
+  script="./models/exercise-report-2/compile-models.R", 
+  output="./models/exercise-report-2/stitched-output/compile-models.md"
+)
 
 
 
