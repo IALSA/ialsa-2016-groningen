@@ -6,9 +6,9 @@ cat("\f") # clear console
 
 # ---- load-sources ------------------------------------------------------------
 # Call `base::source()` on any repo file that defines functions needed below.  Ideally, no real operations are performed.
-source("./scripts/common-functions.R") # used in multiple reports
-source("./scripts/graph-presets.R") # fonts, colors, themes 
-source("./scripts/graph-logistic.R")
+# source("./scripts/common-functions.R") # used in multiple reports
+# source("./scripts/graph-presets.R") # fonts, colors, themes 
+# source("./scripts/graph-logistic.R")
 
 # ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
@@ -126,24 +126,22 @@ t <- table(
   ds$study_name, 
   useNA = "always"
 ); t[t==0] <- "."; t
-
-
-ds$age_in_years_75 <- ds$age_in_years - 75
-ds$age_in_years_80 <- ds$age_in_years - 80
-
+# Center at 70
 ds$age_in_years_70 <- ds$age_in_years - 70
 t <- table(
   cut(ds$age_in_years_70,breaks = c(-Inf,seq(from=-40,to=30,by=5), Inf)),
   ds$study_name, 
   useNA = "always"
 ); t[t==0] <- "."; t
-
+# Center at 75
+ds$age_in_years_75 <- ds$age_in_years - 75
 t <- table(
   cut(ds$age_in_years_75,breaks = c(-Inf,seq(from=-45,to=25,by=5), Inf)),
   ds$study_name, 
   useNA = "always"
 ); t[t==0] <- "."; t
-
+# Center at 80
+ds$age_in_years_80 <- ds$age_in_years - 80
 t <- table(
   cut(ds$age_in_years_80,breaks = c(-Inf,seq(from=-50,to=20,by=5), Inf)),
   ds$study_name, 
@@ -228,79 +226,145 @@ table(ds2$educ3, ds2$educ3_f)
 # ---- model-specification -------------------------
 local_stem <- "dv ~ 1 + "
 pooled_stem <- paste0(local_stem, "study_name_f + ") 
+
 predictors_A <- "
-age_in_years_70 + female + educ3_f + single
+age_in_years_70 + 
+female + 
+educ3_f + 
+single
 " 
 
 predictors_AA <-  "
-age_in_years_70 + female + educ3_f + single + 
-age_in_years_70*female + age_in_years_70*educ3_f + age_in_years_70*single + 
-female*educ3_f + female*single + 
+age_in_years_70 + 
+female + 
+educ3_f + 
+single + 
+
+age_in_years_70*female + 
+age_in_years_70*educ3_f + 
+age_in_years_70*single + 
+
+female*educ3_f + 
+female*single + 
+
 educ3_f*single
 "
 
 predictors_B <- "
-age_in_years_70 + female + educ3_f + single + 
-poor_health + sedentary + current_work_2 + current_drink
+age_in_years_70 + 
+female + 
+educ3_f + 
+single + 
+poor_health + 
+sedentary + 
+current_work_2 + 
+current_drink
 "
 
 predictors_BB <-  "
-age_in_years_70 + female + educ3_f + single + poor_health + sedentary + current_work_2 + current_drink +
-age_in_years_70*female + age_in_years_70*educ3_f + age_in_years_70*single + age_in_years_70*poor_health + age_in_years_70*sedentary + age_in_years_70*current_work_2 + age_in_years_70*current_drink +
-female*educ3_f + female*single + female*poor_health + female*sedentary + female*current_work_2 + female*current_drink +
-educ3_f*single + educ3_f*poor_health + educ3_f*sedentary + educ3_f*current_work_2 + educ3_f*current_drink
-single*poor_health + single*sedentary + single*current_work_2 + single*current_drink +
-poor_health*sedentary + poor_health*current_work_2 + poor_health*current_drink + 
-sedentary*current_work_2 + sedentary*current_drink +
-current_work_2*current_drink
-"
 
+age_in_years_70 + 
+female + 
+educ3_f + 
+single +
+poor_health + 
+sedentary + 
+current_work_2 + 
+current_drink + 
+
+age_in_years_70*female + 
+age_in_years_70*educ3_f + 
+age_in_years_70*single + 
+age_in_years_70*poor_health + 
+age_in_years_70*sedentary + 
+age_in_years_70*current_work_2 + 
+age_in_years_70*current_drink + 
+
+female*educ3_f + 
+female*single + 
+female*poor_health + 
+female*sedentary + 
+female*current_work_2 + 
+female*current_drink + 
+
+educ3_f*single + 
+educ3_f*poor_health + 
+educ3_f*sedentary + 
+educ3_f*current_work_2 + 
+educ3_f*current_drink + 
+
+single*poor_health + 
+single*sedentary + 
+single*current_work_2 + 
+single*current_drink + 
+
+poor_health*sedentary + 
+poor_health*current_work_2 + 
+poor_health*current_drink + 
+
+sedentary*current_work_2 + 
+sedentary*current_drink + 
+
+current_work_2*current_drink
+" 
 # ---- define-modeling-functions -------------------------
 source("./scripts/modeling-functions.R")
 
 # Available functions
-# model_object= pooled_A # object containing one model
-# best_subset = pooled_B_bs # object contianing subset of models from the search
+#  model_object = object of class glm
+# subset_object = object of class glmulti
+
+# model_object = pooled_A # object containing one model
+# subset_object = pooled_B_bs # object contianing subset of models from the search
 # basic_model_info(model_object)   #  basic model information
 # make_result_table(model_object)  #  solution table
-# show_best_subset(best_subset)    #  top models from subset search
-# model_report(model_object= model_object, best_subset = best_subset) # custom vs subset
+# show_best_subset(subset_object)    #  top models from subset search
+# model_report(model_object= model_object, subset_object = subset_object) # custom vs subset
 
-# ---- models-on-pooled-data ------------------------------
+# ---- estimate-pooled-models  ------------------------------
 
 # A
 pooled_A <- estimate_pooled_model(data=ds2, predictors=predictors_A)
 # pooled_A_bs <- estimate_pooled_model_best_subset(
-#   data=ds2, predictors=predictors_A, level=1, method="h")
+#   data=ds2, predictors=predictors_A, level=1, method="h", plotty=T, includeobjects=F )
 # saveRDS(pooled_A_bs, "./data/shared/derived/models/pooled_A_bs.rds")
+pooled_A_bs <- readRDS("./data/shared/derived/models/pooled_A_bs.rds")
 # rm(pooled_A_bs)
 
-# AA
-pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
-# pooled_AA_bs <- estimate_pooled_model_best_subset(
-  # data=ds2, predictors=predictors_A, level=2, method="g")
-# saveRDS(pooled_AA_bs, "./data/shared/derived/models/pooled_AA_bs.rds")
-# rm(pooled_AA_bs)
 
 # B
 pooled_B <- estimate_pooled_model(data=ds2, predictors=predictors_B)
 # pooled_B_bs <- estimate_pooled_model_best_subset(
-#   data=ds2, predictors=predictors_B, level=1, method="h")
+#   data=ds2, predictors=predictors_B, level=1, method="h", plotty=T,includeobjects=F )
 # saveRDS(pooled_B_bs, "./data/shared/derived/models/pooled_B_bs.rds")
+pooled_B_bs <- readRDS("./data/shared/derived/models/pooled_B_bs.rds")
 # rm(pooled_B_bs)
+
+
+
+# AA
+pooled_AA <- estimate_pooled_model(data=ds2, predictors=predictors_AA)
+# I see no need in estimating this model, rather than thoroughness. 
+# pooled_AA_bs <- estimate_pooled_model_best_subset(
+# data=ds2, predictors=predictors_A, level=2, method="g", plotty=T,includeobjects=F )
+# saveRDS(pooled_AA_bs, "./data/shared/derived/models/pooled_AA_bs.rds")
+pooled_AA_bs <- readRDS("./data/shared/derived/models/pooled_AA_bs.rds")
+# rm(pooled_AA_bs)
 
 # BB
 pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
 # pooled_BB_bs <- estimate_pooled_model_best_subset(
-#   data=ds2, predictors=predictors_B, level=2, method="d")
+#   data=ds2, predictors=predictors_B, level=2, method="g", plotty=T,includeobjects=F )
 # saveRDS(pooled_BB_bs, "./data/shared/derived/models/pooled_BB_bs.rds")
+pooled_BB_bs <- readRDS("./data/shared/derived/models/pooled_BB_bs.rds")
 # rm(pooled_BB_bs)
 
+# ---- inspect-pooled-models-results -----------------
 
 # model_object <- pooled_A
 # best_subset <- pooled_A_bs
 # # Review models
-# basic_model_info(model_object) 
+# basic_model_info(model_object)
 # make_result_table(model_object)
 # show_best_subset(best_subset)
 # cat("\014")
@@ -312,71 +376,103 @@ pooled_BB <- estimate_pooled_model(data=ds2, predictors=predictors_BB)
 # tmp
 # plot(best_subset, type="s")
 
+# ---- assemble-pooled-models-results ----------------------------
 # save modeling results 
 pooled_custom <- list(
   "A"  = pooled_A  ,
   "AA" = pooled_AA ,
   "B"  = pooled_B  ,
   "BB" = pooled_BB 
+  # "best" = pooled_BB_bs@objects[[1]]
 )
-saveRDS(pooled_custom, "./data/shared/derived/models/pooled_custom.rds")
+# saveRDS(pooled_custom, "./data/shared/derived/models/pooled_custom.rds")
+
+pooled_subset <- list(
+  "A"  = pooled_A_bs  ,
+  "AA" = pooled_AA_bs ,
+  "B"  = pooled_B_bs  ,
+  "BB" = pooled_BB_bs 
+)
+saveRDS(pooled_subset, "./data/shared/derived/models/pooled_subset.rds")
+pooled_subset <-  readRDS("./data/shared/derived/models/pooled_subset.rds")
+
+# estimate the model at the top of the best subset solution
+(eq <- pooled_subset[["BB"]]@formulas[[1]])
+(eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
+pooled_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) 
+# augment the existing results with the best subset solution
+models_pooled <- pooled_custom
+rm(pooled_custom)
+models_pooled[["best"]] <- pooled_subset_best
+saveRDS(models_pooled, "./data/shared/derived/models/models_pooled.rds")
+models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")
+# at this point, object
+#                      models_pooled
+# contains glm objects (A , B , AA, BB, best)
+
+# ---- inspect-pooled-models-results  ------------------------
 
 # best subset object could be prohibitevely large, separate in managable chunks
+# alternatively, extract formula and estimate manualy
+# pooled_best <- pooled_BB_bs@objects[[1]]
+# saveRDS(pooled_best, "./data/shared/derived/models/pooled_best.rds")
+# rm(pooled_results)
+# pooled_best <- readRDS("./data/shared/derived/models/pooled_best.rds")
+# pooled_results <- pooled_custom
+# pooled_results[["best"]] <- pooled_best
 
+# ---- estimate-local-models -------------------------
 
-
-# pooled_best <- list(
-#  "A_best" = pooled_A_bs@objects[[1]],
-# "AA_best" = pooled_AA_bs@objects[[1]],
-#  "B_best" = pooled_B_bs@objects[[1]],
-# "BB_best" = pooled_BB_bs@objects[[1]]
-# )
-# 
-# pooled <- list("custom"=pooled_custom, "best"=pooled_best)
-# saveRDS(pooled, "./data/shared/derived/models/pooled_results.rds")
-
-
-# ---- models-on-separate-studies -------------------------
 local_A <- estimate_local_models(data=ds2, predictors=predictors_A)
 # local_A_bs <- estimate_local_models_best_subset(
-#   data=ds2, predictors=predictors_A, level=1, method="h")
+#   data=ds2, predictors=predictors_A, level=1, method="h", plotty=T,includeobjects=F )
 # saveRDS(local_A_bs, "./data/shared/derived/models/local_A_bs.rds")
+local_A_bs <- readRDS("./data/shared/derived/models/local_A_bs.rds")
 # rm(local_A_bs)
 
-local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
-# local_AA_bs <- estimate_local_models_best_subset(
-#   data=ds2, predictors=predictors_A, level=2, method="g")
-# saveRDS(local_AA_bs, "./data/shared/derived/models/local_AA_bs.rds")
-# rm(local_AA_bs)
-
 local_B <- estimate_local_models(data=ds2, predictors=predictors_B)
-local_B_bs <- estimate_local_models_best_subset(
-  data=ds2, predictors=predictors_B, level=1, method="h")
-saveRDS(local_B_bs, "./data/shared/derived/models/local_B_bs.rds")
-rm(local_B_bs)
+# local_B_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_B, level=1, method="h", plotty=T,includeobjects=F )
+# saveRDS(local_B_bs, "./data/shared/derived/models/local_B_bs.rds")
+local_B_bs <- readRDS("./data/shared/derived/models/local_B_bs.rds")
+# rm(local_B_bs)
 
+
+
+local_AA <- estimate_local_models(data=ds2, predictors=predictors_AA)
+# I see no need in estimating this model, rather than thoroughness. 
+# local_AA_bs <- estimate_local_models_best_subset(
+#   data=ds2, predictors=predictors_A, level=2, method="g", plotty=T,includeobjects=F )
+# saveRDS(local_AA_bs, "./data/shared/derived/models/local_AA_bs.rds")
+local_AA_bs <- readRDS("./data/shared/derived/models/local_AA_bs.rds")
+# rm(local_AA_bs)
 
 local_BB <- estimate_local_models(data=ds2, predictors=predictors_BB)
 # local_BB_bs <- estimate_local_models_best_subset(
-#   data=ds2, predictors=predictors_B, level=2, method="g")
+#   data=ds2, predictors=predictors_B, level=2, method="g", plotty=T,includeobjects=F )
 # saveRDS(local_BB_bs, "./data/shared/derived/models/local_BB_bs.rds")
+local_BB_bs <- readRDS("./data/shared/derived/models/local_BB_bs.rds")
 # rm(local_BB_bs)
 
+# ---- inspect-local-models-results  ------------------------
 
 # Review models
-# model_object= local_A[["alsa"]]
-# best_subset = local_A_bs[["alsa"]]
-# basic_model_info(model_object)
-# make_result_table(model_object)
-# show_best_subset(best_subset)
-# cat("\014")
-# model_report(model_object= model_object, best_subset = best_subset)
-# print(best_subset)
-# plot(best_subset)
-# tmp <- weightable(best_subset)
-# tmp <- tmp[tmp$aicc <= min(tmp$aicc) + 2,]
-# tmp
-# plot(best_subset, type="s")
+model_object= local_A[["alsa"]]
+subset_object = local_A_bs[["alsa"]]
+basic_model_info(model_object)
+make_result_table(model_object)
+# show_best_subset(subset_object)
+cat("\014")
+# model_report(model_object= model_object, subset_object = best_subset)
+print(subset_object)
+plot(subset_object)
+tmp <- weightable(subset_object)
+tmp <- tmp[tmp$aicc <= min(tmp$aicc) + 2,]
+tmp
+plot(subset_object, type="s")
+
+
+# ---- assemble-local-models-results ----------------------------
 
 # save modeling results 
 # separate for each study, custom order
@@ -388,128 +484,30 @@ local_custom <- list(
 )
 saveRDS(local_custom, "./data/shared/derived/models/local_custom.rds")
 # separate for each study, best subset selection
+local_custom <- readRDS("./data/shared/derived/models/local_custom.rds")
 
+local_subset <- list(
+  "A"  = local_A_bs  ,
+  "AA" = local_AA_bs ,
+  "B"  = local_B_bs  ,
+  "BB" = local_BB_bs 
+)
+saveRDS(local_subset, "./data/shared/derived/models/local_subset.rds")
+local_subset <- readRDS("./data/shared/derived/models/local_subset.rds")
+study_name_ = "share"
 
-# ---- make-big-table ------------------
-dum <- list()
-dum[["A"]] <- make_result_table(pooled_A)
-dum[["AA"]] <- make_result_table(pooled_AA)
-dum[["B"]] <- make_result_table(pooled_B)
-dum[["BB"]] <- make_result_table(pooled_BB)
-# a <- make_result_table(pooled_A)
-# aa <- make_result_table(pooled_AA)
-# b <- make_result_table(pooled_B)
-# bb <- make_result_table(pooled_BB)
-
-# d <- plyr::ldply(dum, data.frame, .id = "model_type")
-
-# model_object = pooled_A
-
-display_odds_prepare <- function(model_object, model_label){
-  x <- make_result_table(model_object)
-  x$display_odds <- paste0(x$odds," ",x$sign , "\n",  x$odds_ci)  
-  x <- x[, c("coef_name", "display_odds")]
-  x <- plyr::rename(x, replace = c("display_odds" = model_label))
-  return(x)
-}
-(a <- display_odds_prepare(pooled_A, "A"))
-(aa <- display_odds_prepare(pooled_AA, "AA"))
-(b <- display_odds_prepare(pooled_B, "B"))
-(bb <- display_odds_prepare(pooled_BB,"BB"))
-
-d1 <- bb %>% dplyr::left_join(aa, by = "coef_name")
-d2 <- d1 %>% dplyr::left_join(b, by = "coef_name")
-d3 <- d2 %>% dplyr::left_join(a)
-d_results <- d3 %>% dplyr::select_("coef_name","A","B","AA", "BB")
-knitr::kable(d_results)
-
-# list_object <- list(a,aa, b, bb)
-# merge_files <- function(list){
-#   Reduce(function( d_1, d_2 ) merge(d_1, d_2, by="coef_name"), list)
-# }
-# 
-# dd <- merge_files(list_object)
-
-
+models_local <- local_custom
 for(study_name_ in as.character(sort(unique(ds2$study_name))) ){
-  cat("Study : ", study_name_, "\n",sep="")
-  model_object = local_AA[[study_name_]]
-  # best_subset  = local_A_bs[[study_name_]]
-  # model_report(model_object= model_object, best_subset = best_subset)
-  print(model_object$formula, showEnv = F)
-  print(knitr::kable(make_result_table(model_object)))
-  cat("\n\n")
+  (eq <- local_subset[["BB"]][[study_name_]]@formulas[[1]])
+  (eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
+  local_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) 
+  models_local[["best"]][[study_name_]] <- local_subset_best
 }
+names(models_local)
+names(models_local$best)
+class(models_local$best$alsa)
 
-# Review models
-model_object = local_A[["alsa"]]
-best_subset  = local_A_bs[["alsa"]]
-# model_object = local_A_bs[["alsa"]]@objects[[1]]
-
-basic_model_info(model_object)
-make_result_table(model_object)
-show_best_subset(best_subset)
-cat("\014")
-model_report(model_object= model_object, best_subset = best_subset)
+saveRDS(models_local, "./data/shared/derived/models/models_local.rds")
+models_local <- readRDS("./data/shared/derived/models/models_local.rds")
 
 
-
-pooled <- list(
-  "A"  = pooled_A,   "A_best" = pooled_A_bs@objects[[1]], 
-  "AA" = pooled_AA, "AA_best" = pooled_AA_bs@objects[[1]],
-  "B"  = pooled_B,   "B_best" = pooled_B_bs@objects[[1]], 
-  "BB" = pooled_AA, "BB_best" = pooled_BB_bs@objects[[1]]
-)
-
-# local <- list(
-#   "A"  = local_A,   "A_best" = local_A_bs@objects[[1]], 
-#   "AA" = local_AA, "AA_best" = local_AA_bs@objects[[1]],
-#   "B"  = local_B,   "B_best" = local_B_bs@objects[[1]], 
-#   "BB" = local_AA, "BB_best" = local_BB_bs@objects[[1]]
-# )
-# saveRDS(local, "./data/unshared/derived/local_results.rds")
-
-
-model_results <- list("pooled" = pooled, "local" = local)
-
-
-model_object = 
-# produces the tables of estimates and odds
-make_result_table(model_object)
-# produces the table of basic model information 
-basic_model_info(model_object)
-# show best five solutions
-show_best_subset(best_subset)
-
-
-
-
-
-
-
-
-# ---- glm-support --------------------------
-# useful functions working with GLM model objects
-summary(mdl) # model summary
-coefficients(mdl) # point estimates of model parameters (aka "model solution")
-knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
-knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
-confint(mdl, level=0.95) # confidence intervals for the estimated parameters
-
-# predict(mdl); fitted(mld) # generate prediction of the full model (all effects)
-# residuals(mdl) # difference b/w observed and modeled values
-anova(mdl) # put results into a familiary ANOVA table
-# influence(mdl) # regression diagnostics
-
-
-# create a model summary object to query 
-(summod <- summary(mdl))
-str(summod)
-
-
-
-# ---- reproduce ---------------------------------------
-rmarkdown::render(
-  input = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd" , 
-  output_format="html_document", clean=TRUE
-)
