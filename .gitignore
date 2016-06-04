@@ -94,3 +94,9 @@ Thumbs.db
 Desktop.ini
 *.RDataTmp
 *.back
+data/shared/derived/models/local_A_bs.rds
+data/shared/derived/models/pooled_A_bs.rds
+data/shared/derived/models/pooled_BB_bs.rds
+data/shared/derived/models/local_BB_bs.rds
+data/shared/derived/models/local_B_bs.rds
+data/shared/derived/models/pooled_B_bs.rds
