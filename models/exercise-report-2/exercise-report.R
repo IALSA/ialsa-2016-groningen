@@ -46,18 +46,20 @@ dplyr::tbl_df(dto[["unitData"]][["lbsl"]])
 
 # ---- meta-table --------------------------------------------------------
 # 4th element - a dataset names and labels of raw variables + added metadata for all studies
-# dto[["metaData"]] %>%
-#   dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
-#   DT::datatable(
-#     class   = 'cell-border stripe',
-#     caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
-#     filter  = "top",
-#     options = list(pageLength = 6, autoWidth = TRUE)
-#   )
+dto[["metaData"]] %>%
+  dplyr::select(study_name, name, item, construct, type, categories, label_short, label) %>%
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "This is the primary metadata file. Edit at `./data/shared/meta-data-map.csv",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
 
 # ---- tweak-data --------------------------------------------------------------
 
 # ---- basic-table --------------------------------------------------------------
+
+t <- table(ds$smoke_now, ds$study_name, useNA="always");t[t==0]<-".";t
 
 # ---- basic-graph --------------------------------------------------------------
 
@@ -92,6 +94,11 @@ ds <- plyr::ldply(lsh,data.frame, .id = "study_name")
 ds$id <- 1:nrow(ds) # some ids values might be identical, replace
 ds %>% names()
 
+# ---- assemble-2 ---------------------------------
+# restrict analysis to respondents age 50+
+ds <- ds %>% 
+  dplyr::filter(age_in_years >= 50) 
+
 
 # ---- save-for-Mplus ---------------------------
 
@@ -106,6 +113,8 @@ lsh_age <- assemble_dto(dto, c("id","year_of_wave","age_in_years","year_born"))
 lapply(lsh_age, head) # view the contents of the list object
 rm(lsh_age)
 
+
+  
 # age summary across studies
 ds %>%  
   dplyr::group_by(study_name) %>%
@@ -122,14 +131,15 @@ ds %>%
 
 # see counts across age groups and studies 
 t <- table(
-  cut(ds$age_in_years,breaks = c(-Inf,seq(from=40,to=100,by=5), Inf)),
+  cut(ds$age_in_years,breaks = c(49,seq(from=45,to=100,by=5), Inf)),
   ds$study_name, 
   useNA="always"
 );t[t==0]<-".";t
 
+# now after centering
 ds$age_in_years_70 <- ds$age_in_years - 70
 t <- table(
-  cut(ds$age_in_years_70,breaks = c(-Inf,seq(from=-40,to=30,by=5), Inf)),
+  cut(ds$age_in_years_70,breaks = c(-Inf,seq(from=-25,to=30,by=5), Inf)),
   ds$study_name, 
   useNA = "always"
 ); t[t==0] <- "."; t
@@ -159,199 +169,41 @@ t <- table( ds$current_work_2,ds$study_name,useNA="always");t[t==0]<-".";t
 t <- table( ds$current_drink,ds$study_name, useNA="always");t[t==0]<-".";t
 
 
-
-
-
-
 # ---- define-modeling-functions ---------------------
 source("./scripts/modeling-functions.R")
 
+
 # ---- load-estimated-models ----------------------
-pooled_custom      <- readRDS("./data/shared/derived/models/pooled_custom.rds")
-local_custom       <- readRDS("./data/shared/derived/models/local_custom.rds")
+# models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")# list with elements as glm objects
+subset_pooled <- readRDS("./data/shared/derived/models/pooled_subset.rds")# list with elements as glmulti objects
 
-# Load best subset solutions separately, due to large size
-# pooled_A_bs  <- readRDS("./data/shared/derived/models/pooled_A_bs.rds")
-# pooled_AA_bs  <- readRDS("./data/shared/derived/models/pooled_AA_bs.rds")
-# pooled_B_bs  <- readRDS("./data/shared/derived/models/pooled_B_bs.rds")
-# pooled_BB_bs  <- readRDS("./data/shared/derived/models/pooled_BB_bs.rds")
+# models_local <- readRDS("./data/shared/derived/models/models_local.rds")
+subset_local <- readRDS("./data/shared/derived/models/local_subset.rds")
 
-# local_A_bs  <- readRDS("./data/shared/derived/models/local_A_bs.rds")
-# local_AA_bs  <- readRDS("./data/shared/derived/models/local_AA_bs.rds")
-# local_B_bs  <- readRDS("./data/shared/derived/models/local_B_bs.rds")
-# local_BB_bs  <- readRDS("./data/shared/derived/models/local_BB_bs.rds")
+ds_within <- readRDS("./data/shared/derived/tables/ds_within.rds") # datasets with tabled results
+ds_between <- readRDS("./data/shared/derived/tables/ds_between.rds")  # datasets with tabled results
 
-# define object returning gmulti solution - this may switch
-# local_beset_subset <- local_B_bs
+# ----- report-results-between-models -------------------------
+ds_between %>%
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "Comparison across models || fully identifiable by : study_name",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
 
-# ---- functions-to-make-results-table ------------------
-display_odds_prepare <- function(model_object, model_label){
-  x <- make_result_table(model_object)
-  x$display_odds <- paste0(x$odds,x$odds_ci,x$sign)
-  # x$display_odds <- paste0(x$sign,x$odds,x$odds_ci)
-  # x$display_odds <- paste0(x$odds,x$sign ,x$odds_ci)
-  # x$display_odds <- paste0(x$odds," ",x$sign)  
-  x <- x[, c("coef_name", "display_odds")]
-  x <- plyr::rename(x, replace = c("display_odds" = model_label))
-  return(x)
-}
 
-# list_object = pooled_custom # each element is a model summary
-# list_object = pooled_custom_plus
-make_display_table <- function(list_object, model_type, model_label){
-  (a <- display_odds_prepare(list_object[["A"]], "A"))
-  (aa <- display_odds_prepare(list_object[["AA"]], "AA"))
-  (b <- display_odds_prepare(list_object[["B"]], "B"))
-  (bb <- display_odds_prepare(list_object[["BB"]],"BB"))
-  # (best <- display_odds_prepare(list_object[["best"]],"best"))
+# ----- report-results-within-models -------------------------
+ds_within %>%
+  dplyr::mutate(coef_name = as.character(coef_name)) %>% 
+  DT::datatable(
+    class   = 'cell-border stripe',
+    caption = "Individual model solution || fully identifiable by : study_name and model_type",
+    filter  = "top",
+    options = list(pageLength = 6, autoWidth = TRUE)
+  )
 
-  d1 <- bb %>% dplyr::left_join(aa, by = "coef_name")
-  d2 <- d1 %>% dplyr::left_join(b, by = "coef_name")
-  d3 <- d2 %>% dplyr::left_join(a, by = "coef_name")
-  d_results <- d3 %>% dplyr::select_("coef_name","A","B","AA", "BB")
-  # d4 <- d3 %>% dplyr::left_join(best, by = "coef_name")
-  # d_results <- d4 %>% dplyr::select_("coef_name","A","B","AA", "BB","best")
-  d_results[is.na(d_results)] <- ""
-  return(d_results)
-}
-
-# list_object = pooled_custom # each element is a model summary
-# list_object = pooled_custom_plus
-
-make_study_table <- function(list_object, study_name_){
-  a <- local_custom[["A"]][[study_name_]]
-  aa <- local_custom[["AA"]][[study_name_]]
-  b <- local_custom[["B"]][[study_name_]]
-  bb <- local_custom[["BB"]][[study_name_]]
-  # best <- local_best_subset[[study_name_]]
-  # l_results <- list("A" = a,"AA" = aa,"B" = b, "BB" = bb, "best" = best)
-  l_results <- list("A" = a,"AA" = aa,"B" = b, "BB" = bb)
-  results_table <- make_display_table(l_results)
-  return(results_table)
-}
-# alsa_table <- make_study_table(list_object, "alsa")
+# ---- dummy -----------
 
 
 
-# ---- pooled-results-table-1  -------------------
-# disable BELOW when computed one to speed up report production
-# create object with elements as models
-# pooled_custom_plus <- pooled_custom 
-# augment custom models with "best" from subset solution
-# pooled_custom_plus[["best"]] <- pooled_B_bs@objects[[1]]
-# results_table_pooled <- make_display_table(pooled_custom_plus)
-# results_table_pooled <- make_display_table(pooled_custom)
-# saveRDS(results_table_pooled, "./data/shared/derived/results_table_pooled.rds")
-# disable ABOVE when computed one to speed up report production
-results_table_pooled <- readRDS("./data/shared/derived/results_table_pooled.rds")
-# ---- pooled-results-table-2 ------------------------------
-knitr::kable(results_table_pooled)
-
-
-# ----- compare-custom-and-subset-pooled ----------------
-# Review models
-# model_object= pooled_custom$B
-# best_subset = pooled_B_bs
-# basic_model_info(model_object)
-# make_result_table(model_object)
-# show_best_subset(best_subset)
-# cat("\014")
-# model_report(model_object, best_subset)
-# print(best_subset)
-# plot(best_subset)
-# tmp <- weightable(best_subset)
-# tmp <- tmp[tmp$aicc <= min(tmp$aicc) + 2,][1:10,]
-# tmp$model_rank <- c(1:length(tmp$aicc))
-# tmp$model <- NULL
-# tmp <- tmp %>% dplyr::select(model_rank, aicc, weights)
-# print(knitr::kable(tmp))
-# print(plot(best_subset, type="s"))
-# print(model_report(model_object, best_subset))
-# 
-
-
-# ---- local-results -------------------------------------
-# local_best_subset <- local_B_bs
-# names(local_custom) # models$studies
-# local_custom_plus <- local_custom
-# names(local_best_subset) # models$studies@objects[[rank]]
-# names(local_best_subset[["BB_best"]])
-# study_model_search <- local_best_subset[["BB_best"]][["alsa"]] # model search object
-# study_model_search <- local_B_bs[["alsa"]] # model search object
-# (top_ranked <- local_best_subset[["BB_best"]][["alsa"]]@formulas[1:10]) # formulas
-# (local_best <- local_best_subset[["BB_best"]][["alsa"]]@objects[[1]]) # model
-# (local_best <- local_B_bs[["alsa"]]@objects[[1]]) # model
-# local_custom_plus[["BB_best"]] <- local_best
-
-# ----- compare-custom-and-subset-local ----------------
-# Review models
-model_object= local_best
-best_subset = study_model_search
-# basic_model_info(model_object)
-# make_result_table(model_object)
-# show_best_subset(best_subset)
-# cat("\014")
-# model_report(model_object= model_object, best_subset = best_subset)
-print(best_subset)
-plot(best_subset)
-tmp <- weightable(best_subset)
-tmp <- tmp[tmp$aicc <= min(tmp$aicc) + 2,][1:10,]
-tmp$model_rank <- c(1:length(tmp$aicc))
-tmp$model <- NULL
-tmp <- tmp %>% dplyr::select(model_rank, aicc, weights)
-print(knitr::kable(tmp))
-print(plot(best_subset, type="s"))
-print(model_report(model_object, best_subset))
-
-
-# ---- local-results-tables -------------------
-
-# disable BELOW when computed one to speed up report production
-# alsa_table <- make_study_table(local_custom, "alsa")
-# lbsl_table <- make_study_table(local_custom, "lbsl")
-# satsa_table <- make_study_table(local_custom, "satsa")
-# share_table <- make_study_table(local_custom, "share")
-# tilda_table <- make_study_table(local_custom, "tilda")
-# results_table_local <- list("alsa"= alsa_table,"lbsl"= lbsl_table,"satsa" = satsa_table,"share"= share_table,"tilda"= tilda_table)
-# saveRDS(results_table_local, "./data/shared/derived/results_table_local.rds")
-# disable ABOVE when computed one to speed up report production
-
-results_table_local <- readRDS("./data/shared/derived/results_table_local.rds")
-alsa_table <- results_table_local[["alsa"]]
-lbsl_table <- results_table_local[["lbsl"]]
-satsa_table <- results_table_local[["satsa"]]
-share_table <- results_table_local[["share"]]
-tilda_table <- results_table_local[["tilda"]]
-
-
-# disable BELOW when computed one to speed up report production
-# local_custom_plus <- local_best_subset[["BB_best"]][["alsa"]]@objects[[1]]
-# local_custom_plus[["best"]] <- local_BB_bs@objects[[1]]
-# results_table_local <- make_display_table(local_custom_plus)
-# saveRDS(results_table_local, "./data/shared/derived/results_table_local.rds")
-# disable ABOVE when computed one to speed up report production
-# results_table_local_plus <- readRDS("./data/shared/derived/results_table_local.rds")
-
-
-
-# ---- local-results-alsa ------------------------------------
-knitr::kable(alsa_table)
-
-# ---- local-results-lbsl ------------------------------------
-knitr::kable(lbsl_table)
-
-# ---- local-results-satsa ------------------------------------
-knitr::kable(satsa_table)
-
-# ---- local-results-share ------------------------------------
-knitr::kable(share_table)
-
-# ---- local-results-tilda ------------------------------------
-knitr::kable(tilda_table)
-
-
-# ---- reproduce ---------------------------------------
-rmarkdown::render(
-  input = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd" , 
-  output_format="html_document", clean=TRUE
-)

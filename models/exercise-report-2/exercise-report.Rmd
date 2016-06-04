@@ -113,10 +113,16 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 This dataset, which includes harmonized variables, will be used to fit the models. 
 
+According to the rules of the exercise,however, only the participants over the age of 50 were kept for the analysis: 
+
+```{r assemble-2, echo=TRUE, results='show', message=FALSE}
+```
+
+
+
 # Harmonization rules
 
 This section narrates the harmonization rules applied to candidate variables from each study and provides the descriptives of harmonized variables
-
 
 
 ## Smoking 
@@ -272,80 +278,50 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 ```
 
 
-
-
-
+```{r define-modeling-functions, echo=FALSE}
+```
 
 ```{r load-estimated-models, echo=FALSE}
 ```
 
-```{r define-modeling-functions, echo=FALSE}
-```
 
-```{r functions-to-make-results-table, echo=FALSE}
-```
 
 # Guide to Models
 
 Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data from each study separately. When fitted to the pooled data, an additional predictor, `study_name` is added after the intercept. 
 
 
-|predictors/model   | A | B |AA |BB |
-|---|---|---|---|---|
-|age              |age_in_years |age_in_years   |age_in_years   |age_in_years   |
-|sex              |female       |female         |female         |female         |
-|education        |educ3        |educ3          |educ3          |educ3          |
-|marital status   |single       |single         |single         |single         |
-|health           |             |poor_health    |               |poor_health    |
-|physical activity|             |sedentary      |               |sedentary      |
-|employment       |             |current_work   |               |current_work   |
-|alcohol use      |             |current_drink_2|               |current_drink_2|
-|interactions     |  --         | --            |all pairwise   |all pairwise   |
+|predictors/model   | A | B |AA |BB | best |
+|---|---|---|---|---|---|
+|age              |age_in_years |age_in_years   |age_in_years   |age_in_years   | ?|
+|sex              |female       |female         |female         |female         | ?|
+|education        |educ3        |educ3          |educ3          |educ3          | ?|
+|marital status   |single       |single         |single         |single         | ?|
+|health           |             |poor_health    |               |poor_health    | ?|
+|physical activity|             |sedentary      |               |sedentary      | ?|
+|employment       |             |current_work   |               |current_work   | ?|
+|alcohol use      |             |current_drink_2|               |current_drink_2| ?|
+|interactions     |  *none*         | *none*            |all pairwise   |all pairwise   | ?|
 
 
-Odds-ratios with 95% confidence intervals are reported. 
+Odds-ratios with 95% confidence intervals are reported. The model labeled "best" represents the solution suggested by the top ranked model from the best subset search propelled by genetic algorithm with AICC as the guiding selection criteria. 
 
-
-
-# Separate
-```{r local-results-tables, echo=FALSE, results='hold'}
-```
-
-## ALSA 
-```{r local-results-alsa, echo=FALSE,  results='asis'}
-```
-
-## LBLS 
-```{r local-results-lbsl, echo=FALSE,  results='asis'}
-```
-
-## SATSA 
-```{r local-results-satsa, echo=FALSE, results='asis'}
-```
-
-## SHARE 
-```{r local-results-share, echo=FALSE,  results='asis'}
-```
-
-## TILDA 
-```{r local-results-tilda, echo=FALSE, results='asis'}
+# Between models
+The following table reports comparison across five model types (A, B, AA, BB, best) and six datasets (alsa, lbsl, satsa, share, tilda, pooled).   You can think of this as multiple tables of various heights stacked on top of each other. You select a single table by choosing the value for `study_name`.  (you may need to adjust the number of entries to view, at the top left of the dynamic table)
+```{r report-results-between-models, echo=FALSE, results='show', eval=T}
 ```
 
 
-# Pooled 
-`study_name` is entered as a factor.  The data are pooled into the same dataset
-
-```{r pooled-results-table-1, echo=F, eval=TRUE, results='asis'}
-```
-
-```{r pooled-results-table-2, echo=F, eval=TRUE, results='asis'}
+# Within models
+The following table reports estimates and odds from every model that has been fit during the exercise. You can think of this as multiple tables of various heights stacked on top of each other. You select a single table by chosing the values for `study_name` and `model_type`.   (you may need to adjust the number of entries to view, at the top left of the dynamic table)
+```{r report-results-within-models, echo=FALSE, results='show', eval=T}
 ```
 
 
-
-
-
-
+# session
+```{r session-info}
+sessionInfo()
+```
 
 
 
