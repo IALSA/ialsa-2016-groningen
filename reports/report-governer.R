@@ -4,7 +4,7 @@ knitr::stitch_rmd(
   output="./manipulation/stitched-output/0-ellis-island.md"
 )
 
-
+# ----- define-reports-to-build ----------------------
 pathsDescribe <- c(
     "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
   , "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
@@ -19,7 +19,7 @@ pathsDescribe <- c(
   , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
 )
 
-# Build the reports -------------------------------------------------------
+# ----- build-reports -------------------------------------------------------
 # for( pathRmd in pathsDescribe ) { 
 #   rmarkdown::render( 
 #     input = pathRmd,
