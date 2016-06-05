@@ -105,38 +105,38 @@ str(ds)
 # write(names(ds), "./data/unshared/derived/variable-names.txt", sep=" ")
 
 # ----- basic-model ------------------
+# 
+# 
+# m1 <- glm(
+#   formula = smoke_now ~ 1 + study_name + age_in_years + female + marital + educ3, 
+#   data = ds, family = "binomial"
+#   )
+# m1
+# 
+# m2 <- glm(
+#   formula = smoke_now ~ -1  + age_in_years + female + marital + educ3, 
+#   data = ds_sub_share, family = "binomial"
+# )
+# m2
 
-
-m1 <- glm(
-  formula = smoke_now ~ 1 + study_name + age_in_years + female + marital + educ3, 
-  data = ds, family = "binomial"
-  )
-m1
-
-m2 <- glm(
-  formula = smoke_now ~ -1  + age_in_years + female + marital + educ3, 
-  data = ds_sub_share, family = "binomial"
-)
-m2
-
-# useful functions working with GLM model objects
-summary(m1) # model summary
-summary(m2)
-coefficients(mdl) # point estimates of model parameters (aka "model solution")
-knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
-knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
-confint(mdl, level=0.95) # confidence intervals for the estimated parameters
-
-# predict(mdl); fitted(mld) # generate prediction of the full model (all effects)
-# residuals(mdl) # difference b/w observed and modeled values
-anova(mdl) # put results into a familiary ANOVA table
-# influence(mdl) # regression diagnostics
-
-
-# create a model summary object to query 
-(summod <- summary(mdl))
-str(summod)
-
+# # useful functions working with GLM model objects
+# summary(m1) # model summary
+# summary(m2)
+# coefficients(mdl) # point estimates of model parameters (aka "model solution")
+# knitr::kable(vcov(mdl)) # covariance matrix of model parameters (inspect for colliniarity)
+# knitr::kable(cov2cor(vcov(mdl))) # view the correlation matrix of model parameters
+# confint(mdl, level=0.95) # confidence intervals for the estimated parameters
+# 
+# # predict(mdl); fitted(mld) # generate prediction of the full model (all effects)
+# # residuals(mdl) # difference b/w observed and modeled values
+# anova(mdl) # put results into a familiary ANOVA table
+# # influence(mdl) # regression diagnostics
+# 
+# 
+# # create a model summary object to query 
+# (summod <- summary(mdl))
+# str(summod)
+# 
 
 
 # ---- reproduce ---------------------------------------
