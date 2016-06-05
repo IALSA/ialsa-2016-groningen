@@ -28,32 +28,14 @@ source("./scripts/common-functions.R")
 library(magrittr) #Pipes
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 requireNamespace("ggplot2")
-```
-
-```
-## Loading required namespace: ggplot2
-```
-
-```r
 requireNamespace("tidyr")
-```
-
-```
-## Loading required namespace: tidyr
-```
-
-```r
 requireNamespace("dplyr") #Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("testit") #For asserting conditions meet expected patterns.
 ```
 
-```
-## Loading required namespace: testit
-```
-
 ```r
 #
-# There will be a total of (4) elements in (dto)
+# There will be a total of (4) elements in (dto): (1) studyName, (2) filePath, (3) unitDat, and (4) metaData
 dto <- list() # creates empty list object to populate with script to follow 
 #
 ### dto (1) : names of candidate studies
@@ -392,19 +374,20 @@ sessionInfo()
 ## [1] magrittr_1.5
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.4         Formula_1.2-1       cluster_2.0.3      
-##  [4] knitr_1.12.3        splines_3.2.5       munsell_0.4.3      
-##  [7] testit_0.5          colorspace_1.2-6    lattice_0.20-33    
-## [10] R6_2.1.2            stringr_1.0.0       plyr_1.8.3         
-## [13] dplyr_0.4.3         tools_3.2.5         nnet_7.3-12        
-## [16] parallel_3.2.5      grid_3.2.5          data.table_1.9.6   
-## [19] gtable_0.2.0        latticeExtra_0.6-28 DBI_0.4-1          
-## [22] survival_2.38-3     assertthat_0.1      gridExtra_2.2.1    
-## [25] RColorBrewer_1.1-2  ggplot2_2.1.0       formatR_1.3        
-## [28] tidyr_0.4.1         acepack_1.3-3.3     rpart_4.1-10       
-## [31] rsconnect_0.4.2.1   evaluate_0.9        stringi_1.0-1      
-## [34] scales_0.4.0        Hmisc_3.17-4        chron_2.3-47       
-## [37] foreign_0.8-66
+##  [1] Rcpp_0.12.5         formatR_1.3         RColorBrewer_1.1-2 
+##  [4] plyr_1.8.3          tools_3.2.5         rpart_4.1-10       
+##  [7] digest_0.6.9        evaluate_0.9        gtable_0.2.0       
+## [10] lattice_0.20-33     DBI_0.4-1           parallel_3.2.5     
+## [13] gridExtra_2.2.1     dplyr_0.4.3         stringr_1.0.0      
+## [16] knitr_1.12.3        cluster_2.0.3       grid_3.2.5         
+## [19] nnet_7.3-12         data.table_1.9.6    R6_2.1.2           
+## [22] survival_2.38-3     foreign_0.8-66      rmarkdown_0.9.6    
+## [25] latticeExtra_0.6-28 Formula_1.2-1       tidyr_0.4.1        
+## [28] ggplot2_2.1.0       Hmisc_3.17-4        scales_0.4.0       
+## [31] htmltools_0.3.5     splines_3.2.5       rsconnect_0.4.2.1  
+## [34] assertthat_0.1      testit_0.5          colorspace_1.2-6   
+## [37] stringi_1.0-1       acepack_1.3-3.3     munsell_0.4.3      
+## [40] chron_2.3-47        markdown_0.7.7
 ```
 
 ```r
@@ -412,6 +395,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-05-15 00:27:26 PDT"
+## [1] "2016-06-04 18:04:11 PDT"
 ```
 

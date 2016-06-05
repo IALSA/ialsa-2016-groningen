@@ -20,7 +20,7 @@ requireNamespace("testit") #For asserting conditions meet expected patterns.
 
 # ---- dto-1 ---------------------------------------------------------
 #
-# There will be a total of (4) elements in (dto)
+# There will be a total of (4) elements in (dto): (1) studyName, (2) filePath, (3) unitDat, and (4) metaData
 dto <- list() # creates empty list object to populate with script to follow 
 #
 ### dto (1) : names of candidate studies
