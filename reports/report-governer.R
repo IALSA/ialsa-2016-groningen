@@ -6,41 +6,41 @@ knitr::stitch_rmd(
 
 # ----- define-reports-to-build ----------------------
 pathsDescribe <- c(
-    "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
-  , "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
-  , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
-  , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
-  , "marital"   = "./reports/harmonize-marita/harmonize-marital.Rmd"
-  , "education" = "./reports/harmonize-education/harmonize-education.Rmd"
-  , "work"      = "./reports/harmonize-work/harmonize-work.Rmd"
-  , "alcohol"   = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd"
-  , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
-  , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
-  , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
+  #  "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
+  # "smoking"   = "./reports/harmonize-smoking/describe-smoking.Rmd"
+   # "age"       = "./reports/harmonize-age/describe-age.Rmd"
+   # "sex"       = "./reports/harmonize-sex/describe-sex.Rmd"
+   # "marital"   = "./reports/harmonize-marital/describe-marital.Rmd"
+   # "education" = "./reports/harmonize-education/describe-education.Rmd"
+   # "work"      = "./reports/harmonize-work/describe-work.Rmd"
+   # "alcohol"   = "./reports/harmonize-alcohol/describe-alcohol.Rmd"
+   # "physact"   = "./reports/harmonize-physact/describe-physact.Rmd"
+   # "health"    = "./reports/harmonize-health/describe-health.Rmd"
+   # "physique"  = "./reports/harmonize-physique/describe-physique.Rmd"
 )
 
 # ----- build-reports -------------------------------------------------------
-# for( pathRmd in pathsDescribe ) { 
-#   rmarkdown::render( 
+# for( pathRmd in pathsDescribe ) {
+#   rmarkdown::render(
 #     input = pathRmd,
 #     output_format = "html_document",
-#     clean = TRUE) 
-# } 
+#     clean = TRUE)
+# }
 
 
-
+# WARNING: recreate H-reports ONLY after re-creating the dto by Ellis Island
 pathsHarmonize <- c(
-    "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd"
-  , "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
-  , "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
-  , "marital"   = "./reports/harmonize-marital/harmonize-marital.Rmd"
-  , "education" = "./reports/harmonize-education/harmonize-education.Rmd"
-  , "work"      = "./reports/harmonize-work/harmonize-work.Rmd"
-  , "alcohol"   = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd"
-  , "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
-  , "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
-  , "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
-   # "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
+    # "smoking"   = "./reports/harmonize-smoking/harmonize-smoking.Rmd" 
+    # "age"       = "./reports/harmonize-age/harmonize-age.Rmd"
+    # "sex"       = "./reports/harmonize-sex/harmonize-sex.Rmd"
+    # "marital"   = "./reports/harmonize-marital/harmonize-marital.Rmd"
+    # "education" = "./reports/harmonize-education/harmonize-education.Rmd"
+    # "work"      = "./reports/harmonize-work/harmonize-work.Rmd"
+    # "alcohol"   = "./reports/harmonize-alcohol/harmonize-alcohol.Rmd"
+    # "physact"   = "./reports/harmonize-physact/harmonize-physact.Rmd"
+    # "health"    = "./reports/harmonize-health/harmonize-health.Rmd"
+    # "physique"  = "./reports/harmonize-physique/harmonize-physique.Rmd"
+   "harmonized"= "./reports/harmonized-data/harmonized-data.Rmd"
 )
 # once the file is created, it is manually renamed into dto_h.rds  
 
