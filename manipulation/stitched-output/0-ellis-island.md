@@ -3,7 +3,7 @@
 
 
 This report was automatically generated with the R package **knitr**
-(version 1.12.3).
+(version 1.11).
 
 
 ```r
@@ -356,45 +356,38 @@ sessionInfo()
 ```
 
 ```
-## R version 3.2.5 (2016-04-14)
+## R version 3.2.3 (2015-12-10)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows >= 8 x64 (build 9200)
+## Running under: Windows 7 x64 (build 7601) Service Pack 1
 ## 
 ## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
+## [1] LC_COLLATE=English_Canada.1252  LC_CTYPE=English_Canada.1252   
+## [3] LC_MONETARY=English_Canada.1252 LC_NUMERIC=C                   
+## [5] LC_TIME=English_Canada.1252    
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] ggplot2_2.1.0 knitr_1.12.3  magrittr_1.5 
+## [1] ggplot2_2.0.0 knitr_1.11    magrittr_1.5 
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] splines_3.2.5       lattice_0.20-33     colorspace_1.2-6   
-##  [4] htmltools_0.3.5     mgcv_1.8-12         yaml_2.1.13        
-##  [7] chron_2.3-47        survival_2.38-3     nloptr_1.0.4       
-## [10] foreign_0.8-66      DBI_0.4-1           RColorBrewer_1.1-2 
-## [13] plyr_1.8.3          stringr_1.0.0       MatrixModels_0.4-1 
-## [16] munsell_0.4.3       gtable_0.2.0        htmlwidgets_0.6    
-## [19] evaluate_0.9        labeling_0.3        latticeExtra_0.6-28
-## [22] SparseM_1.7         extrafont_0.17      quantreg_5.21      
-## [25] pbkrtest_0.4-6      parallel_3.2.5      markdown_0.7.7     
-## [28] highr_0.5.1         Rttf2pt1_1.3.3      Rcpp_0.12.5        
-## [31] acepack_1.3-3.3     scales_0.4.0        DT_0.1.40          
-## [34] formatR_1.3         Hmisc_3.17-4        jsonlite_0.9.20    
-## [37] lme4_1.1-12         gridExtra_2.2.1     testit_0.5         
-## [40] digest_0.6.9        stringi_1.0-1       dplyr_0.4.3        
-## [43] grid_3.2.5          tools_3.2.5         lazyeval_0.1.10    
-## [46] dichromat_2.0-0     Formula_1.2-1       cluster_2.0.3      
-## [49] tidyr_0.4.1         extrafontdb_1.0     car_2.1-2          
-## [52] MASS_7.3-45         Matrix_1.2-4        rsconnect_0.4.2.1  
-## [55] data.table_1.9.6    assertthat_0.1      minqa_1.2.4        
-## [58] rmarkdown_0.9.6     R6_2.1.2            rpart_4.1-10       
-## [61] nnet_7.3-12         nlme_3.1-126
+##  [1] Rcpp_0.11.6         highr_0.5           formatR_1.2        
+##  [4] RColorBrewer_1.1-2  plyr_1.8.2          tools_3.2.3        
+##  [7] extrafont_0.17      rpart_4.1-10        digest_0.6.8       
+## [10] jsonlite_0.9.16     evaluate_0.8        gtable_0.1.2       
+## [13] lattice_0.20-33     rstudioapi_0.3.1    DBI_0.3.1          
+## [16] yaml_2.1.13         parallel_3.2.3      gridExtra_2.0.0    
+## [19] Rttf2pt1_1.3.3      dplyr_0.4.3         stringr_1.0.0      
+## [22] cluster_2.0.3       htmlwidgets_0.4.2   DT_0.1             
+## [25] grid_3.2.3          nnet_7.3-11         R6_2.0.1           
+## [28] survival_2.38-3     foreign_0.8-66      rmarkdown_0.9.2    
+## [31] latticeExtra_0.6-28 Formula_1.2-1       tidyr_0.4.1        
+## [34] extrafontdb_1.0     Hmisc_3.17-2        scales_0.3.0       
+## [37] htmltools_0.2.6     splines_3.2.3       assertthat_0.1     
+## [40] dichromat_2.0-0     testit_0.4          colorspace_1.2-6   
+## [43] stringi_0.4-1       acepack_1.3-3.3     lazyeval_0.1.10    
+## [46] munsell_0.4.2       markdown_0.7.7
 ```
 
 ```r
@@ -402,6 +395,6 @@ Sys.time()
 ```
 
 ```
-## [1] "2016-06-04 18:30:09 PDT"
+## [1] "2016-06-06 10:54:05 PDT"
 ```
 
