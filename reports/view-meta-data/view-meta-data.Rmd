@@ -89,7 +89,7 @@ The following table queries the file `./data/shared/meta-data-map.csv`, which ca
 
 - `name`, `label`, `study_name` have been extracted from the source data files. 
 - `type`, `construct`, `item` - arbitrary meta fields, added to enchance variable grouping and selection.
-- `categories` - manual counts after inspective quesetionnaire documentation.
+- `categories` - manual counts after inspecting quesetionnaire documentation.
 
 ```{r dynamic-table, echo=echoChunks, results='show', message=FALSE}
 ```
