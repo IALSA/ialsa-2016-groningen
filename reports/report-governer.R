@@ -1,3 +1,5 @@
+loadNamespace("readr")
+
 # Ellis Island
 knitr::stitch_rmd(
   script="./manipulation/0-ellis-island.R", 
@@ -6,7 +8,7 @@ knitr::stitch_rmd(
 
 # ----- define-reports-to-build ----------------------
 pathsDescribe <- c(
-   "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
+   # "meta"      = "./reports/view-meta-data/view-meta-data.Rmd" 
   # "smoking"   = "./reports/harmonize-smoking/describe-smoking.Rmd"
    # "age"       = "./reports/harmonize-age/describe-age.Rmd"
    # "sex"       = "./reports/harmonize-sex/describe-sex.Rmd"
@@ -54,6 +56,9 @@ for( pathRmd in pathsHarmonize ) {
      clean = TRUE) 
 } 
 
+# save a copy of the harmonized dataset  
+temp <- readRDS("./data/unshared/derived/dto.rds")
+saveRDS(temp, "./data/unshared/derived/dto_h.rds")
 
 pathModels <- c(
   # "starter"   = "./sandbox/visualizing-logistic/visualizing-logistic.Rmd"
