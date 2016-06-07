@@ -122,6 +122,14 @@ The following table reports estimates and odds from every model that has been fi
 ```
 
 
+# Static tables
+
+```{r static-pooled, echo=FALSE, results='asis', eval=T}
+```
+
+
+```{r static-local, echo=FALSE, results='asis', eval=T}
+```
 
 
 
