@@ -10,7 +10,7 @@ How to reproduce Groningen Exercise Report (v.3)
 
 - after model objects are generated (estimation may take a while, so save object once estimated and later call from memory) execute `./models/exercise-report-3/compile-tables.R` to generate tables that compare across model types and studies.
 
-##### `compile-models.R`
+##### Details: `compile-models.R`
 
 
 Table 1: Names of the model objects to be compiled
@@ -45,3 +45,27 @@ Similar procedure was carried out to asseble another key object, `models_local`.
 - `models_pooled` - containing solutions of models A, AA, B, BB and best subset suggestion estimated using study as a factor
 - `models_local` - containing solution of models A, AA, B, BB and best subseet suggestion estimated in each study's dataset separately (using study as a cluster).  
 
+##### Details: `compile-tables.R`
+Model comparison tables are produced from the following objects
+
+analysis | contains objects of type | name | 
+|---|---|---|
+|pooled | glm| models_pooled| 
+|local | glm | models_local|
+|pooled | glmulti| subset_pooled|
+|local| glmulti | subset_local
+
+From them we will produce tables that examine model solutions individually (WITHIN table) and across models (BETWEEN tables)
+
+`tables_pooled` - list of WITHIN tables. Each element is model type containing odd-ratio table for a single model
+`tables_local` - list of lists of WITHIN tables. Each element is a model type. Each element of a model type is a study.
+
+`tables_bw_pooled` - BETWEEN table. A single table with model types as columns. 
+`tables_bw_local` - a list of BETWEEN tables. Each element is a study. Each study is a table  with model types as columns. 
+
+`ds_within` - dataset containing values from all WITHIN tables
+`ds_between` - dataset containing dense values from all BETWEEN tables
+
+Tables may take some time to compile. Therefore it is avised to store the objects on disk and call them when needed to print reports, without re-compilation.
+
+##### Details : `results-tables.R`
