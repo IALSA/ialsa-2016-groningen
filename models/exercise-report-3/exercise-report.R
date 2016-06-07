@@ -172,6 +172,14 @@ t <- table( ds$current_drink,ds$study_name, useNA="always");t[t==0]<-".";t
 # ---- define-modeling-functions ---------------------
 source("./scripts/modeling-functions.R")
 
+# ----- compile-models -----------------------
+# execute the script to generate objects containing model solutions
+source("./models/exercise-report-3/compile-models.R")
+
+# ----- compile-tables -----------------------
+# execute the script to generate object containing tables comparing model results
+source("./models/exercise-report-3/compile-tables.R")
+
 
 # ---- load-estimated-models ----------------------
 # models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")# list with elements as glm objects

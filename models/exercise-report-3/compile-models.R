@@ -169,7 +169,8 @@ t <- table( ds$current_drink,ds$study_name, useNA = "always"); t[t==0] <- "."; t
 t <- table( ds$sedentary,  ds$study_name,   useNA = "always"); t[t==0] <- "."; t
 t <- table( ds$sedentary,  ds$study_name,   useNA = "always"); t[t==0] <- "."; t
 
-
+# ##### ATTENTION ####
+# Model estimation begins. The above is the script to help review the data object 
 # ---- declare-variables  ----------------------------------------
 dv_name <- "smoke_now"
 dv_label <- "P(Smoke Now)"
@@ -366,7 +367,7 @@ pooled_BB_bs <- readRDS("./data/shared/derived/models/pooled_BB_bs.rds")
 # # Review models
 # basic_model_info(model_object)
 # make_result_table(model_object)
-# show_best_subset(best_subset)
+# show_best_subset(best_subset) # will produce error if includeobjects=F 
 # cat("\014")
 # model_report(model_object, best_subset)
 # print(best_subset)
@@ -393,24 +394,24 @@ pooled_subset <- list(
   "B"  = pooled_B_bs  ,
   "BB" = pooled_BB_bs 
 )
-saveRDS(pooled_subset, "./data/shared/derived/models/pooled_subset.rds")
+# saveRDS(pooled_subset, "./data/shared/derived/models/pooled_subset.rds")
 pooled_subset <-  readRDS("./data/shared/derived/models/pooled_subset.rds")
 
 # estimate the model at the top of the best subset solution
 (eq <- pooled_subset[["BB"]]@formulas[[1]])
 (eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
-pooled_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) 
+pooled_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) # object of class glm
 # augment the existing results with the best subset solution
 models_pooled <- pooled_custom
 rm(pooled_custom)
 models_pooled[["best"]] <- pooled_subset_best
-saveRDS(models_pooled, "./data/shared/derived/models/models_pooled.rds")
+# saveRDS(models_pooled, "./data/shared/derived/models/models_pooled.rds")
 models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")
 # at this point, object
 #                      models_pooled
 # contains glm objects (A , B , AA, BB, best)
 
-# ---- inspect-pooled-models-results  ------------------------
+# ---- inspect-pooled-models-results-again ------------------------
 
 # best subset object could be prohibitevely large, separate in managable chunks
 # alternatively, extract formula and estimate manualy
@@ -482,7 +483,7 @@ local_custom <- list(
   "B"  = local_B  ,
   "BB" = local_BB 
 )
-saveRDS(local_custom, "./data/shared/derived/models/local_custom.rds")
+# saveRDS(local_custom, "./data/shared/derived/models/local_custom.rds")
 # separate for each study, best subset selection
 local_custom <- readRDS("./data/shared/derived/models/local_custom.rds")
 
@@ -492,9 +493,9 @@ local_subset <- list(
   "B"  = local_B_bs  ,
   "BB" = local_BB_bs 
 )
-saveRDS(local_subset, "./data/shared/derived/models/local_subset.rds")
+# saveRDS(local_subset, "./data/shared/derived/models/local_subset.rds")
 local_subset <- readRDS("./data/shared/derived/models/local_subset.rds")
-study_name_ = "share"
+# study_name_ = "share"
 
 models_local <- local_custom
 for(study_name_ in as.character(sort(unique(ds2$study_name))) ){
@@ -507,7 +508,7 @@ names(models_local)
 names(models_local$best)
 class(models_local$best$alsa)
 
-saveRDS(models_local, "./data/shared/derived/models/models_local.rds")
+# saveRDS(models_local, "./data/shared/derived/models/models_local.rds")
 models_local <- readRDS("./data/shared/derived/models/models_local.rds")
 
 
