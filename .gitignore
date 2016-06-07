@@ -112,5 +112,12 @@ reports/harmonize-smoking/harmonize-smoking.html
 reports/harmonized-data/harmonized-data.html
 
 # Exceptions
+!models/exercise-report-3/exercise-report.html
 !models/exercise-report-3/exercise-report.md
+!models/exercise-report-3/exercise-report.docx
+!models/exercise-report-3/exercise-report.pdf
+
+!models/exercise-report-3/results-tables.html
 !models/exercise-report-3/results-tables.md
+!models/exercise-report-3/results-tables.docx
+!models/exercise-report-3/results-tables.pdf
