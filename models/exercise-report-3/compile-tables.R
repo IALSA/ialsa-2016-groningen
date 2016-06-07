@@ -34,10 +34,11 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 dto <- readRDS("./data/unshared/derived/dto_h.rds")
 
 models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")# list with elements as glm objects
-subset_pooled <- readRDS("./data/shared/derived/models/pooled_subset.rds")# list with elements as glmulti objects
+subset_pooled <- readRDS("./data/shared/derived/models/subset_pooled.rds")# list with elements as glmulti objects
+
 
 models_local <- readRDS("./data/shared/derived/models/models_local.rds")
-subset_local <- readRDS("./data/shared/derived/models/local_subset.rds")
+subset_local <- readRDS("./data/shared/derived/models/subset_local.rds")
 
 # Load best subset solutions separately, due to large size
 # pooled_A_bs  <- readRDS("./data/shared/derived/models/pooled_A_bs.rds")
@@ -89,7 +90,7 @@ best_local <- subset_local[["BB"]][["alsa"]] # chose model type to use as "best"
 class(best_local) # gmulti
 print(best_local) # summary of best subset search
 print(best_local@formulas[[1]], showEnv = F) # best model specification
-class(best_local@objects[[1]]) #gml object available if estimation was with includeobjects = T
+# class(best_local@objects[[1]]) #gml object available if estimation was with includeobjects = T
 # summary(local_BB_bs[["alsa"]]@objects[[1]])  # would not work if includeobjects = F
 # instead, this model is already estimated in 
 summary(models_local[["best"]][["alsa"]])
@@ -110,8 +111,8 @@ model_object <- models_pooled$A
 
 
 basic_model_info(model_object, T) # alternative: broom::glance()
-make_result_table(model_object) # prints custom designed table of coefficients
-model_ = "A"
+# make_result_table(model_object) # prints custom designed table of coefficients
+# model_ = "A"
 
 
 # tables_pooled <- list(); 
@@ -122,7 +123,7 @@ model_ = "A"
 # saveRDS(tables_pooled, "./data/shared/derived/tables/tables_pooled.rds")
 tables_pooled <- readRDS("./data/shared/derived/tables/tables_pooled.rds")
 
-
+# 
 # tables_local <- list()
 # for(model_ in c("A","B","AA","BB","best")){
 #   for(study_name_ in dto[["studyName"]]){
@@ -264,7 +265,7 @@ ds_between <- plyr::ldply(dlist_between, .id = "study_name")
 
 head(ds_between)
 table(d$model_type)
-# saveRDS(ds_between,"./data/shared/derived/tables/ds_between.rds")
+saveRDS(ds_between,"./data/shared/derived/tables/ds_between.rds")
 ds_between <- readRDS("./data/shared/derived/tables/ds_between.rds")
 
 # ----- report-results-within-models -------------------------
