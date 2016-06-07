@@ -110,3 +110,7 @@ reports/harmonize-marital/harmonize-marital.html
 reports/harmonize-physique/harmonize-physique.html
 reports/harmonize-smoking/harmonize-smoking.html
 reports/harmonized-data/harmonized-data.html
+
+# Exceptions
+#!models/exercise-report-3/exercise-report.md
+!models/exercise-report-3/results-tables.md
