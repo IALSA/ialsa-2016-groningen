@@ -40,7 +40,7 @@ cache/
 */*/cache/
 
 ##############
-# Excluse large report files
+# Exclude large report files
 models/*/*
 reports/*/*
 sandbox/*/*
@@ -99,6 +99,9 @@ Desktop.ini
 data/shared/derived/models/models_local.rds
 data/shared/derived/models/models_pooled.rds
 data/shared/derived/models/local_custom.rds
+
+# specific reports that must be published manually
+#
 manipulation/stitched-output/0-ellis-island.html
 reports/harmonize-alcohol/harmonize-alcohol.html
 reports/harmonize-age/harmonize-age.html
