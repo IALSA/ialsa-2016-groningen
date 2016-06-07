@@ -183,10 +183,10 @@ source("./models/exercise-report-3/compile-tables.R")
 
 # ---- load-estimated-models ----------------------
 # models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")# list with elements as glm objects
-subset_pooled <- readRDS("./data/shared/derived/models/pooled_subset.rds")# list with elements as glmulti objects
+subset_pooled <- readRDS("./data/shared/derived/models/subset_pooled.rds")# list with elements as glmulti objects
 
 # models_local <- readRDS("./data/shared/derived/models/models_local.rds")
-subset_local <- readRDS("./data/shared/derived/models/local_subset.rds")
+subset_local <- readRDS("./data/shared/derived/models/subset_local.rds")
 
 ds_within <- readRDS("./data/shared/derived/tables/ds_within.rds") # datasets with tabled results
 ds_between <- readRDS("./data/shared/derived/tables/ds_between.rds")  # datasets with tabled results
