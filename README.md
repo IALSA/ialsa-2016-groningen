@@ -33,8 +33,10 @@
 #### Procedure map
 ![](./libs/materials/ppt/procedure-map/Slide1.PNG)
 
+### Results
+- [2016-04-21 Groningen](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise-brief.pdf) ( [detailed transitions](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise.pdf)) - presentation during the workshop in Groningen.  
 - [Groningen exercise report](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/exercise-report.html) (updated 2016-06-06)
+- [Tables of results](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/results-tables.html) - stand alone report. Appendix containing a table for every estimated model.
 
 #### Presentations
-- [2016-04-21 Groningen](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise-brief.pdf) ( [detailed transitions](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise.pdf))
 
