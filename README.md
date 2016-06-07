@@ -36,7 +36,7 @@
 ### Results
 - [2016-04-21 Groningen](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise-brief.pdf) ( [detailed transitions](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/2016-04-21-groningen-exercise.pdf)) - presentation during the workshop in Groningen.  
 - [Groningen exercise report](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/exercise-report.html) (updated 2016-06-06)
-- [Tables of results](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/results-tables.html) - stand alone report. Appendix containing a table for every estimated model. ([md](models/exercise-report-3/exercise-report.md))
+- [Tables of results](https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/results-tables.html) - stand alone report. Appendix containing a table for every estimated model. ([md](models/exercise-report-3/exercise-report.md), [pdf](https://rawgit.com/IALSA/ialsa-2016-groningen/55497162623d68a9c41313a48cfc71a9535657ee/models/exercise-report-3/results-tables.pdf), [docx](https://rawgit.com/IALSA/ialsa-2016-groningen/55497162623d68a9c41313a48cfc71a9535657ee/models/exercise-report-3/results-tables.docx))
 
 #### Presentations
 
