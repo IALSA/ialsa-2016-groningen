@@ -99,3 +99,11 @@ Desktop.ini
 data/shared/derived/models/models_local.rds
 data/shared/derived/models/models_pooled.rds
 data/shared/derived/models/local_custom.rds
+manipulation/stitched-output/0-ellis-island.html
+reports/harmonize-alcohol/harmonize-alcohol.html
+reports/harmonize-age/harmonize-age.html
+reports/harmonize-education/harmonize-education.html
+reports/harmonize-marital/harmonize-marital.html
+reports/harmonize-physique/harmonize-physique.html
+reports/harmonize-smoking/harmonize-smoking.html
+reports/harmonized-data/harmonized-data.html
