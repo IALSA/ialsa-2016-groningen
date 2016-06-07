@@ -7,6 +7,12 @@ output:
     keep_md: yes
     theme: flatly
     toc: yes
+  pdf_document: 
+    highlight: kate
+    toc: yes
+  word_document: 
+    highlight: haddock
+    toc: yes
 ---
 
 <!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
