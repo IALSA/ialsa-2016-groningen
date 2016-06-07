@@ -378,17 +378,24 @@ tmp
 plot(best_subset, type="s")
 
 # ---- assemble-pooled-models-results ----------------------------
+subset_pooled <-list(
+ "A"  = pooled_A_bs  ,
+ "AA" = pooled_AA_bs ,
+ "B"  = pooled_B_bs  ,
+ "BB" = pooled_BB_bs 
+) 
+saveRDS(subset_pooled, "./data/shared/derived/models/subset_pooled.rds")
+
 models_pooled <- list(
   "A"  = pooled_A  ,
   "AA" = pooled_AA ,
   "B"  = pooled_B  ,
   "BB" = pooled_BB 
 )
-(eq <-pooled_BB_bs@formulas[[1]]) # 1 for the top model
-(eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
-pooled_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) # object of class glm
 # augment the existing results with the best subset solution
-models_pooled[["best"]] <- pooled_subset_best
+(eq <- subset_pooled[["BB"]]@formulas[[1]]) # 1 for the top model
+(eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
+models_pooled[["best"]] <- glm(eq_formula,ds2, family = binomial(link="logit")) # object of class glm
 saveRDS(models_pooled, "./data/shared/derived/models/models_pooled.rds")
 models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")
 # at this point, object
@@ -450,24 +457,25 @@ plot(subset_object, type="s")
 
 
 # ---- assemble-local-models-results ----------------------------
-
-# save modeling results in separate object to help looping later
-local_custom <- list(
-  "A"  = local_A  ,
-  "AA" = local_AA ,
-  "B"  = local_B  ,
-  "BB" = local_BB 
-);models_local <- local_custom
-
-local_subset <- list(
+subset_local <- list(
   "A"  = local_A_bs  ,
   "AA" = local_AA_bs ,
   "B"  = local_B_bs  ,
   "BB" = local_BB_bs 
 )
+saveRDS(subset_local, "./data/shared/derived/models/subset_local.rds")
+
+
+# save modeling results in separate object to help looping later
+models_local <- list(
+  "A"  = local_A  ,
+  "AA" = local_AA ,
+  "B"  = local_B  ,
+  "BB" = local_BB 
+)
 
 for(study_name_ in as.character(sort(unique(ds2$study_name))) ){
-  (eq <- local_subset[["BB"]][[study_name_]]@formulas[[1]])
+  (eq <- subset_local[["BB"]][[study_name_]]@formulas[[1]])
   (eq_formula <- as.formula(paste("dv ~ ", as.character(eq)[3])))
   local_subset_best <- glm(eq_formula,ds2, family = binomial(link="logit")) 
   models_local[["best"]][[study_name_]] <- local_subset_best
