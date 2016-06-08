@@ -117,7 +117,8 @@ Odds-ratios with 95% confidence intervals are reported. The model labeled "best"
 # Dynamic tables
 
 ## Between models
-The following table reports comparison across five model types (A, B, AA, BB, best) and six datasets (alsa, lbsl, satsa, share, tilda, pooled).   You can think of this as multiple tables stacked on top of each other. You select a single table by choosing the value for `study_name`.  (you may need to adjust the number of entries to view, at the top left of the dynamic table)
+The following table reports comparison across five model types (A, B, AA, BB, best) and six datasets (alsa, lbsl, satsa, share, tilda, pooled).   You can think of this as multiple tables stacked on top of each other. You select a single table by choosing the value for `study_name`.  (you may need to adjust the number of entries to view, at the top left of the dynamic table).
+
 ```{r dynamic-between, echo=FALSE, results='show', eval=T}
 ```
 
@@ -138,6 +139,9 @@ The following table reports estimates and odds from every model that has been fi
 ```
 
 
+# Contexts
+```{r predictors-in-contexts, echo=FALSE, results='show', eval=T}
+```
 
 
 # session
