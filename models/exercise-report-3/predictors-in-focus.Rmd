@@ -10,11 +10,10 @@ output:
   pdf_document: 
     highlight: kate
     toc: yes
-    always_allow_html: yes
   word_document: 
     highlight: haddock
     toc: yes
-    always_allow_html: yes
+    
 ---
 
 <!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
