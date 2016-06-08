@@ -48,7 +48,7 @@ opts_chunk$set(
 echoChunks <- FALSE
 options(width=120) #So the output is 50% wider than the default.
 # connect to the file with the underlying R script  
-read_chunk("./models/exercise-report-3/results-tables.R") 
+read_chunk("./models/exercise-report-3/predictors-in-focus.R") 
 ```
 
 > This report prints the restuls tables from estimated models
@@ -131,16 +131,41 @@ The following table reports estimates and odds from every model that has been fi
 
 # Static tables
 
-```{r static-pooled, echo=FALSE, results='asis', eval=T}
+```{r define-main-fx-name-objects, echo=FALSE, results='asis', eval=T}
 ```
 
 
-```{r static-local, echo=FALSE, results='asis', eval=T}
+```{r define-interaction-name-objects, echo=FALSE, results='asis', eval=T}
 ```
 
+```{r define-lookup-function, echo=FALSE, results='asis', eval=T}
+```
 
-# Contexts
-```{r predictors-in-contexts, echo=FALSE, results='show', eval=T}
+```{r 0-intercept, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 1-predictor-age, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 2-predictor-sex, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 3-predictor-education-1, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 3-predictor-education-2, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 5-predictor-health, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 6-predictor-physact, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 7-predictor-work, echo=FALSE, results='asis', eval=T}
+```
+
+```{r 8-predictor-alcohol, echo=FALSE, results='asis', eval=T}
 ```
 
 
