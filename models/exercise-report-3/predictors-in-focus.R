@@ -53,12 +53,6 @@ ds_within %>%
     options = list(pageLength = 6, autoWidth = TRUE)
   )
 
-
-
-
-cfn <- unique(ds_between$coef_name)
-length(cfn)
-
 # ---- define-main-fx-name-objects -------------------------
 intercept <- "(Intercept)"   
 
