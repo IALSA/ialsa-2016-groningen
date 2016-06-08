@@ -26,19 +26,14 @@ requireNamespace("testit")# For asserting conditions meet expected patterns.
 # prepared by Ellis Island and ./reports/report-governor.R
 dto <- readRDS("./data/unshared/derived/dto_h.rds")
 
-# prepared by ../compile-models.R
-models_pooled <- readRDS("./data/shared/derived/models/models_pooled.rds")#  glm objects
-subset_pooled <- readRDS("./data/shared/derived/models/subset_pooled.rds")#  glmulti objects
-
-models_local <- readRDS("./data/shared/derived/models/models_local.rds")
-subset_local <- readRDS("./data/shared/derived/models/subset_local.rds")
-
 # prepared by ../compile-tables.R
 ds_within <- readRDS("./data/shared/derived/tables/ds_within.rds")
 ds_between <- readRDS("./data/shared/derived/tables/ds_between.rds")
 
 # ----- dynamic-between -----------------------
-ds_between %>%
+ds_between %>% # dplyr::mutate(
+  #   coef_name = factor(coef_name)
+  # ) %>% 
   DT::datatable(
     class   = 'cell-border stripe',
     caption = "Comparison across models || identifiable by : study_name",
@@ -48,6 +43,9 @@ ds_between %>%
 
 # ----- dynamic-within ------------------------
 ds_within %>%
+  # dplyr::mutate(
+  #   coef_name = factor(coef_name)
+  # ) %>% 
   DT::datatable(
     class   = 'cell-border stripe',
     caption = "Individual model solution || identifiable by : study_name and model_type",
@@ -58,7 +56,7 @@ ds_within %>%
 
 
 
-cfn <- unique(alsa_table$coef_name)
+cfn <- unique(ds_between$coef_name)
 length(cfn)
 
 # ---- define-main-fx-name-objects -------------------------
@@ -175,34 +173,62 @@ alcohol_interactions <- c(
  ,"current_work_2TRUE:current_drinkTRUE"
 ); length(alcohol_interactions)
 
-# ---- view-between-models-data-prep ---------------------------
-#create a single list object
-results_table_list <- studies_table
-results_table_list[["pooled"]] <- pooled_table 
-names(results_table_list)
-lapply(results_table_list,names) # verify parallel structure
 
-d <- plyr::ldply(results_table_list, data.frame, .id = "model_type")
-head(d)
-library(magrittr)
-# ---- view-between-models -----------------------
-d %>%
-  # dplyr::mutate(
-  #   coef_name = factor(coef_name)
-  # ) %>% 
-  DT::datatable(
-    class   = 'cell-border stripe',
-    caption = " Title ",
-    filter  = "top",
-    options = list(pageLength = 6, autoWidth = TRUE)
-  )
+# ---- define-lookup-function -------------------
+focun_on_predictor <- function(ds_between, predictor, interactions){
+  
+  cat("\n\n##", predictor)
+  cat("\n\n Main Effects across contexts \n")
+  print(knitr::kable(
+    ds_between %>% 
+      dplyr::filter(coef_name %in%  predictor) %>% 
+      dplyr::arrange(coef_name)
+  ))
+  cat("\n\n Interactions across contexts \n")
+  print(knitr::kable(
+  ds_between %>% 
+    dplyr::filter(coef_name %in% interactions) %>% 
+    dplyr::mutate(coef_name = factor(coef_name, levels = interactions)) %>% 
+    dplyr::arrange(coef_name, study_name)  %>% 
+    dplyr::select(-A,-B)
+  )) 
+} # Usage:
+# focun_on_predictor(ds_between, "singleTRUE", marital_interactions)
 
-# ---- view-within-models-data-prep ---------------------------
+# ---- 0-intercept -----------------------
+knitr::kable(
+ds_between %>% 
+  dplyr::filter(coef_name %in% intercept)
+) 
+# values of the intercepts seem to be similar across the board.
+# very similar values in best are reassuring that intercept means the same thing
 
-# ---- view-within-models -----------------------
+# ---- 1-predictor-age ---------------------
+focun_on_predictor(ds_between, "age_in_years_70", age_interactions)
 
+# ---- 2-predictor-sex ---------------------
+focun_on_predictor(ds_between, "femaleTRUE", female_interactions)
 
+# ---- 3-predictor-education-1 ---------------------
+focun_on_predictor(ds_between, "educ3_f( < HS )", female_interactions)
 
+# ---- 3-predictor-education-2 ---------------------
+focun_on_predictor(ds_between, "educ3_f( HS < )", female_interactions)
+
+# ---- 4-predictor-marital ---------------------
+focun_on_predictor(ds_between, "singleTRUE", female_interactions)
+
+# ---- 5-predictor-health ---------------------
+focun_on_predictor(ds_between, "poor_healthTRUE", female_interactions)
+
+# ---- 6-predictor-physact ---------------------
+focun_on_predictor(ds_between, "sedentaryTRUE", female_interactions)
+
+# ---- 7-predictor-work ---------------------
+focun_on_predictor(ds_between, "current_work_2TRUE", female_interactions)
+
+# ---- 8-predictor-alcohol ---------------------
+focun_on_predictor(ds_between, "current_drinkTRUE", female_interactions)
 
 
 
