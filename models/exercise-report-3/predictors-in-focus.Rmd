@@ -1,5 +1,5 @@
 ---
-title: "Predictors in focus" 
+title: "Results tables" 
 output:
   html_document:
     css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
@@ -13,7 +13,10 @@ output:
   word_document: 
     highlight: haddock
     toc: yes
+<<<<<<< HEAD
     
+=======
+>>>>>>> parent of 1c2e105... removed dynamic tables to work with PDF
 ---
 
 <!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
@@ -114,6 +117,20 @@ Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data f
 
 
 Odds-ratios with 95% confidence intervals are reported. The model labeled "best" represents the solution suggested by the top ranked model from the best subset search propelled by genetic algorithm with AICC as the guiding selection criteria. 
+
+# Dynamic tables
+
+## Between models
+The following table reports comparison across five model types (A, B, AA, BB, best) and six datasets (alsa, lbsl, satsa, share, tilda, pooled).   You can think of this as multiple tables stacked on top of each other. You select a single table by choosing the value for `study_name`.  (you may need to adjust the number of entries to view, at the top left of the dynamic table).
+
+```{r dynamic-between, echo=FALSE, results='show', eval=T}
+```
+
+
+## Within models
+The following table reports estimates and odds from every model that has been fit during the exercise. You can think of this as multiple tables of various heights stacked on top of each other. You select a single table by chosing the values for `study_name` and `model_type`.   (you may need to adjust the number of entries to view, at the top left of the dynamic table)
+```{r dynamic-within, echo=FALSE, results='show', eval=T}
+```
 
 
 # Static tables
