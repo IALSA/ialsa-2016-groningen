@@ -92,11 +92,26 @@ for( pathRmd in pathModels ) {
     clean = TRUE) 
 } 
 
-# Compile Models
-knitr::stitch_rmd(
-  script="./models/exercise-report-3/compile-models.R", 
-  output="./models/exercise-report-3/stitched-output/compile-models.md"
+
+
+# ----- published-reports -----------------------
+pathPublish <- c(
+  "focus-predictors" = "./models/exercise-report-3/predictors-in-focus.Rmd"
 )
+publishFormats <- c(
+   "html_document"
+  , "word_document" 
+  ,"pdf_document"
+  )
+for( pathRmd in pathPublish ) { 
+  for(pub_format in publishFormats){
+    rmarkdown::render( 
+      input = pathRmd,
+      output_format = pub_format,
+      clean = TRUE)   
+  }
+  
+} 
 
 
 
