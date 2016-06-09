@@ -77,14 +77,7 @@ Odds-ratios with 95% confidence intervals are reported. The model labeled "best"
 
 
 
-[1] 8
-[1] 8
-[1] 14
-[1] 8
-[1] 8
-[1] 8
-[1] 8
-[1] 8
+
 
 
 
@@ -101,7 +94,7 @@ pooled       (Intercept)   .16(.14,.19)***   .1(.08,.12)***    .16(.13,.19)***  
 
 ## age_in_years_70
 
- Main Effects across contexts 
+ Main Effects of  age_in_years_70  across contexts 
 
 
 study_name   coef_name         A                 B                 AA                BB                best            
@@ -114,7 +107,7 @@ tilda        age_in_years_70   .95(.95,.96)***   .94(.93,.95)***   .97(.95,.99)*
 pooled       age_in_years_70   .96(.96,.97)***   .96(.95,.96)***   .97(.96,.99)***   .97(.96,.99)**    .96(.93,.98)*** 
 
 
- Interactions across contexts 
+ Interactions involving  age_in_years_70  across contexts 
 
 
 study_name   coef_name                            AA                  BB                 best               
@@ -171,7 +164,7 @@ pooled       age_in_years_70:current_drinkTRUE                        .99(.98,1)
 
 ## femaleTRUE
 
- Main Effects across contexts 
+ Main Effects of  femaleTRUE  across contexts 
 
 
 study_name   coef_name    A                 B                 AA              BB               best            
@@ -184,7 +177,7 @@ tilda        femaleTRUE   .93(.81,1.07)     .91(.79,1.05)     .65(.47,.9)*    .7
 pooled       femaleTRUE   .81(.73,.89)***   .81(.73,.9)***    .77(.62,.94)*   .78(.59,1.03).   .67(.49,.92)*   
 
 
- Interactions across contexts 
+ Interactions involving  femaleTRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -241,7 +234,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## educ3_f( < HS )
 
- Main Effects across contexts 
+ Main Effects of  educ3_f( < HS )  across contexts 
 
 
 study_name   coef_name         A                    B                   AA                 BB                best           
@@ -254,7 +247,7 @@ tilda        educ3_f( < HS )   1.27(1.09,1.47)**    1.18(1.01,1.38)*    .88(.65,
 pooled       educ3_f( < HS )   1.22(1.08,1.37)***   1.18(1.05,1.32)**   1.14(.94,1.38)     .97(.72,1.31)     1.28(.8,2.03)  
 
 
- Interactions across contexts 
+ Interactions involving  educ3_f( < HS )  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -311,7 +304,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## educ3_f( HS < )
 
- Main Effects across contexts 
+ Main Effects of  educ3_f( HS < )  across contexts 
 
 
 study_name   coef_name         A                 B                 AA               BB                best          
@@ -324,7 +317,77 @@ tilda        educ3_f( HS < )   .39(.25,.58)***   .42(.27,.63)***   .47(.22,.91)*
 pooled       educ3_f( HS < )   .77(.66,.91)**    .8(.68,.93)**     .77(.6,.99)*     .87(.59,1.28)     .94(.61,1.46) 
 
 
- Interactions across contexts 
+ Interactions involving  educ3_f( HS < )  across contexts 
+
+
+study_name   coef_name                       AA                BB                  best             
+-----------  ------------------------------  ----------------  ------------------  -----------------
+alsa         age_in_years_70:femaleTRUE      .92(.87,.98)**    .92(.87,.98)**      .99(.99,1).      
+lbsl         age_in_years_70:femaleTRUE      1.03(.99,1.08)    1.02(.97,1.08)      .99(.99,1)       
+satsa        age_in_years_70:femaleTRUE      .96(.93,.98)***   .98(.95,1.02)                        
+share        age_in_years_70:femaleTRUE      1(.97,1.02)       1(.97,1.03)                          
+tilda        age_in_years_70:femaleTRUE      .98(.96,1)*       .98(.96,1)*                          
+pooled       age_in_years_70:femaleTRUE      .98(.97,.99)***   .99(.98,1)*         .98(.97,.99)***  
+alsa         femaleTRUE:educ3_f( < HS )      .45(.16,1.18)     .31(.1,.89)*                         
+lbsl         femaleTRUE:educ3_f( < HS )      2.06(.28,16.57)   1.17(.1,14.18)                       
+satsa        femaleTRUE:educ3_f( < HS )      .4(.13,1.19).     .44(.12,1.62)                        
+share        femaleTRUE:educ3_f( < HS )      .93(.55,1.57)     .91(.52,1.59)                        
+tilda        femaleTRUE:educ3_f( < HS )      1.49(1.1,2.03)*   1.3(.94,1.79)       1.17(.95,1.45)   
+pooled       femaleTRUE:educ3_f( < HS )      .96(.77,1.21)     .98(.78,1.24)                        
+alsa         femaleTRUE:educ3_f( HS < )      .78(.39,1.53)     .72(.35,1.47)                        
+lbsl         femaleTRUE:educ3_f( HS < )      1.71(.43,6.72)    1.89(.37,10.14)                      
+satsa        femaleTRUE:educ3_f( HS < )      .69(.16,2.95)     .6(.11,3.15)                         
+share        femaleTRUE:educ3_f( HS < )      1.24(.69,2.22)    1.22(.68,2.22)                       
+tilda        femaleTRUE:educ3_f( HS < )      .94(.36,2.38)     .95(.36,2.47)       .85(.63,1.14)    
+pooled       femaleTRUE:educ3_f( HS < )      1.2(.87,1.65)     1.18(.85,1.63)                       
+alsa         femaleTRUE:singleTRUE           1.7(.84,3.54)     2.1(1,4.55).                         
+lbsl         femaleTRUE:singleTRUE           2.37(.71,8.72)    5.13(1.23,25.99)*   .82(.71,.95)*    
+satsa        femaleTRUE:singleTRUE           .76(.42,1.36)     .78(.42,1.45)                        
+share        femaleTRUE:singleTRUE           .99(.54,1.89)     .95(.5,1.84)                         
+tilda        femaleTRUE:singleTRUE           .81(.59,1.1)      .86(.62,1.19)                        
+pooled       femaleTRUE:singleTRUE           .85(.68,1.06)     .9(.72,1.13)                         
+alsa         femaleTRUE:poor_healthTRUE                        1.36(.66,2.79)                       
+lbsl         femaleTRUE:poor_healthTRUE                        1.73(.43,7.25)                       
+satsa        femaleTRUE:poor_healthTRUE                        .73(.4,1.33)                         
+share        femaleTRUE:poor_healthTRUE                        1.31(.79,2.21)                       
+tilda        femaleTRUE:poor_healthTRUE                        1.01(.71,1.43)                       
+pooled       femaleTRUE:poor_healthTRUE                        1.06(.85,1.33)                       
+alsa         femaleTRUE:sedentaryTRUE                          1.35(.67,2.76)                       
+lbsl         femaleTRUE:sedentaryTRUE                          .98(.18,5.75)                        
+satsa        femaleTRUE:sedentaryTRUE                          1.1(.6,2.05)                         
+share        femaleTRUE:sedentaryTRUE                          1.16(.66,2.04)                       
+tilda        femaleTRUE:sedentaryTRUE                          .94(.65,1.36)                        
+pooled       femaleTRUE:sedentaryTRUE                          .84(.67,1.05)                        
+alsa         femaleTRUE:current_work_2TRUE                     .14(0,4)                             
+lbsl         femaleTRUE:current_work_2TRUE                     .81(.17,3.82)                        
+satsa        femaleTRUE:current_work_2TRUE                     2.04(.91,4.59).     1.36(1.1,1.67)** 
+share        femaleTRUE:current_work_2TRUE                     1.46(.81,2.62)                       
+tilda        femaleTRUE:current_work_2TRUE                     1.01(.71,1.44)                       
+pooled       femaleTRUE:current_work_2TRUE                     1.19(.91,1.54)                       
+alsa         femaleTRUE:current_drinkTRUE                      1.39(.66,2.92)                       
+lbsl         femaleTRUE:current_drinkTRUE                      2.01(.44,9.83)                       
+satsa        femaleTRUE:current_drinkTRUE                      .99(.46,2.11)                        
+share        femaleTRUE:current_drinkTRUE                      1.43(.87,2.36)      1.4(1.2,1.64)*** 
+tilda        femaleTRUE:current_drinkTRUE                      .79(.55,1.12)                        
+pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)                        
+
+
+## singleTRUE
+
+ Main Effects of  singleTRUE  across contexts 
+
+
+study_name   coef_name    A                    B                    AA                  BB                 best               
+-----------  -----------  -------------------  -------------------  ------------------  -----------------  -------------------
+alsa         singleTRUE   1.28(.92,1.77)       1.3(.93,1.79)        1.02(.45,2.19)      .69(.23,1.91)      1.39(1.13,1.69)**  
+lbsl         singleTRUE   1.65(.97,2.81).      1.68(.97,2.9).       1.2(.27,4.83)       2.27(.29,17.5)                        
+satsa        singleTRUE   1.46(1.09,1.94)*     1.59(1.18,2.13)**    2.17(.66,7.31)      4.75(.97,24.56).   1.6(1.4,1.84)***   
+share        singleTRUE   .86(.64,1.13)        .85(.63,1.12)        .74(.37,1.42)       1.24(.52,2.81)                        
+tilda        singleTRUE   1.82(1.56,2.12)***   1.8(1.54,2.1)***     1.69(1.17,2.41)**   1.39(.83,2.31)     1.51(1.35,1.68)*** 
+pooled       singleTRUE   1.48(1.33,1.65)***   1.49(1.33,1.66)***   1.4(1.1,1.78)**     1.35(.97,1.87).    1.4(1,1.95)*       
+
+
+ Interactions involving  singleTRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -381,7 +444,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## poor_healthTRUE
 
- Main Effects across contexts 
+ Main Effects of  poor_healthTRUE  across contexts 
 
 
 study_name   coef_name         A    B                    AA   BB                 best               
@@ -394,7 +457,7 @@ tilda        poor_healthTRUE        1.59(1.35,1.87)***        1.85(1.07,3.18)*  
 pooled       poor_healthTRUE        1.26(1.13,1.4)***         1.29(.95,1.74).    1.35(.92,1.96)     
 
 
- Interactions across contexts 
+ Interactions involving  poor_healthTRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -451,7 +514,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## sedentaryTRUE
 
- Main Effects across contexts 
+ Main Effects of  sedentaryTRUE  across contexts 
 
 
 study_name   coef_name       A    B                    AA   BB                   best              
@@ -464,7 +527,7 @@ tilda        sedentaryTRUE        1.54(1.29,1.83)***        2.3(1.28,4.09)**    
 pooled       sedentaryTRUE        1.45(1.29,1.62)***        1.4(1.02,1.92)*      1.28(.94,1.75)    
 
 
- Interactions across contexts 
+ Interactions involving  sedentaryTRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -521,7 +584,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## current_work_2TRUE
 
- Main Effects across contexts 
+ Main Effects of  current_work_2TRUE  across contexts 
 
 
 study_name   coef_name            A    B                 AA   BB                    best            
@@ -534,7 +597,7 @@ tilda        current_work_2TRUE        .64(.54,.76)***        .88(.49,1.59)     
 pooled       current_work_2TRUE        .71(.63,.81)***        .82(.56,1.2)          2.25(.8,5.41).  
 
 
- Interactions across contexts 
+ Interactions involving  current_work_2TRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
@@ -591,7 +654,7 @@ pooled       femaleTRUE:current_drinkTRUE                      .95(.76,1.18)
 
 ## current_drinkTRUE
 
- Main Effects across contexts 
+ Main Effects of  current_drinkTRUE  across contexts 
 
 
 study_name   coef_name           A    B                    AA   BB                  best               
@@ -604,7 +667,7 @@ tilda        current_drinkTRUE        1.36(1.16,1.61)***        2.09(1.29,3.46)*
 pooled       current_drinkTRUE        1.53(1.36,1.71)***        1.26(.96,1.67).     1.35(.94,1.96)     
 
 
- Interactions across contexts 
+ Interactions involving  current_drinkTRUE  across contexts 
 
 
 study_name   coef_name                       AA                BB                  best             
