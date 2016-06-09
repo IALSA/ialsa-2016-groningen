@@ -81,7 +81,7 @@ age_interactions <- c(
     ,"age_in_years_70:sedentaryTRUE"       
     ,"age_in_years_70:current_work_2TRUE"  
     ,"age_in_years_70:current_drinkTRUE"   
-);length(age_interactions)
+);#length(age_interactions)
 
 female_interactions <- c( 
      "age_in_years_70:femaleTRUE"  
@@ -92,7 +92,7 @@ female_interactions <- c(
                     ,"femaleTRUE:sedentaryTRUE"             
                     ,"femaleTRUE:current_work_2TRUE"       
                     ,"femaleTRUE:current_drinkTRUE"      
-);length(female_interactions)
+);#length(female_interactions)
 
 education_interactions <- c(
      "age_in_years_70:educ3_f( < HS )" 
@@ -110,7 +110,7 @@ education_interactions <- c(
                     ,"educ3_f( HS < ):sedentaryTRUE"        
                     ,"educ3_f( HS < ):current_work_2TRUE"  
                     ,"educ3_f( HS < ):current_drinkTRUE"   
-);length(education_interactions)
+);#length(education_interactions)
 
 marital_interactions <- c(
      "age_in_years_70:singleTRUE"     
@@ -121,7 +121,7 @@ marital_interactions <- c(
                     ,"singleTRUE:sedentaryTRUE"            
                     ,"singleTRUE:current_work_2TRUE"       
                     ,"singleTRUE:current_drinkTRUE"     
-); length(marital_interactions)
+); #length(marital_interactions)
 
 health_interactions <- c(
      "age_in_years_70:poor_healthTRUE"  
@@ -132,7 +132,7 @@ health_interactions <- c(
                    , "poor_healthTRUE:sedentaryTRUE"       
                    , "poor_healthTRUE:current_work_2TRUE"   
                    , "poor_healthTRUE:current_drinkTRUE"   
-); length(health_interactions)
+); #length(health_interactions)
 
 physact_interactions <- c(
      "age_in_years_70:sedentaryTRUE"    
@@ -143,7 +143,7 @@ physact_interactions <- c(
     ,"poor_healthTRUE:sedentaryTRUE"   
                     ,"sedentaryTRUE:current_work_2TRUE"     
                     ,"sedentaryTRUE:current_drinkTRUE"     
-);length(physact_interactions)
+);#length(physact_interactions)
 
 work_interactions <- c(
      "age_in_years_70:current_work_2TRUE"  
@@ -154,7 +154,7 @@ work_interactions <- c(
     ,"poor_healthTRUE:current_work_2TRUE"  
       ,"sedentaryTRUE:current_work_2TRUE"   
                     ,"current_work_2TRUE:current_drinkTRUE"
-);length(work_interactions)
+);#length(work_interactions)
 
 alcohol_interactions <- c(
      "age_in_years_70:current_drinkTRUE" 
@@ -165,20 +165,20 @@ alcohol_interactions <- c(
     ,"poor_healthTRUE:current_drinkTRUE"   
       ,"sedentaryTRUE:current_drinkTRUE"     
  ,"current_work_2TRUE:current_drinkTRUE"
-); length(alcohol_interactions)
+); #length(alcohol_interactions)
 
 
 # ---- define-lookup-function -------------------
-focun_on_predictor <- function(ds_between, predictor, interactions){
+focus_on_predictor <- function(ds_between, predictor, interactions){
   
   cat("\n\n##", predictor)
-  cat("\n\n Main Effects across contexts \n")
+  cat("\n\n Main Effects of ", predictor," across contexts \n")
   print(knitr::kable(
     ds_between %>% 
       dplyr::filter(coef_name %in%  predictor) %>% 
       dplyr::arrange(coef_name)
   ))
-  cat("\n\n Interactions across contexts \n")
+  cat("\n\n Interactions involving ", predictor," across contexts \n")
   print(knitr::kable(
   ds_between %>% 
     dplyr::filter(coef_name %in% interactions) %>% 
@@ -187,7 +187,7 @@ focun_on_predictor <- function(ds_between, predictor, interactions){
     dplyr::select(-A,-B)
   )) 
 } # Usage:
-# focun_on_predictor(ds_between, "singleTRUE", marital_interactions)
+# focus_on_predictor(ds_between, "singleTRUE", marital_interactions)
 
 # ---- 0-intercept -----------------------
 knitr::kable(
@@ -198,31 +198,31 @@ ds_between %>%
 # very similar values in best are reassuring that intercept means the same thing
 
 # ---- 1-predictor-age ---------------------
-focun_on_predictor(ds_between, "age_in_years_70", age_interactions)
+focus_on_predictor(ds_between, "age_in_years_70", age_interactions)
 
 # ---- 2-predictor-sex ---------------------
-focun_on_predictor(ds_between, "femaleTRUE", female_interactions)
+focus_on_predictor(ds_between, "femaleTRUE", female_interactions)
 
 # ---- 3-predictor-education-1 ---------------------
-focun_on_predictor(ds_between, "educ3_f( < HS )", female_interactions)
+focus_on_predictor(ds_between, "educ3_f( < HS )", female_interactions)
 
 # ---- 3-predictor-education-2 ---------------------
-focun_on_predictor(ds_between, "educ3_f( HS < )", female_interactions)
+focus_on_predictor(ds_between, "educ3_f( HS < )", female_interactions)
 
 # ---- 4-predictor-marital ---------------------
-focun_on_predictor(ds_between, "singleTRUE", female_interactions)
+focus_on_predictor(ds_between, "singleTRUE", female_interactions)
 
 # ---- 5-predictor-health ---------------------
-focun_on_predictor(ds_between, "poor_healthTRUE", female_interactions)
+focus_on_predictor(ds_between, "poor_healthTRUE", female_interactions)
 
 # ---- 6-predictor-physact ---------------------
-focun_on_predictor(ds_between, "sedentaryTRUE", female_interactions)
+focus_on_predictor(ds_between, "sedentaryTRUE", female_interactions)
 
 # ---- 7-predictor-work ---------------------
-focun_on_predictor(ds_between, "current_work_2TRUE", female_interactions)
+focus_on_predictor(ds_between, "current_work_2TRUE", female_interactions)
 
 # ---- 8-predictor-alcohol ---------------------
-focun_on_predictor(ds_between, "current_drinkTRUE", female_interactions)
+focus_on_predictor(ds_between, "current_drinkTRUE", female_interactions)
 
 
 

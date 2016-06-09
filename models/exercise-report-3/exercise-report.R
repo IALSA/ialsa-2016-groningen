@@ -13,18 +13,17 @@ source("./scripts/graph-logistic.R")
 # ---- load-packages -----------------------------------------------------------
 # Attach these packages so their functions don't need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
 library(magrittr) # enables piping : %>% 
-library(ggplot2)
-library(glmulti)
-library(rJava)
-
-require(MASS)
+# library(ggplot2)
+# library(glmulti)
+# library(rJava)
+# require(MASS)
 
 # Verify these packages are available on the machine, but their functions need to be qualified: http://r-pkgs.had.co.nz/namespace.html#search-path
+requireNamespace("testit")# For asserting conditions meet expected patterns.
 requireNamespace("ggplot2") # graphing
 requireNamespace("tidyr") # data manipulation
 requireNamespace("dplyr") # Avoid attaching dplyr, b/c its function names conflict with a lot of packages (esp base, stats, and plyr).
 requireNamespace("plyr")
-requireNamespace("testit")# For asserting conditions meet expected patterns.
 
 # ---- declare-globals ---------------------------------------------------------
 
@@ -167,6 +166,8 @@ t <- table( ds$sedentary, ds$study_name, useNA="always");t[t==0]<-".";t
 t <- table( ds$current_work_2,ds$study_name,useNA="always");t[t==0]<-".";t
 # ----- basic-frequencies-predictors-8 -------------------
 t <- table( ds$current_drink,ds$study_name, useNA="always");t[t==0]<-".";t
+
+# ---- harmonized-data-1 --------------------------
 
 
 # ---- define-modeling-functions ---------------------

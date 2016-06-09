@@ -93,7 +93,7 @@ The script `0-ellis-island.R` is the first script in the analytic workflow. It a
 
 
 ## Meta
-```{r meta-table, echo=TRUE, results='show', message=FALSE}
+```{r meta-table, echo=TRUE, results='show', message=FALSE, eval=T}
 ```
 
 <!-- Tweak the datasets.   -->
@@ -124,6 +124,25 @@ According to the rules of the exercise,however, only the participants over the a
 
 This section narrates the harmonization rules applied to candidate variables from each study and provides the descriptives of harmonized variables
 
+
+Harmonization has been carried out by sequential execution of the follwoing scripts:
+
+
+- [`./reports/harmonize-smoking/harmonize-smoking.R`][h1]  
+- [`./reports/harmonize-age/harmonize-age.R`][h2]
+- [`./reports/harmonize-sex/harmonize-sex.R`][h3]  
+- [`./reports/harmonize-marital/harmonize-marital.R`][h4]
+- [`./reports/harmonize-education/harmonize-education.R`][h5]  
+- [`./reports/harmonize-work/harmonize-work.R`][h6]  
+- [`./reports/harmonize-alcohol/harmonize-alcohol.R`][h7]  
+- [`./reports/harmonize-physact/harmonize-physact.R`][h8]  
+- [`./reports/harmonize-health/harmonize-health.R`][h9]  
+- [`./reports/harmonize-physique/harmonize-physique.R`][h10]  
+
+
+the  reports are produced by knitting their respective `.Rmd` files, located in corresponding folders.  
+
+The following subsections provide summary details on the harmonization implemented to produce each target variable. Please refer to full reports listed above for further details.
 
 ## Smoking 
 View [descriptives : smoking](/https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/describe-smoking.html) for closer examination of each variable that contributed to the computation of the harmonized variable. 
@@ -284,6 +303,9 @@ The operationalization of this variable ***is not*** sensitive to the intensity 
 ```{r load-estimated-models, echo=FALSE}
 ```
 
+# Harmonized dataset
+```{r harmonized-data-1, echo=FALSE}
+```
 
 
 # Guide to Models
@@ -317,12 +339,24 @@ The following table reports estimates and odds from every model that has been fi
 ```{r report-results-within-models, echo=FALSE, results='show', eval=T}
 ```
 
+# Static tables
+
+You can examine individual static table from the dynamic tables above in a stand-alone [appendix report](https://rawgit.com/IALSA/ialsa-2016-groningen/master/models/exercise-report-3/predictors-in-focus.html)
 
 # session
 ```{r session-info}
 sessionInfo()
 ```
 
-
+[h1]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-smoking.html
+[h2]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-age.html
+[h3]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-sex.html 
+[h4]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-marital.html
+[h5]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-education.html
+[h6]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-work.html
+[h7]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-alcohol.html
+[h8]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-physact.html 
+[h9]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-health.html     
+[h10]:https://rawgit.com/IALSA/ialsa-2016-groningen-public/master/harmonize-physique.html     
 
 

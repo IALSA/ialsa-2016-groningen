@@ -34,6 +34,11 @@ models_local <- readRDS("./data/shared/derived/models/models_local.rds")
 subset_local <- readRDS("./data/shared/derived/models/subset_local.rds")
 
 # prepared by ../compile-tables.R
+tables_pooled <- readRDS("./data/shared/derived/tables/tables_pooled.rds")
+tables_bw_pooled <- readRDS("./data/shared/derived/tables/tables_bw_pooled.rds")
+tables_local <- readRDS("./data/shared/derived/tables/tables_local.rds")
+tables_bw_local <- readRDS("./data/shared/derived/tables/tables_bw_local.rds")
+
 ds_within <- readRDS("./data/shared/derived/tables/ds_within.rds")
 ds_between <- readRDS("./data/shared/derived/tables/ds_between.rds")
 
