@@ -120,7 +120,9 @@ ds2 <- ds %>%
     educ3_f           = factor(educ3, levels = c("less than high school", "high school", "more than high school"), labels = c("( < HS )","( HS )", "( HS + )" )),
     study_name_f      = factor(study_name,
                                levels = c("alsa", "lbsl", "satsa", "share","tilda"),
-                               labels = c("(ALSA)","(LBLS)", "(SATSA)", "(SHARE)", "(TILDA)"))
+                               labels = c("(ALSA)","(LBLS)", "(SATSA)", "(SHARE)", "(TILDA)")),
+    male              = !female,
+    good_health       = !poor_health
   ) %>% 
   dplyr::rename_(
     "dv" = dv_name
@@ -134,10 +136,10 @@ pooled_stem <- paste0(local_stem, "study_name_f + ")
 
 predictors_B <- "
 age_in_years_70 + 
-female + 
+male + 
 educ3_f + 
 single + 
-poor_health + 
+good_health + 
 sedentary + 
 current_work_2 + 
 current_drink
@@ -145,10 +147,10 @@ current_drink
 unique_predictors <- c(
   "study_name_f",
   "age_in_years_70", 
-  "female", 
+  "male", 
   "educ3_f", 
   "single", 
-  "poor_health", 
+  "good_health", 
   "sedentary",  
   "current_work_2", 
   "current_drink"

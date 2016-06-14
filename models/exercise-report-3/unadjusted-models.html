@@ -153,10 +153,10 @@ $(document).ready(function () {
 <li><a href="#unadjusted-models">Unadjusted models</a><ul>
 <li><a href="#study_name_f">study_name_f</a></li>
 <li><a href="#age_in_years_70">age_in_years_70</a></li>
-<li><a href="#female">female</a></li>
+<li><a href="#male">male</a></li>
 <li><a href="#educ3_f">educ3_f</a></li>
 <li><a href="#single">single</a></li>
-<li><a href="#poor_health">poor_health</a></li>
+<li><a href="#good_health">good_health</a></li>
 <li><a href="#sedentary">sedentary</a></li>
 <li><a href="#current_work_2">current_work_2</a></li>
 <li><a href="#current_drink">current_drink</a></li>
@@ -451,7 +451,9 @@ ds2 &lt;-<span class="st"> </span>ds %&gt;%<span class="st"> </span>
     <span class="dt">educ3_f           =</span> <span class="kw">factor</span>(educ3, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;less than high school&quot;</span>, <span class="st">&quot;high school&quot;</span>, <span class="st">&quot;more than high school&quot;</span>), <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;( &lt; HS )&quot;</span>,<span class="st">&quot;( HS )&quot;</span>, <span class="st">&quot;( HS + )&quot;</span> )),
     <span class="dt">study_name_f      =</span> <span class="kw">factor</span>(study_name,
                                <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">&quot;alsa&quot;</span>, <span class="st">&quot;lbsl&quot;</span>, <span class="st">&quot;satsa&quot;</span>, <span class="st">&quot;share&quot;</span>,<span class="st">&quot;tilda&quot;</span>),
-                               <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;(ALSA)&quot;</span>,<span class="st">&quot;(LBLS)&quot;</span>, <span class="st">&quot;(SATSA)&quot;</span>, <span class="st">&quot;(SHARE)&quot;</span>, <span class="st">&quot;(TILDA)&quot;</span>))
+                               <span class="dt">labels =</span> <span class="kw">c</span>(<span class="st">&quot;(ALSA)&quot;</span>,<span class="st">&quot;(LBLS)&quot;</span>, <span class="st">&quot;(SATSA)&quot;</span>, <span class="st">&quot;(SHARE)&quot;</span>, <span class="st">&quot;(TILDA)&quot;</span>)),
+    <span class="dt">male              =</span> !female,
+    <span class="dt">good_health       =</span> !poor_health
   ) %&gt;%<span class="st"> </span>
 <span class="st">  </span>dplyr::<span class="kw">rename_</span>(
     <span class="st">&quot;dv&quot;</span> =<span class="st"> </span>dv_name
@@ -467,10 +469,10 @@ pooled_stem &lt;-<span class="st"> </span><span class="kw">paste0</span>(local_s
 
 predictors_B &lt;-<span class="st"> &quot;</span>
 <span class="st">age_in_years_70 + </span>
-<span class="st">female + </span>
+<span class="st">male + </span>
 <span class="st">educ3_f + </span>
 <span class="st">single + </span>
-<span class="st">poor_health + </span>
+<span class="st">good_health + </span>
 <span class="st">sedentary + </span>
 <span class="st">current_work_2 + </span>
 <span class="st">current_drink</span>
@@ -478,10 +480,10 @@ predictors_B &lt;-<span class="st"> &quot;</span>
 unique_predictors &lt;-<span class="st"> </span><span class="kw">c</span>(
   <span class="st">&quot;study_name_f&quot;</span>,
   <span class="st">&quot;age_in_years_70&quot;</span>, 
-  <span class="st">&quot;female&quot;</span>, 
+  <span class="st">&quot;male&quot;</span>, 
   <span class="st">&quot;educ3_f&quot;</span>, 
   <span class="st">&quot;single&quot;</span>, 
-  <span class="st">&quot;poor_health&quot;</span>, 
+  <span class="st">&quot;good_health&quot;</span>, 
   <span class="st">&quot;sedentary&quot;</span>,  
   <span class="st">&quot;current_work_2&quot;</span>, 
   <span class="st">&quot;current_drink&quot;</span>
@@ -666,9 +668,9 @@ for(predictor_ in unique_predictors){
 </tbody>
 </table>
 </div>
-<div id="female" class="section level2">
-<h2>female</h2>
-<p>dv ~ 1 + female</p>
+<div id="male" class="section level2">
+<h2>male</h2>
+<p>dv ~ 1 + male</p>
 <table>
 <thead>
 <tr class="header">
@@ -711,19 +713,19 @@ for(predictor_ in unique_predictors){
 <tr class="odd">
 <td align="left">***</td>
 <td align="left">(Intercept)</td>
-<td align="left">.2</td>
-<td align="left">(.19,.21)</td>
-<td align="left">-1.61</td>
+<td align="left">.18</td>
+<td align="left">(.17,.19)</td>
+<td align="left">-1.73</td>
 <td align="left">.04</td>
 <td align="right">0.0000</td>
 <td align="left">&lt;=.001</td>
 </tr>
 <tr class="even">
 <td align="left">*</td>
-<td align="left">femaleTRUE</td>
-<td align="left">.89</td>
-<td align="left">(.81,.98)</td>
-<td align="left">-.12</td>
+<td align="left">maleTRUE</td>
+<td align="left">1.12</td>
+<td align="left">(1.02,1.24)</td>
+<td align="left">.12</td>
 <td align="left">.05</td>
 <td align="right">0.0229</td>
 <td align="left">&lt;=.05</td>
@@ -871,9 +873,9 @@ for(predictor_ in unique_predictors){
 </tbody>
 </table>
 </div>
-<div id="poor_health" class="section level2">
-<h2>poor_health</h2>
-<p>dv ~ 1 + poor_health</p>
+<div id="good_health" class="section level2">
+<h2>good_health</h2>
+<p>dv ~ 1 + good_health</p>
 <table>
 <thead>
 <tr class="header">
@@ -916,19 +918,19 @@ for(predictor_ in unique_predictors){
 <tr class="odd">
 <td align="left">***</td>
 <td align="left">(Intercept)</td>
-<td align="left">.17</td>
-<td align="left">(.16,.19)</td>
-<td align="left">-1.74</td>
-<td align="left">.03</td>
+<td align="left">.22</td>
+<td align="left">(.2,.24)</td>
+<td align="left">-1.53</td>
+<td align="left">.04</td>
 <td align="right">0</td>
 <td align="left">&lt;=.001</td>
 </tr>
 <tr class="even">
 <td align="left">***</td>
-<td align="left">poor_healthTRUE</td>
-<td align="left">1.24</td>
-<td align="left">(1.12,1.38)</td>
-<td align="left">.22</td>
+<td align="left">good_healthTRUE</td>
+<td align="left">.8</td>
+<td align="left">(.72,.89)</td>
+<td align="left">-.22</td>
 <td align="left">.05</td>
 <td align="right">0</td>
 <td align="left">&lt;=.001</td>
@@ -1135,7 +1137,7 @@ for(predictor_ in unique_predictors){
 <div id="adjusted-model" class="section level1">
 <h1>Adjusted model</h1>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pooled_B &lt;-<span class="st"> </span><span class="kw">estimate_pooled_model</span>(<span class="dt">data=</span>ds2, <span class="dt">predictors=</span>predictors_B)</code></pre></div>
-<p>dv ~ 1 + study_name_f + age_in_years_70 + female + educ3_f + single + poor_health + sedentary + current_work_2 + current_drink</p>
+<p>dv ~ 1 + study_name_f + age_in_years_70 + male + educ3_f + single + good_health + sedentary + current_work_2 + current_drink</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">model_object &lt;-<span class="st"> </span>pooled_B
 <span class="kw">print</span>(knitr::<span class="kw">kable</span>(<span class="kw">basic_model_info</span>(model_object, F))) <span class="co"># alternative: broom::glance()</span></code></pre></div>
 <table>
@@ -1182,9 +1184,9 @@ for(predictor_ in unique_predictors){
 <td align="left">***</td>
 <td align="left">(Intercept)</td>
 <td align="left">.12</td>
-<td align="left">(.1,.15)</td>
-<td align="left">-2.12</td>
-<td align="left">.11</td>
+<td align="left">(.1,.16)</td>
+<td align="left">-2.09</td>
+<td align="left">.12</td>
 <td align="right">0.0000</td>
 <td align="left">&lt;=.001</td>
 </tr>
@@ -1240,10 +1242,10 @@ for(predictor_ in unique_predictors){
 </tr>
 <tr class="odd">
 <td align="left">***</td>
-<td align="left">femaleTRUE</td>
-<td align="left">.82</td>
-<td align="left">(.74,.91)</td>
-<td align="left">-.2</td>
+<td align="left">maleTRUE</td>
+<td align="left">1.22</td>
+<td align="left">(1.1,1.36)</td>
+<td align="left">.2</td>
 <td align="left">.05</td>
 <td align="right">0.0001</td>
 <td align="left">&lt;=.001</td>
@@ -1280,10 +1282,10 @@ for(predictor_ in unique_predictors){
 </tr>
 <tr class="odd">
 <td align="left">***</td>
-<td align="left">poor_healthTRUE</td>
-<td align="left">1.27</td>
-<td align="left">(1.13,1.42)</td>
-<td align="left">.24</td>
+<td align="left">good_healthTRUE</td>
+<td align="left">.79</td>
+<td align="left">(.71,.88)</td>
+<td align="left">-.24</td>
 <td align="left">.06</td>
 <td align="right">0.0000</td>
 <td align="left">&lt;=.001</td>
