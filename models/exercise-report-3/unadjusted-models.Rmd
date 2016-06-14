@@ -1,0 +1,144 @@
+---
+title: "Unadjusted and U Models" 
+output:
+  html_document:
+    css: ~/GitHub/ialsa-2016-groningen/libs/css/sidebar.css
+    highlight: kate
+    keep_md: yes
+    theme: flatly
+    toc: yes
+  pdf_document: 
+    highlight: kate
+    toc: yes
+  word_document: 
+    highlight: haddock
+    toc: yes
+    
+---
+
+<!-- These two chunks should be added in the beginning of every .Rmd that you want to source an .R script -->
+<!--  The 1st mandatory chunck  -->
+<!--  Set the working directory to the repository's base directory -->
+```{r, echo=F, message=F} 
+#Don't combine this call with any other chunk 
+# cat("Working directory: ", getwd()) # check where you are
+  library(knitr)
+# Rmd is in "./reports/reportA/reportA.Rmd", but now the root is "./"
+  knitr::opts_knit$set(root.dir='../../') 
+```
+
+<!--  The 2nd mandatory chunck  -->
+<!-- Set the report-wide options, and point to the external code file. -->
+```{r set_options, echo=F}
+# set options shared by all chunks
+opts_chunk$set(
+  results='show', 
+  message = TRUE,
+  comment = NA, 
+  tidy = FALSE,
+  fig.height = 9, 
+  fig.width = 13, 
+  out.width = "700px",
+  fig.path = 'smoke_now/',     
+  dev = "png",
+  dpi = 400
+  # fig.path = 'figure_pdf/',     
+  # dev = "pdf"#,
+  # dev.args=list(pdf = list(colormodel = 'cmyk'))
+)
+echoChunks <- TRUE
+options(width=120) #So the output is 50% wider than the default.
+# connect to the file with the underlying R script  
+read_chunk("./models/exercise-report-3/unadjusted-models.R") 
+```
+
+> This report prints the restuls tables from estimated models
+
+<!-- Load 'sourced' R files.  Suppress the output when loading packages. --> 
+```{r load-packages, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load the sources.  Suppress the output when loading sources. --> 
+```{r load-sources, echo=echoChunks, message=FALSE}
+```
+
+
+<!-- Load any Global functions and variables declared in the R file.  Suppress the output. --> 
+```{r declare-globals, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Declare any global functions specific to a Rmd output.  Suppress the output. --> 
+```{r, echo=echoChunks, message=FALSE}
+#Put code in here.  It doesn't call a chunk in the codebehind file.
+```
+
+Relies on the previous execution of the following scripts:  
+- `./reports/report-governor`  
+- `./models/../compile-models.R`  
+- `./models/../compile-tables.R`  
+
+<!-- Load the datasets.   -->
+```{r load-data, echo=T, results='asis', message=FALSE}
+```
+
+<!-- Inspect the datasets.   -->
+```{r inspect-data, echo=T, results='show', message=FALSE}
+```
+
+<!-- Tweak the datasets.   -->
+```{r tweak-data, echo=echoChunks, results='show', message=FALSE}
+```
+
+<!-- Basic table view.   -->
+```{r basic-table, echo=TRUE, results='show', message=FALSE}
+```
+
+
+# Guide to Models
+
+Each of the following models (`A`, `B`, `AA`, and `BB`) are fitted to the data from each study separately. When fitted to the pooled data, an additional predictor, `study_name` is added after the intercept. 
+
+
+|predictors/model   | A | B |AA |BB | best |
+|---|---|---|---|---|---|
+|age              |age_in_years_70 |age_in_years_70   |age_in_years_70   |age_in_years_70   | ?|
+|sex              |female       |female         |female         |female         | ?|
+|education        |educ3        |educ3          |educ3          |educ3          | ?|
+|marital status   |single       |single         |single         |single         | ?|
+|health           |             |poor_health    |               |poor_health    | ?|
+|physical activity|             |sedentary      |               |sedentary      | ?|
+|employment       |             |current_work   |               |current_work   | ?|
+|alcohol use      |             |current_drink_2|               |current_drink_2| ?|
+|INTERACTIONS     |  *NONE*         | *NONE*            |*ALL PAIRWISE*   |*ALL PAIRWISE*   | ?|
+
+
+Odds-ratios with 95% confidence intervals are reported. The model labeled "best" represents the solution suggested by the top ranked model from the best subset search propelled by genetic algorithm with AICC as the guiding selection criteria. 
+
+# Models
+
+```{r assemble, echo=echoChunks, results='show', eval=T}
+```
+
+```{r declare-variables, echo=echoChunks, results='show', eval=T}
+```
+
+```{r model-specification, echo=echoChunks, results='show', eval=T}
+```
+# Unadjusted models
+
+```{r unadjusted-models, echo=echoChunks, results='asis', eval=T}
+```
+
+# Adjusted model
+```{r adjusted-model, echo=echoChunks, results='asis', eval=T}
+```
+
+# session
+```{r session-info}
+sessionInfo()
+```
+
+
+
+
